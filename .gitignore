@@ -1,0 +1,84 @@
+
+# =============== #
+
+# Unity generated #
+
+# =============== #
+
+[Tt]emp/
+
+[Oo]bj/
+
+[Ll]ibrary/
+
+sysinfo.txt
+
+*.stackdump
+
+/[Uu]nityVS/
+
+
+
+# ===================================== #
+
+# Visual Studio / MonoDevelop generated #
+
+# ===================================== #
+
+[Ee]xported[Oo]bj/
+
+.vs/
+
+*.csproj
+
+*.unityproj
+
+*.sln
+
+*.suo
+
+*.tmp
+
+*.user
+
+*.userprefs
+
+*.pidb
+
+*.booproj
+
+*.svd
+
+
+
+# ============ #
+
+# OS generated #
+
+# ============ #
+
+.DS_Store*
+
+._*
+
+.Spotlight-V100
+
+.Trashes
+
+Icon?
+
+ehthumbs.db
+
+[Tt]humbs.db
+
+
+
+# ================= #
+
+# Blender generated #
+
+# ================= #
+
+*.blend*
+
+!*.blend
