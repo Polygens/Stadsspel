@@ -1,0 +1,231 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &194764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 448472}
+  - 114: {fileID: 11458246}
+  m_Layer: 0
+  m_Name: Map - Flat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &448472
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194764}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11458246
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2e3a95dab0a4efcab4bd5d59167548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locationManager: {fileID: 0}
+  tileBuffer: 3
+  zoomLevel: 17
+  useCache: 1
+  mapzen_api_key: 
+  layers:
+  - name: Building
+    json: buildings
+    isPolygon: 1
+    defaultHeight: 2
+    useRealHeight: 0
+    defaultWidth: 0
+    defaultOutlineWidth: 0
+    distanceFromFloor: 0
+    defaultMaterial: {fileID: 2100000, guid: 9995ffba458b14d7e8a0550dab30e382, type: 2}
+    defaultOutline: {fileID: 0}
+    defaultRoof: {fileID: 0}
+    renderingOptions:
+    - kind: church
+      material: {fileID: 2100000, guid: 6dc8c593315dd4086bf73568d4065872, type: 2}
+      outlineMaterial: {fileID: 0}
+      roofMaterial: {fileID: 0}
+      lineWidth: 0
+      outlineWidth: 0
+      polygonHeight: 1.5
+      distanceFromFloor: 0
+    - kind: school
+      material: {fileID: 2100000, guid: e50983f8d43ec402bb36b04bdd1c0840, type: 2}
+      outlineMaterial: {fileID: 0}
+      roofMaterial: {fileID: 0}
+      lineWidth: 0
+      outlineWidth: 0
+      polygonHeight: 2
+      distanceFromFloor: 0
+    useOnly: []
+    avoid: []
+    useTunnels: 1
+    useBridges: 1
+    startInactive: 0
+    disabled: 0
+  - name: Green
+    json: landuse
+    isPolygon: 1
+    defaultHeight: 0
+    useRealHeight: 0
+    defaultWidth: 0
+    defaultOutlineWidth: 0
+    distanceFromFloor: 0
+    defaultMaterial: {fileID: 2100000, guid: 7ff6e9c376f3e427b8d72d3d4f007420, type: 2}
+    defaultOutline: {fileID: 0}
+    defaultRoof: {fileID: 0}
+    renderingOptions:
+    - kind: pedestrian
+      material: {fileID: 2100000, guid: 887ca02bbd1bd481ead2dddc5aaf3ecc, type: 2}
+      outlineMaterial: {fileID: 0}
+      roofMaterial: {fileID: 0}
+      lineWidth: 0
+      outlineWidth: 0
+      polygonHeight: 0
+      distanceFromFloor: 0
+    - kind: pier
+      material: {fileID: 2100000, guid: 887ca02bbd1bd481ead2dddc5aaf3ecc, type: 2}
+      outlineMaterial: {fileID: 0}
+      roofMaterial: {fileID: 0}
+      lineWidth: 0
+      outlineWidth: 0
+      polygonHeight: 0
+      distanceFromFloor: 0
+    useOnly: []
+    avoid: []
+    useTunnels: 1
+    useBridges: 1
+    startInactive: 0
+    disabled: 0
+  - name: Water
+    json: water
+    isPolygon: 1
+    defaultHeight: 0
+    useRealHeight: 0
+    defaultWidth: 0
+    defaultOutlineWidth: 0
+    distanceFromFloor: 0
+    defaultMaterial: {fileID: 2100000, guid: 788c2ee5365a742609d11f47f004502e, type: 2}
+    defaultOutline: {fileID: 0}
+    defaultRoof: {fileID: 0}
+    renderingOptions: []
+    useOnly: []
+    avoid: []
+    useTunnels: 1
+    useBridges: 1
+    startInactive: 0
+    disabled: 0
+  - name: Earth
+    json: earth
+    isPolygon: 1
+    defaultHeight: 0
+    useRealHeight: 0
+    defaultWidth: 0
+    defaultOutlineWidth: 0
+    distanceFromFloor: 0
+    defaultMaterial: {fileID: 2100000, guid: f01f65f6d9a004d0381a7146d4b100d5, type: 2}
+    defaultOutline: {fileID: 0}
+    defaultRoof: {fileID: 0}
+    renderingOptions: []
+    useOnly: []
+    avoid: []
+    useTunnels: 1
+    useBridges: 1
+    startInactive: 1
+    disabled: 1
+  - name: Roads
+    json: roads
+    isPolygon: 0
+    defaultHeight: 0
+    useRealHeight: 0
+    defaultWidth: 5
+    defaultOutlineWidth: 0.3
+    distanceFromFloor: 0
+    defaultMaterial: {fileID: 2100000, guid: 2ebdec1cf657a41dfb182486d370b191, type: 2}
+    defaultOutline: {fileID: 2100000, guid: 487a1c68c96c64b4ab95841001e80f4d, type: 2}
+    defaultRoof: {fileID: 0}
+    renderingOptions:
+    - kind: highway
+      material: {fileID: 2100000, guid: cc3d41b9f95eb4dfdbd57a59dd3e80a2, type: 2}
+      outlineMaterial: {fileID: 2100000, guid: 487a1c68c96c64b4ab95841001e80f4d, type: 2}
+      roofMaterial: {fileID: 0}
+      lineWidth: 6
+      outlineWidth: 1
+      polygonHeight: 0
+      distanceFromFloor: 0
+    - kind: major_road
+      material: {fileID: 2100000, guid: cc3d41b9f95eb4dfdbd57a59dd3e80a2, type: 2}
+      outlineMaterial: {fileID: 2100000, guid: 487a1c68c96c64b4ab95841001e80f4d, type: 2}
+      roofMaterial: {fileID: 0}
+      lineWidth: 4
+      outlineWidth: 1
+      polygonHeight: 0
+      distanceFromFloor: 0
+    - kind: minor_road
+      material: {fileID: 2100000, guid: cc3d41b9f95eb4dfdbd57a59dd3e80a2, type: 2}
+      outlineMaterial: {fileID: 2100000, guid: 487a1c68c96c64b4ab95841001e80f4d, type: 2}
+      roofMaterial: {fileID: 0}
+      lineWidth: 3
+      outlineWidth: 0.5
+      polygonHeight: 0
+      distanceFromFloor: 0
+    - kind: path
+      material: {fileID: 2100000, guid: 887ca02bbd1bd481ead2dddc5aaf3ecc, type: 2}
+      outlineMaterial: {fileID: 2100000, guid: f7e6b163de76248c3b3b17482485f874, type: 2}
+      roofMaterial: {fileID: 0}
+      lineWidth: 1.5
+      outlineWidth: 0.5
+      polygonHeight: 0
+      distanceFromFloor: 0
+    - kind: rail
+      material: {fileID: 2100000, guid: a79af60c8543847ea84096a8bbddcddd, type: 2}
+      outlineMaterial: {fileID: 0}
+      roofMaterial: {fileID: 0}
+      lineWidth: 0.5
+      outlineWidth: 0
+      polygonHeight: 0
+      distanceFromFloor: 0
+    - kind: ferry
+      material: {fileID: 2100000, guid: a6e559fb11c6e45c4ae8a3389cd98760, type: 2}
+      outlineMaterial: {fileID: 0}
+      roofMaterial: {fileID: 0}
+      lineWidth: 1
+      outlineWidth: 0
+      polygonHeight: 0
+      distanceFromFloor: 0
+    useOnly: []
+    avoid: []
+    useTunnels: 1
+    useBridges: 1
+    startInactive: 0
+    disabled: 0
+  dynamicLoad: 1
+  tiles: []
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 194764}
+  m_IsPrefabParent: 1
