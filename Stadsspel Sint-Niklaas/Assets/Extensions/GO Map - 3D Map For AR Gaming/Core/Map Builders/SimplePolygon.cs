@@ -17,16 +17,22 @@ public class ObjectBuilderEditor : Editor
 		SimplePolygon myScript = (SimplePolygon)target;
 		if(GUILayout.Button("Rebuild mesh"))
 		{
+			
 			myScript.Rebuild();
+
 		}
 	}
 }
+
+
 #endif
+
 
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class SimplePolygon : MonoBehaviour
 {
+	public bool isClockWise;
 	public bool hasDuplicates;
 	public List<Vector3> verts;
 	MeshFilter filter;
@@ -62,10 +68,17 @@ public class SimplePolygon : MonoBehaviour
 	}
 
 
-	public void Rebuild () {
-		Debug.Log ("Rebuild mesh");
-		filter = GetComponent<MeshFilter> ();
-		load (verts);
+
+
+	public bool IsClockwise(IList<Vector3> vertices)
+	{
+		double sum = 0.0;
+		for (int i = 0; i < vertices.Count; i++) {
+			Vector3 v1 = vertices[i];
+			Vector3 v2 = vertices[(i + 1) % vertices.Count]; // % is the modulo operator
+			sum += (v2.x - v1.x) * (v2.z + v1.z);
+		}
+		return sum > 0.0;
 	}
 
 	public Mesh CreateMesh(List<Vector3> verts)
@@ -119,5 +132,36 @@ public class SimplePolygon : MonoBehaviour
 		return mesh;
 	}
 
+	public void Rebuild () {
+		Debug.Log ("Rebuild mesh");
+		filter = GetComponent<MeshFilter> ();
+		load (verts);
+		isClockWise = IsClockwise (verts);
+
+		//		TestClipper ();
+		//		filter.mesh = PlaneMesh (10, 10);
+	}
+
+	public static Mesh PlaneMesh(float width, float height)
+	{
+		Mesh m = new Mesh();
+		m.name = "ScriptedMesh";
+		m.vertices = new Vector3[] {
+			new Vector3(-width, 0,-height),
+			new Vector3(width, 0,  -height),
+			new Vector3(width, 0, height),
+			new Vector3(-width,0 , height)
+		};
+		m.uv = new Vector2[] {
+			new Vector2 (0, 0),
+			new Vector2 (0, 1),
+			new Vector2(1, 1),
+			new Vector2 (1, 0)
+		};
+		m.triangles = new int[] { 0, 1, 2, 0, 2, 3};
+		m.RecalculateNormals();
+
+		return m;
+	}
 }
 

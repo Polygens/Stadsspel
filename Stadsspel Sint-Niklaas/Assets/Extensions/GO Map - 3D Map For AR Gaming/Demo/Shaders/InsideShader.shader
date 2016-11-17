@@ -1,6 +1,6 @@
 ﻿// Based on Unlit shader, but culls the front faces instead of the back
 
-Shader "InsideVisible" {
+Shader "GoMap/InsideVisible" {
 Properties {
 	_MainTex ("Base (RGB)", 2D) = "white" {}
 }

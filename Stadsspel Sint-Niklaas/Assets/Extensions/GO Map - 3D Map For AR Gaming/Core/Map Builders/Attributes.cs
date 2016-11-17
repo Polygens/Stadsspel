@@ -38,7 +38,9 @@ public class Attributes : MonoBehaviour {
 		foreach (string key in attributes.Keys) {
 			KeyValue keyValue = new KeyValue ();
 			keyValue.key = key;
-			keyValue.value = attributes[key].ToString();
+			if (attributes[key] != null) {
+				keyValue.value = attributes[key].ToString();
+			}
 			list.Add (keyValue);
 		}
 		attributesList = list.ToArray();

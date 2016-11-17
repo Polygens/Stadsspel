@@ -134,7 +134,9 @@ public class TwoXOrbitGesture : MonoBehaviour {
 
 			}
 		} else {
-			distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel")*5, distanceMin, distanceMax);
+			
+			float newD = distance - Input.GetAxis ("Mouse ScrollWheel") * 5;
+			distance = Mathf.Clamp(newD, distanceMin, distanceMax);
 		}
 			
 //		RaycastHit hit;
@@ -145,6 +147,8 @@ public class TwoXOrbitGesture : MonoBehaviour {
 //				distance = Mathf.Clamp (distance + hit.distance, distanceMin, distanceMax);
 //			}
 //		}
+
+
 
 		Quaternion rotation = Quaternion.Euler(y, x, 0);
 

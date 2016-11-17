@@ -110,6 +110,38 @@ public class Coordinates {
 
 	}
 
+	public float tileSize (int zoom) {
+	
+		Vector2 tileCoords = tileCoordinates (zoom);
+		Vector3 v0 = GPSEncoder.GPSToUCS (TileToWorldPos (tileCoords.x, tileCoords.y,zoom).flipped());
+		Vector3 v1 = GPSEncoder.GPSToUCS (TileToWorldPos (tileCoords.x+1, tileCoords.y, zoom).flipped());
+
+		return Mathf.Abs (Vector2.Distance (v0, v1));
+	
+	}
+
+	public List <Vector3> tileVertices (int zoom) {
+	
+//		Vector2 tileCoords = tileCoordinates (zoom);
+//
+//		Vector3 v0 = GPSEncoder.GPSToUCS (TileToWorldPos (tileCoords.x, tileCoords.y,zoom).flipped());
+//		Vector3 v1 = GPSEncoder.GPSToUCS (TileToWorldPos (tileCoords.x+1, tileCoords.y, zoom).flipped());
+//		Vector3 v2 = GPSEncoder.GPSToUCS (TileToWorldPos (tileCoords.x+1, tileCoords.y+1, zoom).flipped());
+//		Vector3 v3 = GPSEncoder.GPSToUCS (TileToWorldPos (tileCoords.x, tileCoords.y+1, zoom).flipped());
+//		return new List<Vector3> {v0, v1, v2, v3};
+
+		float size = tileSize (zoom)/2;
+
+		return new List<Vector3> {
+			new Vector3(size, -0.1f, size),
+			new Vector3(size, -0.1f, -size),
+			new Vector3(-size, -0.1f, -size),
+			new Vector3(-size,-0.1f ,size)
+		};
+
+
+	}
+
 	public List<Vector2> adiacentNTiles (int zoom, int buffer){
 
 		List <Vector2> adiacentTiles = new List<Vector2> ();
@@ -155,6 +187,8 @@ public class Coordinates {
 		return p;
 	}
 
+
+
 	////STATIC
 
 	public static Coordinates convertVectorToCoordinates (Vector3 vector) {
@@ -174,4 +208,22 @@ public class Coordinates {
 	}
 
 } 
+
+public static class CoordExtensions
+{
+	public static Vector2 ToVector2xz(this Vector3 v)
+	{
+		return new Vector2(v.x, v.z);
+	}
+
+	public static Vector2 flipped(this Vector2 v)
+	{
+		return new Vector2(v.y, v.x);
+	}
+
+	public static Vector3 ToVector3xz(this Vector2 v)
+	{
+		return new Vector3(v.x, 0,v.y);
+	}
+}
 

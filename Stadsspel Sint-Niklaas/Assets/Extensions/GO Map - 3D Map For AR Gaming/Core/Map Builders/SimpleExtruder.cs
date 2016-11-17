@@ -49,11 +49,9 @@ public class SimpleExtruder : MonoBehaviour
 			extrusionPath [1] = a;
 		}
 
-
-
 		MeshExtrusion.ExtrudeMesh(mesh, mesh, extrusionPath, false);
-
-		mesh.RecalculateNormals ();
+//
+//		mesh.RecalculateNormals ();
 
 
 		return mesh;

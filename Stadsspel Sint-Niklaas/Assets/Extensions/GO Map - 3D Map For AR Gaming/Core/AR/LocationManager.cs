@@ -15,6 +15,9 @@ namespace GoMap {
 			NewYork2,
 			Venice,
 			SanFrancisco,
+			Berlin,
+			Dubai,
+			NoGPSTest,
 			Custom
 		};
 
@@ -72,33 +75,7 @@ namespace GoMap {
 				Input.location.Start (desiredAccuracy, updateDistance);
 			} else { //Demo origin
 
-				switch (demoLocation)
-				{
-				case DemoLocation.NewYork:
-					demo_CenterWorldCoordinates = currentLocation = new Coordinates (40.783435,-73.966249,0);
-					break;
-				case DemoLocation.NewYork2:
-					demo_CenterWorldCoordinates = currentLocation = new Coordinates (40.70193632375534,-74.01628977185595,0);
-					break;
-				case DemoLocation.Rome:
-					demo_CenterWorldCoordinates = currentLocation = new Coordinates (41.910509366663945,12.476284503936768,0);
-					break;
-				case DemoLocation.Venice:
-					demo_CenterWorldCoordinates = currentLocation = new Coordinates (45.433184, 12.336831,0);
-					break;
-				case DemoLocation.SanFrancisco:
-					demo_CenterWorldCoordinates = currentLocation = new Coordinates (37.80724101305343, -122.42086887359619,0);
-					break;
-				case DemoLocation.Custom:
-					currentLocation = demo_CenterWorldCoordinates;
-					break;
-				default:
-					break;
-				}
-
-				SetOrigin(demo_CenterWorldCoordinates);
-
-			
+				LoadDemoLocation ();
 			}
 
 			UseLocationServices = useLocationServices;
@@ -108,11 +85,51 @@ namespace GoMap {
 			StartCoroutine(LateStart(0.01f));
 
 		}
+
+		public void LoadDemoLocation () {
+
+			switch (demoLocation)
+			{
+			case DemoLocation.NewYork:
+				demo_CenterWorldCoordinates = currentLocation = new Coordinates (40.783435,-73.966249,0);
+				break;
+			case DemoLocation.NewYork2:
+				demo_CenterWorldCoordinates = currentLocation = new Coordinates (40.70193632375534,-74.01628977185595,0);
+				break;
+			case DemoLocation.Rome:
+				demo_CenterWorldCoordinates = currentLocation = new Coordinates (41.910509366663945,12.476284503936768,0);
+				break;
+			case DemoLocation.Venice:
+				demo_CenterWorldCoordinates = currentLocation = new Coordinates (45.433184, 12.336831,0);
+				break;
+			case DemoLocation.SanFrancisco:
+				demo_CenterWorldCoordinates = currentLocation = new Coordinates (37.80724101305343, -122.42086887359619,0);
+				break;
+			case DemoLocation.Berlin:
+				demo_CenterWorldCoordinates = currentLocation = new Coordinates (52.521123, 13.409396,0);
+				break;
+			case DemoLocation.Dubai:
+				demo_CenterWorldCoordinates = currentLocation = new Coordinates (25.197469, 55.274366,0);
+				break;
+			case DemoLocation.NoGPSTest:
+				currentLocation = demo_CenterWorldCoordinates = null;
+				return;
+
+			case DemoLocation.Custom:
+				currentLocation = demo_CenterWorldCoordinates;
+				break;
+			default:
+				break;
+			}
+
+			SetOrigin(demo_CenterWorldCoordinates);
+
+		}
 			
 		IEnumerator LateStart(float waitTime)
 		{
 			yield return new WaitForSeconds(waitTime);
-			if (!useLocationServices) {
+			if (!useLocationServices && demoLocation != DemoLocation.NoGPSTest) {
 				adjust (); //This adjusts the current location just after the initialization
 			}
 		
@@ -162,7 +179,7 @@ namespace GoMap {
 					}
 				}
 
-				if (!useLocationServices && Application.isEditor) {
+				if (!useLocationServices && Application.isEditor && demoLocation != DemoLocation.NoGPSTest) {
 					changeLocationWASD ();
 				}
 

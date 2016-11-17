@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 448472}
   - 114: {fileID: 11458246}
+  - 114: {fileID: 11416698}
   m_Layer: 0
   m_Name: Map - Flat
   m_TagString: Untagged
@@ -29,6 +30,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11416698
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62db0f303b541403292cf21c91b5bc42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11458246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -44,17 +56,17 @@ MonoBehaviour:
   tileBuffer: 3
   zoomLevel: 17
   useCache: 1
-  mapzen_api_key: 
+  mapzen_api_key: mapzen-iitJsBk
   layers:
   - name: Building
     json: buildings
     isPolygon: 1
-    defaultHeight: 2
+    defaultHeight: 1.5
     useRealHeight: 0
     defaultWidth: 0
     defaultOutlineWidth: 0
     distanceFromFloor: 0
-    defaultMaterial: {fileID: 2100000, guid: 9995ffba458b14d7e8a0550dab30e382, type: 2}
+    defaultMaterial: {fileID: 0}
     defaultOutline: {fileID: 0}
     defaultRoof: {fileID: 0}
     renderingOptions:
@@ -88,7 +100,7 @@ MonoBehaviour:
     defaultWidth: 0
     defaultOutlineWidth: 0
     distanceFromFloor: 0
-    defaultMaterial: {fileID: 2100000, guid: 7ff6e9c376f3e427b8d72d3d4f007420, type: 2}
+    defaultMaterial: {fileID: 0}
     defaultOutline: {fileID: 0}
     defaultRoof: {fileID: 0}
     renderingOptions:
@@ -109,7 +121,10 @@ MonoBehaviour:
       polygonHeight: 0
       distanceFromFloor: 0
     useOnly: []
-    avoid: []
+    avoid:
+    - residential
+    - pedestrian
+    - pier
     useTunnels: 1
     useBridges: 1
     startInactive: 0
@@ -122,7 +137,7 @@ MonoBehaviour:
     defaultWidth: 0
     defaultOutlineWidth: 0
     distanceFromFloor: 0
-    defaultMaterial: {fileID: 2100000, guid: 788c2ee5365a742609d11f47f004502e, type: 2}
+    defaultMaterial: {fileID: 0}
     defaultOutline: {fileID: 0}
     defaultRoof: {fileID: 0}
     renderingOptions: []
@@ -140,7 +155,7 @@ MonoBehaviour:
     defaultWidth: 0
     defaultOutlineWidth: 0
     distanceFromFloor: 0
-    defaultMaterial: {fileID: 2100000, guid: f01f65f6d9a004d0381a7146d4b100d5, type: 2}
+    defaultMaterial: {fileID: 0}
     defaultOutline: {fileID: 0}
     defaultRoof: {fileID: 0}
     renderingOptions: []
@@ -155,43 +170,43 @@ MonoBehaviour:
     isPolygon: 0
     defaultHeight: 0
     useRealHeight: 0
-    defaultWidth: 5
-    defaultOutlineWidth: 0.3
+    defaultWidth: 2
+    defaultOutlineWidth: 0
     distanceFromFloor: 0
-    defaultMaterial: {fileID: 2100000, guid: 2ebdec1cf657a41dfb182486d370b191, type: 2}
-    defaultOutline: {fileID: 2100000, guid: 487a1c68c96c64b4ab95841001e80f4d, type: 2}
+    defaultMaterial: {fileID: 0}
+    defaultOutline: {fileID: 0}
     defaultRoof: {fileID: 0}
     renderingOptions:
     - kind: highway
-      material: {fileID: 2100000, guid: cc3d41b9f95eb4dfdbd57a59dd3e80a2, type: 2}
-      outlineMaterial: {fileID: 2100000, guid: 487a1c68c96c64b4ab95841001e80f4d, type: 2}
+      material: {fileID: 2100000, guid: 70ba2196d461b497a85aef384b920ed0, type: 2}
+      outlineMaterial: {fileID: 2100000, guid: c007afb0a9b7444b0ab59c1dd90a664b, type: 2}
       roofMaterial: {fileID: 0}
-      lineWidth: 6
-      outlineWidth: 1
+      lineWidth: 5
+      outlineWidth: 1.5
       polygonHeight: 0
       distanceFromFloor: 0
     - kind: major_road
-      material: {fileID: 2100000, guid: cc3d41b9f95eb4dfdbd57a59dd3e80a2, type: 2}
-      outlineMaterial: {fileID: 2100000, guid: 487a1c68c96c64b4ab95841001e80f4d, type: 2}
+      material: {fileID: 2100000, guid: 70ba2196d461b497a85aef384b920ed0, type: 2}
+      outlineMaterial: {fileID: 2100000, guid: c007afb0a9b7444b0ab59c1dd90a664b, type: 2}
       roofMaterial: {fileID: 0}
       lineWidth: 4
-      outlineWidth: 1
+      outlineWidth: 1.5
       polygonHeight: 0
       distanceFromFloor: 0
     - kind: minor_road
-      material: {fileID: 2100000, guid: cc3d41b9f95eb4dfdbd57a59dd3e80a2, type: 2}
-      outlineMaterial: {fileID: 2100000, guid: 487a1c68c96c64b4ab95841001e80f4d, type: 2}
+      material: {fileID: 2100000, guid: 70ba2196d461b497a85aef384b920ed0, type: 2}
+      outlineMaterial: {fileID: 2100000, guid: c007afb0a9b7444b0ab59c1dd90a664b, type: 2}
       roofMaterial: {fileID: 0}
-      lineWidth: 3
-      outlineWidth: 0.5
+      lineWidth: 3.5
+      outlineWidth: 1.5
       polygonHeight: 0
       distanceFromFloor: 0
     - kind: path
-      material: {fileID: 2100000, guid: 887ca02bbd1bd481ead2dddc5aaf3ecc, type: 2}
-      outlineMaterial: {fileID: 2100000, guid: f7e6b163de76248c3b3b17482485f874, type: 2}
+      material: {fileID: 2100000, guid: 70ba2196d461b497a85aef384b920ed0, type: 2}
+      outlineMaterial: {fileID: 2100000, guid: c007afb0a9b7444b0ab59c1dd90a664b, type: 2}
       roofMaterial: {fileID: 0}
-      lineWidth: 1.5
-      outlineWidth: 0.5
+      lineWidth: 3.5
+      outlineWidth: 1.5
       polygonHeight: 0
       distanceFromFloor: 0
     - kind: rail
@@ -211,7 +226,9 @@ MonoBehaviour:
       polygonHeight: 0
       distanceFromFloor: 0
     useOnly: []
-    avoid: []
+    avoid:
+    - rail
+    - ferry
     useTunnels: 1
     useBridges: 1
     startInactive: 0

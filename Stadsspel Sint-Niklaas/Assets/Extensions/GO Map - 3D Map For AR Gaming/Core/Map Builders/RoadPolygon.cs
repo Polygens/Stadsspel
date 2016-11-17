@@ -24,11 +24,11 @@ namespace GoMap
 					break;
 				}
 			}
-			float width = layer.defaultWidth;
-			float defaultY = layer.distanceFromFloor;
-			Material material = layer.defaultMaterial;
-			Material outlineMaterial = layer.defaultOutline;
-			float outlineWidth = width + layer.defaultOutlineWidth;
+			float width = layer.defaultRendering.lineWidth;
+			float defaultY = layer.defaultRendering.distanceFromFloor;
+			Material material = layer.defaultRendering.material;
+			Material outlineMaterial = layer.defaultRendering.outlineMaterial;
+			float outlineWidth = width + layer.defaultRendering.outlineWidth;
 			if (renderingOptions != null) {
 				width = renderingOptions.lineWidth;
 				material = renderingOptions.material;
@@ -40,8 +40,11 @@ namespace GoMap
 			if (defaultY == 0f)
 				defaultY = sort/1000.0f;
 
-			material.renderQueue = -sort;
-
+			if (material)
+				material.renderQueue = -sort;
+			if (outlineMaterial)
+				outlineMaterial.renderQueue = -sort;
+			
 			SimpleRoad road = gameObject.AddComponent<SimpleRoad> ();
 
 			Vector3[] vertices = _verts.Select(x => new Vector3(x.x, 0, x.z)).ToArray();
@@ -78,7 +81,7 @@ namespace GoMap
 			road.load ();
 
 			Vector3 position = outline.transform.position;
-			position.y = -0.025f;
+			position.y = -0.029f;
 			outline.transform.localPosition = position;
 
 			outline.GetComponent<Renderer>().material = material;
