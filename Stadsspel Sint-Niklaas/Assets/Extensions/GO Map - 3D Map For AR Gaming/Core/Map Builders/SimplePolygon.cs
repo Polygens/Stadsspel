@@ -15,9 +15,8 @@ public class ObjectBuilderEditor : Editor
 		DrawDefaultInspector();
 
 		SimplePolygon myScript = (SimplePolygon)target;
-		if(GUILayout.Button("Rebuild mesh"))
-		{
-			
+		if (GUILayout.Button("Rebuild mesh")) {
+
 			myScript.Rebuild();
 
 		}
@@ -37,33 +36,35 @@ public class SimplePolygon : MonoBehaviour
 	public List<Vector3> verts;
 	MeshFilter filter;
 
-	public Mesh load (List<Vector3> _verts) {
+	public Mesh load(List<Vector3> _verts)
+	{
 
 		verts = _verts;
 
-		filter = gameObject.GetComponent<MeshFilter> ();
+		filter = gameObject.GetComponent<MeshFilter>();
 		if (filter == null) {
 			filter = (MeshFilter)gameObject.AddComponent(typeof(MeshFilter));
 		}
-			
+
 		Mesh mesh = CreateMesh(verts.ToList());
 		filter.sharedMesh = mesh;
 		return mesh;
 	}
 
-	public Mesh loadExtruded (List<Vector3> _verts, float height) {
+	public Mesh loadExtruded(List<Vector3> _verts, float height)
+	{
 
 		verts = _verts;
 
-		filter = gameObject.GetComponent<MeshFilter> ();
+		filter = gameObject.GetComponent<MeshFilter>();
 		if (filter == null) {
 			filter = (MeshFilter)gameObject.AddComponent(typeof(MeshFilter));
 		}
 
-		List <Vector3> vertices = verts.ToList ();
+		List<Vector3> vertices = verts.ToList();
 
 		Mesh mesh = CreateMesh(vertices);
-		filter.sharedMesh = SimpleExtruder.Extrude (mesh, gameObject,height);
+		filter.sharedMesh = SimpleExtruder.Extrude(mesh, gameObject, height);
 		return mesh;
 	}
 
@@ -91,14 +92,12 @@ public class SimplePolygon : MonoBehaviour
 		List<int> indices = triangulator.Triangulate().ToList();
 
 		var n = vertices.Count;
-		for (int index = 0; index < n; index++)
-		{
+		for (int index = 0; index < n; index++) {
 			var v = vertices[index];
 			vertices.Add(new Vector3(v.x, v.y, v.z));
 		}
 
-		for (int i = 0; i < n - 1; i++)
-		{
+		for (int i = 0; i < n - 1; i++) {
 			indices.Add(i);
 			indices.Add(i + n);
 			indices.Add(i + n + 1);
@@ -120,23 +119,24 @@ public class SimplePolygon : MonoBehaviour
 
 		Vector2[] uvs = new Vector2[vertices.ToArray().Length];
 
-		for (int i=0; i < uvs.Length; i++) {
+		for (int i = 0; i < uvs.Length; i++) {
 			uvs[i] = new Vector2(vertices[i].x, vertices[i].z);
 		}
 		mesh.uv = uvs;
 
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
-		mesh.Optimize ();
+		mesh.Optimize();
 
 		return mesh;
 	}
 
-	public void Rebuild () {
-		Debug.Log ("Rebuild mesh");
-		filter = GetComponent<MeshFilter> ();
-		load (verts);
-		isClockWise = IsClockwise (verts);
+	public void Rebuild()
+	{
+		Debug.Log("Rebuild mesh");
+		filter = GetComponent<MeshFilter>();
+		load(verts);
+		isClockWise = IsClockwise(verts);
 
 		//		TestClipper ();
 		//		filter.mesh = PlaneMesh (10, 10);
@@ -158,7 +158,7 @@ public class SimplePolygon : MonoBehaviour
 			new Vector2(1, 1),
 			new Vector2 (1, 0)
 		};
-		m.triangles = new int[] { 0, 1, 2, 0, 2, 3};
+		m.triangles = new int[] { 0, 1, 2, 0, 2, 3 };
 		m.RecalculateNormals();
 
 		return m;

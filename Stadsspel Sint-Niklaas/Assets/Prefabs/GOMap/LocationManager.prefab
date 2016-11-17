@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0045cf7d9f1d9448fae1e60472a383e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useLocationServices: 0
+  useLocationServices: 1
   zoomLevel: 17
   demoLocation: 8
   demo_CenterWorldCoordinates:

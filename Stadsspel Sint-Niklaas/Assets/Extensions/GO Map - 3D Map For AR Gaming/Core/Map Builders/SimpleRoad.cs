@@ -15,9 +15,10 @@ public class SimpleRoad : MonoBehaviour
 	private Vector3[] vertices = new Vector3[0];
 	public int[] triangles = new int[0];
 
-	public void load () {
+	public void load()
+	{
 
-		filter = gameObject.GetComponent<MeshFilter> ();
+		filter = gameObject.GetComponent<MeshFilter>();
 		if (filter == null) {
 			filter = (MeshFilter)gameObject.AddComponent(typeof(MeshFilter));
 		}
@@ -29,79 +30,77 @@ public class SimpleRoad : MonoBehaviour
 
 	public void UpdateVertices()
 	{
-		if (verts.Length < 2) return; // minimum to make a line
+		if (verts.Length < 2)
+			return; // minimum to make a line
 
 		int count = verts.Length - 1;
 
-		vertices = new Vector3[count*4];
-		triangles = new int[(verts.Length-1)*6];
+		vertices = new Vector3[count * 4];
+		triangles = new int[(verts.Length - 1) * 6];
 
-		List <Vector3> dirs = new List<Vector3> ();
-		List <Vector3> tans = new List<Vector3> ();
- 
-		Vector3 tanVect = Vector3.down;
+		List<Vector3> dirs = new List<Vector3>();
+		List<Vector3> tans = new List<Vector3>();
+
+		Vector3 tanVect = Vector3.forward;
 
 
-		for (int p = 0; p<verts.Length; p++)
-		{
+		for (int p = 0; p < verts.Length; p++) {
 			Vector3 dir;
 			Vector3 tangent;
 
 			if (p == 0) // First
 			{
-				dir = (verts[p+1] - verts[p]).normalized; 
-				tangent = Vector3.Cross( tanVect, dir).normalized;
+				dir = (verts[p + 1] - verts[p]).normalized;
+				tangent = Vector3.Cross(tanVect, dir).normalized;
 			}
 
-			else if (p != verts.Length-1) // Middles
+			else if (p != verts.Length - 1) // Middles
 			{
-				dir = (verts[p+1] - verts[p]).normalized; 
+				dir = (verts[p + 1] - verts[p]).normalized;
 
-				Vector3 dirBefore = (verts [p] - verts [p-1]).normalized;
+				Vector3 dirBefore = (verts[p] - verts[p - 1]).normalized;
 				Vector3 tangentBefore = Vector3.Cross(tanVect, dirBefore).normalized;
 
-				tangent =  Vector3.Cross( tanVect,(dirBefore + dir) * 0.5f ).normalized;
+				tangent = Vector3.Cross(tanVect, (dirBefore + dir) * 0.5f).normalized;
 
 			}
 
 			else // Last
 			{
-				Vector3 dirBefore = (verts [p] - verts [p-1]).normalized;
-				Vector3 tangentBefore = Vector3.Cross( tanVect, dirBefore).normalized;
+				Vector3 dirBefore = (verts[p] - verts[p - 1]).normalized;
+				Vector3 tangentBefore = Vector3.Cross(tanVect, dirBefore).normalized;
 
-				dir = dirBefore; 
-				tangent = Vector3.Cross( tanVect, dir).normalized;
+				dir = dirBefore;
+				tangent = Vector3.Cross(tanVect, dir).normalized;
 			}
 
-			dirs.Add (dir);
-			tans.Add (tangent);
+			dirs.Add(dir);
+			tans.Add(tangent);
 
 		}
 
 
-		for (int i = 0; i<count; i++)
-		{
-			vertices[(i*4)+0] = verts[i] + (tans[i] * (width));
-			vertices[(i*4)+1] = verts[i] - (tans[i] * (width));
-			vertices[(i*4)+2] = verts[i+1] + (tans[i+1] * (width));
-			vertices[(i*4)+3] = verts[i+1] - (tans[i+1] * (width));
+		for (int i = 0; i < count; i++) {
+			vertices[(i * 4) + 0] = verts[i] + (tans[i] * (width));
+			vertices[(i * 4) + 1] = verts[i] - (tans[i] * (width));
+			vertices[(i * 4) + 2] = verts[i + 1] + (tans[i + 1] * (width));
+			vertices[(i * 4) + 3] = verts[i + 1] - (tans[i + 1] * (width));
 
-			triangles[(i*6)+0] = (i*4)+0;
-			triangles[(i*6)+1] = (i*4)+2;
-			triangles[(i*6)+2] = (i*4)+1;
-			triangles[(i*6)+3] = (i*4)+2;
-			triangles[(i*6)+4] = (i*4)+3;
-			triangles[(i*6)+5] = (i*4)+1;
+			triangles[(i * 6) + 0] = (i * 4) + 0;
+			triangles[(i * 6) + 1] = (i * 4) + 2;
+			triangles[(i * 6) + 2] = (i * 4) + 1;
+			triangles[(i * 6) + 3] = (i * 4) + 2;
+			triangles[(i * 6) + 4] = (i * 4) + 3;
+			triangles[(i * 6) + 5] = (i * 4) + 1;
 
 		}
 
-		for (int i = 0; i < vertices.Length; i++) 
-		{
+		for (int i = 0; i < vertices.Length; i++) {
 			vertices[i] = filter.transform.InverseTransformPoint(vertices[i]);
 		}
 
 	}
-		
+
 	public Mesh CreateMesh()
 	{
 
@@ -112,7 +111,7 @@ public class SimpleRoad : MonoBehaviour
 
 		Vector2[] uvs = new Vector2[vertices.ToArray().Length];
 
-		for (int i=0; i < uvs.Length; i++) {
+		for (int i = 0; i < uvs.Length; i++) {
 			uvs[i] = new Vector2(vertices[i].x, vertices[i].z);
 		}
 		mesh.uv = uvs;
@@ -121,7 +120,7 @@ public class SimpleRoad : MonoBehaviour
 
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
-		mesh.Optimize ();
+		mesh.Optimize();
 
 		return mesh;
 	}
