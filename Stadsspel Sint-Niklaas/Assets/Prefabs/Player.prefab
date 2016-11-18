@@ -315,7 +315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dad600fce2bb474094a91fb301030e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locationManager: {fileID: 0}
+  locationManager: {fileID: 114000014198358310, guid: 5e44304a896cb2947805ca50bfb5394a,
+    type: 2}
   avatarFigure: {fileID: 1000010191392976}
 --- !u!114 &114000012381367330
 MonoBehaviour:
