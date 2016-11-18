@@ -155,7 +155,7 @@ namespace Prototype.NetworkLobby
 				public void DisplayIsConnecting()
 				{
 						var _this = this;
-						infoPanel.Display("Connecting...", "Cancel", () => { _this.backDelegate(); });
+						infoPanel.Display("Verbinden...", "Annuleren", () => { _this.backDelegate(); });
 				}
 
 				public void SetServerInfo(string status, string host)
@@ -235,7 +235,7 @@ namespace Prototype.NetworkLobby
 
 				public void KickedMessageHandler(NetworkMessage netMsg)
 				{
-						infoPanel.Display("Kicked by Server", "Close", null);
+						infoPanel.Display("Kicked by Server", "Sluiten", null);
 						netMsg.conn.Disconnect();
 				}
 
