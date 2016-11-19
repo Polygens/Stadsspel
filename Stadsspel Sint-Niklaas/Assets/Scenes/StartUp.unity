@@ -90,7 +90,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &647609240
+--- !u!1001 &607019341
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -128,6 +128,40 @@ Prefab:
     - target: {fileID: 4000012057001244, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012250830042, guid: 9aa8285209e6e5a469043dac870586dd,
+        type: 2}
+      propertyPath: locationManager
+      value: 
+      objectReference: {fileID: 2049199261}
+    - target: {fileID: 4000013259137400, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013259137400, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013926597500, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013926597500, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013926597500, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 102000013051512704, guid: 9aa8285209e6e5a469043dac870586dd,
+        type: 2}
+      propertyPath: m_FontSize
+      value: 67
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013926597500, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 17.11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
@@ -174,7 +208,7 @@ Prefab:
     - target: {fileID: 224000011081343988, guid: 5e44304a896cb2947805ca50bfb5394a,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e44304a896cb2947805ca50bfb5394a, type: 2}

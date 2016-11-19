@@ -262,7 +262,7 @@ namespace GoMap
 			Vector3 current = currentLocation.convertCoordinateToVector();
 			Vector3 v = current;
 			currentLocation = Coordinates.convertVectorToCoordinates(v);
-			v = current + new Vector3(0, 0.4f, 0);
+			v = current + new Vector3(0, 0, 0.4f);
 			currentLocation = Coordinates.convertVectorToCoordinates(v);
 			if (onLocationChanged != null) {
 				onLocationChanged(currentLocation);
@@ -290,18 +290,8 @@ namespace GoMap
 			Vector3 current = currentLocation.convertCoordinateToVector();
 			Vector3 v = current;
 
-			if (Input.GetKey(KeyCode.W)) {
-				v = current + new Vector3(0, demo_WASDspeed, 0);
-			}
-			if (Input.GetKey(KeyCode.S)) {
-				v = current + new Vector3(0, -demo_WASDspeed, 0);
-			}
-			if (Input.GetKey(KeyCode.A)) {
-				v = current + new Vector3(-demo_WASDspeed, 0, 0);
-			}
-			if (Input.GetKey(KeyCode.D)) {
-				v = current + new Vector3(demo_WASDspeed, 0, 0);
-			}
+			v = current + new Vector3(0, Input.GetAxis("Vertical") * demo_WASDspeed, 0);
+			v += new Vector3(Input.GetAxis("Horizontal") * demo_WASDspeed, 0, 0);
 
 			if (v != current) {
 				currentLocation = Coordinates.convertVectorToCoordinates(v);

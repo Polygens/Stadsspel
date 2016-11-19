@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationManager: {fileID: 0}
-  tileBuffer: 2
+  tileBuffer: 1
   zoomLevel: 17
   useCache: 1
   mapzen_api_key: mapzen-iitJsBk

@@ -122,16 +122,16 @@ public sealed class GPSEncoder
 	private Vector3 ConvertGPStoUCS(Vector2 gps)
 	{
 		FindMetersPerLat(_LatOrigin);
-		float zPosition = metersPerLat * (gps.x - _LatOrigin); //Calc current lat
+		float yPosition = metersPerLat * (gps.x - _LatOrigin); //Calc current lat
 		float xPosition = metersPerLon * (gps.y - _LonOrigin); //Calc current lat
-		return new Vector3((float)xPosition, 0, (float)zPosition);
+		return new Vector3((float)xPosition, (float)yPosition, 0);
 	}
 
 	private Vector2 ConvertUCStoGPS(Vector3 position)
 	{
 		FindMetersPerLat(_LatOrigin);
 		Vector2 geoLocation = new Vector2(0, 0);
-		geoLocation.x = (_LatOrigin + (position.z) / metersPerLat); //Calc current lat
+		geoLocation.x = (_LatOrigin + (position.y) / metersPerLat); //Calc current lat
 		geoLocation.y = (_LonOrigin + (position.x) / metersPerLon); //Calc current lon
 		return geoLocation;
 	}

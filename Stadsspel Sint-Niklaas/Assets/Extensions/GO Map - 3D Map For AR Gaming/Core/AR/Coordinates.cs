@@ -74,26 +74,21 @@ public class Coordinates
 	public Vector3 convertCoordinateToVector()
 	{
 		Vector3 converted = GPSEncoder.GPSToUCS(new Vector2((float)latitude, (float)longitude));
-		converted.y = converted.z;
-		converted.z = 0;
 		return converted;
 	}
 
-	public Vector3 convertCoordinateToVector(float y)
+	public Vector3 convertCoordinateToVector(float z)
 	{
 		Vector3 converted = GPSEncoder.GPSToUCS(new Vector2((float)latitude, (float)longitude));
 		//converted.y = y;
-		converted.y = converted.z;
-		converted.z = y;
+		converted.z = z;
 		return converted;
 	}
 
 	public Vector2 convertCoordinateToVector2D()
 	{
 		Vector3 converted = GPSEncoder.GPSToUCS(new Vector2((float)latitude, (float)longitude));
-		converted.y = converted.z;
-		converted.z = 0;
-		return new Vector2(converted.x, converted.z);
+		return new Vector2(converted.x, converted.y);
 	}
 
 	////TILES
@@ -238,7 +233,7 @@ public static class CoordExtensions
 {
 	public static Vector2 ToVector2xz(this Vector3 v)
 	{
-		return new Vector2(v.x, v.z);
+		return new Vector2(v.x, v.y);
 	}
 
 	public static Vector2 flipped(this Vector2 v)
@@ -248,7 +243,7 @@ public static class CoordExtensions
 
 	public static Vector3 ToVector3xz(this Vector2 v)
 	{
-		return new Vector3(v.x, 0, v.y);
+		return new Vector3(v.x, v.y);
 	}
 }
 
