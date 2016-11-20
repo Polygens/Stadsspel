@@ -252,13 +252,13 @@ MonoBehaviour:
   zoomLevel: 17
   demoLocation: 8
   demo_CenterWorldCoordinates:
-    latitude: 51.164018
-    longitude: 4.140798
+    latitude: 51.164051
+    longitude: 4.141815
     altitude: 0
-  demo_CenterWorldTile: {x: 67043, y: 43784}
+  demo_CenterWorldTile: {x: 67044, y: 43785}
   currentLocation:
-    latitude: 51.16402053833008
-    longitude: 4.140798091888428
+    latitude: 51.164051
+    longitude: 4.141815
     altitude: 0
   desiredAccuracy: 50
   updateDistance: 0.1

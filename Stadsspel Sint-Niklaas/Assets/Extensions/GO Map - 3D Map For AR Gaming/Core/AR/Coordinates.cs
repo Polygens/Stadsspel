@@ -231,7 +231,7 @@ public class Coordinates
 
 public static class CoordExtensions
 {
-	public static Vector2 ToVector2xz(this Vector3 v)
+	public static Vector2 ToVector2xy(this Vector3 v)
 	{
 		return new Vector2(v.x, v.y);
 	}
@@ -241,7 +241,7 @@ public static class CoordExtensions
 		return new Vector2(v.y, v.x);
 	}
 
-	public static Vector3 ToVector3xz(this Vector2 v)
+	public static Vector3 ToVector3xy(this Vector2 v)
 	{
 		return new Vector3(v.x, v.y);
 	}
