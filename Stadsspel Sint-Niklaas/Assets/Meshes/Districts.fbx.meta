@@ -45,6 +45,7 @@ ModelImporter:
     100074: Square_5b
     100076: Square_6a
     100078: Square_6b
+    100080: CentralMarket
     400000: 1a
     400002: 1b
     400004: 2a
@@ -85,6 +86,7 @@ ModelImporter:
     400074: Square_5b
     400076: Square_6a
     400078: Square_6b
+    400080: CentralMarket
     2300000: 1a
     2300002: 1b
     2300004: 2a
@@ -124,6 +126,7 @@ ModelImporter:
     2300072: Square_5b
     2300074: Square_6a
     2300076: Square_6b
+    2300078: CentralMarket
     3300000: 1a
     3300002: 1b
     3300004: 2a
@@ -163,6 +166,7 @@ ModelImporter:
     3300072: Square_5b
     3300074: Square_6a
     3300076: Square_6b
+    3300078: CentralMarket
     4300000: Market
     4300002: Neutral
     4300004: Outside
@@ -202,6 +206,7 @@ ModelImporter:
     4300072: Square_4b
     4300074: Square_5b
     4300076: Square_6b
+    4300078: CentralMarket
   materials:
     importMaterials: 0
     materialName: 0
