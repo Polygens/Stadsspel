@@ -21,6 +21,30 @@ ModelImporter:
     100026: Market
     100028: Neutral
     100030: Outside
+    100032: Square
+    100034: Square_10
+    100036: Square_11
+    100038: Square_12
+    100040: Square_2
+    100042: Square_3
+    100044: Square_4
+    100046: Square_5
+    100048: Square_6
+    100050: Square_7
+    100052: Square_8
+    100054: Square_9
+    100056: Square_1a
+    100058: Square_1b
+    100060: Square_2a
+    100062: Square_2b
+    100064: Square_3a
+    100066: Square_3b
+    100068: Square_4a
+    100070: Square_4b
+    100072: Square_5a
+    100074: Square_5b
+    100076: Square_6a
+    100078: Square_6b
     400000: 1a
     400002: 1b
     400004: 2a
@@ -37,6 +61,30 @@ ModelImporter:
     400026: Market
     400028: Neutral
     400030: Outside
+    400032: Square
+    400034: Square_10
+    400036: Square_11
+    400038: Square_12
+    400040: Square_2
+    400042: Square_3
+    400044: Square_4
+    400046: Square_5
+    400048: Square_6
+    400050: Square_7
+    400052: Square_8
+    400054: Square_9
+    400056: Square_1a
+    400058: Square_1b
+    400060: Square_2a
+    400062: Square_2b
+    400064: Square_3a
+    400066: Square_3b
+    400068: Square_4a
+    400070: Square_4b
+    400072: Square_5a
+    400074: Square_5b
+    400076: Square_6a
+    400078: Square_6b
     2300000: 1a
     2300002: 1b
     2300004: 2a
@@ -52,6 +100,30 @@ ModelImporter:
     2300024: Market
     2300026: Neutral
     2300028: Outside
+    2300030: Square
+    2300032: Square_10
+    2300034: Square_11
+    2300036: Square_12
+    2300038: Square_2
+    2300040: Square_3
+    2300042: Square_4
+    2300044: Square_5
+    2300046: Square_6
+    2300048: Square_7
+    2300050: Square_8
+    2300052: Square_9
+    2300054: Square_1a
+    2300056: Square_1b
+    2300058: Square_2a
+    2300060: Square_2b
+    2300062: Square_3a
+    2300064: Square_3b
+    2300066: Square_4a
+    2300068: Square_4b
+    2300070: Square_5a
+    2300072: Square_5b
+    2300074: Square_6a
+    2300076: Square_6b
     3300000: 1a
     3300002: 1b
     3300004: 2a
@@ -67,6 +139,30 @@ ModelImporter:
     3300024: Market
     3300026: Neutral
     3300028: Outside
+    3300030: Square
+    3300032: Square_10
+    3300034: Square_11
+    3300036: Square_12
+    3300038: Square_2
+    3300040: Square_3
+    3300042: Square_4
+    3300044: Square_5
+    3300046: Square_6
+    3300048: Square_7
+    3300050: Square_8
+    3300052: Square_9
+    3300054: Square_1a
+    3300056: Square_1b
+    3300058: Square_2a
+    3300060: Square_2b
+    3300062: Square_3a
+    3300064: Square_3b
+    3300066: Square_4a
+    3300068: Square_4b
+    3300070: Square_5a
+    3300072: Square_5b
+    3300074: Square_6a
+    3300076: Square_6b
     4300000: Market
     4300002: Neutral
     4300004: Outside
@@ -82,6 +178,30 @@ ModelImporter:
     4300024: 4b
     4300026: 5b
     4300028: 6b
+    4300030: Square
+    4300032: Square_2
+    4300034: Square_3
+    4300036: Square_4
+    4300038: Square_5
+    4300040: Square_6
+    4300042: Square_7
+    4300044: Square_8
+    4300046: Square_9
+    4300048: Square_10
+    4300050: Square_11
+    4300052: Square_12
+    4300054: Square_1a
+    4300056: Square_2a
+    4300058: Square_3a
+    4300060: Square_4a
+    4300062: Square_5a
+    4300064: Square_6a
+    4300066: Square_1b
+    4300068: Square_2b
+    4300070: Square_3b
+    4300072: Square_4b
+    4300074: Square_5b
+    4300076: Square_6b
   materials:
     importMaterials: 0
     materialName: 0
