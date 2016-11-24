@@ -39,6 +39,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011317479604}
   - 20: {fileID: 20000010890230464}
+  - 114: {fileID: 114000013402605382}
   - 92: {fileID: 92000012178874270}
   - 81: {fileID: 81000011087748740}
   m_Layer: 0
@@ -68,7 +69,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1000013871091430
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -93,8 +94,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children:
-  - {fileID: 4000013926597500}
+  m_Children: []
   m_Father: {fileID: 4000012057001244}
   m_RootOrder: 0
 --- !u!4 &4000012057001244
@@ -109,6 +109,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000011317479604}
+  - {fileID: 4000013926597500}
   - {fileID: 4000013259137400}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -124,7 +125,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000012057001244}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &4000013926597500
 Transform:
   m_ObjectHideFlags: 1
@@ -132,12 +133,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013871091430}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17.11, z: 5}
+  m_LocalPosition: {x: 0, y: 17.11, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 4000011317479604}
-  m_RootOrder: 0
+  m_Father: {fileID: 4000012057001244}
+  m_RootOrder: 1
 --- !u!20 &20000010890230464
 Camera:
   m_ObjectHideFlags: 1
@@ -368,3 +369,14 @@ MonoBehaviour:
     i15: 221
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114000013402605382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010874694010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ade537fc62d5c974cb84efe75fbc9f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
