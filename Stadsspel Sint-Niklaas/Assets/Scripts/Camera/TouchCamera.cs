@@ -28,7 +28,7 @@ public class TouchCamera : MonoBehaviour
 		Input.location.Start();
 		Input.compass.enabled = true;
 		mCamera = GetComponent<Camera>();
-	}
+  }
 
 	void Update()
 	{
@@ -71,7 +71,8 @@ public class TouchCamera : MonoBehaviour
 				//transform.position += transform.TransformDirection((Vector3)((oldTouchPositions[0] + oldTouchPositions[1] - screen) * mCamera.orthographicSize / screen.y));
 				transform.localRotation *= Quaternion.Euler(new Vector3(0, 0, Mathf.Asin(Mathf.Clamp((mOldTouchVector.y * newTouchVector.x - mOldTouchVector.x * newTouchVector.y) / mOldTouchDistance / newTouchDistance, -1f, 1f)) / 0.0174532924f));
 				mCamera.orthographicSize *= mOldTouchDistance / newTouchDistance;
-				mCamera.orthographicSize = Mathf.Clamp(mCamera.orthographicSize, 50, 400);
+        mCamera.orthographicSize = Mathf.Clamp(mCamera.orthographicSize, 50, 400);
+				
 				//transform.position -= transform.TransformDirection((newTouchPositions[0] + newTouchPositions[1] - screen) * mCamera.orthographicSize / screen.y);
 
 				mOldTouchPositions[0] = newTouchPositions[0];
