@@ -65,14 +65,16 @@ namespace Prototype.NetworkLobby
                 matchNameInput.text,
                 (uint)lobbyManager.maxPlayers,
                 true,
-				passwordInput.text, "", "", 0, 0,
-				lobbyManager.OnMatchCreate);
+				    passwordInput.text, "", "", 0, 0,
+				    lobbyManager.OnMatchCreate);
 
             lobbyManager.backDelegate = lobbyManager.StopHost;
             lobbyManager._isMatchmaking = true;
             lobbyManager.DisplayIsConnecting();
 
             lobbyManager.SetServerInfo("Matchmaker Host", lobbyManager.matchHost);
+      //lobbyManager.OnLobbyJoinUpdateName(matchNameInput.text);
+          lobbyManager.SetLobbyNameToJoin(matchNameInput.text);
         }
 
         public void OnClickOpenServerList()

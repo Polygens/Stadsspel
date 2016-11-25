@@ -266,8 +266,8 @@ namespace Prototype.NetworkLobby
                 {
                     if (_colorInUse[i] == idx)
                     {//that color is already in use
-                        alreadyInUse = true;
-                        idx = (idx + 1) % Colors.Length;
+                        alreadyInUse = false; //was true
+                        //idx = (idx + 1) % Colors.Length;
                     }
                 }
             }

@@ -7,7 +7,7 @@ namespace Prototype.NetworkLobby
     public class LobbyTopPanel : MonoBehaviour
     {
         public bool isInGame = false;
-
+        public Text LobbyNamePanel;
         protected bool isDisplayed = true;
         protected Image panelImage;
 
@@ -41,6 +41,7 @@ namespace Prototype.NetworkLobby
             {
                 panelImage.enabled = isDisplayed;
             }
+            LobbyNamePanel.gameObject.SetActive(false);
         }
     }
 }
