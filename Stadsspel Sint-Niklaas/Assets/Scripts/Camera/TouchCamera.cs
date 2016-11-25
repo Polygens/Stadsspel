@@ -20,6 +20,10 @@ public class TouchCamera : MonoBehaviour
 	private Transform mPlayerTrans;
 	private OrientationStates mOrientationState;
 	private Camera mCamera;
+	private Vector3 _min, _max;
+	public BoxCollider2D cameraBounds;
+	public Vector2 margin, smoothing;
+
 
 	void Start()
 	{
@@ -28,7 +32,10 @@ public class TouchCamera : MonoBehaviour
 		Input.location.Start();
 		Input.compass.enabled = true;
 		mCamera = GetComponent<Camera>();
-  }
+
+		_min = cameraBounds.bounds.min;
+		_max = cameraBounds.bounds.max;
+	}
 
 	void Update()
 	{
@@ -42,10 +49,20 @@ public class TouchCamera : MonoBehaviour
 				mOldTouchPositions[1] = null;
 			}
 			else {
-				Vector2 newTouchPosition = Input.GetTouch(0).position;
+				Vector2 newTouchPosition = Input.GetTouch(0).position;    
+				Vector3 positionOfCamera = transform.position;
 
-				transform.position += transform.TransformDirection((Vector3)((mOldTouchPositions[0] - newTouchPosition) * mCamera.orthographicSize / mCamera.pixelHeight * 2f));
+				positionOfCamera += transform.TransformDirection((Vector3)((mOldTouchPositions[0] - newTouchPosition) * mCamera.orthographicSize / mCamera.pixelHeight * 2f));
 
+				var x = positionOfCamera.x;
+				var y = positionOfCamera.y;
+
+				float cameraHalfWidth = GetComponent<Camera>().orthographicSize * ((float)Screen.width / Screen.height);
+				x = Mathf.Clamp(x, _min.x + cameraHalfWidth, _max.x - cameraHalfWidth);
+				y = Mathf.Clamp(y, _min.y + GetComponent<Camera>().orthographicSize, _max.y - GetComponent<Camera>().orthographicSize);
+
+				transform.position = new Vector3(x, y, transform.position.z);
+				
 				mOldTouchPositions[0] = newTouchPosition;
 			}
 		}
@@ -71,7 +88,7 @@ public class TouchCamera : MonoBehaviour
 				//transform.position += transform.TransformDirection((Vector3)((oldTouchPositions[0] + oldTouchPositions[1] - screen) * mCamera.orthographicSize / screen.y));
 				transform.localRotation *= Quaternion.Euler(new Vector3(0, 0, Mathf.Asin(Mathf.Clamp((mOldTouchVector.y * newTouchVector.x - mOldTouchVector.x * newTouchVector.y) / mOldTouchDistance / newTouchDistance, -1f, 1f)) / 0.0174532924f));
 				mCamera.orthographicSize *= mOldTouchDistance / newTouchDistance;
-        mCamera.orthographicSize = Mathf.Clamp(mCamera.orthographicSize, 50, 400);
+				mCamera.orthographicSize = Mathf.Clamp(mCamera.orthographicSize, 50, 400);
 				
 				//transform.position -= transform.TransformDirection((newTouchPositions[0] + newTouchPositions[1] - screen) * mCamera.orthographicSize / screen.y);
 

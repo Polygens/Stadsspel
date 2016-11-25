@@ -9,14 +9,11 @@ public class CameraController : MonoBehaviour {
 	public BoxCollider2D cameraBounds;
 	public BoxCollider2D cameraCollider;
 	private Vector3 _min, _max;
-  private float startScale = 120f;
-  private float lastScale;
 	public bool Isfollowing {get; set;}
 	
 	public void Start () 
 	{
     // If map is fixed
-    lastScale = startScale;
 		_min = cameraBounds.bounds.min;
 		_max = cameraBounds.bounds.max;
 		Isfollowing = true;
