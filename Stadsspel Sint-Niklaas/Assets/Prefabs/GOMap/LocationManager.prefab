@@ -66,7 +66,7 @@ MonoBehaviour:
   desiredAccuracy: 50
   updateDistance: 0.1
   updateEvery: 0.001
-  simulateMotion: 0
-  useBannerInsideEditor: 1
+  simulateMotion: 2
+  useBannerInsideEditor: 0
   banner: {fileID: 0}
   bannerText: {fileID: 0}

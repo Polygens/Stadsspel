@@ -5,20 +5,21 @@ using GoMap;
 public class MoveAvatar : MonoBehaviour
 {
 
-	public LocationManager locationManager;
-	public Transform avatarDirection;
+	public LocationManager mLocationManager;
+	public Transform mAvatarDirection;
+	public DistrictManager mDistrictManager;
 
 
 	// Use this for initialization
 	void Start()
 	{
-		locationManager.onOriginSet += OnOriginSet;
-		locationManager.onLocationChanged += OnLocationChanged;
+		mLocationManager.onOriginSet += OnOriginSet;
+		mLocationManager.onLocationChanged += OnLocationChanged;
 	}
 
 	private void Update()
 	{
-		avatarDirection.transform.rotation = Quaternion.Lerp(avatarDirection.transform.rotation, Quaternion.Euler(0, 0, -Input.compass.trueHeading), Time.deltaTime * 2);
+		mAvatarDirection.transform.rotation = Quaternion.Lerp(mAvatarDirection.transform.rotation, Quaternion.Euler(0, 0, -Input.compass.trueHeading), Time.deltaTime * 2);
 	}
 
 	void OnOriginSet(Coordinates currentLocation)
@@ -49,7 +50,7 @@ public class MoveAvatar : MonoBehaviour
 		//		rotateAvatar (lastPosition);
 
 		moveAvatar(lastPosition, currentPosition);
-
+		mDistrictManager.CheckDisctrictState();
 	}
 
 	void moveAvatar(Vector3 lastPosition, Vector3 currentPosition)
