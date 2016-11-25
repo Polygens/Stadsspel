@@ -24,6 +24,8 @@ namespace Prototype.NetworkLobby
         public GameObject localIcone;
         public GameObject remoteIcone;
 
+        public GameManager gameManager;
+
         //OnMyName function will be invoked on clients when server change the value of playerName
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
@@ -193,6 +195,32 @@ namespace Prototype.NetworkLobby
         {
             playerColor = newColor;
             colorButton.GetComponent<Image>().color = newColor;
+
+            RemoveFromAllTeams();
+            if(newColor == Color.magenta)
+            {
+                gameManager.teamMagenta.CmdAddPlayer(this);
+            }
+            if (newColor == Color.red)
+            {
+                gameManager.teamRed.CmdAddPlayer(this);
+            }
+            if (newColor == Color.cyan)
+            {
+                gameManager.teamCyan.CmdAddPlayer(this);
+            }
+            if (newColor == Color.blue)
+            {
+                gameManager.teamBlue.CmdAddPlayer(this);
+            }
+            if (newColor == Color.yellow)
+            {
+                gameManager.teamYellow.CmdAddPlayer(this);
+            }
+            if (newColor == Color.green)
+            {
+                gameManager.teamGreen.CmdAddPlayer(this);
+            }
         }
 
         //===== UI Handler
@@ -309,6 +337,34 @@ namespace Prototype.NetworkLobby
                     _colorInUse.RemoveAt(i);
                     break;
                 }
+            }
+        }
+
+        public void RemoveFromAllTeams()
+        {
+            if (gameManager.teamBlue.teamMembers.Contains(this))
+            {
+                gameManager.teamBlue.CmdRemovePlayer(this);
+            }
+            if (gameManager.teamRed.teamMembers.Contains(this))
+            {
+                gameManager.teamRed.CmdRemovePlayer(this);
+            }
+            if (gameManager.teamYellow.teamMembers.Contains(this))
+            {
+                gameManager.teamYellow.CmdRemovePlayer(this);
+            }
+            if (gameManager.teamCyan.teamMembers.Contains(this))
+            {
+                gameManager.teamCyan.CmdRemovePlayer(this);
+            }
+            if (gameManager.teamMagenta.teamMembers.Contains(this))
+            {
+                gameManager.teamMagenta.CmdRemovePlayer(this);
+            }
+            if (gameManager.teamGreen.teamMembers.Contains(this))
+            {
+                gameManager.teamGreen.CmdRemovePlayer(this);
             }
         }
     }

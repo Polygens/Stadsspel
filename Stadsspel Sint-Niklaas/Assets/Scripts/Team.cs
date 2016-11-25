@@ -3,13 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class Team : MonoBehaviour {
+public class Team : NetworkBehaviour
+{
 
     Color teamcolor;
 
+    //[SyncVar]
     int amountOfPlayers;
+
+    //[SyncVar]
     int maxPlayers;
 
+    //[SyncVar]
     public List<NetworkLobbyPlayer> teamMembers = new List<NetworkLobbyPlayer>();
 
     int totalMoney = 0;
@@ -30,13 +35,15 @@ public class Team : MonoBehaviour {
 	
 	}
 
-    public void AddPlayer(NetworkLobbyPlayer player)
+    //[Command]
+    public void CmdAddPlayer(NetworkLobbyPlayer player)
     {
         teamMembers.Add(player);
         amountOfPlayers++;
     }
 
-    public void RemovePlayer(NetworkLobbyPlayer player)
+    //[Command]
+    public void CmdRemovePlayer(NetworkLobbyPlayer player)
     {
         teamMembers.Remove(player);
         amountOfPlayers--;
