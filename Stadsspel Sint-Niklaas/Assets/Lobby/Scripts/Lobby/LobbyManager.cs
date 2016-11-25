@@ -31,16 +31,20 @@ namespace Prototype.NetworkLobby
 				public LobbyCountdownPanel countdownPanel;
 				public GameObject addPlayerButton;
 
+        private string lobbyNameToJoin;
+
 				protected RectTransform currentPanel;
 
 				public Button backButton;
 
 				public Text statusInfo;
 				public Text hostInfo;
+    public Text lobbyNamePanel;
+    public Text gameNamePanel;
 
-				//Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
-				//of players, so that even client know how many player there is.
-				[HideInInspector]
+    //Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
+    //of players, so that even client know how many player there is.
+    [HideInInspector]
 				public int _playerNumber = 0;
 
 				//used to disconnect a client properly when exiting the matchmaker
@@ -75,6 +79,16 @@ namespace Prototype.NetworkLobby
 		{
 			text.text = maxPlayers.ToString();
 		}
+    public void OnLobbyJoinUpdateName(string lobbyName)
+    {
+      lobbyNamePanel.text = lobbyName.ToUpper();
+      lobbyNamePanel.gameObject.SetActive(true);
+      gameNamePanel.gameObject.SetActive(false);
+    }
+    public void SetLobbyNameToJoin(string lobbyName)
+    {
+      lobbyNameToJoin = lobbyName;
+    }
 
 				public override void OnLobbyClientSceneChanged(NetworkConnection conn)
 				{
@@ -172,7 +186,9 @@ namespace Prototype.NetworkLobby
 				{
 						backDelegate();
 			topPanel.isInGame = false;
-				}
+      lobbyNamePanel.gameObject.SetActive(false);
+      gameNamePanel.gameObject.SetActive(true);
+    }
 
 				// ----------------- Server management
 
@@ -404,6 +420,7 @@ namespace Prototype.NetworkLobby
 						base.OnClientConnect(conn);
 
 						infoPanel.gameObject.SetActive(false);
+            OnLobbyJoinUpdateName(lobbyNameToJoin);
 
 						conn.RegisterHandler(MsgKicked, KickedMessageHandler);
 

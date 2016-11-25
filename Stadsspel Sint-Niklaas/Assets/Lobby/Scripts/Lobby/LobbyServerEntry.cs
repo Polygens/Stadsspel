@@ -22,17 +22,19 @@ namespace Prototype.NetworkLobby
             NetworkID networkID = match.networkId;
 
             joinButton.onClick.RemoveAllListeners();
-            joinButton.onClick.AddListener(() => { JoinMatch(networkID, lobbyManager); });
+            joinButton.onClick.AddListener(() => { JoinMatch(networkID, lobbyManager,match.name); });
 
             GetComponent<Image>().color = c;
         }
 
-        void JoinMatch(NetworkID networkID, LobbyManager lobbyManager)
+        void JoinMatch(NetworkID networkID, LobbyManager lobbyManager, string matchName)
         {
 			lobbyManager.matchMaker.JoinMatch(networkID, "", "", "", 0, 0, lobbyManager.OnMatchJoined);
 			lobbyManager.backDelegate = lobbyManager.StopClientClbk;
             lobbyManager._isMatchmaking = true;
             lobbyManager.DisplayIsConnecting();
+      //lobbyManager.OnLobbyJoinUpdateName(matchName);
+      lobbyManager.SetLobbyNameToJoin(matchName);
         }
     }
 }
