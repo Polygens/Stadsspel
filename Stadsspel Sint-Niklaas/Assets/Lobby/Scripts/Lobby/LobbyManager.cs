@@ -29,6 +29,7 @@ namespace Prototype.NetworkLobby
 
 				public LobbyInfoPanel infoPanel;
 				public LobbyCountdownPanel countdownPanel;
+                public LobbyInputPanel inputPanel;
 				public GameObject addPlayerButton;
 
         private string lobbyNameToJoin;
@@ -170,7 +171,14 @@ namespace Prototype.NetworkLobby
 				{
 						var _this = this;
 						infoPanel.Display("Verbinden...", "Annuleren", () => { _this.backDelegate(); });
+                        
 				}
+
+                public void DisplayPasswordRequest()
+                {
+                        var _this = this;
+                        inputPanel.Display("Paswoord:", "Ok", "Terug", () => { _this.backDelegate(); });
+                }
 
 				public void SetServerInfo(string status, string host)
 				{
