@@ -160,8 +160,9 @@ namespace Prototype.NetworkLobby
 
 				public void SetServerInfo(string status, string host)
 				{
-						statusInfo.text = status;
-						hostInfo.text = host;
+            
+						//statusInfo.text = status;
+						//hostInfo.text = host;
 				}
 
 
