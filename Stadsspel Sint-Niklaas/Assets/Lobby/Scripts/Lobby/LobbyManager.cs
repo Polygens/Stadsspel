@@ -31,6 +31,7 @@ namespace Prototype.NetworkLobby
 				public LobbyCountdownPanel countdownPanel;
                 public LobbyInputPanel inputPanel;
 				public GameObject addPlayerButton;
+        public GameObject startButton;
 
         private string lobbyNameToJoin;
 
@@ -380,10 +381,13 @@ namespace Prototype.NetworkLobby
 					allready &= lobbySlots[i].readyToBegin;
 			}
 
-			if(allready)
-				StartCoroutine(ServerCountdownCoroutine());
+            if (allready)
+                startButton.SetActive(true);
 				}
-
+        public void OnStartButtonClicked()
+        {
+            StartCoroutine(ServerCountdownCoroutine());
+        }
 				public IEnumerator ServerCountdownCoroutine()
 				{
 						float remainingTime = prematchCountdown;
