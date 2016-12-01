@@ -82,3 +82,12 @@ ehthumbs.db
 *.blend*
 
 !*.blend
+
+
+# ================= #
+
+# Substance Designer generated #
+
+# ================= #
+
+.autosave/

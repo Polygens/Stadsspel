@@ -350,6 +350,7 @@ GameObject:
   - 33: {fileID: 33000011522711422}
   - 23: {fileID: 23000012933271164}
   - 60: {fileID: 60000012043751388}
+  - 114: {fileID: 114000010563654432}
   m_Layer: 0
   m_Name: Outside
   m_TagString: Untagged
@@ -2483,6 +2484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 4
 --- !u!114 &114000010392936514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2494,6 +2497,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 4
 --- !u!114 &114000010418779474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2505,6 +2510,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 4
+--- !u!114 &114000010563654432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012965601344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba75634685dfe2c4a8ba7536ffd749b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 5
 --- !u!114 &114000010757969004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2528,6 +2548,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 4
 --- !u!114 &114000012133441204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2539,6 +2561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d3bc9ebd36e3e4b81f0e24fc64626e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 2
 --- !u!114 &114000012407632028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2550,6 +2574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3efc6146165950c4b8184002d36c1cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 3
 --- !u!114 &114000012452039032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2561,6 +2587,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 4
 --- !u!114 &114000012911447070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2588,3 +2616,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTeamID: 0
+  mDistrictType: 4
