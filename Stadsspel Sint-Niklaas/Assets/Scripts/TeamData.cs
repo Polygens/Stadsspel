@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum TeamID
+public enum TeamID:byte
 {
 	NotSet,
 	Team1,
@@ -16,17 +16,17 @@ public class TeamData
 {
 	private static Color[] mTeamColors = new Color[] {
 		new Color(1, 0, 1),		//NotSet
-		new Color(.5f, .5f, .5f),	//Team1
-		new Color(0, 0, 200),		//Team2
-		new Color(200, 0, 0),		//Team3
-		new Color(200, 200, 0),		//Team4
-		new Color(0, 200, 0),		//Team5
-		new Color(0, 0, 0),			//Team6
+		Color.magenta,	//Team1
+		Color.red,		//Team2
+		Color.cyan,		//Team3
+		Color.blue,		//Team4
+		Color.green,		//Team5
+		Color.yellow,			//Team6
 		new Color(0, 0, 0, 128),	//Neutral
 		new Color(0, 0, 100),		//GrandMarket
 		new Color(0, 0, 0, 20),		//Capturable
-		Color.red,					//Outside
-		Color.yellow				//Square
+		new Color(0.5f,0,0,1),					//Outside
+		new Color(1,0.5f,0,1)				//Square
 	};
 
 	public static Color GetColor(TeamID team, DistrictType type = DistrictType.NotSet)

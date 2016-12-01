@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Prototype.NetworkLobby
 {
@@ -39,6 +40,7 @@ namespace Prototype.NetworkLobby
         static Color NotReadyColor = new Color(34.0f / 255.0f, 44 / 255.0f, 55.0f / 255.0f, 1.0f);
         static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
         static Color TransparentColor = new Color(0, 0, 0, 0);
+        public TeamID teamColor;
 
         //static Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         //static Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
@@ -196,32 +198,41 @@ namespace Prototype.NetworkLobby
             playerColor = newColor;
             colorButton.GetComponent<Image>().color = newColor;
 
-            RemoveFromAllTeams();
-            if(newColor == Color.magenta)
+            for (int i = 0; i < Colors.Length; i++)
             {
-                gameManager.teamMagenta.CmdAddPlayer(this);
+              if (newColor == TeamData.GetColor((TeamID)i + 1))
+              {
+                teamColor = (TeamID)i + 1;
+                //gameManager.teams[i].AddPlayer(this);
+                Debug.Log(teamColor.ToString());
+              }
             }
-            if (newColor == Color.red)
-            {
-                gameManager.teamRed.CmdAddPlayer(this);
-            }
-            if (newColor == Color.cyan)
-            {
-                gameManager.teamCyan.CmdAddPlayer(this);
-            }
-            if (newColor == Color.blue)
-            {
-                gameManager.teamBlue.CmdAddPlayer(this);
-            }
-            if (newColor == Color.yellow)
-            {
-                gameManager.teamYellow.CmdAddPlayer(this);
-            }
-            if (newColor == Color.green)
-            {
-                gameManager.teamGreen.CmdAddPlayer(this);
-            }
-        }
+      //RemoveFromAllTeams();
+      //if(newColor == Color.magenta)
+      //{
+      //    gameManager.teamMagenta.CmdAddPlayer(this);
+      //}
+      //if (newColor == Color.red)
+      //{
+      //    gameManager.teamRed.CmdAddPlayer(this);
+      //}
+      //if (newColor == Color.cyan)
+      //{
+      //    gameManager.teamCyan.CmdAddPlayer(this);
+      //}
+      //if (newColor == Color.blue)
+      //{
+      //    gameManager.teamBlue.CmdAddPlayer(this);
+      //}
+      //if (newColor == Color.yellow)
+      //{
+      //    gameManager.teamYellow.CmdAddPlayer(this);
+      //}
+      //if (newColor == Color.green)
+      //{
+      //    gameManager.teamGreen.CmdAddPlayer(this);
+      //}
+    }
 
         //===== UI Handler
 
@@ -342,30 +353,30 @@ namespace Prototype.NetworkLobby
 
         public void RemoveFromAllTeams()
         {
-            if (gameManager.teamBlue.teamMembers.Contains(this))
-            {
-                gameManager.teamBlue.CmdRemovePlayer(this);
-            }
-            if (gameManager.teamRed.teamMembers.Contains(this))
-            {
-                gameManager.teamRed.CmdRemovePlayer(this);
-            }
-            if (gameManager.teamYellow.teamMembers.Contains(this))
-            {
-                gameManager.teamYellow.CmdRemovePlayer(this);
-            }
-            if (gameManager.teamCyan.teamMembers.Contains(this))
-            {
-                gameManager.teamCyan.CmdRemovePlayer(this);
-            }
-            if (gameManager.teamMagenta.teamMembers.Contains(this))
-            {
-                gameManager.teamMagenta.CmdRemovePlayer(this);
-            }
-            if (gameManager.teamGreen.teamMembers.Contains(this))
-            {
-                gameManager.teamGreen.CmdRemovePlayer(this);
-            }
+            //if (gameManager.teamBlue.teamMembers.Contains(this))
+            //{
+            //    gameManager.teamBlue.CmdRemovePlayer(this);
+            //}
+            //if (gameManager.teamRed.teamMembers.Contains(this))
+            //{
+            //    gameManager.teamRed.CmdRemovePlayer(this);
+            //}
+            //if (gameManager.teamYellow.teamMembers.Contains(this))
+            //{
+            //    gameManager.teamYellow.CmdRemovePlayer(this);
+            //}
+            //if (gameManager.teamCyan.teamMembers.Contains(this))
+            //{
+            //    gameManager.teamCyan.CmdRemovePlayer(this);
+            //}
+            //if (gameManager.teamMagenta.teamMembers.Contains(this))
+            //{
+            //    gameManager.teamMagenta.CmdRemovePlayer(this);
+            //}
+            //if (gameManager.teamGreen.teamMembers.Contains(this))
+            //{
+            //    gameManager.teamGreen.CmdRemovePlayer(this);
+            //}
         }
     }
 }

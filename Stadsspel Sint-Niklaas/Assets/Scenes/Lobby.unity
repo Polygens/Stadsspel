@@ -1988,14 +1988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amountOfTeams: 6
-  maxPlayersPerTeam: 0
-  teamMagenta: {fileID: 0}
-  teamRed: {fileID: 0}
-  teamCyan: {fileID: 0}
-  teamBlue: {fileID: 0}
-  teamYellow: {fileID: 0}
-  teamGreen: {fileID: 0}
-  lobbyServerEntry: {fileID: 0}
+  maxPlayersPerTeam: 1
 --- !u!4 &520931842
 Transform:
   m_ObjectHideFlags: 0
