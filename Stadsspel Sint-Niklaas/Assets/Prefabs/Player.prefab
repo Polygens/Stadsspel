@@ -66,6 +66,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000011507061712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000012016403444}
+  - 61: {fileID: 61000012880638502}
+  m_Layer: 0
+  m_Name: CameraBounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000012407626070
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,6 +130,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000012057001244}
   m_RootOrder: 0
+--- !u!4 &4000012016403444
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011507061712}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000012057001244}
+  m_RootOrder: 4
 --- !u!4 &4000012057001244
 Transform:
   m_ObjectHideFlags: 1
@@ -121,7 +150,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012407626070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -129,6 +158,7 @@ Transform:
   - {fileID: 4000013926597500}
   - {fileID: 4000013267832060}
   - {fileID: 4000013259137400}
+  - {fileID: 4000012016403444}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &4000013259137400
@@ -336,6 +366,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!61 &61000012880638502
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011507061712}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1500, y: 1500}
 --- !u!81 &81000011087748740
 AudioListener:
   m_ObjectHideFlags: 1
@@ -382,8 +426,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dad600fce2bb474094a91fb301030e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locationManager: {fileID: 0}
-  avatarDirection: {fileID: 4000013267832060}
+  mLocationManager: {fileID: 0}
+  mAvatarDirection: {fileID: 0}
+  mDistrictManager: {fileID: 0}
 --- !u!114 &114000012964680410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -427,6 +472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade537fc62d5c974cb84efe75fbc9f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraBounds: {fileID: 61000012880638502}
+  margin: {x: 0, y: 0}
+  smoothing: {x: 0, y: 0}
 --- !u!114 &114000013984189104
 MonoBehaviour:
   m_ObjectHideFlags: 1

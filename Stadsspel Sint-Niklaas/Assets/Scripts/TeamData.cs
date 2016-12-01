@@ -31,6 +31,10 @@ public class TeamData
 
 	public static Color GetColor(TeamID team, DistrictType type = DistrictType.NotSet)
 	{
+		if (type == DistrictType.square) {
+			return mTeamColors[11];
+		}
+
 		if (team == TeamID.NotSet || team == TeamID.NoTeam) {
 			switch (type) {
 				case DistrictType.NotSet:
@@ -45,8 +49,6 @@ public class TeamData
 					return mTeamColors[9];
 				case DistrictType.Outside:
 					return mTeamColors[10];
-				case DistrictType.square:
-					return mTeamColors[11];
 			}
 		}
 		else {

@@ -28,7 +28,9 @@ public class District : MonoBehaviour
 		set {
 			mTeamID = value;
 			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID, mDistrictType);
-			gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID, DistrictType.square);
+			if (mDistrictType == DistrictType.CapturableDistrict || mDistrictType == DistrictType.HeadDistrict) {
+				gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID, DistrictType.square);
+			}
 		}
 	}
 
@@ -41,6 +43,5 @@ public class District : MonoBehaviour
 	private void Start()
 	{
 		TeamID = mTeamID;
-
 	}
 }
