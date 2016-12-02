@@ -9,7 +9,7 @@ public class SetupLocalPlayer : NetworkBehaviour
 	public string pName = "player";
 
 	[SyncVar]
-	public Color playerColor = Color.white;
+	public TeamID playerTeam = TeamID.NotSet;
 
     [SyncVar]
     public TeamID teamID = 0;
@@ -30,7 +30,7 @@ public class SetupLocalPlayer : NetworkBehaviour
 
 		Renderer[] rends = GetComponentsInChildren<Renderer>();
 		foreach (Renderer r in rends) {
-			r.material.color = playerColor;
+			r.material.color = TeamData.GetColor(playerTeam);
 		}
         GetComponentInChildren<TextMesh>().text = pName;
     }

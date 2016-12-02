@@ -7,45 +7,47 @@ using Prototype.NetworkLobby;
 public class Team
 {
 
-		Color teamcolor;
+	private TeamID mTeamID;
 
-	  int amountOfPlayers;
+	private int mAmountOfPlayers;
 
-	  int maxPlayers;
+	private int mMaxPlayers;
 
-		int totalMoney = 0;
-    TeamNetworking TM;
+	private int mTotalMoney = 0;
+	TeamNetworking mTM;
 
-  List<LobbyPlayer> teamMembers = new List<LobbyPlayer>();
+	public List<LobbyPlayer> teamMembers = new List<LobbyPlayer>();
 
-		public Team(Color pTeamColor, int pMaxPlayers)
-		{
-				teamcolor = pTeamColor;
-				maxPlayers = pMaxPlayers;
-		}
+	public Team(TeamID id, int pMaxPlayers)
+	{
+		mTeamID = id;
+		mMaxPlayers = pMaxPlayers;
+	}
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start()
+	{
+
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-	
+	void Update()
+	{
+
 	}
 
-		public void AddPlayer(LobbyPlayer player)
-		{
-				teamMembers.Add(player);
-				amountOfPlayers++;
-        //TM.ChangeAmountOfPlayers(amountOfPlayers);
-        
-		}
+	public void AddPlayer(LobbyPlayer player)
+	{
+		teamMembers.Add(player);
+		mAmountOfPlayers++;
+		//TM.ChangeAmountOfPlayers(amountOfPlayers);
 
-		//[Command]
-		public void CmdRemovePlayer(LobbyPlayer player)
-		{
-				//teamMembers.Remove(player);
-				amountOfPlayers--;
-		}
+	}
+
+	//[Command]
+	public void CmdRemovePlayer(LobbyPlayer player)
+	{
+		teamMembers.Remove(player);
+		mAmountOfPlayers--;
+	}
 }

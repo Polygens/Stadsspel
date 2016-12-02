@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum TeamID:byte
+public enum TeamID : byte
 {
 	NotSet,
 	Team1,
@@ -54,6 +54,23 @@ public class TeamData
 		else {
 			return mTeamColors[(int)team];
 		}
+	}
+
+	public static TeamID GetNextTeam(TeamID team)
+	{
+		int newTeamID = (int)team;
+		newTeamID %= GameManager.mTeams.Count;
+		newTeamID++;
+		return (TeamID)newTeamID;
+	}
+
+	public static TeamID GetPreviousTeam(TeamID team)
+	{
+		int newTeamID = (int)team - 2;
+		if (newTeamID < 0) {
+			newTeamID = GameManager.mTeams.Count - 1;
+		}
+		return (TeamID)newTeamID;
 	}
 }
 
