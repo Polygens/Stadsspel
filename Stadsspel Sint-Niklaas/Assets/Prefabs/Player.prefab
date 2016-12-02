@@ -93,6 +93,7 @@ GameObject:
   - 114: {fileID: 114000012250830042}
   - 114: {fileID: 114000012964680410}
   - 114: {fileID: 114000013984189104}
+  - 114: {fileID: 114000010429714352}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -415,6 +416,20 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &114000010429714352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012407626070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245e0efa9a23f7a46a93a1f6547f6c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pName: player
+  playerColor: {r: 1, g: 1, b: 1, a: 1}
+  teamID: 0
 --- !u!114 &114000012250830042
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -39,6 +39,7 @@ public class TeamNetworking : NetworkBehaviour {
     for (int i = 0; i < teams.Count; i++)
     {
       //Debug.Log(teams[i]);
+      //listOfTeams.Add(teams[i]);
     }
   }
 
@@ -49,6 +50,7 @@ public class TeamNetworking : NetworkBehaviour {
     listOfTeams[indexTeam].AddPlayer(player);
     for (int i = 0; i < listOfTeams.Count; i++)
     {
+      //Debug.Log(id.ToString() + listOfTeams[i].AmountOfPlayers);
     }
   }
 

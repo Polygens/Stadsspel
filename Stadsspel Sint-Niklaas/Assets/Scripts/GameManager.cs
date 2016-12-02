@@ -8,33 +8,32 @@ using UnityEngine.Networking.Types;
 public class GameManager : MonoBehaviour
 {
 
-    public int amountOfTeams = 6;
-    public int maxPlayersPerTeam = 1;
-    private int matchSize;
+	public int mAmountOfTeams = 6;
+	public int mMaxPlayersPerTeam = 1;
+	private int mMatchSize;
 
-  public List<Team> teams = new List<Team>();
+	public static List<Team> mTeams = new List<Team>();
 
-    //public GameObject lobbyServerEntry;
+	//public GameObject lobbyServerEntry;
 
-    // Use this for initialization
-    void Start ()
-    {
-        teams.Add(new Team(Color.magenta, maxPlayersPerTeam));
-        teams.Add(new Team(Color.red, maxPlayersPerTeam));
-        teams.Add(new Team(Color.cyan, maxPlayersPerTeam));
-        teams.Add(new Team(Color.blue, maxPlayersPerTeam));
-        teams.Add(new Team(Color.yellow, maxPlayersPerTeam));
-        teams.Add(new Team(Color.green, maxPlayersPerTeam));
+	// Use this for initialization
+	void Start()
+	{
+		DontDestroyOnLoad(gameObject);
+		//lobbyServerEntry = this.transform.parent.gameObject;
 
-        DontDestroyOnLoad(gameObject);
-        //lobbyServerEntry = this.transform.parent.gameObject;
+		//matchSize = lobbyServerEntry.GetComponent<LobbyServerEntry>().slotInfo.text.Split('/')...
+		//maxPlayersPerTeam = Mathf.CeilToInt(match.currentSize / amountOfTeams);
 
-        //matchSize = lobbyServerEntry.GetComponent<LobbyServerEntry>().slotInfo.text.Split('/')...
-        //maxPlayersPerTeam = Mathf.CeilToInt(match.currentSize / amountOfTeams);
-    }
-	
+
+		for (int i = 1; i <= mAmountOfTeams; i++) {
+			mTeams.Add(new Team((TeamID)i, mMaxPlayersPerTeam));
+		}
+	}
+
 	// Update is called once per frame
-	void Update () {
-	
+	void Update()
+	{
+
 	}
 }

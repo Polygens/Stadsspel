@@ -77,7 +77,7 @@ namespace Prototype.NetworkLobby
         {
             previousPage = currentPage;
             currentPage = page;
-			lobbyManager.matchMaker.ListMatches(page, 6, "", true, 0, 0, OnGUIMatchList);
+			lobbyManager.matchMaker.ListMatches(page, 6, "", false, 0, 0, OnGUIMatchList);
 		}
     }
 }
