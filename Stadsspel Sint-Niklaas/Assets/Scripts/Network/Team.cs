@@ -9,14 +9,14 @@ public class Team
 
 		Color teamcolor;
 
-	  int amountOfPlayers;
+		int amountOfPlayers;
 
-	  int maxPlayers;
+		int maxPlayers;
 
 		int totalMoney = 0;
-    TeamNetworking TM;
+		TeamNetworking TM;
 
-  List<LobbyPlayer> teamMembers = new List<LobbyPlayer>();
+	List<LobbyPlayer> teamMembers = new List<LobbyPlayer>();
 
 		public Team(Color pTeamColor, int pMaxPlayers)
 		{
@@ -38,8 +38,8 @@ public class Team
 		{
 				teamMembers.Add(player);
 				amountOfPlayers++;
-        //TM.ChangeAmountOfPlayers(amountOfPlayers);
-        
+				//TM.ChangeAmountOfPlayers(amountOfPlayers);
+				
 		}
 
 		//[Command]
@@ -48,4 +48,20 @@ public class Team
 				//teamMembers.Remove(player);
 				amountOfPlayers--;
 		}
+
+
+
+  public int MaxPlayers
+  {
+    get { return maxPlayers; }
+    set { maxPlayers = value; }
+  }
+
+  public int AmountOfPlayers
+  {
+    get { return amountOfPlayers; }
+    set { amountOfPlayers = value; }
+  }
+
+
 }

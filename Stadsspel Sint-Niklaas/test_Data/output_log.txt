@@ -1,0 +1,87 @@
+Initialize engine version: 5.4.3f1 (01f4c123905a)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 630M (ID=0xde9)
+    Vendor:   NVIDIA
+    VRAM:     1999 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.054 seconds
+Platform assembly: C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Jarno\Documents\3MT\Senior Projects\Stadsspel\Stadsspel\Stadsspel Sint-Niklaas\test_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 40Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.802241 ms
+Team2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Prototype.NetworkLobby.LobbyManager.OnLobbyJoinUpdateName (System.String lobbyName) [0x00000] in <filename unknown>:0 
+  at Prototype.NetworkLobby.LobbyManager.OnClientConnect (UnityEngine.Networking.NetworkConnection conn) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkManager.OnClientConnectInternal (UnityEngine.Networking.NetworkMessage netMsg) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkConnection.InvokeHandler (UnityEngine.Networking.NetworkMessage netMsg) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.LocalClient.ProcessInternalMessages () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.LocalClient.Update () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkClient.UpdateClients () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkIdentity.UNetStaticUpdate () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 386)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 386)
+
+Team2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Prototype.NetworkLobby.LobbyPlayer.OnReadyClicked () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCall.Invoke (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCallList.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEventBase.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEvent.Invoke () [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Button.Press () [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Button.OnPointerClick (UnityEngine.EventSystems.PointerEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute (IPointerClickHandler handler, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute[IPointerClickHandler] (UnityEngine.GameObject target, UnityEngine.EventSystems.BaseEventData eventData, UnityEngine.EventSystems.EventFunction`1 functor) [0x00000] in <filename unknown>:0 
+UnityEngine.DebugLogHandler:Internal_LogException(Exception, Object)
+UnityEngine.DebugLogHandler:LogException(Exception, Object)
+UnityEngine.Logger:LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent()
+UnityEngine.EventSystems.StandaloneInputModule:Process()
+UnityEngine.EventSystems.EventSystem:Update()
+ 
+(Filename:  Line: -1)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:65101}
+ServerDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+ClientRpc call on un-spawned object
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 2184 -> priority: 1 
+  Thread -> id: 2a98 -> priority: 1 
