@@ -11,37 +11,28 @@ public class SetupLocalPlayer : NetworkBehaviour
 	[SyncVar]
 	public Color playerColor = Color.white;
 
-	void OnGUI()
-	{
-		if (isLocalPlayer) {
-			pName = GUI.TextField(new Rect(25, Screen.height - 40, 100, 30), pName);
-			if (GUI.Button(new Rect(130, Screen.height - 40, 80, 30), "Change")) {
-				CmdChangeName(pName);
-			}
-		}
-	}
+    [SyncVar]
+    public TeamID teamID = 0;
 
 	[Command] //Tells Unity function will be called on the server
-	public void CmdChangeName(string newName)
+	public void CmdUpdateData(string newName, TeamID newID)
 	{
 		pName = newName;
+        teamID = newID;
 	}
 
 	void Start()
 	{
 		if (isLocalPlayer) {
 			GetComponent<MoveAvatar>().enabled = true;
-		}
+            CmdUpdateData(pName, teamID);
+        }
 
 		Renderer[] rends = GetComponentsInChildren<Renderer>();
 		foreach (Renderer r in rends) {
 			r.material.color = playerColor;
 		}
+        GetComponentInChildren<TextMesh>().text = pName;
+    }
 
-	}
-
-	void Update()
-	{
-		GetComponentInChildren<TextMesh>().text = pName;
-	}
 }
