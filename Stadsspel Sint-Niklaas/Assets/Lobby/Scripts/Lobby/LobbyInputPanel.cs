@@ -40,6 +40,7 @@ namespace Prototype.NetworkLobby
 
         private void SendInputData()
         {
+            gameObject.SetActive(false);
             _lobbyServerEntry.JoinMatch(inputField.text);
         }
     }
