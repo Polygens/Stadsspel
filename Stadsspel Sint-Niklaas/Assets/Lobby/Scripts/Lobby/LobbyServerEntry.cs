@@ -13,28 +13,36 @@ namespace Prototype.NetworkLobby
         public Text slotInfo;
         public Button joinButton;
 
+        private MatchInfoSnapshot _match;
+        private LobbyManager _lobbyManager;
+        private string _matchName;
+
 		public void Populate(MatchInfoSnapshot match, LobbyManager lobbyManager, Color c)
 		{
             serverInfoText.text = match.name;
 
             slotInfo.text = match.currentSize.ToString() + "/" + match.maxSize.ToString(); ;
 
-            NetworkID networkID = match.networkId;
+            _match = match;
+            _lobbyManager = lobbyManager;
+            _matchName = match.name;
 
             joinButton.onClick.RemoveAllListeners();
-            joinButton.onClick.AddListener(() => { JoinMatch(networkID, lobbyManager,match.name); });
+            joinButton.onClick.AddListener( () => lobbyManager.DisplayPasswordRequest(this) );
+            //joinButton.onClick.AddListener(() => { JoinMatch(networkID, lobbyManager,match.name); });
 
             GetComponent<Image>().color = c;
         }
 
-        void JoinMatch(NetworkID networkID, LobbyManager lobbyManager, string matchName)
+        public void JoinMatch(string password)
         {
-			lobbyManager.matchMaker.JoinMatch(networkID, "", "", "", 0, 0, lobbyManager.OnMatchJoined);
-			lobbyManager.backDelegate = lobbyManager.StopClientClbk;
-            lobbyManager._isMatchmaking = true;
-            lobbyManager.DisplayIsConnecting();
+            
+			_lobbyManager.matchMaker.JoinMatch(_match.networkId, password, "", "", 0, 0, _lobbyManager.OnMatchJoined);
+			_lobbyManager.backDelegate = _lobbyManager.StopClientClbk;
+            _lobbyManager._isMatchmaking = true;
+            _lobbyManager.DisplayIsConnecting();
       //lobbyManager.OnLobbyJoinUpdateName(matchName);
-      lobbyManager.SetLobbyNameToJoin(matchName);
+      _lobbyManager.SetLobbyNameToJoin(_matchName);
         }
     }
 }

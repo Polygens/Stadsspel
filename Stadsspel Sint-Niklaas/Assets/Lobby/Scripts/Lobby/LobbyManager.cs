@@ -175,10 +175,10 @@ namespace Prototype.NetworkLobby
                         
 				}
 
-                public void DisplayPasswordRequest()
+                public void DisplayPasswordRequest(LobbyServerEntry lobbyServerEntry)
                 {
                         var _this = this;
-                        inputPanel.Display("Paswoord:", "Ok", "Terug", () => { _this.backDelegate(); });
+                        inputPanel.Display("Paswoord:", "Ok", "Terug", () => { _this.backDelegate(); }, lobbyServerEntry);
                 }
 
 				public void SetServerInfo(string status, string host)
