@@ -4,64 +4,78 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using Prototype.NetworkLobby;
 
-public class Team
+public class Team : NetworkBehaviour
 {
+	[SyncVar(hook = "UpdateAmountOfPlayers")]
+	private int mAmountOfPlayers;
+	private TeamID mTeamID;
+	private int mMaxPlayers;
+	[SyncVar]
+	private bool mTeamIsFull;
+	[SyncVar]
+	private int mTotalMoney = 0;
+	private List<LobbyPlayer> teamMembers = new List<LobbyPlayer>();
 
-		Color teamcolor;
-
-		int amountOfPlayers;
-
-		int maxPlayers;
-
-		int totalMoney = 0;
-		TeamNetworking TM;
-
-	List<LobbyPlayer> teamMembers = new List<LobbyPlayer>();
-
-		public Team(Color pTeamColor, int pMaxPlayers)
-		{
-				teamcolor = pTeamColor;
-				maxPlayers = pMaxPlayers;
+	public TeamID TeamID {
+		get {
+			return mTeamID;
 		}
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		set {
+			mTeamID = value;
+		}
 	}
 
-		public void AddPlayer(LobbyPlayer player)
-		{
-				teamMembers.Add(player);
-				amountOfPlayers++;
-				//TM.ChangeAmountOfPlayers(amountOfPlayers);
-				
+	public int MaxPlayers {
+		get {
+			return mMaxPlayers;
 		}
 
-		//[Command]
-		public void CmdRemovePlayer(LobbyPlayer player)
-		{
-				//teamMembers.Remove(player);
-				amountOfPlayers--;
+		set {
+			mMaxPlayers = value;
+			mTeamIsFull = CheckIfFull();
+		}
+	}
+
+	public bool TeamIsFull {
+		get {
+			return mTeamIsFull;
+		}
+	}
+
+	public bool AddPlayer(LobbyPlayer player)
+	{
+		if (!TeamIsFull) {
+			teamMembers.Add(player);
+			mAmountOfPlayers++;
+			mTeamIsFull = CheckIfFull();
+			return true;
 		}
 
+		return false;
+	}
 
+	//[Command]
+	public void CmdRemovePlayer(LobbyPlayer player)
+	{
+		if (teamMembers.Contains(player)) {
+			teamMembers.Remove(player);
+			mAmountOfPlayers--;
+			mTeamIsFull = CheckIfFull();
+		}
+	}
 
-  public int MaxPlayers
-  {
-    get { return maxPlayers; }
-    set { maxPlayers = value; }
-  }
+	private bool CheckIfFull()
+	{
+		if (mAmountOfPlayers >= MaxPlayers) {
+			return true;
+		}
+		return false;
+	}
 
-  public int AmountOfPlayers
-  {
-    get { return amountOfPlayers; }
-    set { amountOfPlayers = value; }
-  }
-
-
+	private void UpdateAmountOfPlayers(int nbrOfPlayers)
+	{
+		mAmountOfPlayers = nbrOfPlayers;
+		mTeamIsFull = CheckIfFull();
+	}
 }

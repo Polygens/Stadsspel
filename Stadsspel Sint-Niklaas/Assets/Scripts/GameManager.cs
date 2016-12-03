@@ -7,11 +7,11 @@ using UnityEngine.Networking.Types;
 
 public class GameManager : MonoBehaviour
 {
-
 	public int mAmountOfTeams = 6;
 	public int mMaxPlayersPerTeam = 1;
 	private int mMatchSize;
 
+	private List<GameObject> mTeamGameObjects = new List<GameObject>();
 	public static List<Team> mTeams = new List<Team>();
 
 	//public GameObject lobbyServerEntry;
@@ -25,9 +25,12 @@ public class GameManager : MonoBehaviour
 		//matchSize = lobbyServerEntry.GetComponent<LobbyServerEntry>().slotInfo.text.Split('/')...
 		//maxPlayersPerTeam = Mathf.CeilToInt(match.currentSize / amountOfTeams);
 
-
-		for (int i = 1; i <= mAmountOfTeams; i++) {
-			mTeams.Add(new Team((TeamID)i, mMaxPlayersPerTeam));
+		for (int i = 0; i < mAmountOfTeams; i++) {
+			mTeamGameObjects.Add(new GameObject("Team" + (i + 1)));
+			mTeamGameObjects[i].transform.parent = transform;
+			mTeams.Add(mTeamGameObjects[i].AddComponent<Team>());
+			mTeams[i].MaxPlayers = mMaxPlayersPerTeam;
+			mTeams[i].TeamID = (TeamID)i + 1;
 		}
 	}
 

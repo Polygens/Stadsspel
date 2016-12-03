@@ -33,6 +33,8 @@ namespace Prototype.NetworkLobby
 		static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
 		static Color TransparentColor = new Color(0, 0, 0, 0);
 
+		private bool mIsServer = false;
+
 
 		public override void OnClientEnterLobby()
 		{
@@ -60,7 +62,7 @@ namespace Prototype.NetworkLobby
 		public override void OnStartAuthority()
 		{
 			base.OnStartAuthority();
-
+			mIsServer = true;
 			//if we return from a game, color of text can still be the one for "Ready"
 			readyButton.transform.GetChild(0).GetComponent<Text>().color = Color.white;
 
@@ -96,6 +98,12 @@ namespace Prototype.NetworkLobby
 		void SetupLocalPlayer()
 		{
 			nameInput.interactable = true;
+			if (!mIsServer) {
+				mIcon.text = "";
+			}
+			else {
+				mIcon.text = "";
+			}
 
 			CheckRemoveButton();
 
@@ -185,6 +193,16 @@ namespace Prototype.NetworkLobby
 			if (playerTeam != TeamID.NotSet) {
 				RemoveFromOldTeam(playerTeam);
 				playerTeam = newTeam;
+				int count = 0;
+				while (GameManager.mTeams[(byte)playerTeam - 1].TeamIsFull) {
+					CmdColorChange();
+					count++;
+					if (count > GameManager.mTeams.Count) {
+						playerTeam = TeamID.NotSet;
+						Debug.Log("No free team found!!!");
+						break;
+					}
+				}
 				GameManager.mTeams[(byte)playerTeam - 1].AddPlayer(this);
 			}
 			else {
@@ -268,9 +286,7 @@ namespace Prototype.NetworkLobby
 
 		public void RemoveFromOldTeam(TeamID oldTeam)
 		{
-			if (GameManager.mTeams[(int)oldTeam - 1].teamMembers.Contains(this)) {
-				GameManager.mTeams[(int)oldTeam - 1].CmdRemovePlayer(this);
-			}
+			GameManager.mTeams[(int)oldTeam - 1].CmdRemovePlayer(this);
 		}
 	}
 }
