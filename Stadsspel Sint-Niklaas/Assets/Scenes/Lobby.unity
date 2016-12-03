@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mAmountOfTeams: 6
-  mMaxPlayersPerTeam: 1
+  mMaxPlayersPerTeam: 2
 --- !u!4 &520931842
 Transform:
   m_ObjectHideFlags: 0
@@ -204,7 +204,6 @@ GameObject:
   - 4: {fileID: 600950299}
   - 20: {fileID: 600950298}
   - 92: {fileID: 600950297}
-  - 124: {fileID: 600950296}
   - 81: {fileID: 600950295}
   m_Layer: 0
   m_Name: Main Camera
@@ -215,13 +214,6 @@ GameObject:
   m_IsActive: 1
 --- !u!81 &600950295
 AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 600950294}
-  m_Enabled: 1
---- !u!124 &600950296
-Behaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -243,7 +235,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.94117653, g: 0.94117653, b: 0.94117653, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -281,7 +273,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!1001 &1032845757
+--- !u!1001 &1225901672
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2

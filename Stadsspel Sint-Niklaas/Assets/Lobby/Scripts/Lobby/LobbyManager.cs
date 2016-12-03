@@ -24,7 +24,7 @@ namespace Prototype.NetworkLobby
 		[Header("UI Reference")]
 		public LobbyTopPanel topPanel;
 
-		public RectTransform mainMenuPanel;
+		public RectTransform mCreateLobbyPanel;
 		public RectTransform lobbyPanel;
 
 		public LobbyInfoPanel infoPanel;
@@ -61,8 +61,8 @@ namespace Prototype.NetworkLobby
 		void Start()
 		{
 			s_Singleton = this;
-			_lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();
-			currentPanel = mainMenuPanel;
+			_lobbyHooks = GetComponent<LobbyHook>();
+			currentPanel = mCreateLobbyPanel;
 
 			backButton.gameObject.SetActive(false);
 			GetComponent<Canvas>().enabled = true;
@@ -113,7 +113,7 @@ namespace Prototype.NetworkLobby
 					}
 				}
 				else {
-					ChangeTo(mainMenuPanel);
+					ChangeTo(mCreateLobbyPanel);
 				}
 
 				topPanel.ToggleVisibility(true);
@@ -142,7 +142,7 @@ namespace Prototype.NetworkLobby
 
 			currentPanel = newPanel;
 
-			if (currentPanel != mainMenuPanel) {
+			if (currentPanel != mCreateLobbyPanel) {
 				backButton.gameObject.SetActive(true);
 			}
 			else {
@@ -200,7 +200,7 @@ namespace Prototype.NetworkLobby
 
 		public void SimpleBackClbk()
 		{
-			ChangeTo(mainMenuPanel);
+			ChangeTo(mCreateLobbyPanel);
 		}
 
 		public void StopHostClbk()
@@ -214,7 +214,7 @@ namespace Prototype.NetworkLobby
 			}
 
 
-			ChangeTo(mainMenuPanel);
+			ChangeTo(mCreateLobbyPanel);
 		}
 
 		public void StopClientClbk()
@@ -225,13 +225,13 @@ namespace Prototype.NetworkLobby
 				StopMatchMaker();
 			}
 
-			ChangeTo(mainMenuPanel);
+			ChangeTo(mCreateLobbyPanel);
 		}
 
 		public void StopServerClbk()
 		{
 			StopServer();
-			ChangeTo(mainMenuPanel);
+			ChangeTo(mCreateLobbyPanel);
 		}
 
 		class KickMsg : MessageBase
@@ -419,12 +419,12 @@ namespace Prototype.NetworkLobby
 		public override void OnClientDisconnect(NetworkConnection conn)
 		{
 			base.OnClientDisconnect(conn);
-			ChangeTo(mainMenuPanel);
+			ChangeTo(mCreateLobbyPanel);
 		}
 
 		public override void OnClientError(NetworkConnection conn, int errorCode)
 		{
-			ChangeTo(mainMenuPanel);
+			ChangeTo(mCreateLobbyPanel);
 			infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
 		}
 	}
