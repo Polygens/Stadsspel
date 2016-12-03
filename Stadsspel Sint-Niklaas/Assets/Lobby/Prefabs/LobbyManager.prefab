@@ -2075,7 +2075,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
 --- !u!114 &11458212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3751,7 +3751,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 50, y: -10}
-  m_SizeDelta: {x: 276.9022, y: 70}
+  m_SizeDelta: {x: 249.02176, y: 70}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22415988
 RectTransform:
@@ -4128,7 +4128,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 298.28806, y: 100}
+  m_SizeDelta: {x: 270.40762, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22453414
 RectTransform:
@@ -4271,8 +4271,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 356.9022, y: -10}
-  m_SizeDelta: {x: 219.67393, y: 70}
+  m_AnchoredPosition: {x: 329.02176, y: -10}
+  m_SizeDelta: {x: 191.7935, y: 70}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22466426
 RectTransform:
@@ -4614,8 +4614,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 626.5761, y: 0}
-  m_SizeDelta: {x: 298.28806, y: 100}
+  m_AnchoredPosition: {x: 570.81525, y: 0}
+  m_SizeDelta: {x: 270.40762, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!1001 &100100000
 Prefab:

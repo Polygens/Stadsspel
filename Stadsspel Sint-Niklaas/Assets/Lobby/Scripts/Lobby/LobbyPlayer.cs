@@ -84,7 +84,7 @@ namespace Prototype.NetworkLobby
 		{
 			nameInput.interactable = false;
 
-			mIcon.text = "";
+			mIcon.text = "";
 			removePlayerButton.interactable = NetworkServer.active;
 
 			ChangeReadyButtonColor(NotReadyColor);
@@ -98,12 +98,8 @@ namespace Prototype.NetworkLobby
 		void SetupLocalPlayer()
 		{
 			nameInput.interactable = true;
-			if (!mIsServer) {
-				mIcon.text = "";
-			}
-			else {
-				mIcon.text = "";
-			}
+
+			mIcon.text = "";
 
 			CheckRemoveButton();
 

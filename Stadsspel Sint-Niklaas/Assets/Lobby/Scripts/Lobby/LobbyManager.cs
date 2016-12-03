@@ -65,9 +65,6 @@ namespace Prototype.NetworkLobby
 			currentPanel = mCreateLobbyPanel;
 
 			backButton.gameObject.SetActive(false);
-			GetComponent<Canvas>().enabled = true;
-
-			DontDestroyOnLoad(gameObject);
 
 			SetServerInfo("Offline", "None");
 		}
