@@ -42,7 +42,6 @@ namespace Prototype.NetworkLobby
 		public Text statusInfo;
 		public Text hostInfo;
 		public Text lobbyNamePanel;
-		public Text gameNamePanel;
 
 		//Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
 		//of players, so that even client know how many player there is.
@@ -79,13 +78,12 @@ namespace Prototype.NetworkLobby
 		}
 		public void updateSliderNumber(Text text)
 		{
-			text.text = maxPlayers.ToString();
+			text.text = "AANTAL SPELERS: " + maxPlayers.ToString();
 		}
 		public void OnLobbyJoinUpdateName(string lobbyName)
 		{
 			lobbyNamePanel.text = lobbyName.ToUpper();
 			lobbyNamePanel.gameObject.SetActive(true);
-			gameNamePanel.gameObject.SetActive(false);
 		}
 		public void SetLobbyNameToJoin(string lobbyName)
 		{
@@ -186,7 +184,6 @@ namespace Prototype.NetworkLobby
 			backDelegate();
 			topPanel.isInGame = false;
 			lobbyNamePanel.gameObject.SetActive(false);
-			gameNamePanel.gameObject.SetActive(true);
 		}
 
 		// ----------------- Server management

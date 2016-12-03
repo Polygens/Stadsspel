@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
@@ -15,11 +15,9 @@ namespace Prototype.NetworkLobby
 		public Button colorButton;
 		public InputField nameInput;
 		public Button readyButton;
-		public Button waitingPlayerButton;
 		public Button removePlayerButton;
 
-		public GameObject localIcone;
-		public GameObject remoteIcone;
+		public Text mIcon;
 
 		//OnMyName function will be invoked on clients when server change the value of playerName
 		[SyncVar(hook = "OnMyName")]
@@ -67,6 +65,7 @@ namespace Prototype.NetworkLobby
 			readyButton.transform.GetChild(0).GetComponent<Text>().color = Color.white;
 
 			SetupLocalPlayer();
+			gameObject.SetActive(true);
 		}
 
 		void ChangeReadyButtonColor(Color c)
@@ -82,6 +81,8 @@ namespace Prototype.NetworkLobby
 		void SetupOtherPlayer()
 		{
 			nameInput.interactable = false;
+
+			mIcon.text = "";
 			removePlayerButton.interactable = NetworkServer.active;
 
 			ChangeReadyButtonColor(NotReadyColor);
@@ -95,8 +96,6 @@ namespace Prototype.NetworkLobby
 		void SetupLocalPlayer()
 		{
 			nameInput.interactable = true;
-			remoteIcone.gameObject.SetActive(false);
-			localIcone.gameObject.SetActive(true);
 
 			CheckRemoveButton();
 
@@ -110,7 +109,7 @@ namespace Prototype.NetworkLobby
 
 			//have to use child count of player prefab already setup as "this.slot" is not set yet
 			if (playerName == "")
-				CmdNameChanged("Player" + (LobbyPlayerList._instance.playerListContentTransform.childCount - 1));
+				CmdNameChanged("Player " + (LobbyPlayerList._instance.playerListContentTransform.childCount - 1));
 
 			//we switch from simple name display to name input
 			colorButton.interactable = true;
@@ -225,7 +224,6 @@ namespace Prototype.NetworkLobby
 		public void ToggleJoinButton(bool enabled)
 		{
 			readyButton.gameObject.SetActive(enabled);
-			waitingPlayerButton.gameObject.SetActive(!enabled);
 		}
 
 		[ClientRpc]
