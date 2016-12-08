@@ -32,6 +32,9 @@ namespace Prototype.NetworkLobby
 		public LobbyInputPanel inputPanel;
 		public GameObject addPlayerButton;
 		public GameObject startButton;
+        public GameObject gameManager;
+        public Dropdown teamDropDown;
+        
 
 		private string lobbyNameToJoin;
 
@@ -73,7 +76,27 @@ namespace Prototype.NetworkLobby
 		{
 			maxPlayers = (int)slider.value;
 		}
-		public void updateSliderNumber(Text text)
+        public void onTeamDropdownChange()
+        {
+            
+            if(gameManager.GetComponents<GameManager>() == null)
+            {
+                GameManager manager = gameManager.AddComponent<GameManager>();
+                manager.mAmountOfTeams = teamDropDown.value + 1;
+                manager.mMaxPlayersPerTeam = maxPlayers / teamDropDown.value + 1;
+            }
+            else
+            {
+                
+                Destroy(gameManager.GetComponent<GameManager>());
+               // gameManager.GetComponent<GameManager>().mTeams.Clear();
+                GameManager manager = gameManager.AddComponent<GameManager>();
+                manager.mAmountOfTeams = teamDropDown.value + 1;
+                manager.mMaxPlayersPerTeam = maxPlayers / teamDropDown.value + 1;
+            }
+            
+        }
+        public void updateSliderNumber(Text text)
 		{
 			text.text = "AANTAL SPELERS: " + maxPlayers.ToString();
 		}
