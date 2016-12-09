@@ -43,6 +43,9 @@ namespace Prototype.NetworkLobby
 				return;
 
 			_players.Add(player);
+			if (_players.Count == 1) {
+				player.IsHost = true;
+			}
 
 			player.transform.SetParent(playerListContentTransform, false);
 
@@ -62,6 +65,14 @@ namespace Prototype.NetworkLobby
 				p.OnPlayerListChanged(i);
 				++i;
 			}
+		}
+
+		public bool AmIServer(LobbyPlayer player)
+		{
+			if (_players[0] == player) {
+				return true;
+			}
+			return false;
 		}
 	}
 }

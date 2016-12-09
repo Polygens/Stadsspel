@@ -27,12 +27,25 @@ namespace Prototype.NetworkLobby
 
 		public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
 		public Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
+		public Color LocalPlayer = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
 
-		static Color JoinColor = new Color(255.0f / 255.0f, 0.0f, 101.0f / 255.0f, 1.0f);
-		static Color NotReadyColor = new Color(34.0f / 255.0f, 44 / 255.0f, 55.0f / 255.0f, 1.0f);
-		static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
-		static Color TransparentColor = new Color(0, 0, 0, 0);
+		private static Color NotReadyColor = new Color(34.0f / 255.0f, 44 / 255.0f, 55.0f / 255.0f, 1.0f);
+		private static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
+		private static Color TransparentColor = new Color(0, 0, 0, 0);
 
+		private bool mIsHost = false;
+		private bool mIsReady = false;
+		private static bool mHost;
+
+		public bool IsHost {
+			get {
+				return mIsHost;
+			}
+
+			set {
+				mIsHost = value;
+			}
+		}
 
 		public override void OnClientEnterLobby()
 		{
@@ -63,61 +76,53 @@ namespace Prototype.NetworkLobby
 			base.OnStartAuthority();
 			//if we return from a game, color of text can still be the one for "Ready"
 			readyButton.transform.GetChild(0).GetComponent<Text>().color = Color.white;
-
+			if (mIsHost) {
+				mHost = true;
+			}
 			SetupLocalPlayer();
-			gameObject.SetActive(true);
-		}
-
-		void ChangeReadyButtonColor(Color c)
-		{
-			ColorBlock b = readyButton.colors;
-			b.normalColor = c;
-			b.pressedColor = c;
-			b.highlightedColor = c;
-			b.disabledColor = c;
-			readyButton.colors = b;
 		}
 
 		void SetupOtherPlayer()
 		{
 			nameInput.interactable = false;
 
-			mIcon.text = "";
+			if (mIsHost) {
+				mIcon.text = "";
+			}
+			else {
+				mIcon.text = "";
+				mIcon.fontSize = 59;
+			}
 
-			if (isServer && !isLocalPlayer) {
+			readyButton.gameObject.SetActive(true);
+
+			if (mHost) {
 				removePlayerButton.gameObject.SetActive(true);
 			}
 
-			removePlayerButton.interactable = NetworkServer.active;
-
-			ChangeReadyButtonColor(NotReadyColor);
-
-			readyButton.transform.GetChild(0).GetComponent<Text>().text = "...";
-			readyButton.interactable = false;
-
-			OnClientReady(false);
+			OnClientReady(mIsReady);
 		}
 
 		void SetupLocalPlayer()
 		{
 			nameInput.interactable = true;
 
-			if (isServer) {
+			GetComponent<Image>().color = LocalPlayer;
+
+			if (mIsHost) {
 				mIcon.text = "";
 			}
 			else {
-				mIcon.text = "";
+				mIcon.text = "";
+				readyButton.gameObject.SetActive(true);
+				readyButton.interactable = true;
+
+				ChangeReadyButtonColor(NotReadyColor);
 			}
 
-			CheckRemoveButton();
-
-			if (playerTeam == TeamID.NotSet)
+			if (playerTeam == TeamID.NotSet) {
 				CmdColorChange();
-
-			ChangeReadyButtonColor(JoinColor);
-
-			readyButton.transform.GetChild(0).GetComponent<Text>().text = "GEREED";
-			readyButton.interactable = true;
+			}
 
 			//have to use child count of player prefab already setup as "this.slot" is not set yet
 			if (playerName == "")
@@ -163,25 +168,35 @@ namespace Prototype.NetworkLobby
 				Text textComponent = readyButton.transform.GetChild(0).GetComponent<Text>();
 				textComponent.text = "READY";
 				textComponent.color = ReadyColor;
-				readyButton.interactable = false;
 				colorButton.interactable = false;
 				nameInput.interactable = false;
 			}
 			else {
-				ChangeReadyButtonColor(isLocalPlayer ? JoinColor : NotReadyColor);
+				ChangeReadyButtonColor(NotReadyColor);
 
 				Text textComponent = readyButton.transform.GetChild(0).GetComponent<Text>();
-				textComponent.text = isLocalPlayer ? "JOIN" : "...";
+				textComponent.text = "...";
 				textComponent.color = Color.white;
-				readyButton.interactable = isLocalPlayer;
 				colorButton.interactable = isLocalPlayer;
 				nameInput.interactable = isLocalPlayer;
 			}
 		}
 
+		private void ChangeReadyButtonColor(Color c)
+		{
+			ColorBlock b = readyButton.colors;
+			b.normalColor = c;
+			b.pressedColor = c;
+			b.highlightedColor = c;
+			b.disabledColor = c;
+			readyButton.colors = b;
+		}
+
 		public void OnPlayerListChanged(int idx)
 		{
-			GetComponent<Image>().color = (idx % 2 == 0) ? EvenRowColor : OddRowColor;
+			if (!isLocalPlayer) {
+				GetComponent<Image>().color = (idx % 2 == 0) ? EvenRowColor : OddRowColor;
+			}
 		}
 
 		///===== callback from sync var
@@ -223,9 +238,16 @@ namespace Prototype.NetworkLobby
 			CmdColorChange();
 		}
 
-		public void OnReadyClicked()
+		private void OnReadyClicked()
 		{
-			SendReadyToBeginMessage();
+			mIsReady = !mIsReady;
+			OnClientReady(mIsReady);
+			if (mIsReady) {
+				SendReadyToBeginMessage();
+			}
+			else {
+				SendNotReadyToBeginMessage();
+			}
 		}
 
 		public void OnNameChanged(string str)
@@ -238,7 +260,6 @@ namespace Prototype.NetworkLobby
 			if (isLocalPlayer) {
 				RemovePlayer();
 			}
-
 		}
 
 		public void ToggleJoinButton(bool enabled)
