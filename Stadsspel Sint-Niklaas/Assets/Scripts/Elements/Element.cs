@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
+using Prototype.NetworkLobby;
 
-public class Element : MonoBehaviour
+public class Element : NetworkBehaviour
 {
 	private float mActionRadius;
 
