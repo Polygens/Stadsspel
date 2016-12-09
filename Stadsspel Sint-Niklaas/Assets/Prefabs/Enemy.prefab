@@ -22,6 +22,8 @@ GameObject:
   - 33: {fileID: 33000013686449524}
   - 23: {fileID: 23000013069140430}
   - 58: {fileID: 58000012301847816}
+  - 114: {fileID: 114000012304547638}
+  - 114: {fileID: 114000010911234148}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -92,3 +94,50 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &114000010911234148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013679574242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1205285110, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visRange: 10
+  visUpdateInterval: 1
+  checkMethod: 1
+  forceHidden: 0
+--- !u!114 &114000012304547638
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013679574242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 181
+    i1: 223
+    i2: 187
+    i3: 179
+    i4: 160
+    i5: 55
+    i6: 170
+    i7: 244
+    i8: 152
+    i9: 151
+    i10: 188
+    i11: 95
+    i12: 223
+    i13: 107
+    i14: 172
+    i15: 52
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

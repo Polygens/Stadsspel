@@ -33,8 +33,6 @@ namespace Prototype.NetworkLobby
 		static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
 		static Color TransparentColor = new Color(0, 0, 0, 0);
 
-		private bool mIsServer = false;
-
 
 		public override void OnClientEnterLobby()
 		{
@@ -45,6 +43,7 @@ namespace Prototype.NetworkLobby
 
 			LobbyPlayerList._instance.AddPlayer(this);
 			LobbyPlayerList._instance.DisplayDirectServerWarning(isServer && LobbyManager.s_Singleton.matchMaker == null);
+
 
 			if (isLocalPlayer) {
 				SetupLocalPlayer();
@@ -62,7 +61,6 @@ namespace Prototype.NetworkLobby
 		public override void OnStartAuthority()
 		{
 			base.OnStartAuthority();
-			mIsServer = true;
 			//if we return from a game, color of text can still be the one for "Ready"
 			readyButton.transform.GetChild(0).GetComponent<Text>().color = Color.white;
 
@@ -85,6 +83,11 @@ namespace Prototype.NetworkLobby
 			nameInput.interactable = false;
 
 			mIcon.text = "";
+
+			if (isServer && !isLocalPlayer) {
+				removePlayerButton.gameObject.SetActive(true);
+			}
+
 			removePlayerButton.interactable = NetworkServer.active;
 
 			ChangeReadyButtonColor(NotReadyColor);
@@ -99,7 +102,12 @@ namespace Prototype.NetworkLobby
 		{
 			nameInput.interactable = true;
 
-			mIcon.text = "";
+			if (isServer) {
+				mIcon.text = "";
+			}
+			else {
+				mIcon.text = "";
+			}
 
 			CheckRemoveButton();
 
@@ -108,7 +116,7 @@ namespace Prototype.NetworkLobby
 
 			ChangeReadyButtonColor(JoinColor);
 
-			readyButton.transform.GetChild(0).GetComponent<Text>().text = "JOIN";
+			readyButton.transform.GetChild(0).GetComponent<Text>().text = "GEREED";
 			readyButton.interactable = true;
 
 			//have to use child count of player prefab already setup as "this.slot" is not set yet
@@ -230,8 +238,6 @@ namespace Prototype.NetworkLobby
 			if (isLocalPlayer) {
 				RemovePlayer();
 			}
-			else if (isServer)
-				LobbyManager.s_Singleton.KickPlayer(connectionToClient);
 
 		}
 

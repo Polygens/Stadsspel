@@ -22,6 +22,8 @@ GameObject:
   - 33: {fileID: 33000010633078510}
   - 23: {fileID: 23000014089552704}
   - 58: {fileID: 58000012812664920}
+  - 114: {fileID: 114000014066021810}
+  - 114: {fileID: 114000010831244178}
   m_Layer: 0
   m_Name: Friend
   m_TagString: Untagged
@@ -92,3 +94,50 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &114000010831244178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014289324534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1205285110, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visRange: 10
+  visUpdateInterval: 1
+  checkMethod: 1
+  forceHidden: 0
+--- !u!114 &114000014066021810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014289324534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 158
+    i1: 149
+    i2: 64
+    i3: 160
+    i4: 33
+    i5: 0
+    i6: 67
+    i7: 212
+    i8: 122
+    i9: 255
+    i10: 122
+    i11: 11
+    i12: 176
+    i13: 242
+    i14: 231
+    i15: 75
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
