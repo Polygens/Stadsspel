@@ -2539,15 +2539,14 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 1000012407626070, guid: 9aa8285209e6e5a469043dac870586dd,
-    type: 2}
+  m_PlayerPrefab: {fileID: 48756896, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: Lobby
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 1000014289324534, guid: 9e9540a0210043d47aff7a0bb0f2e74b, type: 2}
-  - {fileID: 1000013679574242, guid: b5dfbbb3a037aaf49897bc5fdf6bac34, type: 2}
+  - {fileID: 48660640, guid: 9e9540a0210043d47aff7a0bb0f2e74b, type: 2}
+  - {fileID: 48661536, guid: b5dfbbb3a037aaf49897bc5fdf6bac34, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -2596,22 +2595,21 @@ MonoBehaviour:
   m_MinPlayers: 2
   m_LobbyPlayerPrefab: {fileID: 11487034, guid: ad727d7e1462ecc4f83c898ecc501997,
     type: 2}
-  m_GamePlayerPrefab: {fileID: 1000012407626070, guid: 9aa8285209e6e5a469043dac870586dd,
-    type: 2}
+  m_GamePlayerPrefab: {fileID: 48674720, guid: 9aa8285209e6e5a469043dac870586dd, type: 2}
   m_LobbyScene: Lobby
   m_PlayScene: Game
   lobbySlots: []
   prematchCountdown: 3
   topPanel: {fileID: 11424994}
-  mCreateLobbyPanel: {fileID: 224000011084765018}
+  mCreateLobbyPanel: {fileID: 48676640}
   lobbyPanel: {fileID: 22443498}
-  infoPanel: {fileID: 114000013468372010}
-  countdownPanel: {fileID: 114000012655293852}
-  inputPanel: {fileID: 114000014194441914}
+  infoPanel: {fileID: 4096}
+  countdownPanel: {fileID: 48596256}
+  inputPanel: {fileID: 48596896}
   LobbyPlayer: {fileID: 155390, guid: ad727d7e1462ecc4f83c898ecc501997, type: 2}
-  startButton: {fileID: 1000013074864294}
+  startButton: {fileID: 48598304}
   backButton: {fileID: 11477488}
-  lobbyNamePanel: {fileID: 114000010507476376}
+  lobbyNamePanel: {fileID: 48598688}
   _playerNumber: 0
 --- !u!114 &11476426
 MonoBehaviour:
@@ -6738,7 +6736,7 @@ MonoBehaviour:
   lobbyServerList: {fileID: 22488586}
   lobbyPanel: {fileID: 22443498}
   ipInput: {fileID: 11447752}
-  matchNameInput: {fileID: 114000010873269790}
+  matchNameInput: {fileID: 48605088}
   passwordInput: {fileID: 11484364}
 --- !u!114 &114000012655293852
 MonoBehaviour:
@@ -6921,9 +6919,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d17c9f1a79cf43479d9ac49a7e77a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoText: {fileID: 114000010298336214}
-  buttonText: {fileID: 114000013119826936}
-  singleButton: {fileID: 114000011548045196}
+  infoText: {fileID: 48752416}
+  buttonText: {fileID: 50608288}
+  singleButton: {fileID: 50608160}
 --- !u!114 &114000013528831272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7217,11 +7215,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoText: {fileID: 11422884}
-  submitButtonText: {fileID: 114000011183516374}
+  submitButtonText: {fileID: 4096}
   backButtonText: {fileID: 11499128}
-  inputField: {fileID: 114000010063230070}
+  inputField: {fileID: 48600736}
   submitButton: {fileID: 11480484}
-  backButton: {fileID: 114000011845119874}
+  backButton: {fileID: 48601248}
 --- !u!222 &222000010203300658
 CanvasRenderer:
   m_ObjectHideFlags: 1

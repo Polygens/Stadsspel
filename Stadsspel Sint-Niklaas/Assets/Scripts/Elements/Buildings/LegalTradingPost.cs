@@ -8,8 +8,8 @@ public class LegalTradingPost : TradingPost
 	public Item IceCream = new Item("Ijs", 2.5f, 4f, true);
 	public Item Cookies = new Item("Koekjes", 6f, 10f, true);
 
-  [SyncVar]
-  private TeamID[] usedByTeams;
+  /*[SyncVar]
+  private TeamID[] usedByTeams;*/    // -> Cannot be an array
 
   public void AddGoodsToPlayer()
   {
