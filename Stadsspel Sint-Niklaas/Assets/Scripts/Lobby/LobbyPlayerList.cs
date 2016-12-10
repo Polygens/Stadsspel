@@ -30,7 +30,7 @@ namespace Prototype.NetworkLobby
 
 		void Update()
 		{
-			//this dirty the layout to force it to recompute evryframe (a sync problem between client/server
+			//this dirty the layout to force it to recompute every frame (a sync problem between client/server
 			//sometime to child being assigned before layout was enabled/init, leading to broken layouting)
 
 			if (_layout)

@@ -199,9 +199,17 @@ namespace Prototype.NetworkLobby
 			ChangeTo(mCreateLobbyPanel);
 		}
 
+		class KickMsg : MessageBase
+		{
+		}
+		public void KickPlayer(NetworkConnection conn)
+		{
+			conn.Send(MsgKicked, new KickMsg());
+		}
+
 		public void KickedMessageHandler(NetworkMessage netMsg)
 		{
-			infoPanel.Display("Kicked by Server", "Sluiten", null);
+			infoPanel.Display("Kicked door host", "Sluiten", null);
 			netMsg.conn.Disconnect();
 		}
 
@@ -246,47 +254,7 @@ namespace Prototype.NetworkLobby
 		//But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
 		public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
 		{
-			GameObject obj = Instantiate(lobbyPlayerPrefab.gameObject) as GameObject;
-
-			LobbyPlayer newPlayer = obj.GetComponent<LobbyPlayer>();
-			newPlayer.ToggleJoinButton(numPlayers + 1 >= minPlayers);
-
-
-			for (int i = 0; i < lobbySlots.Length; ++i) {
-				LobbyPlayer p = lobbySlots[i] as LobbyPlayer;
-
-				if (p != null) {
-					p.RpcUpdateRemoveButton();
-					p.ToggleJoinButton(numPlayers + 1 >= minPlayers);
-				}
-			}
-
-			return obj;
-		}
-
-		public override void OnLobbyServerPlayerRemoved(NetworkConnection conn, short playerControllerId)
-		{
-			for (int i = 0; i < lobbySlots.Length; ++i) {
-				LobbyPlayer p = lobbySlots[i] as LobbyPlayer;
-
-				if (p != null) {
-					p.RpcUpdateRemoveButton();
-					p.ToggleJoinButton(numPlayers + 1 >= minPlayers);
-				}
-			}
-		}
-
-		public override void OnLobbyServerDisconnect(NetworkConnection conn)
-		{
-			for (int i = 0; i < lobbySlots.Length; ++i) {
-				LobbyPlayer p = lobbySlots[i] as LobbyPlayer;
-
-				if (p != null) {
-					p.RpcUpdateRemoveButton();
-					p.ToggleJoinButton(numPlayers >= minPlayers);
-				}
-			}
-
+			return Instantiate(lobbyPlayerPrefab.gameObject);
 		}
 
 		public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
