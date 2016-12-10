@@ -204,6 +204,7 @@ namespace Prototype.NetworkLobby
 
 		public void OnMyColor(TeamID newTeam)
 		{
+			playerTeam = newTeam;
 			Debug.Log("Player is now in team: " + playerTeam.ToString());
 			colorButton.GetComponent<Image>().color = TeamData.GetColor(playerTeam);
 		}
