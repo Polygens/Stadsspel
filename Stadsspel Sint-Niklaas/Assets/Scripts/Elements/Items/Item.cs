@@ -40,3 +40,13 @@ public class Item : MonoBehaviour {
     set { sellPrice = value; }
   }
 }
+
+public enum Items : byte
+{
+  pizza,
+  ijs,
+  koekjes,
+  orgaan,
+  diploma,
+  drugs
+}

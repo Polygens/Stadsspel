@@ -1,192 +1,187 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Linq;
+using UnityEngine.UI;
 
 public class Person : Element
 {
-	private int mNumberOfPizzas = 0;
-	private int mNumberOfIceCreams = 0;
-	private int mNumberOfCookies = 0;
-	private int mNumberOfOrgans = 0;
-	private int mNumberOfDiplomas = 0;
-	private int mNumberOfDrugs = 0;
+	List<int> illegalItems = new List<int>();
+  //legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
+  List<int> legalItems = new List<int>();
 	private int mAmountOfMoney;
-	//private int[] mAmountOfGoods;
 	private int mTeam;
 	private int mDetectionRadius;
-  private List<GameObject> enemiesInRadius = new List<GameObject>();
+	private List<GameObject> enemiesInRadius = new List<GameObject>();
+	private List<GameObject> allGameObjectsInRadius = new List<GameObject>();
+	private priority Priority = priority.Team;
 
-  public GameObject robButton;
+	public Button robButton;
+	public Button marktButton;
+	public Button tradingPostButton;
+	public Button teamTradeButton;
+	public Button bankButton;
+	public Button claimButton;
+	public Button taxInningButton;
+  public RectTransform MainPanel;
+  public RectTransform ListPanel;
 
-  private void Start()
-  {
-    robButton.SetActive(false);
+
+	private void Start()
+	{
+    MainPanel.gameObject.SetActive(false);
+    ListPanel.gameObject.SetActive(false);
   }
 
-  public Person()
+	public Person()
 	{
 		throw new System.NotImplementedException();
 	}
 
-
-  public void UpdatePosition()
-  {
-    throw new System.NotImplementedException();
-  }
-
-  public void Rob()
-  {
-    foreach (GameObject enemy in enemiesInRadius)
-    {
-      AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpGoods());
-      enemy.GetComponent<Person>().GetRobbed();
-    }
-    throw new System.NotImplementedException();
-  }
-
-	public void GetRobbed()
+	public void UpdatePosition()
 	{
-    mNumberOfPizzas = 0;
-    mNumberOfIceCreams = 0;
-    mNumberOfCookies = 0;
-    mNumberOfOrgans = 0;
-    mNumberOfDiplomas = 0;
-    mNumberOfDrugs = 0;
-    mAmountOfMoney = 0;
 		throw new System.NotImplementedException();
 	}
 
-  public int[] LookUpGoods()
-  {
-    int[] goods = new int[5];
-    goods[0] = mNumberOfPizzas;
-    goods[1] = mNumberOfIceCreams;
-    goods[2] = mNumberOfCookies;
-    goods[3] = mNumberOfOrgans;
-    goods[4] = mNumberOfDiplomas;
-    goods[5] = mNumberOfDrugs;
-    return goods;
-  }
-
-  // When you rob a person
-  public void AddGoods(int money, int[] goods)
-  {
-    AddGoods(money);
-    AddGoods(goods);
-  }
-
-  public void AddGoods(int[] goods)
-  {
-    mNumberOfPizzas += goods[0];
-    mNumberOfIceCreams += goods[1];
-    mNumberOfCookies += goods[2];
-    mNumberOfOrgans += goods[3];
-    mNumberOfDiplomas += goods[4];
-    mNumberOfDrugs += goods[5];
-  }
-
-  // when you buy from a shop
-	public void AddGoods(Item[] goods)
+	public void Rob()
 	{
-		foreach (Item good in goods)
+		foreach (GameObject enemy in enemiesInRadius)
 		{
-			switch (good.ItemName)
-			{
-				case "Pizza":
-					mNumberOfPizzas++;
-					break;
-				case "Ijs":
-					mNumberOfIceCreams++;
-					break;
-				case "Koekjes":
-					mNumberOfCookies++;
-					break;
-				case "Diploma":
-					mNumberOfDiplomas++;
-					break;
-				case "Organen":
-					mNumberOfOrgans++;
-					break;
-				case "Drugs":
-					mNumberOfDrugs++;
-					break;
-				default:
-					break;
-			}
+			AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
+			enemy.GetComponent<Person>().GetRobbed();
 		}
 		throw new System.NotImplementedException();
 	}
 
-  public void RemoveGoods(Item[] goods)
-  {
-    foreach (Item good in goods)
-    {
-      switch (good.ItemName)
+	public void ResetLegalItems()
+	{
+		legalItems.Clear();
+	}
+
+	public void ResetIllegalItems()
+	{
+		illegalItems.Clear();
+	}
+
+	public void GetRobbed()
+	{
+		mAmountOfMoney = 0;
+		ResetLegalItems();
+		ResetIllegalItems();
+		throw new System.NotImplementedException();
+	}
+
+	public List<int> LookUpLegalItems
+	{
+		get { return legalItems; }
+	}
+
+	public List<int> LookUpIllegalItems
+	{
+		get { return illegalItems; }
+	}
+
+	public void AddLegalItems(List<int> items)
+	{
+		for (int i = 0; i < items.Count; i++)
+		{
+			legalItems[i] = items[i];
+		}
+	}
+
+	public void AddIllegalItems(List<int> items)
+	{
+		for (int i = 0; i < items.Count; i++)
+		{
+			illegalItems[i] = items[i];
+		}
+	}
+
+	public void RemoveMoney(int money)
+	{
+		mAmountOfMoney -= money;
+	}
+
+
+	public void AddItems(int money)
+	{
+		mAmountOfMoney += money;
+		throw new System.NotImplementedException();
+	}
+
+	public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)
+	{
+		AddItems(money);
+		AddLegalItems(legalItems);
+		AddIllegalItems(illegalItems);
+		throw new System.NotImplementedException();
+	}
+
+	public void OnTriggerEnter(Collider other)
+  { 
+		allGameObjectsInRadius.Add(other.gameObject);
+    priority tempPriority;
+    tempPriority = Enum.GetValues(typeof(priority)).Cast<priority>().First();
+    int priorityNbr = 0;
+		for (int i = 0; i < allGameObjectsInRadius.Count; i++)
+		{
+			priorityNbr = (int)Enum.Parse(typeof(priority), allGameObjectsInRadius[i].tag);
+      if (priorityNbr > (int)tempPriority)
       {
-        case "Pizza":
-          mNumberOfPizzas--;
+        tempPriority = (priority)priorityNbr;
+      }
+		}
+
+    if (tempPriority == Priority)
+    {
+
+    }
+    else
+    {
+      Priority = tempPriority;
+      Destroy(MainPanel.GetChild(0));
+      switch (Priority)
+      {
+        case priority.Enemy:
+          robButton.transform.SetParent(MainPanel, false);
+          enemiesInRadius.Add(other.gameObject);
           break;
-        case "Ijs":
-          mNumberOfIceCreams--;
+        case priority.Schatkist:
           break;
-        case "Koekjes":
-          mNumberOfCookies--;
+        case priority.TradingPost:
           break;
-        case "Diploma":
-          mNumberOfDiplomas--;
+        case priority.Markt:
           break;
-        case "Organen":
-          mNumberOfOrgans--;
+        case priority.Bank:
           break;
-        case "Drugs":
-          mNumberOfDrugs--;
+        case priority.Team:
           break;
         default:
           break;
       }
     }
-  }
 
-  public void RemoveGoods(int money)
-  {
-    mAmountOfMoney -= money;
-  }
-
-
-	public void AddGoods(int money)
-	{
-    mAmountOfMoney += money;
-		throw new System.NotImplementedException();
 	}
 
-  public void RemoveGoods(int money, Item[] goods)
-  {
-    RemoveGoods(money);
-    RemoveGoods(goods);
-  }
-
-	public void AddGoods(int money, Item[] goods)
+	public void OnTriggerExit(Collider other)
 	{
-    AddGoods(money);
-    AddGoods(goods);
-		throw new System.NotImplementedException();
+		enemiesInRadius.Remove(other.gameObject);
+		allGameObjectsInRadius.Remove(other.gameObject);
 	}
 
-  public void OnCollisionEnter(UnityEngine.Collision collision)
-  {
-    if (collision.gameObject.tag == "Enemy")
-    {
-      robButton.SetActive(true);
-      enemiesInRadius.Add(collision.gameObject);
-    }
-  }
-
-  public void OnCollisionExit(Collision collision)
-  {
-    enemiesInRadius.Remove(collision.gameObject);
-  }
-
-  public int AmountOfMoney
-  {
-    get { return mAmountOfMoney; }
-  }
+	public int AmountOfMoney
+	{
+		get { return mAmountOfMoney; }
+	}
 }
+
+public enum priority : byte
+{
+	Team,
+	Bank,
+	TradingPost,
+	Markt,
+	Schatkist,
+	Enemy
+}
+
