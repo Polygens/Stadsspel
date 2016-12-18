@@ -26,7 +26,7 @@ public class DistrictManager : MonoBehaviour
 		}
 	}
 
-	public DistrictStates CheckDisctrictState()
+  public DistrictStates CheckDisctrictState()
 	{
 		for (int i = 0; i < mDistrictColliders.Length; i++) {
 			if (mDistrictColliders[i].OverlapPoint(mPlayerTrans.position)) {
