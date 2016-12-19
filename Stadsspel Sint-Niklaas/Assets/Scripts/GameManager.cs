@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
 	private float mGameLength;
 	private bool mGameIsRunning = false;
+    private float nextMoneyUpdateTime;
+    private float moneyUpdateTimeInterval = 5;
 
 	private List<GameObject> mTeamGameObjects = new List<GameObject>();
 	public static List<Team> mTeams = new List<Team>();
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 		s_Singleton = this;
-
+        nextMoneyUpdateTime = moneyUpdateTimeInterval;
 		DontDestroyOnLoad(gameObject);
 		//lobbyServerEntry = this.transform.parent.gameObject;
 
@@ -43,10 +45,16 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (mGameIsRunning) {
+		if (mGameIsRunning)
+        {
 			if (Time.timeSinceLevelLoad > mGameLength) {
 				Debug.Log("The game has ended");
 			}
+            if (Time.timeSinceLevelLoad > nextMoneyUpdateTime)
+            {
+                // Call GainMoneyOverTime() from each financial object
+                nextMoneyUpdateTime = Time.timeSinceLevelLoad + moneyUpdateTimeInterval;
+            }
 		}
 	}
 

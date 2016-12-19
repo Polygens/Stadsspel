@@ -16,4 +16,9 @@
 	{
 		throw new System.NotImplementedException();
 	}
+
+    public virtual void GainMoneyOverTime() // Gets called by GameManager
+    {
+        // Perhaps !! -> Update Team display TeamChestMoneyAmount
+    }
 }

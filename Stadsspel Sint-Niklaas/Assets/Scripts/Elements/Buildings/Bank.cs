@@ -4,4 +4,11 @@
 	{
 		throw new System.NotImplementedException();
 	}
+
+    public override void GainMoneyOverTime()
+    {
+        // Interest
+
+        base.GainMoneyOverTime();
+    }
 }
