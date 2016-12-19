@@ -1,5 +1,8 @@
-﻿public class Financial : Building
+﻿using UnityEngine.Networking;
+
+public class Financial : Building
 {
+    [SyncVar]
 	protected int mAmountOfMoney;
 
 	public Financial()
@@ -9,7 +12,7 @@
 
 	public void GetMoney()
 	{
-		throw new System.NotImplementedException();
+		// Open Money Transfer UI
 	}
 
 	public void StoreMoney()

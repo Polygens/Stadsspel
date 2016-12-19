@@ -1,20 +1,20 @@
-﻿public class Chest : Financial
+﻿using UnityEngine.Networking;
+
+public class Chest : Financial
 {
+    [SyncVar]
 	private int mTeam;
+    [SyncVar]
 	private int mDistrict;
-    private static int robThreshold; // This percentage can be stolen
-    private int moneyGainPerDistrict;
+
+    private static int robThreshold = 20; // This percentage can be stolen
+    private int moneyGainPerDistrict = 1000;
     private int startUpMoney = 5000;
 
 	public Chest()
 	{
         mAmountOfMoney = startUpMoney;
 	}
-
-    public void TakeMoney()
-    {
-        // Open money transfer UI
-    }
 
     public int RobChest()
     {
@@ -25,8 +25,14 @@
 
     public override void GainMoneyOverTime()
     {
+        CheckAmountOfCapturedDistricts();
         mAmountOfMoney += moneyGainPerDistrict /*  * amountOfDistricts  */;
 
         base.GainMoneyOverTime();
+    }
+
+    private void CheckAmountOfCapturedDistricts()
+    {
+
     }
 }
