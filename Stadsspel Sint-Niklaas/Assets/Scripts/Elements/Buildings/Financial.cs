@@ -5,6 +5,8 @@ public class Financial : Building
     [SyncVar]
 	protected int mAmountOfMoney;
 
+    protected float interestMultiplier = 0.02f;
+
 	public Financial()
 	{
 		throw new System.NotImplementedException();

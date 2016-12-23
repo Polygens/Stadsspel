@@ -1,9 +1,9 @@
 ﻿public class BankAccount
 {
-    public TeamID teamID;
+    public byte teamID;
     private int balance;
 
-    public BankAccount(TeamID id)
+    public BankAccount(byte id)
     {
         teamID = id;
         balance = 0;
@@ -12,7 +12,6 @@
     public int Balance
     {
         get { return balance; }
-        set { balance = value; }
     }
 
     public void Transaction(int amount)

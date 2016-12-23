@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
 
 public class Bank : Financial
 {
-    private List<BankAccount> bankAccounts = new List<BankAccount>();
-
 	public Bank()
 	{
 		throw new System.NotImplementedException();
@@ -13,12 +11,11 @@ public class Bank : Financial
     public override void GainMoneyOverTime()
     {
         // Interest
-
-        base.GainMoneyOverTime();
-    }
-
-    public BankAccount CreateBankAccount(TeamID id)
-    {
-        return new BankAccount(id);
+        for (int i = 0; i < BankAccountManager.BankAccounts.Count; i++)
+        {
+            BankAccount account = BankAccountManager.BankAccounts[i];
+            account.Transaction(Mathf.RoundToInt(account.Balance * interestMultiplier));//Add 2% from current balance to the total balance
+        }
+        //base.GainMoneyOverTime();
     }
 }
