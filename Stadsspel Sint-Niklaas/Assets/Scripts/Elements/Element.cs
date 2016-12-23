@@ -5,10 +5,12 @@ using Prototype.NetworkLobby;
 public class Element : NetworkBehaviour
 {
 	private float mActionRadius;
+	[SyncVar]
+	public TeamID mTeam = TeamID.NotSet;
 
 	public Element()
 	{
-		throw new System.NotImplementedException();
+
 	}
 
 	public Vector2 Position {
