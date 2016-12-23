@@ -1,7 +1,13 @@
-﻿public class Enemy : Person
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.Networking;
+
+public class Enemy : Person
 {
-	public Enemy()
+	private int mDetectionRadius = 100;
+
+	private void Start()
 	{
-		throw new System.NotImplementedException();
+		GetComponent<NetworkProximityChecker>().visRange = mDetectionRadius;
 	}
 }

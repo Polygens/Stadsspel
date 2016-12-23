@@ -1,7 +1,13 @@
-﻿public class Friend : Person
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.Networking;
+
+public class Friend : Person
 {
-	public Friend()
+	private int mDetectionRadius = 120;
+
+	private void Start()
 	{
-		throw new System.NotImplementedException();
+		GetComponent<NetworkProximityChecker>().visRange = mDetectionRadius;
 	}
 }
