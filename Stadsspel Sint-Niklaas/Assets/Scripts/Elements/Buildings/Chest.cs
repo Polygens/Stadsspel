@@ -11,8 +11,25 @@ public class Chest : Financial
     private int moneyGainPerDistrict = 1000;
     private int startUpMoney = 5000;
 
-	public Chest()
+    public int Team
+    {
+        get
+        {
+            return mTeam;
+        }
+    }
+    public int District
+    {
+        get
+        {
+            return mDistrict;
+        }
+    }
+
+	public Chest(int team, int district)
 	{
+        mTeam = team;
+        mDistrict = district;
         mAmountOfMoney = startUpMoney;
 	}
 
