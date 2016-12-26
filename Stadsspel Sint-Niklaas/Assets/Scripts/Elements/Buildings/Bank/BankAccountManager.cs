@@ -39,4 +39,16 @@ public class BankAccountManager : NetworkBehaviour
         }
     }
 
+    [Command]
+    public void CmdTransaction(byte teamID, int amount)
+    {
+        RpcTransaction(teamID, amount);
+    }
+
+    [ClientRpc]
+    void RpcTransaction(byte teamID, int amount)
+    {
+        bankAccounts[teamID].Transaction(amount);
+    }
+
 }
