@@ -49,15 +49,20 @@ namespace Prototype.NetworkLobby
 		[HideInInspector]
 		public static GameManager mGameManager;
 		private int mNumberOfTeams = 3;
+        private int[] mMaxTeams = new int[31] { 2, 2, 2, 3, 3, 3, 3, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
+        private int[] mMaxSpelersT = new int[31] { 3, 4, 4, 3, 4, 4, 4, 4, 4, 5, 4, 5, 5, 5, 5, 6, 6, 6, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 };
+        
 
 		void Start()
 		{
-			s_Singleton = this;
+           
+           
+            s_Singleton = this;
 			_lobbyHooks = GetComponent<LobbyHook>();
 			currentPanel = mCreateLobbyPanel;
 
 			mGameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-			mGameManager.GenerateTeams(mNumberOfTeams);
+			
 
 			backButton.gameObject.SetActive(false);
 		}
@@ -67,6 +72,14 @@ namespace Prototype.NetworkLobby
 			maxPlayers = (int)slider.value;
 			slider.GetComponentInChildren<Text>().text = "AANTAL SPELERS: " + maxPlayers.ToString();
 		}
+        public void UpdateTeams()
+        {
+          
+            mGameManager.GenerateTeams(mMaxTeams[maxPlayers - 6]);
+            mGameManager.mMaxPlayersPerTeam = mMaxSpelersT[maxPlayers -6];
+
+        }
+       
 
 		public void OnLobbyJoinUpdateName(string lobbyName)
 		{
