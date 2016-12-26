@@ -895,6 +895,20 @@ Prefab:
     - target: {fileID: 224000011769716806, guid: cc3c651953d2f034a917167c04489f68,
         type: 2}
       propertyPath: m_SizeDelta.y
+      value: -588
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000011769716806, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -337
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000014280725952, guid: cc3c651953d2f034a917167c04489f68, type: 2}
+      propertyPath: m_Name
+      value: MaskListPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010864059350, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_ChildForceExpandHeight
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
