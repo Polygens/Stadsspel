@@ -12,10 +12,11 @@ public class Player : Person
   private Button[] buttons;
   private int[] currentButtons;
   private int highestPriority;
+
   private string[] buttonNames = new string[] { "Ruil", "Bank", "Koop", "Verkoop", "Belastingen innen", "Belastingen stelen", "Plein overnemen", "Stelen" };
 
   public Button prefabButton;
-
+  public int mNumberOfButtonsInlistPanel = 0;
   public RectTransform MainPanel;
   public RectTransform ListPanel;
 
@@ -111,6 +112,7 @@ public class Player : Person
             Button tempB = (Button)Instantiate(buttons[i], transform.position, transform.rotation, ListPanel);
             tempB.transform.FindChild("Text").GetComponent<Text>().text = buttonNames[i];
             currentButtons[i] = 1;
+            mNumberOfButtonsInlistPanel++;
           }
           if ((currentButtons[i] == 1 && priorityPresence[i] == 0))
           {
@@ -141,6 +143,7 @@ public class Player : Person
       {
         Destroy(ListPanel.GetChild(j).gameObject);
         currentButtons[index] = 0;
+        mNumberOfButtonsInlistPanel--;
       }
     }
   }
