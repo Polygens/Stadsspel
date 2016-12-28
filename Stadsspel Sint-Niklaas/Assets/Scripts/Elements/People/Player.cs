@@ -19,6 +19,7 @@ public class Player : Person
   public int mNumberOfButtonsInlistPanel = 0;
   public RectTransform MainPanel;
   public RectTransform ListPanel;
+  public RectTransform Switch;
 
   // Team,
   //Bank,
@@ -32,6 +33,7 @@ public class Player : Person
   {
     MainPanel.gameObject.SetActive(false);
     ListPanel.gameObject.SetActive(false);
+    Switch.gameObject.SetActive(false);
     int lengthPriorities = Enum.GetValues(typeof(priority)).Cast<priority>().Count();
     buttons = new Button[lengthPriorities];
     currentButtons = new int[lengthPriorities];
@@ -61,8 +63,9 @@ public class Player : Person
       // In case there were no collidings before.
       MainPanel.gameObject.SetActive(true);
       ListPanel.gameObject.SetActive(true);
+      Switch.gameObject.SetActive(true);
 
-      int lengthEnum = Enum.GetValues(typeof(priority)).Cast<priority>().Count();
+            int lengthEnum = Enum.GetValues(typeof(priority)).Cast<priority>().Count();
       int[] priorityPresence = new int[lengthEnum];
       for (int i = 0; i < priorityPresence.Length; i++)
       {
@@ -132,6 +135,7 @@ public class Player : Person
     {
       MainPanel.gameObject.SetActive(false);
       ListPanel.gameObject.SetActive(false);
+      Switch.gameObject.SetActive(false);
     }
   }
 
