@@ -56,34 +56,35 @@ namespace Prototype.NetworkLobby
 			ChangeReadyButton(NotReadyColor, "...", Color.white);
 
 			LobbyPlayerList._instance.DisplayDirectServerWarning(isServer && LobbyManager.s_Singleton.matchMaker == null);
-			Debug.Log(isLocalPlayer);
 		}
 
 		public override void OnStartLocalPlayer()
 		{
 			base.OnStartAuthority();
-			Debug.Log(isLocalPlayer);
 			SetupLocalPlayer();
 		}
 
-		public override void OnStartServer()
+		public override void OnStartClient()
 		{
 			base.OnStartClient();
-			Debug.Log(isLocalPlayer);
-			SetupOtherPlayer();
+
+			if (LobbyPlayerList._instance.playerListContentTransform.childCount != 0) {
+				SetupOtherPlayer();
+			}
 		}
 
 		void SetupOtherPlayer()
 		{
+			Debug.Log("New Player joined");
 			nameInput.interactable = false;
 			colorButton.interactable = false;
 			readyButton.interactable = false;
 
 			OnMyName(mPlayerName);
-			OnMyColor(mPlayerTeam);
+			OnColorClicked();
 
 			LobbyPlayerList._instance.AddPlayer(this);
-			Debug.Log(mPlayerTeam);
+
 			if (LobbyPlayerList._instance.playerListContentTransform.childCount == 1) {
 				mIsHost = true;
 				mIcon.text = mHostIcon;
@@ -99,16 +100,19 @@ namespace Prototype.NetworkLobby
 				removePlayerButton.onClick.RemoveAllListeners();
 				removePlayerButton.onClick.AddListener(OnRemovePlayerClicked);
 			}
+
+
 		}
 
 		void SetupLocalPlayer()
 		{
+			Debug.Log("You entered the lobby");
 			GetComponent<Image>().color = LocalPlayer;
 
 			CmdNameChanged("Speler " + (LobbyPlayerList._instance.playerListContentTransform.childCount));
 			OnColorClicked();
 
-			if (LobbyPlayerList._instance.playerListContentTransform.childCount == 1) {
+			if (LobbyPlayerList._instance.playerListContentTransform.childCount == 0) {
 				mIsHost = true;
 				mHostInstance = true;
 				mIcon.text = mHostIcon;
@@ -134,6 +138,8 @@ namespace Prototype.NetworkLobby
 			//we switch from simple name display to name input
 			colorButton.interactable = true;
 			nameInput.interactable = true;
+
+			LobbyPlayerList._instance.AddPlayer(this);
 		}
 
 		public override void OnClientReady(bool readyState)
@@ -199,25 +205,26 @@ namespace Prototype.NetworkLobby
 		//so that all client get the new value through syncvar
 		public void OnColorClicked()
 		{
-			if (mPlayerTeam != TeamID.NotSet) {
+			TeamID newTeam = mPlayerTeam;
+
+			if (newTeam != TeamID.NotSet) {
 				LobbyPlayerList._instance.RemovePlayer(this);
 			}
 
 			int count = 0;
 			do {
-				mPlayerTeam = TeamData.GetNextTeam(mPlayerTeam);
+				newTeam = TeamData.GetNextTeam(newTeam);
 				count++;
 				if (count > LobbyPlayerList._instance.AmountOfTeams) {
-					mPlayerTeam = TeamID.NotSet;
+					newTeam = TeamID.NotSet;
 					Debug.Log("No free team found!!!");
 					break;
 				}
-			} while (LobbyPlayerList._instance.IsTeamFull(mPlayerTeam));
+			} while (LobbyPlayerList._instance.IsTeamFull(newTeam));
 
-			mLocalPlayerTeam = mPlayerTeam;
+			mLocalPlayerTeam = newTeam;
 
-			LobbyPlayerList._instance.AddPlayer(this);
-			CmdColorChange(mPlayerTeam);
+			CmdColorChange(newTeam);
 		}
 
 		private void OnReadyClicked()

@@ -28,7 +28,6 @@ namespace Prototype.NetworkLobby
 		public LobbyInfoPanel infoPanel;
 		public LobbyCountdownPanel countdownPanel;
 		public LobbyInputPanel inputPanel;
-		public GameObject LobbyPlayer;
 		public GameObject startButton;
 		public Button backButton;
 		public Text lobbyNamePanel;
