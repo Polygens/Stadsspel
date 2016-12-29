@@ -12,22 +12,30 @@ namespace Prototype.NetworkLobby
 	//Any LobbyHook can then grab it and pass those value to the game player prefab (see the Pong Example in the Samples Scenes)
 	public class LobbyPlayer : NetworkLobbyPlayer
 	{
-		public Button colorButton;
-		public InputField nameInput;
-		public Button readyButton;
-		public Button removePlayerButton;
+		[SerializeField]
+		private Button colorButton;
+		[SerializeField]
+		private InputField nameInput;
+		[SerializeField]
+		private Button readyButton;
+		[SerializeField]
+		private Button removePlayerButton;
 
-		public Text mIcon;
+		[SerializeField]
+		private Text mIcon;
 
 		//OnMyName function will be invoked on clients when server change the value of playerName
 		[SyncVar(hook = "OnMyName")]
-		public string playerName = "";
+		public string mPlayerName = "";
 		[SyncVar(hook = "OnMyColor")]
-		public TeamID playerTeam = TeamID.NotSet;
+		public TeamID mPlayerTeam = TeamID.NotSet;
 
-		public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
-		public Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
-		public Color LocalPlayer = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
+		public static TeamID mLocalPlayerTeam = TeamID.NotSet;
+		public static int mLocalPlayerControllerID = 0;
+
+		private Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
+		private Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
+		private Color LocalPlayer = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
 
 		private Color NotReadyColor = new Color(34.0f / 255.0f, 44 / 255.0f, 55.0f / 255.0f, 1.0f);
 		private Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
@@ -41,55 +49,43 @@ namespace Prototype.NetworkLobby
 		private string mLocalPlayerIcon = "";
 		private string mOtherPlayerIcon = "";
 
-		public bool IsHost {
-			get {
-				return mIsHost;
-			}
-
-			set {
-				mIsHost = value;
-			}
-		}
-
 		public override void OnClientEnterLobby()
 		{
 			base.OnClientEnterLobby();
 
 			ChangeReadyButton(NotReadyColor, "...", Color.white);
 
-			if (LobbyManager.s_Singleton != null)
-				LobbyManager.s_Singleton.OnPlayersNumberModified(1);
-
-			LobbyPlayerList._instance.AddPlayer(this);
 			LobbyPlayerList._instance.DisplayDirectServerWarning(isServer && LobbyManager.s_Singleton.matchMaker == null);
-
-
-			if (isLocalPlayer) {
-				SetupLocalPlayer();
-			}
-			else {
-				SetupOtherPlayer();
-			}
+			Debug.Log(isLocalPlayer);
 		}
 
-		public override void OnStartAuthority()
+		public override void OnStartLocalPlayer()
 		{
 			base.OnStartAuthority();
-			//if we return from a game, color of text can still be the one for "Ready"
-			ChangeReadyButton(NotReadyColor, "...", Color.white);
-
-			if (mIsHost) {
-				mHostInstance = true;
-			}
+			Debug.Log(isLocalPlayer);
 			SetupLocalPlayer();
+		}
+
+		public override void OnStartServer()
+		{
+			base.OnStartClient();
+			Debug.Log(isLocalPlayer);
+			SetupOtherPlayer();
 		}
 
 		void SetupOtherPlayer()
 		{
 			nameInput.interactable = false;
 			colorButton.interactable = false;
+			readyButton.interactable = false;
 
-			if (mIsHost) {
+			OnMyName(mPlayerName);
+			OnMyColor(mPlayerTeam);
+
+			LobbyPlayerList._instance.AddPlayer(this);
+			Debug.Log(mPlayerTeam);
+			if (LobbyPlayerList._instance.playerListContentTransform.childCount == 1) {
+				mIsHost = true;
 				mIcon.text = mHostIcon;
 				ChangeReadyButton(TransparentColor, "GEREED", ReadyColor);
 			}
@@ -103,16 +99,18 @@ namespace Prototype.NetworkLobby
 				removePlayerButton.onClick.RemoveAllListeners();
 				removePlayerButton.onClick.AddListener(OnRemovePlayerClicked);
 			}
-
-			OnMyName(playerName);
-			OnMyColor(playerTeam);
 		}
 
 		void SetupLocalPlayer()
 		{
 			GetComponent<Image>().color = LocalPlayer;
 
-			if (mIsHost) {
+			CmdNameChanged("Speler " + (LobbyPlayerList._instance.playerListContentTransform.childCount));
+			OnColorClicked();
+
+			if (LobbyPlayerList._instance.playerListContentTransform.childCount == 1) {
+				mIsHost = true;
+				mHostInstance = true;
 				mIcon.text = mHostIcon;
 
 				OnReadyClicked();
@@ -122,16 +120,7 @@ namespace Prototype.NetworkLobby
 				mIcon.text = mLocalPlayerIcon;
 			}
 
-			//setup the player data on UI. The value are SyncVar so the player
-			//will be created with the right value currently on server
-			OnMyName(playerName);
-			if (playerTeam == TeamID.NotSet) {
-				OnColorClicked();
-			}
-
-			//have to use child count of player prefab already setup as "this.slot" is not set yet
-			if (playerName == "")
-				CmdNameChanged("Speler " + (LobbyPlayerList._instance.playerListContentTransform.childCount));
+			mLocalPlayerControllerID = playerControllerId;
 
 			nameInput.onEndEdit.RemoveAllListeners();
 			nameInput.onEndEdit.AddListener(OnNameChanged);
@@ -141,11 +130,6 @@ namespace Prototype.NetworkLobby
 
 			readyButton.onClick.RemoveAllListeners();
 			readyButton.onClick.AddListener(OnReadyClicked);
-
-			//when OnClientEnterLobby is called, the loval PlayerController is not yet created, so we need to redo that here to disable
-			//the add button if we reach maxLocalPlayer. We pass 0, as it was already counted on OnClientEnterLobby
-			if (LobbyManager.s_Singleton != null)
-				LobbyManager.s_Singleton.OnPlayersNumberModified(0);
 
 			//we switch from simple name display to name input
 			colorButton.interactable = true;
@@ -198,15 +182,15 @@ namespace Prototype.NetworkLobby
 
 		public void OnMyName(string newName)
 		{
-			playerName = newName;
-			nameInput.text = playerName;
+			mPlayerName = newName;
+			nameInput.text = mPlayerName;
 		}
 
 		public void OnMyColor(TeamID newTeam)
 		{
-			playerTeam = newTeam;
-			Debug.Log("Player is now in team: " + playerTeam.ToString());
-			colorButton.GetComponent<Image>().color = TeamData.GetColor(playerTeam);
+			mPlayerTeam = newTeam;
+			Debug.Log("Player " + playerControllerId + " is now in team: " + mPlayerTeam.ToString());
+			colorButton.GetComponent<Image>().color = TeamData.GetColor(mPlayerTeam);
 		}
 
 		//===== UI Handler
@@ -215,23 +199,25 @@ namespace Prototype.NetworkLobby
 		//so that all client get the new value through syncvar
 		public void OnColorClicked()
 		{
-			if (playerTeam != TeamID.NotSet) {
-				RemoveFromOldTeam(playerTeam);
+			if (mPlayerTeam != TeamID.NotSet) {
+				LobbyPlayerList._instance.RemovePlayer(this);
 			}
 
 			int count = 0;
 			do {
-				playerTeam = TeamData.GetNextTeam(playerTeam);
+				mPlayerTeam = TeamData.GetNextTeam(mPlayerTeam);
 				count++;
-				if (count > GameManager.mTeams.Count) {
-					playerTeam = TeamID.NotSet;
+				if (count > LobbyPlayerList._instance.AmountOfTeams) {
+					mPlayerTeam = TeamID.NotSet;
 					Debug.Log("No free team found!!!");
 					break;
 				}
-			} while (GameManager.mTeams[(int)playerTeam - 1].TeamIsFull);
+			} while (LobbyPlayerList._instance.IsTeamFull(mPlayerTeam));
 
-			GameManager.mTeams[(int)playerTeam - 1].AddPlayer(this);
-			CmdColorChange(playerTeam);
+			mLocalPlayerTeam = mPlayerTeam;
+
+			LobbyPlayerList._instance.AddPlayer(this);
+			CmdColorChange(mPlayerTeam);
 		}
 
 		private void OnReadyClicked()
@@ -273,29 +259,19 @@ namespace Prototype.NetworkLobby
 		[Command]
 		public void CmdColorChange(TeamID newTeam)
 		{
-			playerTeam = newTeam;
+			mPlayerTeam = newTeam;
 		}
 
 		[Command]
 		public void CmdNameChanged(string name)
 		{
-			playerName = name;
+			mPlayerName = name;
 		}
 
 		//Cleanup thing when get destroy (which happen when client kick or disconnect)
 		private void OnDestroy()
 		{
 			LobbyPlayerList._instance.RemovePlayer(this);
-			if (LobbyManager.s_Singleton != null)
-				LobbyManager.s_Singleton.OnPlayersNumberModified(-1);
-
-			if ((byte)playerTeam < 1)
-				return;
-		}
-
-		public void RemoveFromOldTeam(TeamID oldTeam)
-		{
-			GameManager.mTeams[(int)oldTeam - 1].CmdRemovePlayer(this);
 		}
 	}
 }

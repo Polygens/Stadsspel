@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Types;
 using UnityEngine.Networking.Match;
 using System.Collections;
+using System;
 
 
 namespace Prototype.NetworkLobby
@@ -35,34 +36,21 @@ namespace Prototype.NetworkLobby
 		private string lobbyNameToJoin;
 		private RectTransform currentPanel;
 
-		//Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
-		//of players, so that even client know how many player there is.
-		[HideInInspector]
-		public int _playerNumber = 0;
-
 		protected bool _disconnectServer = false;
 
 		protected ulong _currentMatchID;
 
 		protected LobbyHook _lobbyHooks;
 
-		[HideInInspector]
-		public static GameManager mGameManager;
-		private int mNumberOfTeams = 3;
-        private int[] mMaxTeams = new int[31] { 2, 2, 2, 3, 3, 3, 3, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
-        private int[] mMaxSpelersT = new int[31] { 3, 4, 4, 3, 4, 4, 4, 4, 4, 5, 4, 5, 5, 5, 5, 6, 6, 6, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 };
-        
+		private int[] mMaxTeams = new int[31] { 2, 2, 2, 3, 3, 3, 3, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
+		private int[] mMaxPlayers = new int[31] { 3, 4, 4, 3, 4, 4, 4, 4, 4, 5, 4, 5, 5, 5, 5, 6, 6, 6, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 };
+		private int mNumberOfplayersInGame = 0;
 
 		void Start()
 		{
-           
-           
-            s_Singleton = this;
+			s_Singleton = this;
 			_lobbyHooks = GetComponent<LobbyHook>();
 			currentPanel = mCreateLobbyPanel;
-
-			mGameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-			
 
 			backButton.gameObject.SetActive(false);
 		}
@@ -72,20 +60,23 @@ namespace Prototype.NetworkLobby
 			maxPlayers = (int)slider.value;
 			slider.GetComponentInChildren<Text>().text = "AANTAL SPELERS: " + maxPlayers.ToString();
 		}
-        public void UpdateTeams()
-        {
-          
-            mGameManager.GenerateTeams(mMaxTeams[maxPlayers - 6]);
-            mGameManager.mMaxPlayersPerTeam = mMaxSpelersT[maxPlayers -6];
 
-        }
-       
+		public int GetTeams()
+		{
+			return mMaxTeams[maxPlayers - 6];
+		}
+
+		public int GetPlayers()
+		{
+			return mMaxPlayers[maxPlayers - 6];
+		}
 
 		public void OnLobbyJoinUpdateName(string lobbyName)
 		{
 			lobbyNamePanel.text = lobbyName.ToUpper();
 			lobbyNamePanel.gameObject.SetActive(true);
 		}
+
 		public void SetLobbyNameToJoin(string lobbyName)
 		{
 			lobbyNameToJoin = lobbyName;
@@ -251,16 +242,6 @@ namespace Prototype.NetworkLobby
 			}
 		}
 
-		//allow to handle the (+) button to add/remove player
-		public void OnPlayersNumberModified(int count)
-		{
-			_playerNumber += count;
-
-			int localPlayerCount = 0;
-			foreach (PlayerController p in ClientScene.localPlayers)
-				localPlayerCount += (p == null || p.playerControllerId == -1) ? 0 : 1;
-		}
-
 		// ----------------- Server callbacks ------------------
 
 		//we want to disable the button JOIN if we don't have enough player
@@ -278,6 +259,9 @@ namespace Prototype.NetworkLobby
 			if (_lobbyHooks)
 				_lobbyHooks.OnLobbyServerSceneLoadedForPlayer(this, lobbyPlayer, gamePlayer);
 
+			if (++mNumberOfplayersInGame >= LobbyPlayerList._instance.AmountOfPlayersInLobby) {
+				GameManager.s_Singleton.StartGame(LobbyPlayerList._instance.LobbyPlayerMatrix);
+			}
 			return true;
 		}
 
@@ -291,9 +275,15 @@ namespace Prototype.NetworkLobby
 					allready &= lobbySlots[i].readyToBegin;
 			}
 
-			if (allready)
+			if (allready) {
 				startButton.SetActive(true);
+			}
+			else {
+				startButton.SetActive(false);
+			}
 		}
+
+
 		public void OnStartButtonClicked()
 		{
 			StartCoroutine(ServerCountdownCoroutine());
@@ -326,7 +316,6 @@ namespace Prototype.NetworkLobby
 					(lobbySlots[i] as LobbyPlayer).RpcUpdateCountdown(0);
 				}
 			}
-			mGameManager.StartGame();
 			ServerChangeScene(playScene);
 		}
 
@@ -347,7 +336,6 @@ namespace Prototype.NetworkLobby
 			}
 		}
 
-
 		public override void OnClientDisconnect(NetworkConnection conn)
 		{
 			base.OnClientDisconnect(conn);
@@ -357,7 +345,14 @@ namespace Prototype.NetworkLobby
 		public override void OnClientError(NetworkConnection conn, int errorCode)
 		{
 			ChangeTo(mCreateLobbyPanel);
-			infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+			infoPanel.Display("Client error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+		}
+
+		public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, System.Int16 playerControllerId)
+		{
+			GameObject temp = Instantiate(gamePlayerPrefab);
+			temp.name = conn.connectionId.ToString();
+			return temp;
 		}
 	}
 }

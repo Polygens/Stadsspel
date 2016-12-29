@@ -12,8 +12,7 @@ public enum DistrictStates
 
 public class DistrictManager : MonoBehaviour
 {
-	[SerializeField]
-	private Transform mPlayerTrans;
+	public Transform mPlayerTrans;
 
 	private PolygonCollider2D[] mDistrictColliders;
 

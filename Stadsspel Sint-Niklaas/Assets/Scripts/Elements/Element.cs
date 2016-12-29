@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using Prototype.NetworkLobby;
 
 public class Element : NetworkBehaviour
 {
 	private float mActionRadius;
 	[SyncVar]
-	public TeamID mTeam = TeamID.NotSet;
+	[SerializeField]
+	protected TeamID mTeam = TeamID.NotSet;
+	[SyncVar]
+	[SerializeField]
+	protected string mName = "Not set";
 
 	public Element()
 	{

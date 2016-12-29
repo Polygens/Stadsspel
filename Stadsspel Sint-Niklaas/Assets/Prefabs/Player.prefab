@@ -77,8 +77,6 @@ GameObject:
   - 58: {fileID: 58000011100339616}
   - 114: {fileID: 114000012964680410}
   - 114: {fileID: 114000013984189104}
-  - 114: {fileID: 114000012250830042}
-  - 114: {fileID: 114000010429714352}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -387,41 +385,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114000010429714352
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012407626070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 245e0efa9a23f7a46a93a1f6547f6c31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mTeam: 0
-  robButton: {fileID: 0}
-  marktButton: {fileID: 0}
-  tradingPostButton: {fileID: 0}
-  teamTradeButton: {fileID: 0}
-  bankButton: {fileID: 0}
-  claimButton: {fileID: 0}
-  taxInningButton: {fileID: 0}
-  MainPanel: {fileID: 0}
-  ListPanel: {fileID: 0}
---- !u!114 &114000012250830042
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012407626070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dad600fce2bb474094a91fb301030e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mLocationManager: {fileID: 0}
-  mAvatarDirection: {fileID: 0}
-  mDistrictManager: {fileID: 0}
 --- !u!114 &114000012964680410
 MonoBehaviour:
   m_ObjectHideFlags: 1

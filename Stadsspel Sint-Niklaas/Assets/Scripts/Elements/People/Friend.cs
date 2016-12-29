@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Networking;
 
 public class Friend : Person
 {
 	private int mDetectionRadius = 120;
 
-	private void Start()
+	private new void Start()
 	{
-		GetComponent<NetworkProximityChecker>().visRange = mDetectionRadius;
+		//base.Start();
+		Destroy(transform.GetChild(1).gameObject);
+		Destroy(transform.GetChild(2).gameObject);
+		Destroy(transform.GetChild(3).gameObject);
+		Destroy(GetComponent<MoveAvatar>());
+		GetComponent<NetworkIdentity>().localPlayerAuthority = false;
+
+		NetworkProximityChecker proximityChecker = gameObject.AddComponent<NetworkProximityChecker>();
+		proximityChecker.checkMethod = NetworkProximityChecker.CheckMethod.Physics2D;
+		proximityChecker.visRange = mDetectionRadius;
 	}
 }

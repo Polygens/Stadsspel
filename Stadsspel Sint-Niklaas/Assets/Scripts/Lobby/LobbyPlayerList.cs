@@ -10,16 +10,30 @@ namespace Prototype.NetworkLobby
 	{
 		public static LobbyPlayerList _instance = null;
 
+		[SerializeField]
 		public RectTransform playerListContentTransform;
-		public GameObject warningDirectPlayServer;
+		[SerializeField]
+		private GameObject warningDirectPlayServer;
 
 		protected VerticalLayoutGroup _layout;
-		protected List<LobbyPlayer> _players = new List<LobbyPlayer>();
+
+		private LobbyPlayer[,] mLobbyPlayerMatrix;
+		public int AmountOfTeams { get { return mLobbyPlayerMatrix.GetLength(0); } }
+		public int MaxPlayers { get { return mLobbyPlayerMatrix.GetLength(1); } }
+		public int AmountOfPlayersInLobby { get; private set; }
+
+		public LobbyPlayer[,] LobbyPlayerMatrix {
+			get {
+				return mLobbyPlayerMatrix;
+			}
+		}
 
 		public void OnEnable()
 		{
 			_instance = this;
 			_layout = playerListContentTransform.GetComponent<VerticalLayoutGroup>();
+
+			UpdateTeamsAndMaxPlayers(LobbyManager.s_Singleton.GetTeams(), LobbyManager.s_Singleton.GetPlayers());
 		}
 
 		public void DisplayDirectServerWarning(bool enabled)
@@ -37,42 +51,67 @@ namespace Prototype.NetworkLobby
 				_layout.childAlignment = Time.frameCount % 2 == 0 ? TextAnchor.UpperCenter : TextAnchor.UpperLeft;
 		}
 
-		public void AddPlayer(LobbyPlayer player)
+		public bool AddPlayer(LobbyPlayer player)
 		{
-			if (_players.Contains(player))
-				return;
-
-			_players.Add(player);
-			if (_players.Count == 1) {
-				player.IsHost = true;
+			if (player.mPlayerTeam == TeamID.NotSet) {
+				return false;
+			}
+			bool result = false;
+			for (int i = 0; i < mLobbyPlayerMatrix.GetLength(1); i++) {
+				if (mLobbyPlayerMatrix[(int)player.mPlayerTeam - 1, i] == null) {
+					mLobbyPlayerMatrix[(int)player.mPlayerTeam - 1, i] = player;
+					result = true;
+				}
 			}
 
-			player.transform.SetParent(playerListContentTransform, false);
+			if (result) {
+				player.transform.SetParent(playerListContentTransform, false);
+				PlayerListModified();
+			}
 
-			PlayerListModified();
+			return result;
 		}
 
-		public void RemovePlayer(LobbyPlayer player)
+		public bool RemovePlayer(LobbyPlayer player)
 		{
-			_players.Remove(player);
-			PlayerListModified();
+			bool result = false;
+			for (int i = 0; i < mLobbyPlayerMatrix.GetLength(1); i++) {
+				if (mLobbyPlayerMatrix[(int)player.mPlayerTeam - 1, i] == player) {
+					mLobbyPlayerMatrix[(int)player.mPlayerTeam - 1, i] = null;
+					result = true;
+				}
+			}
+			if (result) {
+				PlayerListModified();
+			}
+			return result;
 		}
 
 		public void PlayerListModified()
 		{
 			int i = 0;
-			foreach (LobbyPlayer p in _players) {
-				p.OnPlayerListChanged(i);
-				++i;
+			foreach (LobbyPlayer p in mLobbyPlayerMatrix) {
+				if (p != null) {
+					p.OnPlayerListChanged(i++);
+				}
 			}
+			AmountOfPlayersInLobby = i;
 		}
 
-		public bool AmIServer(LobbyPlayer player)
+		private void UpdateTeamsAndMaxPlayers(int amountOfTeams, int maxPlayers)
 		{
-			if (_players[0] == player) {
-				return true;
+			Debug.Log("Lobby made for " + amountOfTeams + " teams with " + maxPlayers + " players.");
+			mLobbyPlayerMatrix = new LobbyPlayer[amountOfTeams, maxPlayers];
+		}
+
+		public bool IsTeamFull(TeamID teamID)
+		{
+			for (int i = 0; i < mLobbyPlayerMatrix.GetLength(1); i++) {
+				if (mLobbyPlayerMatrix[(int)teamID - 1, i] == null) {
+					return false;
+				}
 			}
-			return false;
+			return true;
 		}
 	}
 }

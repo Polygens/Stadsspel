@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System;
 using System.Linq;
-using UnityEngine.UI;
 using UnityEngine.Networking;
 
 
@@ -13,8 +11,6 @@ public class Person : Element
 	private List<int> legalItems = new List<int>();
 
 	[SyncVar]
-	protected string mName = "player";
-	[SyncVar]
 	private int mAmountOfMoney = 0;
 	private int mCaptureRadius = 35;
 
@@ -24,8 +20,11 @@ public class Person : Element
 
 	}
 
-	private void Start()
+	protected void Start()
 	{
+		mTeam = TeamData.GetTeamByColor(GetComponent<Renderer>().material.color);
+		mName = transform.GetChild(0).GetComponent<TextMesh>().text;
+
 		GetComponent<CircleCollider2D>().radius = mCaptureRadius;
 		Mesh mesh = GetComponent<MeshFilter>().mesh;
 		Vector3[] newMesh = mesh.vertices;
@@ -37,15 +36,8 @@ public class Person : Element
 		mesh.SetVertices(newMesh.ToList());
 
 		mesh.RecalculateBounds();
-	}
 
-	public void ChangeNameAndID(string playerName, TeamID teamID)
-	{
-		mName = playerName;
-		mTeam = teamID;
 
-		GetComponent<Renderer>().material.color = TeamData.GetColor(mTeam);
-		transform.GetChild(0).GetComponent<TextMesh>().text = mName;
 	}
 
 	public void UpdatePosition()

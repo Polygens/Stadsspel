@@ -46,6 +46,6 @@ public class GameDurationDropdown : MonoBehaviour
 
 	public void UpdatedSelectedDuration(int selected)
 	{
-		LobbyManager.mGameManager.UpdateGameDuration((float)mDurations[selected].TotalSeconds);
+		GameManager.s_Singleton.UpdateGameDuration((float)mDurations[selected].TotalSeconds);
 	}
 }

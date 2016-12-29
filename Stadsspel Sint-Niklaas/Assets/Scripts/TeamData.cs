@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Prototype.NetworkLobby;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public enum TeamID : byte
 {
@@ -40,15 +43,15 @@ public class TeamData
 				case DistrictType.NotSet:
 				case DistrictType.HeadDistrict:
 				default:
-					return mTeamColors[0];
+				return mTeamColors[0];
 				case DistrictType.Neutral:
-					return mTeamColors[7];
+				return mTeamColors[7];
 				case DistrictType.GrandMarket:
-					return mTeamColors[8];
+				return mTeamColors[8];
 				case DistrictType.CapturableDistrict:
-					return mTeamColors[9];
+				return mTeamColors[9];
 				case DistrictType.Outside:
-					return mTeamColors[10];
+				return mTeamColors[10];
 			}
 		}
 		else {
@@ -56,10 +59,15 @@ public class TeamData
 		}
 	}
 
+	public static TeamID GetTeamByColor(Color teamColor)
+	{
+		return (TeamID)Array.IndexOf(mTeamColors, teamColor);
+	}
+
 	public static TeamID GetNextTeam(TeamID team)
 	{
 		int newTeamID = (int)team;
-		newTeamID %= GameManager.mTeams.Count;
+		newTeamID %= LobbyPlayerList._instance.AmountOfTeams;
 		newTeamID++;
 		return (TeamID)newTeamID;
 	}
@@ -68,7 +76,7 @@ public class TeamData
 	{
 		int newTeamID = (int)team - 2;
 		if (newTeamID < 0) {
-			newTeamID = GameManager.mTeams.Count - 1;
+			newTeamID = LobbyPlayerList._instance.AmountOfTeams - 1;
 		}
 		return (TeamID)newTeamID;
 	}

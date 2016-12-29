@@ -22,7 +22,6 @@ namespace Prototype.NetworkLobby
 			serverInfoText.text = match.name;
 
 			slotInfo.text = match.currentSize.ToString() + "/" + match.maxSize.ToString();
-			;
 
 			_match = match;
 			_lobbyManager = lobbyManager;

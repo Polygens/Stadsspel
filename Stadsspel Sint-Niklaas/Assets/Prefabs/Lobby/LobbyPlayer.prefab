@@ -102,7 +102,7 @@ GameObject:
   - 114: {fileID: 11414150}
   - 114: {fileID: 11487034}
   m_Layer: 5
-  m_Name: PlayerInfo
+  m_Name: LobbyPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -562,9 +562,6 @@ MonoBehaviour:
   mIcon: {fileID: 114000012289303946}
   playerName: 
   playerTeam: 0
-  OddRowColor: {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 1}
-  EvenRowColor: {r: 0.89705884, g: 0.89705884, b: 0.89705884, a: 1}
-  LocalPlayer: {r: 0.13333334, g: 0.17254902, b: 0.21568629, a: 0.484}
 --- !u!114 &11487112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -913,7 +910,7 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -5, y: 244}
   m_SizeDelta: {x: 576.1404, y: 100}
   m_Pivot: {x: 0, y: 1}
