@@ -19,8 +19,8 @@ public class Player : Person
 
 	private RectTransform MainPanel;
 	private RectTransform ListPanel;
+	private RectTransform Switch;
 	public int mNumberOfButtonsInlistPanel = 0;
-	public RectTransform Switch;
 
 	// Team,
 	//Bank,
@@ -32,7 +32,10 @@ public class Player : Person
 	//Enemy
 	private new void Start()
 	{
-		//base.Start();
+		base.Start();
+
+		mTeam = TeamData.GetTeamByColor(GetComponent<Renderer>().material.color);
+		mName = transform.GetChild(0).GetComponent<TextMesh>().text;
 
 		MoveAvatar moveAvatar = gameObject.AddComponent<MoveAvatar>();
 		moveAvatar.mAvatarDirection = transform.GetChild(1);
@@ -46,6 +49,7 @@ public class Player : Person
 
 		MainPanel = (RectTransform)priorityButtons.GetChild(0);
 		ListPanel = (RectTransform)priorityButtons.GetChild(1);
+		Switch = (RectTransform)priorityButtons.GetChild(2);
 		MainPanel.gameObject.SetActive(false);
 		ListPanel.gameObject.SetActive(false);
 		Switch.gameObject.SetActive(false);

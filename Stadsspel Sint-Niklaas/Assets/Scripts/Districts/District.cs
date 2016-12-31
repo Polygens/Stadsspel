@@ -18,8 +18,6 @@ public class District : MonoBehaviour
 	[SerializeField]
 	private DistrictType mDistrictType = 0;
 
-	private Color SquareColor = Color.yellow;
-
 	public TeamID TeamID {
 		get {
 			return mTeamID;

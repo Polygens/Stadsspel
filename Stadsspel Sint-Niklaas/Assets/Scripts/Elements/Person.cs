@@ -22,8 +22,6 @@ public class Person : Element
 
 	protected void Start()
 	{
-		mTeam = TeamData.GetTeamByColor(GetComponent<Renderer>().material.color);
-		mName = transform.GetChild(0).GetComponent<TextMesh>().text;
 
 		GetComponent<CircleCollider2D>().radius = mCaptureRadius;
 		Mesh mesh = GetComponent<MeshFilter>().mesh;
@@ -36,8 +34,6 @@ public class Person : Element
 		mesh.SetVertices(newMesh.ToList());
 
 		mesh.RecalculateBounds();
-
-
 	}
 
 	public void UpdatePosition()

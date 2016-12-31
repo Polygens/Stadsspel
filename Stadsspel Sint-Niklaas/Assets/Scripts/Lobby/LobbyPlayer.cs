@@ -31,7 +31,7 @@ namespace Prototype.NetworkLobby
 		public TeamID mPlayerTeam = TeamID.NotSet;
 
 		public static TeamID mLocalPlayerTeam = TeamID.NotSet;
-		public static int mLocalPlayerControllerID = 0;
+		public static uint mLocalPlayerNetID = 0;
 
 		private Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
 		private Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
@@ -44,64 +44,41 @@ namespace Prototype.NetworkLobby
 		private bool mIsHost = false;
 		private bool mIsReady = false;
 		private static bool mHostInstance = false;
+		private static bool mIsFirst = true;
 
 		private string mHostIcon = "";
 		private string mLocalPlayerIcon = "";
 		private string mOtherPlayerIcon = "";
 
-		public override void OnClientEnterLobby()
-		{
-			base.OnClientEnterLobby();
-
-			ChangeReadyButton(NotReadyColor, "...", Color.white);
-
-			LobbyPlayerList._instance.DisplayDirectServerWarning(isServer && LobbyManager.s_Singleton.matchMaker == null);
-		}
-
-		public override void OnStartLocalPlayer()
-		{
-			base.OnStartAuthority();
-			SetupLocalPlayer();
-		}
 
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
-
-			if (LobbyPlayerList._instance.playerListContentTransform.childCount != 0) {
-				SetupOtherPlayer();
-			}
-		}
-
-		void SetupOtherPlayer()
-		{
-			Debug.Log("New Player joined");
-			nameInput.interactable = false;
-			colorButton.interactable = false;
-			readyButton.interactable = false;
-
-			OnMyName(mPlayerName);
-			OnColorClicked();
-
-			LobbyPlayerList._instance.AddPlayer(this);
-
-			if (LobbyPlayerList._instance.playerListContentTransform.childCount == 1) {
+			LobbyPlayerList._instance.DisplayDirectServerWarning(isServer && LobbyManager.s_Singleton.matchMaker == null);
+			ChangeReadyButton(NotReadyColor, "...", Color.white);
+			if (mIsFirst) {
+				mIsFirst = false;
 				mIsHost = true;
 				mIcon.text = mHostIcon;
-				ChangeReadyButton(TransparentColor, "GEREED", ReadyColor);
+			}
+
+			StartCoroutine(Init());
+		}
+
+		public IEnumerator Init()
+		{
+			// need to wait a frame so that isLocalPlayer is set
+			yield return new WaitForEndOfFrame();
+
+			if (isLocalPlayer) {
+				if (mIsFirst) {
+					mHostInstance = true;
+				}
+				SetupLocalPlayer();
 			}
 			else {
-				mIcon.text = mOtherPlayerIcon;
-				mIcon.fontSize = 59;
+				SetupOtherPlayer();
 			}
-
-			if (mHostInstance) {
-				removePlayerButton.gameObject.SetActive(true);
-				removePlayerButton.onClick.RemoveAllListeners();
-				removePlayerButton.onClick.AddListener(OnRemovePlayerClicked);
-			}
-
-
 		}
 
 		void SetupLocalPlayer()
@@ -112,11 +89,7 @@ namespace Prototype.NetworkLobby
 			CmdNameChanged("Speler " + (LobbyPlayerList._instance.playerListContentTransform.childCount));
 			OnColorClicked();
 
-			if (LobbyPlayerList._instance.playerListContentTransform.childCount == 0) {
-				mIsHost = true;
-				mHostInstance = true;
-				mIcon.text = mHostIcon;
-
+			if (mIsHost) {
 				OnReadyClicked();
 				readyButton.interactable = false;
 			}
@@ -124,7 +97,7 @@ namespace Prototype.NetworkLobby
 				mIcon.text = mLocalPlayerIcon;
 			}
 
-			mLocalPlayerControllerID = playerControllerId;
+			mLocalPlayerNetID = netId.Value;
 
 			nameInput.onEndEdit.RemoveAllListeners();
 			nameInput.onEndEdit.AddListener(OnNameChanged);
@@ -139,7 +112,32 @@ namespace Prototype.NetworkLobby
 			colorButton.interactable = true;
 			nameInput.interactable = true;
 
-			LobbyPlayerList._instance.AddPlayer(this);
+
+		}
+
+		void SetupOtherPlayer()
+		{
+			Debug.Log("New Player joined");
+			nameInput.interactable = false;
+			colorButton.interactable = false;
+			readyButton.interactable = false;
+
+			OnMyName(mPlayerName);
+			OnMyColor(mPlayerTeam);
+
+			if (mIsHost) {
+				ChangeReadyButton(TransparentColor, "GEREED", ReadyColor);
+			}
+			else {
+				mIcon.text = mOtherPlayerIcon;
+				mIcon.fontSize = 59;
+			}
+
+			if (mHostInstance) {
+				removePlayerButton.gameObject.SetActive(true);
+				removePlayerButton.onClick.RemoveAllListeners();
+				removePlayerButton.onClick.AddListener(OnRemovePlayerClicked);
+			}
 		}
 
 		public override void OnClientReady(bool readyState)
@@ -194,9 +192,14 @@ namespace Prototype.NetworkLobby
 
 		public void OnMyColor(TeamID newTeam)
 		{
-			mPlayerTeam = newTeam;
-			Debug.Log("Player " + playerControllerId + " is now in team: " + mPlayerTeam.ToString());
-			colorButton.GetComponent<Image>().color = TeamData.GetColor(mPlayerTeam);
+			if (newTeam != TeamID.NotSet) {
+				LobbyPlayerList._instance.RemovePlayer(this);
+				mPlayerTeam = newTeam;
+				LobbyPlayerList._instance.AddPlayer(this);
+
+				Debug.Log("Player with netID " + netId.Value + " is now in team: " + mPlayerTeam.ToString());
+				colorButton.GetComponent<Image>().color = TeamData.GetColor(mPlayerTeam);
+			}
 		}
 
 		//===== UI Handler
@@ -206,10 +209,6 @@ namespace Prototype.NetworkLobby
 		public void OnColorClicked()
 		{
 			TeamID newTeam = mPlayerTeam;
-
-			if (newTeam != TeamID.NotSet) {
-				LobbyPlayerList._instance.RemovePlayer(this);
-			}
 
 			int count = 0;
 			do {

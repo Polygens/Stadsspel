@@ -99,8 +99,9 @@ namespace GoMap
 					GORoutine.start(ParseTileData(map, tileCenter, zoom, layers, delayedLoad, layerNames), this);
 				}
 				else {
-					var www = new WWW(completeurl);
+
 #if UNITY_EDITOR
+					WWW www = new WWW(completeurl);
 					ContinuationManager.Add(() => www.isDone, () => {
 
 						if (!string.IsNullOrEmpty(www.error)) {

@@ -2605,11 +2605,9 @@ MonoBehaviour:
   infoPanel: {fileID: 114000013468372010}
   countdownPanel: {fileID: 114000012655293852}
   inputPanel: {fileID: 114000014194441914}
-  LobbyPlayer: {fileID: 155390, guid: ad727d7e1462ecc4f83c898ecc501997, type: 2}
   startButton: {fileID: 1000013074864294}
   backButton: {fileID: 11477488}
   lobbyNamePanel: {fileID: 114000010507476376}
-  _playerNumber: 0
 --- !u!114 &11476426
 MonoBehaviour:
   m_ObjectHideFlags: 1

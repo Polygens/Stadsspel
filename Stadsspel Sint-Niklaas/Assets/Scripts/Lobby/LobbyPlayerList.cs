@@ -56,11 +56,13 @@ namespace Prototype.NetworkLobby
 			if (player.mPlayerTeam == TeamID.NotSet) {
 				return false;
 			}
+
 			bool result = false;
 			for (int i = 0; i < mLobbyPlayerMatrix.GetLength(1); i++) {
 				if (mLobbyPlayerMatrix[(int)player.mPlayerTeam - 1, i] == null) {
 					mLobbyPlayerMatrix[(int)player.mPlayerTeam - 1, i] = player;
 					result = true;
+					break;
 				}
 			}
 
@@ -75,6 +77,9 @@ namespace Prototype.NetworkLobby
 		public bool RemovePlayer(LobbyPlayer player)
 		{
 			bool result = false;
+			if (player.mPlayerTeam == TeamID.NotSet) {
+				return result;
+			}
 			for (int i = 0; i < mLobbyPlayerMatrix.GetLength(1); i++) {
 				if (mLobbyPlayerMatrix[(int)player.mPlayerTeam - 1, i] == player) {
 					mLobbyPlayerMatrix[(int)player.mPlayerTeam - 1, i] = null;
@@ -111,7 +116,13 @@ namespace Prototype.NetworkLobby
 					return false;
 				}
 			}
+			Debug.Log(teamID + " is full!");
 			return true;
+		}
+
+		public void ClearList()
+		{
+			mLobbyPlayerMatrix = null;
 		}
 	}
 }

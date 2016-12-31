@@ -32,7 +32,7 @@ public class BankAccountManager : NetworkBehaviour
 	void RpcAddToList()
 	{
 		// this code is executed on all clients
-		for (byte i = 0; i < GameManager.s_Singleton.mTeams; i++) {
+		for (byte i = 0; i < GameManager.s_Singleton.Teams.Length; i++) {
 			bankAccounts.Add(CreateBankAccount(i));
 		}
 	}

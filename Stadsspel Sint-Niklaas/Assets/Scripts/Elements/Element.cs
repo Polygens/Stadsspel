@@ -4,11 +4,11 @@ using UnityEngine.Networking;
 public class Element : NetworkBehaviour
 {
 	private float mActionRadius;
-	[SyncVar]
 	[SerializeField]
+	[SyncVar]
 	protected TeamID mTeam = TeamID.NotSet;
-	[SyncVar]
 	[SerializeField]
+	[SyncVar(hook = "OnNameChange")]
 	protected string mName = "Not set";
 
 	public Element()
@@ -31,5 +31,10 @@ public class Element : NetworkBehaviour
 	public bool IsInRadius(Vector2 pos)
 	{
 		throw new System.NotImplementedException();
+	}
+
+	public virtual void OnNameChange(string newName)
+	{
+		gameObject.name = newName;
 	}
 }

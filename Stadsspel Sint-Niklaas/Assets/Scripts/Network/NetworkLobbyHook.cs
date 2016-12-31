@@ -10,5 +10,7 @@ public class NetworkLobbyHook : LobbyHook
 		LobbyPlayer lobbyP = lobbyPlayer.GetComponent<LobbyPlayer>();
 		gamePlayer.GetComponent<Renderer>().material.color = TeamData.GetColor(lobbyP.mPlayerTeam);
 		gamePlayer.transform.GetChild(0).GetComponent<TextMesh>().text = lobbyP.mPlayerName;
+
+		gamePlayer.transform.SetParent(lobbyPlayer.transform);
 	}
 }

@@ -20,4 +20,9 @@ public class Team : NetworkBehaviour
 			mTeamID = value;
 		}
 	}
+
+	public void AddOrRemoveMoney(int amount)
+	{
+		mTotalMoney += amount;
+	}
 }

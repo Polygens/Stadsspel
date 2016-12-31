@@ -181,8 +181,6 @@ namespace Prototype.NetworkLobby
 			matchMaker.DestroyMatch((NetworkID)_currentMatchID, 0, OnDestroyMatch);
 			_disconnectServer = true;
 
-
-
 			ChangeTo(mCreateLobbyPanel);
 		}
 
@@ -213,6 +211,7 @@ namespace Prototype.NetworkLobby
 		public void KickedMessageHandler(NetworkMessage netMsg)
 		{
 			infoPanel.Display("Kicked door host", "Sluiten", null);
+			LobbyPlayerList._instance.ClearList();
 			netMsg.conn.Disconnect();
 		}
 
@@ -286,6 +285,7 @@ namespace Prototype.NetworkLobby
 		public void OnStartButtonClicked()
 		{
 			StartCoroutine(ServerCountdownCoroutine());
+			GameManager.s_Singleton.GenerateTeams(LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0));
 		}
 
 		public IEnumerator ServerCountdownCoroutine()
@@ -315,6 +315,7 @@ namespace Prototype.NetworkLobby
 					(lobbySlots[i] as LobbyPlayer).RpcUpdateCountdown(0);
 				}
 			}
+
 			ServerChangeScene(playScene);
 		}
 
@@ -349,9 +350,7 @@ namespace Prototype.NetworkLobby
 
 		public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, System.Int16 playerControllerId)
 		{
-			GameObject temp = Instantiate(gamePlayerPrefab);
-			temp.name = conn.connectionId.ToString();
-			return temp;
+			return Instantiate(gamePlayerPrefab);
 		}
 	}
 }
