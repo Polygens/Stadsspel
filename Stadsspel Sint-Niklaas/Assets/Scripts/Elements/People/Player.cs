@@ -16,6 +16,7 @@ public class Player : Person
 	private string[] buttonNames = new string[] { "Ruil", "Bank", "Koop", "Verkoop", "Belastingen innen", "Belastingen stelen", "Plein overnemen", "Stelen" };
 
 	public Button prefabButton;
+  public RectTransform[] panels; 
 
 	private RectTransform MainPanel;
 	private RectTransform ListPanel;
@@ -47,8 +48,8 @@ public class Player : Person
 
 		RectTransform priorityButtons = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("PriorityButtons");
 
-		MainPanel = (RectTransform)priorityButtons.GetChild(0);
-		ListPanel = (RectTransform)priorityButtons.GetChild(1);
+		MainPanel = (RectTransform)priorityButtons.GetChild(1);
+		ListPanel = (RectTransform)priorityButtons.GetChild(0).GetChild(0);
 		Switch = (RectTransform)priorityButtons.GetChild(2);
 		MainPanel.gameObject.SetActive(false);
 		ListPanel.gameObject.SetActive(false);
@@ -103,9 +104,12 @@ public class Player : Person
 				}
 			}
 
+      // if there is a new highestpriority, do next lines
 			if (tempPriority != highestPriority) {
 
 				highestPriority = tempPriority;
+
+        //Make room for new mainbutton
 				if (MainPanel.childCount > 0) {
 					GameObject tempB = MainPanel.GetChild(0).gameObject;
 					Destroy(tempB);
@@ -113,15 +117,41 @@ public class Player : Person
 
 				Button mainButton = (Button)Instantiate(buttons[highestPriority], transform.position, transform.rotation, MainPanel);
 				mainButton.transform.FindChild("Text").GetComponent<Text>().text = buttonNames[highestPriority];
-			}
+        RectTransform tempPanel = null;
 
+        //names of the panels need to be the same as the priorities & layernames
+        for (int j = 0; j < panels.Length; j++)
+        {
+          if (panels[j].name == ((priority)highestPriority).ToString())
+          {
+            tempPanel = panels[j];
+          }
+        }
+        mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
+      }
+
+      // For all priorities, check if more buttons are needed in listpanel
 			for (int i = priorityPresence.Length - 1; i >= 0; i--) {
+        //we dont want mainbutton in the listpanel
 				if (i != highestPriority) {
-					//Debug.Log("not mainpanel: " + i);
+					//Spawn specific priority button
 					if (currentButtons[i] == 0 && priorityPresence[i] == 1) {
-						Debug.Log("Button to spawn in list" + (priority)i);
 						Button tempB = (Button)Instantiate(buttons[i], transform.position, transform.rotation, ListPanel);
 						tempB.transform.FindChild("Text").GetComponent<Text>().text = buttonNames[i];
+            RectTransform tempPanel = null;
+            for (int j = 0; j < panels.Length; j++)
+            {
+              if (panels[j].name == ((priority)i).ToString())
+              {
+                tempPanel = panels[j];
+              }
+            }
+            if (tempPanel != null)
+            {
+              tempB.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
+            }
+
+            // 1 indicates that the button of the specific priority is present in the listpanel
 						currentButtons[i] = 1;
 						mNumberOfButtonsInlistPanel++;
 					}
@@ -148,12 +178,26 @@ public class Player : Person
 	{
 		for (int j = 0; j < ListPanel.childCount; j++) {
 			if (ListPanel.GetChild(j).GetChild(0).GetComponent<Text>().text == buttonNames[index]) {
-				Destroy(ListPanel.GetChild(j).gameObject);
+        ListPanel.GetChild(j).GetComponent<Button>().onClick.RemoveListener(() => buttonClicked(null));
+        Destroy(ListPanel.GetChild(j).gameObject);
 				currentButtons[index] = 0;
 				mNumberOfButtonsInlistPanel--;
 			}
 		}
 	}
+
+  private void buttonClicked(RectTransform panel)
+  {
+    Debug.Log("Set " + panel.name + " active");
+    for (int i = 0; i < panels.Length; i++)
+    {
+      if (panels[i].gameObject.activeSelf)
+      {
+        panels[i].gameObject.SetActive(false);
+      }
+    }
+    panel.gameObject.SetActive(true);
+  }
 
 	public void OnTriggerEnter2D(Collider2D other)
 	{
