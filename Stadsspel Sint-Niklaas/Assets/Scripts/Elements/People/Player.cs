@@ -13,10 +13,12 @@ public class Player : Person
 	private Button[] buttons;
 	private int[] currentButtons;
 	private int highestPriority;
-	private string[] buttonNames = new string[] { "Ruil", "Bank", "Koop", "Verkoop", "Belastingen innen", "Belastingen stelen", "Plein overnemen", "Stelen" };
+
+  //order of strings is important
+  private string[] buttonNames = new string[] { "Ruil", "Bank", "Koop", "Verkoop", "Belastingen innen", "Belastingen stelen", "Plein overnemen", "Stelen" }; 
 
 	public Button prefabButton;
-  public RectTransform[] panels; 
+  private RectTransform[] panels; 
 
 	private RectTransform MainPanel;
 	private RectTransform ListPanel;
@@ -47,10 +49,16 @@ public class Player : Person
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
 
 		RectTransform priorityButtons = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("PriorityButtons");
-
+    RectTransform panelsInCanvas = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels");
+    int numberOfPanels = panelsInCanvas.transform.childCount;
+    panels = new RectTransform[numberOfPanels];
+    for (int i = 0; i < numberOfPanels; i++)
+    {
+      panels[i] = (RectTransform)panelsInCanvas.GetChild(i);
+    }
 		MainPanel = (RectTransform)priorityButtons.GetChild(1);
 		ListPanel = (RectTransform)priorityButtons.GetChild(0).GetChild(0);
-		Switch = (RectTransform)priorityButtons.GetChild(2);
+		Switch    = (RectTransform)priorityButtons.GetChild(2);
 		MainPanel.gameObject.SetActive(false);
 		ListPanel.gameObject.SetActive(false);
 		Switch.gameObject.SetActive(false);
