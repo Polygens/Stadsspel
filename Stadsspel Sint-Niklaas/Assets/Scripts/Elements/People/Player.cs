@@ -205,7 +205,8 @@ public class Player : Person
 	public void OnTriggerEnter2D(Collider2D other)
 	{
 		allGameObjectsInRadius.Add(other.gameObject);
-		if (other.gameObject.layer.ToString() == "Enemy") {
+    string name = LayerMask.LayerToName(other.gameObject.layer);
+    if (name == "Enemy") {
 			enemiesInRadius.Add(other.gameObject);
 		}
 
@@ -218,6 +219,20 @@ public class Player : Person
 		allGameObjectsInRadius.Remove(other.gameObject);
 		PriorityUpdate(allGameObjectsInRadius, other);
 	}
+
+  public GameObject GetTradingPost()
+  {
+    GameObject tradingpost = null;
+    foreach (GameObject GO in allGameObjectsInRadius)
+    {
+      string name = LayerMask.LayerToName(GO.layer);
+      if (name == "TradingPost")
+      {
+        tradingpost = GO.transform.parent.gameObject;
+      }
+    }
+    return tradingpost;
+  }
 }
 
 public enum priority : byte

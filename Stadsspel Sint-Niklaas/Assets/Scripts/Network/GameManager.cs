@@ -52,6 +52,7 @@ public class GameManager : NetworkBehaviour
 		s_Singleton = this;
 		nextMoneyUpdateTime = moneyUpdateTimeInterval;
 		DontDestroyOnLoad(gameObject);
+    mPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
 	}
 
 	// Update is called once per frame

@@ -10,7 +10,7 @@ public class Person : Element
 	//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
 	private List<int> legalItems = new List<int>();
 
-	[SyncVar]
+	[SyncVar][SerializeField]
 	private int mAmountOfMoney = 0;
 
 	private int mCaptureRadius = 35;

@@ -6,12 +6,14 @@ using UnityEngine.UI;
 public class TradingPost : Building
 {
   RectTransform TradingPostPanel;
-  Text totalPrice;
+  Text totalPriceText;
+  int totalPriceAmount;
   List<InputField> inputfields = new List<InputField>();
   List<Text> totalTextFields = new List<Text>();
-  SyncListInt visitedTeams = new SyncListInt();
+  //SyncListInt visitedTeams = new SyncListInt();
   List<Item> shopItems = new List<Item>();
   int[] numberOfEachItem;
+  bool everythingIsInstantiated = false;
 
   public void Start()
   {
@@ -39,7 +41,8 @@ public class TradingPost : Building
 
    
     RectTransform Grid = (RectTransform)TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
-    totalPrice = TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
+    totalPriceText = TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
+    TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AmountOfMoney.ToString();
     int childsInGrid = Grid.childCount;
     int index = 0;
     for (int i = 1; i < childsInGrid; i++)
@@ -53,13 +56,15 @@ public class TradingPost : Building
       }
     }
     numberOfEachItem = new int[shopItems.Count];
-    Debug.Log(numberOfEachItem.Length);
-    TradingPostPanel.gameObject.SetActive(false);
+    everythingIsInstantiated = true;
+    //TradingPostPanel.gameObject.SetActive(false);
   }
 
   private bool CheckIfTeamAlreadyVisited()
   {
     bool teamAlreadyVisited = false;
+    GameObject tempTradePost = GameObject.FindWithTag("Player").GetComponent<Player>().GetTradingPost();
+    List<int> visitedTeams = tempTradePost.GetComponent<TradingPostSyncing>().VisitedTeams;
     for (int i = 0; i < visitedTeams.Count; i++)
     {
       if (visitedTeams[i] == (int)GameObject.FindWithTag("Player").GetComponent<Player>().Team)
@@ -76,6 +81,11 @@ public class TradingPost : Building
     {
       TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
       return;
+    }
+    if (everythingIsInstantiated)
+    {
+      TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AmountOfMoney.ToString();
+
     }
   }
 
@@ -98,10 +108,6 @@ public class TradingPost : Building
   }
 
   //Execute when items are purchased (button holds this method)
-  public void AddTeamToList()
-  {   
-    visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Player>().Team);
-  }
 
 
   public void AddGoodsToPlayer()
@@ -121,7 +127,20 @@ public class TradingPost : Building
     }
     GameObject.FindWithTag("Player").GetComponent<Player>().AddLegalItems(legalItems);
     GameObject.FindWithTag("Player").GetComponent<Player>().AddIllegalItems(illegalItems);
-    AddTeamToList();
+    GameObject.FindWithTag("Player").GetComponent<Player>().GetTradingPost().GetComponent<TradingPostSyncing>().AddTeamToList();
+    GameObject.FindWithTag("Player").GetComponent<Player>().RemoveMoney(totalPriceAmount);
+
+    for (int i = 0; i < inputfields.Count; i++)
+    {
+      inputfields[i].text = "";
+      totalTextFields[i].text = "Totaal: 0";
+    }
+    totalPriceText.text = "0";
+  }
+
+  public void OnClose()
+  {
+    TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
   }
 
   //For drop down or inputField
@@ -152,7 +171,8 @@ public class TradingPost : Building
       tempTotal += (numberOfEachItem[i] * shopItems[i].BuyPrice);
     }
 
-    totalPrice.text = tempTotal.ToString();
+    totalPriceAmount = tempTotal;
+    totalPriceText.text = tempTotal.ToString();
     int itemTotal = (result * shopItems[focusedIndex].BuyPrice);
     totalTextFields[focusedIndex].text = "Totaal: " + itemTotal.ToString();
   }
