@@ -32,6 +32,13 @@ public class Person : Element
 		mesh.SetVertices(newMesh.ToList());
 
 		mesh.RecalculateBounds();
+
+    //instantiate list with 3 numbers for each list.
+    for (int i = 0; i < 3; i++)
+    {
+      legalItems.Add(0);
+      illegalItems.Add(0);
+    }
 	}
 
 	public void UpdatePosition()
@@ -74,14 +81,15 @@ public class Person : Element
 	public void AddLegalItems(List<int> items)
 	{
 		for (int i = 0; i < items.Count; i++) {
-			legalItems[i] = items[i];
+			legalItems[i] += items[i];
+      Debug.Log(i + ": " + legalItems[i]);
 		}
 	}
 
 	public void AddIllegalItems(List<int> items)
 	{
 		for (int i = 0; i < items.Count; i++) {
-			illegalItems[i] = items[i];
+			illegalItems[i] += items[i];
 		}
 	}
 

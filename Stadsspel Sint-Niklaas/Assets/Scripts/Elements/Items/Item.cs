@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Item : MonoBehaviour {
+public class Item {
 
-  public Item(string ItemName, float BuyPrice, float SellPrice, bool IsLegal)
+  public Item(string ItemName, int BuyPrice, int SellPrice, bool IsLegal)
   {
     itemName = ItemName;
     buyPrice = BuyPrice;
@@ -11,8 +11,8 @@ public class Item : MonoBehaviour {
     isLegal = IsLegal;
   }
 
-  private float buyPrice;
-  private float sellPrice;
+  private int buyPrice;
+  private int sellPrice;
   private bool isLegal;
   private string itemName;
 
@@ -22,7 +22,7 @@ public class Item : MonoBehaviour {
     set { itemName = value; }
   }
 
-  public float BuyPrice
+  public int BuyPrice
   {
     get { return buyPrice; }
     set { buyPrice = value; }
@@ -34,7 +34,7 @@ public class Item : MonoBehaviour {
     set { isLegal = value; }
   }
 
-  public float SellPrice
+  public int SellPrice
   {
     get { return sellPrice; }
     set { sellPrice = value; }

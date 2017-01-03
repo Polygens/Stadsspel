@@ -4,6 +4,6 @@ public class Building : Element
 {
 	public Building()
 	{
-		throw new System.NotImplementedException();
+		//throw new System.NotImplementedException();
 	}
 }

@@ -192,19 +192,18 @@ public class Player : Person
   private void buttonClicked(RectTransform panel)
   {
     Debug.Log("Set " + panel.name + " active");
-    for (int i = 0; i < panels.Length; i++)
-    {
-      if (panels[i].gameObject.activeSelf)
-      {
-        panels[i].gameObject.SetActive(false);
-      }
-    }
+    //for (int i = 0; i < panels.Length; i++)
+    //{
+    //  if (panels[i].gameObject.activeSelf)
+    //  {
+    //    panels[i].gameObject.SetActive(false);
+    //  }
+    //}
     panel.gameObject.SetActive(true);
   }
 
 	public void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("Start Colliding with:" + other.transform.parent.name);
 		allGameObjectsInRadius.Add(other.gameObject);
 		if (other.gameObject.layer.ToString() == "Enemy") {
 			enemiesInRadius.Add(other.gameObject);
