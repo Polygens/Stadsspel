@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Networking;
 
-
 public class Person : Element
 {
 	private List<int> illegalItems = new List<int>();
+
 	//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
 	private List<int> legalItems = new List<int>();
 
 	[SyncVar]
 	private int mAmountOfMoney = 0;
-	private int mCaptureRadius = 35;
 
+	private int mCaptureRadius = 35;
 
 	public Person()
 	{
-
 	}
 
 	protected void Start()
 	{
-
 		GetComponent<CircleCollider2D>().radius = mCaptureRadius;
 		Mesh mesh = GetComponent<MeshFilter>().mesh;
 		Vector3[] newMesh = mesh.vertices;
@@ -92,7 +90,6 @@ public class Person : Element
 		mAmountOfMoney -= money;
 	}
 
-
 	public void AddItems(int money)
 	{
 		mAmountOfMoney += money;
@@ -107,5 +104,10 @@ public class Person : Element
 
 	public int AmountOfMoney {
 		get { return mAmountOfMoney; }
+	}
+
+	public override void OnNameChange(string newName)
+	{
+		transform.GetChild(0).GetComponent<TextMesh>().text = newName;
 	}
 }

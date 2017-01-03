@@ -37,9 +37,6 @@ public class Player : Person
 	{
 		base.Start();
 
-		mTeam = TeamData.GetTeamByColor(GetComponent<Renderer>().material.color);
-		mName = transform.GetChild(0).GetComponent<TextMesh>().text;
-
 		MoveAvatar moveAvatar = gameObject.AddComponent<MoveAvatar>();
 		moveAvatar.mAvatarDirection = transform.GetChild(1);
 
@@ -70,7 +67,6 @@ public class Player : Person
 			buttons[i] = tempButton;
 			currentButtons[i] = 0;
 		}
-
 	}
 
 	public void Rob()
@@ -85,6 +81,7 @@ public class Player : Person
 	public void PriorityUpdate(List<GameObject> allGameObjectsInRadius, Collider2D other)
 	{
 		if (allGameObjectsInRadius.Count > 0) {
+
 			// In case there were no collidings before.
 			MainPanel.gameObject.SetActive(true);
 			ListPanel.gameObject.SetActive(true);
@@ -114,7 +111,6 @@ public class Player : Person
 
       // if there is a new highestpriority, do next lines
 			if (tempPriority != highestPriority) {
-
 				highestPriority = tempPriority;
 
         //Make room for new mainbutton
@@ -165,14 +161,13 @@ public class Player : Person
 					}
 					if ((currentButtons[i] == 1 && priorityPresence[i] == 0)) {
 						TryToDestroyIndexOfListPanel(i);
-
 					}
 				}
 				else {
 					TryToDestroyIndexOfListPanel(i);
 				}
-				//Debug.Log("For: " + i + " is currentButtons" + currentButtons[i] + " and priorityPresence " + priorityPresence[i]);
 
+				//Debug.Log("For: " + i + " is currentButtons" + currentButtons[i] + " and priorityPresence " + priorityPresence[i]);
 			}
 		}
 		else {

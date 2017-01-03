@@ -1,4 +1,5 @@
 ﻿using Prototype.NetworkLobby;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -6,6 +7,9 @@ using UnityEngine.Networking;
 public class GameManager : NetworkBehaviour
 {
 	static public GameManager s_Singleton;
+
+	[SerializeField]
+	private GameObject mteamPrefab;
 
 	private float mGameLength;
 	private bool mGameIsRunning = false;
@@ -31,7 +35,7 @@ public class GameManager : NetworkBehaviour
 			return mTeams;
 		}
 
-		private set {
+		set {
 			mTeams = value;
 		}
 	}
@@ -39,7 +43,7 @@ public class GameManager : NetworkBehaviour
 	//public GameObject lobbyServerEntry;
 
 	// Use this for initialization
-	void Start()
+	private void Start()
 	{
 		if (s_Singleton != null) {
 			Destroy(this);
@@ -51,58 +55,34 @@ public class GameManager : NetworkBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	private void Update()
 	{
 		if (mGameIsRunning) {
 			if (Time.timeSinceLevelLoad > mGameLength) {
+
 				//Debug.Log("The game has ended");
 			}
 			if (Time.timeSinceLevelLoad > nextMoneyUpdateTime) {
+
 				// Call GainMoneyOverTime() from each financial object
 				nextMoneyUpdateTime = Time.timeSinceLevelLoad + moneyUpdateTimeInterval;
 			}
 		}
 	}
 
-	public void GenerateTeams(int numberOfTeams)
+	public void StartGame(int amountOfTeams)
 	{
-		for (int i = 0; i < transform.childCount; i++) {
-			DestroyImmediate(transform.GetChild(i));
-		}
-		Teams = new Team[numberOfTeams];
-
-		for (int i = 0; i < numberOfTeams; i++) {
-			GameObject temp = new GameObject("Team" + (i + 1));
-			temp.AddComponent<NetworkIdentity>();
-			temp.transform.parent = transform;
-			Teams[i] = temp.AddComponent<Team>();
-			Teams[i].TeamID = (TeamID)i + 1;
-		}
+		CmdCreateTeams(amountOfTeams);
+		mGameIsRunning = true;
 	}
 
-	public void StartGame(LobbyPlayer[,] lobbyPlayers)
+	[Command]
+	public void CmdCreateTeams(int amountOfTeams)
 	{
-		mGameIsRunning = true;
-
-		for (int i = 0; i < lobbyPlayers.GetLength(0); i++) {
-			for (int j = 0; j < lobbyPlayers.GetLength(1); j++) {
-				if (lobbyPlayers[i, j] != null) {
-					GameObject gamePlayer = lobbyPlayers[i, j].gameObject.transform.GetChild(lobbyPlayers[i, j].transform.childCount - 1).gameObject;
-					gamePlayer.transform.SetParent(transform.GetChild(i));
-					if (lobbyPlayers[i, j].netId.Value == LobbyPlayer.mLocalPlayerNetID) {
-						Player = gamePlayer.gameObject.AddComponent<Player>();
-						gamePlayer.name = "Player ID:" + lobbyPlayers[i, j].netId;
-					}
-					else if (lobbyPlayers[i, j].mPlayerTeam == LobbyPlayer.mLocalPlayerTeam) {
-						gamePlayer.gameObject.AddComponent<Friend>();
-						gamePlayer.name = "Friend ID:" + lobbyPlayers[i, j].netId;
-					}
-					else {
-						gamePlayer.gameObject.AddComponent<Enemy>();
-						gamePlayer.name = "Enemy ID:" + lobbyPlayers[i, j].netId;
-					}
-				}
-			}
+		for (int i = 0; i < amountOfTeams; i++) {
+			GameObject temp = Instantiate(mteamPrefab);
+			NetworkServer.Spawn(temp);
+			temp.GetComponent<Team>().TeamID = (TeamID)(i + 1);
 		}
 	}
 

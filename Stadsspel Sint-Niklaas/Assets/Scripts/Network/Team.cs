@@ -7,7 +7,10 @@ using Prototype.NetworkLobby;
 public class Team : NetworkBehaviour
 {
 	[SerializeField]
+	[SyncVar]
 	private TeamID mTeamID;
+
+	[SerializeField]
 	[SyncVar]
 	private int mTotalMoney = 0;
 

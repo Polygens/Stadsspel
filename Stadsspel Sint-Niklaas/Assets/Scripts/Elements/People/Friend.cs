@@ -18,9 +18,4 @@ public class Friend : Person
 		proximityChecker.checkMethod = NetworkProximityChecker.CheckMethod.Physics2D;
 		proximityChecker.visRange = mDetectionRadius;
 	}
-
-	public override void OnNameChange(string newName)
-	{
-		transform.GetChild(0).GetComponent<TextMesh>().text = newName;
-	}
 }

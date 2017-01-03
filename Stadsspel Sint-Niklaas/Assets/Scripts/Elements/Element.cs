@@ -4,16 +4,17 @@ using UnityEngine.Networking;
 public class Element : NetworkBehaviour
 {
 	private float mActionRadius;
+
 	[SerializeField]
 	[SyncVar]
 	protected TeamID mTeam = TeamID.NotSet;
+
 	[SerializeField]
 	[SyncVar(hook = "OnNameChange")]
 	protected string mName = "Not set";
 
 	public Element()
 	{
-
 	}
 
 	public Vector2 Position {
@@ -22,6 +23,16 @@ public class Element : NetworkBehaviour
 		}
 
 		set {
+		}
+	}
+
+	public TeamID Team {
+		get {
+			return mTeam;
+		}
+
+		set {
+			mTeam = value;
 		}
 	}
 

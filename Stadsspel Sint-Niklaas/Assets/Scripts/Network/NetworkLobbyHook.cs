@@ -8,9 +8,7 @@ public class NetworkLobbyHook : LobbyHook
 	public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager, GameObject lobbyPlayer, GameObject gamePlayer)
 	{
 		LobbyPlayer lobbyP = lobbyPlayer.GetComponent<LobbyPlayer>();
-		gamePlayer.GetComponent<Renderer>().material.color = TeamData.GetColor(lobbyP.mPlayerTeam);
-		gamePlayer.transform.GetChild(0).GetComponent<TextMesh>().text = lobbyP.mPlayerName;
-
-		gamePlayer.transform.SetParent(lobbyPlayer.transform);
+		gamePlayer.GetComponent<PlayerInitializer>().Team = lobbyP.mPlayerTeam;
+		gamePlayer.GetComponent<PlayerInitializer>().Name = lobbyP.mPlayerName;
 	}
 }

@@ -7,14 +7,13 @@ using UnityEngine.Networking.Match;
 using System.Collections;
 using System;
 
-
 namespace Prototype.NetworkLobby
 {
 	public class LobbyManager : NetworkLobbyManager
 	{
 		static public LobbyManager s_Singleton;
 
-		static short MsgKicked = MsgType.Highest + 1;
+		private static short MsgKicked = MsgType.Highest + 1;
 
 		[Header("Unity UI Lobby")]
 		[Tooltip("Time in second between all players ready & match start")]
@@ -23,6 +22,7 @@ namespace Prototype.NetworkLobby
 		[Space]
 		[Header("UI Reference")]
 		public LobbyTopPanel topPanel;
+
 		public RectTransform mCreateLobbyPanel;
 		public RectTransform lobbyPanel;
 		public LobbyInfoPanel infoPanel;
@@ -45,7 +45,7 @@ namespace Prototype.NetworkLobby
 		private int[] mMaxPlayers = new int[31] { 3, 4, 4, 3, 4, 4, 4, 4, 4, 5, 4, 5, 5, 5, 5, 6, 6, 6, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 };
 		private int mNumberOfplayersInGame = 0;
 
-		void Start()
+		private void Start()
 		{
 			s_Singleton = this;
 			_lobbyHooks = GetComponent<LobbyHook>();
@@ -92,7 +92,6 @@ namespace Prototype.NetworkLobby
 					else {
 						backDelegate = StopClientClbk;
 					}
-
 				}
 				else {
 					ChangeTo(mCreateLobbyPanel);
@@ -138,7 +137,6 @@ namespace Prototype.NetworkLobby
 			infoPanel.Display("Verbinden...", "Annuleren", () => {
 				_this.backDelegate();
 			});
-
 		}
 
 		public void DisplayPasswordRequest(LobbyServerEntry lobbyServerEntry)
@@ -149,9 +147,10 @@ namespace Prototype.NetworkLobby
 			}, lobbyServerEntry);
 		}
 
-
 		public delegate void BackButtonDelegate();
+
 		public BackButtonDelegate backDelegate;
+
 		public void GoBackButton()
 		{
 			backDelegate();
@@ -190,7 +189,6 @@ namespace Prototype.NetworkLobby
 
 			StopMatchMaker();
 
-
 			ChangeTo(mCreateLobbyPanel);
 		}
 
@@ -200,9 +198,10 @@ namespace Prototype.NetworkLobby
 			ChangeTo(mCreateLobbyPanel);
 		}
 
-		class KickMsg : MessageBase
+		private class KickMsg : MessageBase
 		{
 		}
+
 		public void KickPlayer(NetworkConnection conn)
 		{
 			conn.Send(MsgKicked, new KickMsg());
@@ -258,7 +257,7 @@ namespace Prototype.NetworkLobby
 				_lobbyHooks.OnLobbyServerSceneLoadedForPlayer(this, lobbyPlayer, gamePlayer);
 
 			if (++mNumberOfplayersInGame >= LobbyPlayerList._instance.AmountOfPlayersInLobby) {
-				GameManager.s_Singleton.StartGame(LobbyPlayerList._instance.LobbyPlayerMatrix);
+				GameManager.s_Singleton.StartGame(LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0));
 			}
 			return true;
 		}
@@ -281,11 +280,9 @@ namespace Prototype.NetworkLobby
 			}
 		}
 
-
 		public void OnStartButtonClicked()
 		{
 			StartCoroutine(ServerCountdownCoroutine());
-			GameManager.s_Singleton.GenerateTeams(LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0));
 		}
 
 		public IEnumerator ServerCountdownCoroutine()

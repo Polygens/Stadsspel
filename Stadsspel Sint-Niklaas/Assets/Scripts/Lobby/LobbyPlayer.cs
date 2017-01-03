@@ -14,10 +14,13 @@ namespace Prototype.NetworkLobby
 	{
 		[SerializeField]
 		private Button colorButton;
+
 		[SerializeField]
 		private InputField nameInput;
+
 		[SerializeField]
 		private Button readyButton;
+
 		[SerializeField]
 		private Button removePlayerButton;
 
@@ -27,7 +30,8 @@ namespace Prototype.NetworkLobby
 		//OnMyName function will be invoked on clients when server change the value of playerName
 		[SyncVar(hook = "OnMyName")]
 		public string mPlayerName = "";
-		[SyncVar(hook = "OnMyColor")]
+
+		[SyncVar(hook = "OnMyTeam")]
 		public TeamID mPlayerTeam = TeamID.NotSet;
 
 		public static TeamID mLocalPlayerTeam = TeamID.NotSet;
@@ -49,7 +53,6 @@ namespace Prototype.NetworkLobby
 		private string mHostIcon = "";
 		private string mLocalPlayerIcon = "";
 		private string mOtherPlayerIcon = "";
-
 
 		public override void OnStartClient()
 		{
@@ -81,7 +84,7 @@ namespace Prototype.NetworkLobby
 			}
 		}
 
-		void SetupLocalPlayer()
+		private void SetupLocalPlayer()
 		{
 			Debug.Log("You entered the lobby");
 			GetComponent<Image>().color = LocalPlayer;
@@ -111,11 +114,9 @@ namespace Prototype.NetworkLobby
 			//we switch from simple name display to name input
 			colorButton.interactable = true;
 			nameInput.interactable = true;
-
-
 		}
 
-		void SetupOtherPlayer()
+		private void SetupOtherPlayer()
 		{
 			Debug.Log("New Player joined");
 			nameInput.interactable = false;
@@ -123,7 +124,7 @@ namespace Prototype.NetworkLobby
 			readyButton.interactable = false;
 
 			OnMyName(mPlayerName);
-			OnMyColor(mPlayerTeam);
+			OnMyTeam(mPlayerTeam);
 
 			if (mIsHost) {
 				ChangeReadyButton(TransparentColor, "GEREED", ReadyColor);
@@ -190,7 +191,7 @@ namespace Prototype.NetworkLobby
 			nameInput.text = mPlayerName;
 		}
 
-		public void OnMyColor(TeamID newTeam)
+		public void OnMyTeam(TeamID newTeam)
 		{
 			if (newTeam != TeamID.NotSet) {
 				LobbyPlayerList._instance.RemovePlayer(this);
@@ -223,7 +224,7 @@ namespace Prototype.NetworkLobby
 
 			mLocalPlayerTeam = newTeam;
 
-			CmdColorChange(newTeam);
+			CmdTeamChange(newTeam);
 		}
 
 		private void OnReadyClicked()
@@ -263,15 +264,15 @@ namespace Prototype.NetworkLobby
 		//====== Server Command
 
 		[Command]
-		public void CmdColorChange(TeamID newTeam)
+		public void CmdTeamChange(TeamID newTeam)
 		{
 			mPlayerTeam = newTeam;
 		}
 
 		[Command]
-		public void CmdNameChanged(string name)
+		public void CmdNameChanged(string newName)
 		{
-			mPlayerName = name;
+			mPlayerName = newName;
 		}
 
 		//Cleanup thing when get destroy (which happen when client kick or disconnect)
