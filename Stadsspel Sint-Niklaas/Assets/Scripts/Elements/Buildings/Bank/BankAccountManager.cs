@@ -16,7 +16,7 @@ public class BankAccountManager : NetworkBehaviour
 		get { return bankAccounts; }
 	}
 
-	public BankAccount CreateBankAccount(byte id)
+	public BankAccount CreateBankAccount(TeamID id)
 	{
 		return new BankAccount(id);
 	}
@@ -33,20 +33,20 @@ public class BankAccountManager : NetworkBehaviour
 	{
 		// this code is executed on all clients
 		for (byte i = 0; i < GameManager.s_Singleton.Teams.Length; i++) {
-			bankAccounts.Add(CreateBankAccount(i));
+			bankAccounts.Add(CreateBankAccount((TeamID)i));
 		}
 	}
 
 	[Command]
-	public void CmdTransaction(byte teamID, int amount)
+	public void CmdTransaction(TeamID teamID, int amount)
 	{
 		RpcTransaction(teamID, amount);
 	}
 
 	[ClientRpc]
-	void RpcTransaction(byte teamID, int amount)
+	void RpcTransaction(TeamID teamID, int amount)
 	{
-		bankAccounts[teamID].Transaction(amount);
+		bankAccounts[(int)teamID].Transaction(amount);
 	}
 
 }

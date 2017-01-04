@@ -9,7 +9,7 @@ public class Financial : Building
 
 	public Financial()
 	{
-		throw new System.NotImplementedException();
+		//throw new System.NotImplementedException();
 	}
 
 	public void GetMoney()

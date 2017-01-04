@@ -1,9 +1,9 @@
 ﻿public class BankAccount
 {
-    public byte teamID;
+    public TeamID teamID;
     private int balance;
 
-    public BankAccount(byte id)
+    public BankAccount(TeamID id)
     {
         teamID = id;
         balance = 0;
