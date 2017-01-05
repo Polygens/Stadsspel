@@ -7,23 +7,16 @@ public class Inventory : Person
 {
     
     RectTransform GoederenPanel;
-    
-    int mDiploma = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpIllegalItems[(int)Items.diploma ];
-    int mOrganen = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpIllegalItems[(int)Items.orgaan];
-    int mDrugs = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpIllegalItems[(int)Items.drugs];
-    int mIjs = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpLegalItems[(int)Items.ijs];
-    int mKoekjes = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpLegalItems[(int)Items.koekjes];
-    int mPizza = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpLegalItems[(int)Items.pizza];
     List<int> lItems = new List<int>();
 
 
     public new void Start () {
-        lItems.Add(mIjs);
-        lItems.Add(mDrugs);
-        lItems.Add(mKoekjes);
-        lItems.Add(mDiploma);
-        lItems.Add(mPizza);
-        lItems.Add(mOrganen);
+        lItems.Add(GameObject.FindWithTag("Player").GetComponent<Player>().LookUpLegalItems[(int)Items.ijs]);
+        lItems.Add(GameObject.FindWithTag("Player").GetComponent<Player>().LookUpIllegalItems[(int)Items.drugs]);
+        lItems.Add(GameObject.FindWithTag("Player").GetComponent<Player>().LookUpLegalItems[(int)Items.koekjes]);
+        lItems.Add(GameObject.FindWithTag("Player").GetComponent<Player>().LookUpIllegalItems[(int)Items.diploma]);
+        lItems.Add(GameObject.FindWithTag("Player").GetComponent<Player>().LookUpLegalItems[(int)Items.pizza]);
+        lItems.Add(GameObject.FindWithTag("Player").GetComponent<Player>().LookUpIllegalItems[(int)Items.orgaan]);
         
         GoederenPanel = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels").transform.FindChild("Goederen");
         RectTransform Grid = (RectTransform)GoederenPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
