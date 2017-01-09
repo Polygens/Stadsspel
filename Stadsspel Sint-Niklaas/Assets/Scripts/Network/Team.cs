@@ -14,6 +14,9 @@ public class Team : NetworkBehaviour
 	[SyncVar]
 	private int mTotalMoney = 0;
 
+    [SyncVar]
+    private int mAmountOfDistricts = 1;
+
 	public TeamID TeamID {
 		get {
 			return mTeamID;
@@ -24,8 +27,21 @@ public class Team : NetworkBehaviour
 		}
 	}
 
+    public int AmountOfDistricts
+    {
+        get
+        {
+            return mAmountOfDistricts;
+        }
+    }
+
 	public void AddOrRemoveMoney(int amount)
 	{
 		mTotalMoney += amount;
 	}
+
+    public void AddOrRemoveDistrict(int amount)
+    {
+        mAmountOfDistricts += amount;
+    }
 }

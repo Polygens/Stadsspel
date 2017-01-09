@@ -32,13 +32,13 @@ public class Chest : Financial
 	public override void GainMoneyOverTime()
 	{
 		CheckAmountOfCapturedDistricts();
-		mAmountOfMoney += moneyGainPerDistrict /*  * amountOfDistricts  */;
+		mAmountOfMoney += moneyGainPerDistrict * CheckAmountOfCapturedDistricts();
 
 		base.GainMoneyOverTime();
 	}
 
-	private void CheckAmountOfCapturedDistricts()
+	private int CheckAmountOfCapturedDistricts()
 	{
-
+        return GameManager.s_Singleton.Teams[(int)mTeam].AmountOfDistricts;
 	}
 }
