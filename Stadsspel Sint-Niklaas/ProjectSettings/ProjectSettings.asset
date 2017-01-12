@@ -506,7 +506,7 @@ PlayerSettings:
   - WebGL::template
   - additionalIl2CppArgs::additionalIl2CppArgs
   Analytics_ServiceEnabled::Analytics_ServiceEnabled: False
-  Build_ServiceEnabled::Build_ServiceEnabled: True
+  Build_ServiceEnabled::Build_ServiceEnabled: False
   Collab_ServiceEnabled::Collab_ServiceEnabled: False
   ErrorHub_ServiceEnabled::ErrorHub_ServiceEnabled: False
   Game_Performance_ServiceEnabled::Game_Performance_ServiceEnabled: False
@@ -555,7 +555,7 @@ PlayerSettings:
   XboxOne::VR::enabledDevices: []
   iOS::VR::enabledDevices: []
   tvOS::VR::enabledDevices: []
-  cloudProjectId: c0fbbb13-ef22-482d-b537-a9f97e3ac9ef
+  cloudProjectId: 8a2a07b2-9a68-4d85-8f49-263b9b071aeb
   projectName: Stadsspel_SintNiklaas
-  organizationId: seppe-peelman
+  organizationId: jarno-hermans
   cloudEnabled: 0
