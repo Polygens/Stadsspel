@@ -152,6 +152,7 @@ public class Player : Person
             }
             if (tempPanel != null)
             {
+              
               tempB.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
             }
 
@@ -198,7 +199,7 @@ public class Player : Person
     //  {
     //    panels[i].gameObject.SetActive(false);
     //  }
-    //}
+    //
     panel.gameObject.SetActive(true);
   }
 

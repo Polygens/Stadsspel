@@ -39,7 +39,7 @@ public class Person : Element
       legalItems.Add(0);
       illegalItems.Add(0);
     }
-	}
+  }
 
 	public void UpdatePosition()
 	{
@@ -55,13 +55,19 @@ public class Person : Element
 
 	public void ResetLegalItems()
 	{
-		legalItems.Clear();
+    for (int i = 0; i < legalItems.Count; i++)
+    {
+      legalItems[i] = 0;
+    }
 	}
 
 	public void ResetIllegalItems()
 	{
-		illegalItems.Clear();
-	}
+    for (int i = 0; i < illegalItems.Count; i++)
+    {
+      illegalItems[i] = 0;
+    }
+  }
 
 	public void GetRobbed()
 	{
@@ -82,7 +88,6 @@ public class Person : Element
 	{
 		for (int i = 0; i < items.Count; i++) {
 			legalItems[i] += items[i];
-      Debug.Log(i + ": " + legalItems[i]);
 		}
 	}
 
@@ -90,7 +95,7 @@ public class Person : Element
 	{
 		for (int i = 0; i < items.Count; i++) {
 			illegalItems[i] += items[i];
-		}
+    }
 	}
 
 	public void RemoveMoney(int money)

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Item {
 
@@ -15,6 +16,22 @@ public class Item {
   private int sellPrice;
   private bool isLegal;
   private string itemName;
+
+  static public List<Item> ShopItems
+  {
+    get
+    {
+      List<Item> shopItems = new List<Item>();
+      shopItems.Add(new Item("Ijs", 3, 4, true));
+      shopItems.Add(new Item("Drugs", 30, 50, false));
+      shopItems.Add(new Item("Koekjes", 6, 10, true));
+
+      shopItems.Add(new Item("Diploma", 100, 120, false));
+      shopItems.Add(new Item("Pizza", 10, 15, true));
+      shopItems.Add(new Item("Orgaan", 50, 70, false));
+      return shopItems;  
+    }
+  }
 
   public string ItemName
   {

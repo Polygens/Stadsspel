@@ -7,8 +7,8 @@ public class TradingPostSyncing : NetworkBehaviour {
 
   SyncListInt visitedTeams = new SyncListInt();
 
-
-  public void AddTeamToList()
+  //[Command]
+  public void CmdAddTeamToList()
   {
     visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Player>().Team);
   }

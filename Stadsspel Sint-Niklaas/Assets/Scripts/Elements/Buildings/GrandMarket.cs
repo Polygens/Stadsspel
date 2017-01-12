@@ -7,38 +7,48 @@ public class GrandMarket : Building
 {
     RectTransform MarktPanel;
     public Text TotalUI;
-    List<int> lItems = new List<int>();
+    List<int> illegalItems = new List<int>();
+    List<int> legalItems = new List<int>();
     private Player player;
     
     private int total;
 
-    public void Start()
+    public void OnEnable()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        UpdateUI();
-       
+        UpdateUI(); 
     }
 
     public void UpdateUI()
     {
-        lItems.Add(player.LookUpLegalItems[(int)Items.ijs]);
-        lItems.Add(player.LookUpIllegalItems[(int)Items.drugs]);
-        lItems.Add(player.LookUpLegalItems[(int)Items.koekjes]);
-        lItems.Add(player.LookUpIllegalItems[(int)Items.diploma]);
-        lItems.Add(player.LookUpLegalItems[(int)Items.pizza]);
-        lItems.Add(player.LookUpIllegalItems[(int)Items.orgaan]);
+        legalItems = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpLegalItems;
+        illegalItems = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpIllegalItems;
 
         MarktPanel = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels").transform.FindChild("Markt");
         RectTransform Grid = (RectTransform)MarktPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
-        int index = 0;
+        //int indexLegal = 0;
+        //int indexIllegal = 0;
+        int index = 0;    
 
         for (int i = 1; i < Grid.childCount; i++)
         {
             for (int j = 0; j < 2; j++)
             {
-                Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Amount").GetComponent<Text>().text = "Amount: " + lItems[index].ToString();
-                int selPrice = int.Parse(Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("GameObject").transform.FindChild("Prijs").GetComponent<Text>().text);
-                int subTotal = selPrice * lItems[index];
+                Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = Item.ShopItems[index].SellPrice.ToString();
+                int subTotal = 0;
+                if (j == 0)
+                {
+                  Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Amount").GetComponent<Text>().text = "Amount: " + legalItems[i - 1].ToString();
+                  subTotal = CalculateSubtotal(i-1,index, legalItems);
+                  //indexLegal++;
+                }
+                else
+                {
+                  Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Amount").GetComponent<Text>().text = "Amount: " + illegalItems[i-1].ToString();
+                  subTotal = CalculateSubtotal(i-1,index, illegalItems);
+                  //indexIllegal++;
+                }
+
+                
                 Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Profit").GetComponent<Text>().text = "Winst: " + subTotal;
                 total += subTotal;
                 index++;
@@ -47,16 +57,36 @@ public class GrandMarket : Building
         TotalUI.text  = "Totaal: " + total;
 
     }
-    public void Kopen()
+
+  private int CalculateSubtotal(int Listindex, int index, List<int> items)
+  {
+    int sellPrice = Item.ShopItems[index].SellPrice;
+    int subTotal = sellPrice * items[Listindex];
+    return subTotal;
+  }
+    public void Sell()
     {
 
-        player.AddItems(total);
-        player.ResetIllegalItems();
-        player.ResetLegalItems();
-        lItems.Clear();
+        GameObject.FindWithTag("Player").GetComponent<Player>().AddItems(total);
+        GameObject.FindWithTag("Player").GetComponent<Player>().ResetIllegalItems();
+        GameObject.FindWithTag("Player").GetComponent<Player>().ResetLegalItems();
         total = 0;
-        UpdateUI();
-
+        ResetUI();
     }
-   
+
+  private void ResetUI()
+  {
+    RectTransform Grid = (RectTransform)MarktPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
+    for (int i = 1; i < Grid.childCount; i++)
+    {
+      for (int j = 0; j < 2; j++)
+      {
+        Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Amount").GetComponent<Text>().text = "Amount: 0";
+        Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Profit").GetComponent<Text>().text = "Winst: 0";
+      }
+    }
+    TotalUI.text = "Totaal: " + total;
+    MarktPanel.gameObject.SetActive(false);
+  }
+
 }

@@ -30,14 +30,7 @@ public class TradingPost : Building
       return;
     }
 
-    // Like the grid in hierarchy, each 2 is a row
-    shopItems.Add(new Item("Ijs", 3, 4, true));
-    shopItems.Add(new Item("Drugs", 30, 50, false));
-    shopItems.Add(new Item("Koekjes", 6, 10, true));
-
-    shopItems.Add(new Item("Diploma", 100, 120, false));
-    shopItems.Add(new Item("Pizza", 10, 15, true));
-    shopItems.Add(new Item("Orgaan", 50, 70, false));
+    shopItems = Item.ShopItems;
 
    
     RectTransform Grid = (RectTransform)TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
@@ -97,8 +90,15 @@ public class TradingPost : Building
     //}
     if (!CheckIfTeamAlreadyVisited())
     {
-      AddGoodsToPlayer();
-      TradingPostPanel.gameObject.SetActive(false);
+      if (GameObject.FindWithTag("Player").GetComponent<Player>().AmountOfMoney > totalPriceAmount)
+      {
+        AddGoodsToPlayer();
+        TradingPostPanel.gameObject.SetActive(false);
+      }
+      else
+      {
+        Debug.Log("Not enough money");
+      }
     }
     else
     {
@@ -127,7 +127,7 @@ public class TradingPost : Building
     }
     GameObject.FindWithTag("Player").GetComponent<Player>().AddLegalItems(legalItems);
     GameObject.FindWithTag("Player").GetComponent<Player>().AddIllegalItems(illegalItems);
-    GameObject.FindWithTag("Player").GetComponent<Player>().GetTradingPost().GetComponent<TradingPostSyncing>().AddTeamToList();
+    GameObject.FindWithTag("Player").GetComponent<Player>().GetTradingPost().GetComponent<TradingPostSyncing>().CmdAddTeamToList();
     GameObject.FindWithTag("Player").GetComponent<Player>().RemoveMoney(totalPriceAmount);
 
     for (int i = 0; i < inputfields.Count; i++)
@@ -136,6 +136,7 @@ public class TradingPost : Building
       totalTextFields[i].text = "Totaal: 0";
     }
     totalPriceText.text = "0";
+    totalPriceAmount = 0;
   }
 
   public void OnClose()
