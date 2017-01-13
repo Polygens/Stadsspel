@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TradingPost : Building
 {
+<<<<<<< Updated upstream
   RectTransform TradingPostPanel;
   Text totalPriceText;
   int totalPriceAmount;
@@ -38,10 +39,34 @@ public class TradingPost : Building
     TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AmountOfMoney.ToString();
     int childsInGrid = Grid.childCount;
     int index = 0;
+=======
+
+  List<InputField> inputfields = new List<InputField>();
+  SyncListInt visitedTeams = new SyncListInt();
+  List<Item> shopItems = new List<Item>();
+  int[] numberOfEachItem;
+
+  public void Start()
+  {
+    // Like the grid
+    shopItems.Add(new Item("Ijs", 2.5f, 4f, true));
+    shopItems.Add(new Item("Drugs", 30, 50, false));
+    shopItems.Add(new Item("Pizza", 10, 15, true));
+    shopItems.Add(new Item("Diploma", 100, 120, false));
+    shopItems.Add(new Item("Koekjes", 6f, 10f, true));
+    shopItems.Add(new Item("Orgaan", 50f, 70f, false));
+
+
+
+    RectTransform TradingPostPanel = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels").transform.FindChild("TradingPost");
+    RectTransform Grid = (RectTransform)TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
+    int childsInGrid = Grid.childCount;
+>>>>>>> Stashed changes
     for (int i = 1; i < childsInGrid; i++)
     {
       for (int j = 0; j < 2; j++)
       {
+<<<<<<< Updated upstream
         Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = shopItems[index].BuyPrice.ToString();
         inputfields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
         totalTextFields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Totaal").GetComponent<Text>());
@@ -105,6 +130,23 @@ public class TradingPost : Building
       TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
     }
 
+=======
+        inputfields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
+      }
+    }
+    numberOfEachItem = new int[shopItems.Count];
+  }
+
+  //Execute when items are purchased (button holds this method)
+  public void AddTeamToList()
+  {   
+    if (!isLocalPlayer)
+    {
+      return;
+    }
+    visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Player>().Team);
+    AddGoodsToPlayer();
+>>>>>>> Stashed changes
   }
 
   //Execute when items are purchased (button holds this method)
@@ -112,6 +154,7 @@ public class TradingPost : Building
 
   public void AddGoodsToPlayer()
   {
+<<<<<<< Updated upstream
     List<int> legalItems = new List<int>();
     List<int> illegalItems = new List<int>();
     for (int i = 0; i < numberOfEachItem.Length; i++)
@@ -142,13 +185,20 @@ public class TradingPost : Building
   public void OnClose()
   {
     TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
+=======
+    //GameObject.FindWithTag("Player").GetComponent<Player>().AddIllegalItems();
+    throw new System.NotImplementedException();
+>>>>>>> Stashed changes
   }
 
   //For drop down or inputField
   public void UpdateNumberOfGoods(string number)
   {
+<<<<<<< Updated upstream
     int focusedIndex = 0;
     int result = 0;
+=======
+>>>>>>> Stashed changes
     if (number == "")
     {
       number = "0";
@@ -157,12 +207,17 @@ public class TradingPost : Building
     {
       if (inputfields[i].isFocused)
       {
+<<<<<<< Updated upstream
         
+=======
+        int result = 0;
+>>>>>>> Stashed changes
         bool isNumber = int.TryParse(number,out result);
         if (isNumber)
         {
           numberOfEachItem[i] = result;
         }
+<<<<<<< Updated upstream
         focusedIndex = i;
       }
     }
@@ -176,6 +231,12 @@ public class TradingPost : Building
     totalPriceText.text = tempTotal.ToString();
     int itemTotal = (result * shopItems[focusedIndex].BuyPrice);
     totalTextFields[focusedIndex].text = "Totaal: " + itemTotal.ToString();
+=======
+
+        Debug.Log(shopItems[i].ItemName);
+      }
+    }
+>>>>>>> Stashed changes
   }
 
   public TradingPost()
