@@ -66,8 +66,8 @@ MonoBehaviour:
     LargeIcon: {fileID: 2800000, guid: ad4412933c34d994a9a6daafb8202f4a, type: 3}
   - Type: 0
     Key: Resources
-    SmallIcon: {fileID: 2800000, guid: 97efd597cd18c564aadb45280476b23a, type: 3}
-    LargeIcon: {fileID: 2800000, guid: 650a564eae901434e86dcb456fcc046a, type: 3}
+    SmallIcon: {fileID: 2800000, guid: 191188601401d7f4ca9105e13b350e00, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 191188601401d7f4ca9105e13b350e00, type: 3}
   - Type: 0
     Key: Data
     SmallIcon: {fileID: 2800000, guid: 97efd597cd18c564aadb45280476b23a, type: 3}

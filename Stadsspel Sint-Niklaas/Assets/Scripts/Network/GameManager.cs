@@ -52,11 +52,16 @@ public class GameManager : NetworkBehaviour
 		s_Singleton = this;
 		nextMoneyUpdateTime = moneyUpdateTimeInterval;
 		DontDestroyOnLoad(gameObject);
-    mPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
+    Invoke("FindPlayer", 1f);
 	}
 
-	// Update is called once per frame
-	private void Update()
+  private void FindPlayer()
+  {
+    mPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
+  }
+
+  // Update is called once per frame
+  private void Update()
 	{
 		if (mGameIsRunning) {
 			if (Time.timeSinceLevelLoad > mGameLength) {

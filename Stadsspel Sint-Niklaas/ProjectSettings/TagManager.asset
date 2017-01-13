@@ -8,6 +8,8 @@ TagManager:
   - LocationManager
   - Districts
   - Canvas
+  - Enemy
+  - Team
   layers:
   - Default
   - TransparentFX

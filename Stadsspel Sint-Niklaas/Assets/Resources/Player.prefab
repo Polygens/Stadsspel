@@ -333,7 +333,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -358,7 +358,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010874694010}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &92000012178874270
 Behaviour:
   m_ObjectHideFlags: 1
@@ -421,22 +421,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 154
-    i1: 168
-    i2: 40
-    i3: 82
-    i4: 9
-    i5: 230
-    i6: 229
-    i7: 164
-    i8: 105
-    i9: 4
-    i10: 61
-    i11: 172
-    i12: 135
-    i13: 5
-    i14: 134
-    i15: 221
+    i0: 210
+    i1: 217
+    i2: 151
+    i3: 171
+    i4: 180
+    i5: 215
+    i6: 4
+    i7: 68
+    i8: 219
+    i9: 104
+    i10: 234
+    i11: 17
+    i12: 231
+    i13: 213
+    i14: 247
+    i15: 96
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!114 &114000011054209596

@@ -17,7 +17,6 @@ public class Player : Person
   //order of strings is important
   private string[] buttonNames = new string[] { "Ruil", "Bank", "Koop", "Verkoop", "Belastingen innen", "Belastingen stelen", "Plein overnemen", "Stelen" }; 
 
-	public Button prefabButton;
   private RectTransform[] panels; 
 
 	private RectTransform MainPanel;
@@ -63,8 +62,9 @@ public class Player : Person
 		buttons = new Button[lengthPriorities];
 		currentButtons = new int[lengthPriorities];
 		for (int i = 0; i < lengthPriorities; i++) {
-			Button tempButton = prefabButton;
-			buttons[i] = tempButton;
+			Button tempButton = Resources.Load("PriorityButton", typeof(Button)) as Button;
+
+      buttons[i] = tempButton;
 			currentButtons[i] = 0;
 		}
 	}
@@ -75,7 +75,6 @@ public class Player : Person
 			AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
 			enemy.GetComponent<Person>().GetRobbed();
 		}
-		throw new System.NotImplementedException();
 	}
 
 	public void PriorityUpdate(List<GameObject> allGameObjectsInRadius, Collider2D other)
@@ -123,15 +122,23 @@ public class Player : Person
 				mainButton.transform.FindChild("Text").GetComponent<Text>().text = buttonNames[highestPriority];
         RectTransform tempPanel = null;
 
-        //names of the panels need to be the same as the priorities & layernames
-        for (int j = 0; j < panels.Length; j++)
-        {
-          if (panels[j].name == ((priority)highestPriority).ToString())
+
+          //names of the panels need to be the same as the priorities & layernames
+          for (int j = 0; j < panels.Length; j++)
           {
-            tempPanel = panels[j];
+            if (panels[j].name == ((priority)highestPriority).ToString())
+            {
+            if ("Enemy" != ((priority)highestPriority).ToString())
+            {
+              tempPanel = panels[j];
+              mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
+            }
+            else
+            {
+              mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
+            }
+            }
           }
-        }
-        mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
       }
 
       // For all priorities, check if more buttons are needed in listpanel
