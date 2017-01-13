@@ -49,19 +49,12 @@ public class Element : NetworkBehaviour
 		gameObject.name = newName;
 	}
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 }
 =======
-=======
->>>>>>> Stashed changes
 
   public TeamID Team
   {
     get { return mTeam; }
   }
-<<<<<<< Updated upstream
-}
->>>>>>> Stashed changes
-=======
 }
 >>>>>>> Stashed changes
