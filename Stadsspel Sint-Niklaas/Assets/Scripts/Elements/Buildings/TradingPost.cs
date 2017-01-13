@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TradingPost : Building
 {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   RectTransform TradingPostPanel;
   Text totalPriceText;
   int totalPriceAmount;
@@ -48,6 +49,16 @@ public class TradingPost : Building
 
   public void Start()
   {
+=======
+
+  List<InputField> inputfields = new List<InputField>();
+  SyncListInt visitedTeams = new SyncListInt();
+  List<Item> shopItems = new List<Item>();
+  int[] numberOfEachItem;
+
+  public void Start()
+  {
+>>>>>>> Stashed changes
     // Like the grid
     shopItems.Add(new Item("Ijs", 2.5f, 4f, true));
     shopItems.Add(new Item("Drugs", 30, 50, false));
@@ -61,11 +72,15 @@ public class TradingPost : Building
     RectTransform TradingPostPanel = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels").transform.FindChild("TradingPost");
     RectTransform Grid = (RectTransform)TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
     int childsInGrid = Grid.childCount;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     for (int i = 1; i < childsInGrid; i++)
     {
       for (int j = 0; j < 2; j++)
       {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = shopItems[index].BuyPrice.ToString();
         inputfields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
@@ -91,6 +106,23 @@ public class TradingPost : Building
       }
     }
     return teamAlreadyVisited;
+=======
+        inputfields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
+      }
+    }
+    numberOfEachItem = new int[shopItems.Count];
+  }
+
+  //Execute when items are purchased (button holds this method)
+  public void AddTeamToList()
+  {   
+    if (!isLocalPlayer)
+    {
+      return;
+    }
+    visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Player>().Team);
+    AddGoodsToPlayer();
+>>>>>>> Stashed changes
   }
 
   public void OnEnable()
@@ -155,6 +187,7 @@ public class TradingPost : Building
   public void AddGoodsToPlayer()
   {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     List<int> legalItems = new List<int>();
     List<int> illegalItems = new List<int>();
     for (int i = 0; i < numberOfEachItem.Length; i++)
@@ -186,6 +219,8 @@ public class TradingPost : Building
   {
     TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
 =======
+=======
+>>>>>>> Stashed changes
     //GameObject.FindWithTag("Player").GetComponent<Player>().AddIllegalItems();
     throw new System.NotImplementedException();
 >>>>>>> Stashed changes
@@ -195,8 +230,11 @@ public class TradingPost : Building
   public void UpdateNumberOfGoods(string number)
   {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     int focusedIndex = 0;
     int result = 0;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     if (number == "")
@@ -208,7 +246,11 @@ public class TradingPost : Building
       if (inputfields[i].isFocused)
       {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         
+=======
+        int result = 0;
+>>>>>>> Stashed changes
 =======
         int result = 0;
 >>>>>>> Stashed changes
@@ -217,6 +259,7 @@ public class TradingPost : Building
         {
           numberOfEachItem[i] = result;
         }
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         focusedIndex = i;
       }
@@ -232,10 +275,15 @@ public class TradingPost : Building
     int itemTotal = (result * shopItems[focusedIndex].BuyPrice);
     totalTextFields[focusedIndex].text = "Totaal: " + itemTotal.ToString();
 =======
+=======
+>>>>>>> Stashed changes
 
         Debug.Log(shopItems[i].ItemName);
       }
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   }
 
