@@ -10,36 +10,20 @@ public class Person : Element
 	//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
 	private List<int> legalItems = new List<int>();
 
-	[SyncVar][SerializeField]
+	[SyncVar]
+	[SerializeField]
 	private int mAmountOfMoney = 0;
-
-	private int mCaptureRadius = 35;
-
-	public Person()
-	{
-	}
 
 	protected void Start()
 	{
-		GetComponent<CircleCollider2D>().radius = mCaptureRadius;
-		Mesh mesh = GetComponent<MeshFilter>().mesh;
-		Vector3[] newMesh = mesh.vertices;
+		ActionRadius = 40;
 
-		newMesh[0] = new Vector3(-mCaptureRadius, -mCaptureRadius);
-		newMesh[1] = new Vector3(mCaptureRadius, mCaptureRadius);
-		newMesh[2] = new Vector3(mCaptureRadius, -mCaptureRadius);
-		newMesh[3] = new Vector3(-mCaptureRadius, mCaptureRadius);
-		mesh.SetVertices(newMesh.ToList());
-
-		mesh.RecalculateBounds();
-
-    //instantiate list with 3 numbers for each list.
-    for (int i = 0; i < 3; i++)
-    {
-      legalItems.Add(0);
-      illegalItems.Add(0);
-    }
-  }
+		//instantiate list with 3 numbers for each list.
+		for (int i = 0; i < 3; i++) {
+			legalItems.Add(0);
+			illegalItems.Add(0);
+		}
+	}
 
 	public void UpdatePosition()
 	{
@@ -55,19 +39,17 @@ public class Person : Element
 
 	public void ResetLegalItems()
 	{
-    for (int i = 0; i < legalItems.Count; i++)
-    {
-      legalItems[i] = 0;
-    }
+		for (int i = 0; i < legalItems.Count; i++) {
+			legalItems[i] = 0;
+		}
 	}
 
 	public void ResetIllegalItems()
 	{
-    for (int i = 0; i < illegalItems.Count; i++)
-    {
-      illegalItems[i] = 0;
-    }
-  }
+		for (int i = 0; i < illegalItems.Count; i++) {
+			illegalItems[i] = 0;
+		}
+	}
 
 	public void GetRobbed()
 	{
@@ -95,7 +77,7 @@ public class Person : Element
 	{
 		for (int i = 0; i < items.Count; i++) {
 			illegalItems[i] += items[i];
-    }
+		}
 	}
 
 	public void RemoveMoney(int money)

@@ -2,8 +2,13 @@
 
 public class Building : Element
 {
-	public Building()
+	protected new void Start()
 	{
-		//throw new System.NotImplementedException();
+		base.Start();
+		ActionRadius = 30;
+
+		Renderer Renderer = GetComponent<Renderer>();
+		Renderer.material.SetFloat("Opacity", 1f);
+		Renderer.material.SetFloat("Thickness", 0f);
 	}
 }

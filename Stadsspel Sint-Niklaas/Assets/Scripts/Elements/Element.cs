@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Element : NetworkBehaviour
@@ -13,7 +14,7 @@ public class Element : NetworkBehaviour
 	[SyncVar(hook = "OnNameChange")]
 	protected string mName = "Not set";
 
-	public Element()
+	protected void Start()
 	{
 	}
 
@@ -33,6 +34,27 @@ public class Element : NetworkBehaviour
 
 		set {
 			mTeam = value;
+		}
+	}
+
+	protected float ActionRadius {
+		get {
+			return mActionRadius;
+		}
+
+		set {
+			mActionRadius = value;
+			GetComponent<CircleCollider2D>().radius = mActionRadius;
+			Mesh mesh = GetComponent<MeshFilter>().mesh;
+			Vector3[] newMesh = mesh.vertices;
+
+			newMesh[0] = new Vector3(-mActionRadius, -mActionRadius);
+			newMesh[1] = new Vector3(mActionRadius, mActionRadius);
+			newMesh[2] = new Vector3(mActionRadius, -mActionRadius);
+			newMesh[3] = new Vector3(-mActionRadius, mActionRadius);
+			mesh.SetVertices(newMesh.ToList());
+
+			mesh.RecalculateBounds();
 		}
 	}
 
