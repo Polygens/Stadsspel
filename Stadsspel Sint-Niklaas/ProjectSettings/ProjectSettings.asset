@@ -555,7 +555,7 @@ PlayerSettings:
   XboxOne::VR::enabledDevices: []
   iOS::VR::enabledDevices: []
   tvOS::VR::enabledDevices: []
-  cloudProjectId: c0fbbb13-ef22-482d-b537-a9f97e3ac9ef 
+  cloudProjectId: c0fbbb13-ef22-482d-b537-a9f97e3ac9ef
   projectName: Stadsspel_SintNiklaas
   organizationId: seppe-peelman
   cloudEnabled: 0
