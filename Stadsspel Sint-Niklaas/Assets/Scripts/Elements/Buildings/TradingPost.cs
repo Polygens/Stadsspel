@@ -15,6 +15,7 @@ public class TradingPost : Building
 
 	private new void Start()
 	{
+		mBuildingType = BuildingType.Tradingpost;
 		base.Start();
 	}
 

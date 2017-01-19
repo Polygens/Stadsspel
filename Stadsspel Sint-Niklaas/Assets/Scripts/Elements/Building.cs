@@ -1,14 +1,22 @@
 ﻿using UnityEngine;
 
+public enum BuildingType
+{
+	NotSet,
+	Bank,
+	Tradingpost
+}
+
 public class Building : Element
 {
+	protected BuildingType mBuildingType = BuildingType.NotSet;
+
 	protected new void Start()
 	{
+		Team = TeamID.NoTeam;
 		base.Start();
-		ActionRadius = 30;
+		ActionRadius = 15;
 
-		Renderer Renderer = GetComponent<Renderer>();
-		Renderer.material.SetFloat("Opacity", 1f);
-		Renderer.material.SetFloat("Thickness", 0f);
+		GetComponent<Renderer>().material.color = TeamData.GetColor(mBuildingType);
 	}
 }
