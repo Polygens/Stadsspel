@@ -3,41 +3,70 @@
   <Class Name="District">
     <Position X="5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAAIAACAAAAAAAAAAAIACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Districts\District.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="NeutralDistrict">
-    <Position X="6.25" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Districts\Types\NeutralDistrict.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="CentralSquareDistrict">
-    <Position X="8.5" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Districts\Types\CentralSquareDistrict.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="HeadDistrict">
-    <Position X="4" Y="4.25" Width="1.5" />
+    <Position X="3.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAIAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Districts\Types\HeadDistrict.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CapturableDistrict">
-    <Position X="1.75" Y="4.25" Width="1.5" />
+    <Position X="1.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAIAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Districts\Types\CapturableDistrict.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="UnityEngine.MonoBehaviour" Collapsed="true">
     <Position X="5" Y="1" Width="1.5" />
     <TypeIdentifier />
+  </Class>
+  <Class Name="Square">
+    <Position X="8" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Districts\Types\Square.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapturePoint">
+    <Position X="9.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAQAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Districts\Types\Squares\CapturePoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Treasure">
+    <Position X="7.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAACAAAAAAAIAABAAAAAAAAAAAAgIgAAgAAAA=</HashCode>
+      <FileName>Assets\Scripts\Districts\Types\Squares\Treasure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GrandMarket">
+    <Position X="5.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Districts\Types\GrandMarket.cs</FileName>
+      <NewMemberFileName>Assets\Scripts\Elements\Building.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Neutral">
+    <Position X="1.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Districts\Types\Neutral.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Outside">
+    <Position X="3.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Districts\Types\Outside.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
