@@ -22,6 +22,7 @@ GameObject:
   - 114: {fileID: 114000013079491224}
   - 114: {fileID: 114000010318778590}
   - 114: {fileID: 114000011625692614}
+  - 114: {fileID: 114000010458028942}
   m_Layer: 0
   m_Name: Team
   m_TagString: Untagged
@@ -54,6 +55,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mTeamID: 0
+  mTotalMoney: 0
+--- !u!114 &114000010458028942
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011053925158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4d28fd9a38af14da533ce9f6936bf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mBalance: 0
 --- !u!114 &114000011625692614
 MonoBehaviour:
   m_ObjectHideFlags: 1

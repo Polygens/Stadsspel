@@ -7,6 +7,7 @@ public class Enemy : Person
 
 	private new void Start()
 	{
+		tag = "Enemy";
 		base.Start();
 		Destroy(transform.GetChild(1).gameObject);
 		Destroy(transform.GetChild(2).gameObject);

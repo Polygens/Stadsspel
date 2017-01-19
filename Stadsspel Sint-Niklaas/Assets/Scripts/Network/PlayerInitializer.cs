@@ -5,9 +5,6 @@ using Prototype.NetworkLobby;
 
 public class PlayerInitializer : NetworkBehaviour
 {
-  [SerializeField]
-  AudioListener audioListener;
-
 	[SyncVar(hook = "OnMyTeam")]
 	private TeamID mTeam = TeamID.NotSet;
 
@@ -51,16 +48,6 @@ public class PlayerInitializer : NetworkBehaviour
 		transform.GetChild(0).GetComponent<TextMesh>().text = name;
 	}
 
-  private void Start()
-  {
-    if (isLocalPlayer)
-    {
-      gameObject.tag = "Player";
-      audioListener.enabled = true;
-      gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
-    }
-  }
-
 	public void Update()
 	{
 		int amountOfTeams = LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
@@ -91,18 +78,16 @@ public class PlayerInitializer : NetworkBehaviour
 				}
 				else if (LobbyPlayer.mLocalPlayerTeam == teamID) {
 					Friend friend = playerObject.AddComponent<Friend>();
-          playerObject.tag = "Team";
-          playerObject.layer = LayerMask.NameToLayer("Team");
-          friend.Team = teamID;
+					friend.Team = teamID;
 					playerObject.name = "Friend ID:" + networkIdentity.netId + " (" + name + ")";
 				}
 				else {
 					Enemy enemy = playerObject.AddComponent<Enemy>();
 					enemy.Team = teamID;
-          playerObject.layer = LayerMask.NameToLayer("Enemy");
 					playerObject.name = "Enemy ID:" + networkIdentity.netId + " (" + name + ")";
 				}
 			}
+			Destroy(this);
 		}
 	}
 }

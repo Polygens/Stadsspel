@@ -9,7 +9,12 @@ TagManager:
   - Districts
   - Canvas
   - Enemy
+  - Bank
+  - TradingPost
+  - Treasure
+  - GrandMarket
   - Team
+  - Square
   layers:
   - Default
   - TransparentFX
@@ -19,14 +24,14 @@ TagManager:
   - UI
   - 
   - 
-  - Team
-  - Bank
-  - TradingPost
-  - Markt
-  - Schatkist
-  - EnemyPlein
-  - Enemy
   - SchatkistEnemy
+  - 
+  - 
+  - 
+  - 
+  - EnemyPlein
+  - Team
+  - Enemy
   - 
   - 
   - 

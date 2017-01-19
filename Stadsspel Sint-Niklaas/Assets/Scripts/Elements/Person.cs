@@ -14,7 +14,7 @@ public class Person : Element
 	[SerializeField]
 	private int mAmountOfMoney = 0;
 
-	protected void Start()
+	protected new void Start()
 	{
 		ActionRadius = 40;
 
@@ -23,10 +23,6 @@ public class Person : Element
 			legalItems.Add(0);
 			illegalItems.Add(0);
 		}
-	}
-
-	public void UpdatePosition()
-	{
 	}
 
 	//public void Rob()
@@ -80,19 +76,14 @@ public class Person : Element
 		}
 	}
 
-	public void RemoveMoney(int money)
-	{
-		mAmountOfMoney -= money;
-	}
-
-	public void AddItems(int money)
+	public void MoneyTransaction(int money)
 	{
 		mAmountOfMoney += money;
 	}
 
 	public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)
 	{
-		AddItems(money);
+		MoneyTransaction(money);
 		AddLegalItems(legalItems);
 		AddIllegalItems(illegalItems);
 	}

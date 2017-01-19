@@ -8,6 +8,8 @@ public class GameManager : NetworkBehaviour
 {
 	static public GameManager s_Singleton;
 
+	private DistrictManager mDistrictManager;
+
 	[SerializeField]
 	private GameObject mteamPrefab;
 
@@ -40,6 +42,16 @@ public class GameManager : NetworkBehaviour
 		}
 	}
 
+	public DistrictManager DistrictManager {
+		get {
+			return mDistrictManager;
+		}
+
+		set {
+			mDistrictManager = value;
+		}
+	}
+
 	//public GameObject lobbyServerEntry;
 
 	// Use this for initialization
@@ -52,16 +64,10 @@ public class GameManager : NetworkBehaviour
 		s_Singleton = this;
 		nextMoneyUpdateTime = moneyUpdateTimeInterval;
 		DontDestroyOnLoad(gameObject);
-    Invoke("FindPlayer", 1f);
 	}
 
-  private void FindPlayer()
-  {
-    mPlayer = GameObject.FindWithTag("Player").GetComponent<Player>();
-  }
-
-  // Update is called once per frame
-  private void Update()
+	// Update is called once per frame
+	private void Update()
 	{
 		if (mGameIsRunning) {
 			if (Time.timeSinceLevelLoad > mGameLength) {
@@ -79,7 +85,6 @@ public class GameManager : NetworkBehaviour
 	public void StartGame(int amountOfTeams)
 	{
 		CmdCreateTeams(amountOfTeams);
-		mGameIsRunning = true;
 	}
 
 	[Command]
@@ -90,6 +95,15 @@ public class GameManager : NetworkBehaviour
 			NetworkServer.Spawn(temp);
 			temp.GetComponent<Team>().TeamID = (TeamID)(i + 1);
 		}
+		RpcClientsStart(amountOfTeams);
+	}
+
+	[ClientRpc]
+	private void RpcClientsStart(int amountOfTeams)
+	{
+		mDistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
+		mDistrictManager.StartGame(amountOfTeams);
+		mGameIsRunning = true;
 	}
 
 	public void UpdateGameDuration(float duration)

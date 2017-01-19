@@ -75,13 +75,12 @@ GameObject:
   - 33: {fileID: 33000013246121172}
   - 23: {fileID: 23000014068090770}
   - 58: {fileID: 58000011100339616}
-  - 114: {fileID: 114000011054209596}
   - 114: {fileID: 114000010551960694}
   - 114: {fileID: 114000013315580104}
   - 114: {fileID: 114000010542107808}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -358,7 +357,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010874694010}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &92000012178874270
 Behaviour:
   m_ObjectHideFlags: 1
@@ -439,20 +438,6 @@ MonoBehaviour:
     i15: 221
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114000011054209596
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012407626070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d62c4c94f913aa46bc0e07d383bf3e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mTeam: 0
-  mName: Not set
-  mAmountOfMoney: 0
 --- !u!114 &114000013315580104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -464,7 +449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2487140363115b4ebeebe75cdd508d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioListener: {fileID: 81000011087748740}
 --- !u!114 &114000013402605382
 MonoBehaviour:
   m_ObjectHideFlags: 1

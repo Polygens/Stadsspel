@@ -97,7 +97,7 @@ GameObject:
   - 114: {fileID: 114000011586979720}
   m_Layer: 0
   m_Name: PlayerTestPrefab
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -357,7 +357,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011908127810}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &92000010529071380
 Behaviour:
   m_ObjectHideFlags: 1
@@ -413,8 +413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mTeam: 0
   mName: Not set
-  prefabButton: {fileID: 114000010946242880, guid: 005995e91cdc26041804f38015d9f213,
-    type: 2}
+  mAmountOfMoney: 0
   mNumberOfButtonsInlistPanel: 0
 --- !u!114 &114000011835993582
 MonoBehaviour:
@@ -461,3 +460,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mTeam: 0
   mName: Not set
+  mAmountOfMoney: 0

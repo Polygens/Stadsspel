@@ -7,6 +7,7 @@ public class Friend : Person
 
 	private new void Start()
 	{
+		tag = "Team";
 		base.Start();
 		Destroy(transform.GetChild(1).gameObject);
 		Destroy(transform.GetChild(2).gameObject);
