@@ -15,6 +15,7 @@ TagManager:
   - GrandMarket
   - Team
   - Square
+  - host
   layers:
   - Default
   - TransparentFX
