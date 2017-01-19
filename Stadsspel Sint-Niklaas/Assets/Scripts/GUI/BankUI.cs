@@ -10,13 +10,6 @@ public class BankUI : MonoBehaviour
 	public Text amountOwnMoney;
 	public Text amountBankMoney;
 
-	private Player player;
-
-	public void Awake()
-	{
-		player = GameObject.FindWithTag("Player").GetComponent<Player>();
-	}
-
 	private void OnEnable()
 	{
 		UpdateUI();
@@ -24,24 +17,24 @@ public class BankUI : MonoBehaviour
 
 	public void UpdateUI()
 	{
-		amountOwnMoney.text = player.AmountOfMoney.ToString();
-		amountBankMoney.text = BankAccountManager.BankAccounts[Convert.ToInt32(player.Team)].Balance.ToString();
+		amountOwnMoney.text = GameManager.s_Singleton.Player.AmountOfMoney.ToString();
+		amountBankMoney.text = GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Team - 1].BankAccount.Balance.ToString();
 	}
 
 	public void SelectAll(bool value)
 	{
 		if (value) {
-			amountField.text = player.AmountOfMoney.ToString();
+			amountField.text = GameManager.s_Singleton.Player.AmountOfMoney.ToString();
 		}
 	}
 
 	public void TransferMoney()
 	{
-		int amount = int.Parse(amountField.text);
+		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Team - 1].CmdTransaction(int.Parse(amountField.text));
 	}
 
 	public void RetractMoney()
 	{
-		int amount = int.Parse(amountField.text);
+		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Team - 1].CmdTransaction(-int.Parse(amountField.text));
 	}
 }

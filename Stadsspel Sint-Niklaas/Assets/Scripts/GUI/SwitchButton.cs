@@ -13,26 +13,22 @@ public class SwitchButton : MonoBehaviour
 	private float lerpDuration = 0.2f;
 	private float listPanelStartY = 0;
 
-  private void Start()
-  {
-    gameObject.SetActive(false);
-  }
-
-	void Update()
+	private void Start()
 	{
-
-      LerpPanel();
-
-      if (GameObject.FindWithTag("Player").GetComponent<Player>().mNumberOfButtonsInlistPanel == 0)
-      {
-        panelNeeded = false;
-        GetComponent<Image>().sprite = switchUpArrow;
-      }
-   
-
+		gameObject.SetActive(false);
 	}
 
-	void OnEnable()
+	private void Update()
+	{
+		LerpPanel();
+
+		if (GameManager.s_Singleton.Player.mNumberOfButtonsInlistPanel == 0) {
+			panelNeeded = false;
+			GetComponent<Image>().sprite = switchUpArrow;
+		}
+	}
+
+	private void OnEnable()
 	{
 		panelNeeded = false;
 		GetComponent<Image>().sprite = switchUpArrow;
@@ -41,7 +37,7 @@ public class SwitchButton : MonoBehaviour
 
 	public void ButtonListSwitch()
 	{
-		if (GameObject.FindWithTag("Player").GetComponent<Player>().mNumberOfButtonsInlistPanel != 0) {
+		if (GameManager.s_Singleton.Player.mNumberOfButtonsInlistPanel != 0) {
 			listPanelStartY = listPanel.transform.localPosition.y;
 			panelNeeded = !panelNeeded;
 			lerpTimer = 0;
@@ -63,11 +59,11 @@ public class SwitchButton : MonoBehaviour
 		}
 
 		if (panelNeeded) {
-			listPanel.localPosition = new Vector2(listPanel.localPosition.x, Mathf.Lerp(listPanelStartY, 65 + 55 * (GameObject.FindWithTag("Player").GetComponent<Player>().mNumberOfButtonsInlistPanel - 1), lerpTimer / lerpDuration));
+			listPanel.localPosition = new Vector2(listPanel.localPosition.x, Mathf.Lerp(listPanelStartY, 65 + 55 * (GameManager.s_Singleton.Player.mNumberOfButtonsInlistPanel - 1), lerpTimer / lerpDuration));
 		}
 		else // !panelNeeded
 		{
-			listPanel.localPosition = new Vector2(listPanel.localPosition.x, Mathf.Lerp(listPanelStartY, -70 - 55 * (GameObject.FindWithTag("Player").GetComponent<Player>().mNumberOfButtonsInlistPanel - 1), lerpTimer / lerpDuration));
+			listPanel.localPosition = new Vector2(listPanel.localPosition.x, Mathf.Lerp(listPanelStartY, -70 - 55 * (GameManager.s_Singleton.Player.mNumberOfButtonsInlistPanel - 1), lerpTimer / lerpDuration));
 		}
 	}
 }

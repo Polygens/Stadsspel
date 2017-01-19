@@ -36,7 +36,7 @@ public class TradingPostUI : MonoBehaviour
 
 		RectTransform Grid = (RectTransform)TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
 		totalPriceText = TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
-		TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AmountOfMoney.ToString();
+		TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.AmountOfMoney.ToString();
 		int childsInGrid = Grid.childCount;
 		int index = 0;
 		for (int i = 1; i < childsInGrid; i++) {
@@ -56,10 +56,10 @@ public class TradingPostUI : MonoBehaviour
 	private bool CheckIfTeamAlreadyVisited()
 	{
 		bool teamAlreadyVisited = false;
-		GameObject tempTradePost = GameObject.FindWithTag("Player").GetComponent<Player>().GetTradingPost();
+		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetTradingPost();
 		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
 		for (int i = 0; i < visitedTeams.Count; i++) {
-			if (visitedTeams[i] == (int)GameObject.FindWithTag("Player").GetComponent<Player>().Team) {
+			if (visitedTeams[i] == (int)GameManager.s_Singleton.Player.GetComponent<Player>().Team) {
 				teamAlreadyVisited = true;
 			}
 		}
@@ -73,7 +73,7 @@ public class TradingPostUI : MonoBehaviour
 			return;
 		}
 		if (everythingIsInstantiated) {
-			TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AmountOfMoney.ToString();
+			TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.AmountOfMoney.ToString();
 		}
 	}
 
@@ -84,7 +84,7 @@ public class TradingPostUI : MonoBehaviour
 		//  return;
 		//}
 		if (!CheckIfTeamAlreadyVisited()) {
-			if (GameObject.FindWithTag("Player").GetComponent<Player>().AmountOfMoney > totalPriceAmount) {
+			if (GameManager.s_Singleton.Player.AmountOfMoney > totalPriceAmount) {
 				AddGoodsToPlayer();
 				TradingPostPanel.gameObject.SetActive(false);
 			}
@@ -111,10 +111,10 @@ public class TradingPostUI : MonoBehaviour
 				illegalItems.Add(numberOfEachItem[i]);
 			}
 		}
-		GameObject.FindWithTag("Player").GetComponent<Player>().AddLegalItems(legalItems);
-		GameObject.FindWithTag("Player").GetComponent<Player>().AddIllegalItems(illegalItems);
-		GameObject.FindWithTag("Player").GetComponent<Player>().GetTradingPost().GetComponent<TradingPost>().CmdAddTeamToList();
-		GameObject.FindWithTag("Player").GetComponent<Player>().RemoveMoney(totalPriceAmount);
+		GameManager.s_Singleton.Player.AddLegalItems(legalItems);
+		GameManager.s_Singleton.Player.AddIllegalItems(illegalItems);
+		GameManager.s_Singleton.Player.GetTradingPost().GetComponent<TradingPost>().CmdAddTeamToList();
+		GameManager.s_Singleton.Player.MoneyTransaction(-totalPriceAmount);
 
 		for (int i = 0; i < inputfields.Count; i++) {
 			inputfields[i].text = "";
