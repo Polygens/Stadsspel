@@ -1,10 +1,16 @@
-﻿
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HeadDistrict : District
 {
-	public HeadDistrict() : base(TeamID.NoTeam, DistrictType.HeadDistrict)
+	private new void Start()
 	{
+		mDistrictType = DistrictType.HeadDistrict;
+		base.Start();
+	}
+
+	protected override void OnTeamChanged()
+	{
+		gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
+		gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
 	}
 }

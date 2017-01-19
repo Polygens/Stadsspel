@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public enum DistrictStates
 {
@@ -16,16 +17,30 @@ public class DistrictManager : MonoBehaviour
 
 	private PolygonCollider2D[] mDistrictColliders;
 
-	// Use this for initialization
-	void Start()
+	public void StartGame(int amountOfTeams)
 	{
 		mDistrictColliders = new PolygonCollider2D[gameObject.transform.childCount];
 		for (int i = 0; i < gameObject.transform.childCount; i++) {
 			mDistrictColliders[i] = gameObject.transform.GetChild(i).gameObject.GetComponent<PolygonCollider2D>();
 		}
+
+		for (int i = 1; i <= 6; i++) {
+			if (amountOfTeams > i) {
+				HeadDistrict district = transform.GetChild(i).gameObject.AddComponent<HeadDistrict>();
+				district.TeamID = (TeamID)(i);
+				Treasure square = district.transform.GetChild(0).gameObject.AddComponent<Treasure>();
+				square.TeamID = (TeamID)(i);
+			}
+			else {
+				CapturableDistrict district = transform.GetChild(i).gameObject.AddComponent<CapturableDistrict>();
+				district.TeamID = TeamID.NoTeam;
+				CapturePoint square = district.transform.GetChild(0).gameObject.AddComponent<CapturePoint>();
+				square.TeamID = TeamID.NoTeam;
+			}
+		}
 	}
 
-  public DistrictStates CheckDisctrictState()
+	public DistrictStates CheckDisctrictState()
 	{
 		for (int i = 0; i < mDistrictColliders.Length; i++) {
 			if (mDistrictColliders[i].OverlapPoint(mPlayerTrans.position)) {

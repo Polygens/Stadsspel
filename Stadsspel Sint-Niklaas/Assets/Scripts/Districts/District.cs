@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 public enum DistrictType
 {
 	NotSet,
-	HeadDistrict,
 	Neutral,
 	GrandMarket,
+	HeadDistrict,
 	CapturableDistrict,
+	square,
 	Outside,
-	square
 }
 
-public class District : MonoBehaviour
+public class District : NetworkBehaviour
 {
 	[SerializeField]
-	private TeamID mTeamID = 0;
+	[SyncVar]
+	protected TeamID mTeamID = 0;
+
 	[SerializeField]
-	private DistrictType mDistrictType = 0;
+	protected DistrictType mDistrictType = 0;
 
 	public TeamID TeamID {
 		get {
@@ -25,21 +28,16 @@ public class District : MonoBehaviour
 
 		set {
 			mTeamID = value;
-			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID, mDistrictType);
-			if (mDistrictType == DistrictType.CapturableDistrict || mDistrictType == DistrictType.HeadDistrict) {
-				gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID, DistrictType.square);
-			}
+			OnTeamChanged();
 		}
 	}
 
-	public District(TeamID teamID, DistrictType type)
+	protected virtual void OnTeamChanged()
 	{
-		mTeamID = teamID;
-		mDistrictType = type;
 	}
 
-	private void Start()
+	protected void Start()
 	{
-		TeamID = mTeamID;
+		gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mDistrictType);
 	}
 }

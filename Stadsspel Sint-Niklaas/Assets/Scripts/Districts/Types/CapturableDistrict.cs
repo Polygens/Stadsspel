@@ -1,10 +1,16 @@
-﻿
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CapturableDistrict : District
 {
-	public CapturableDistrict() : base(TeamID.NoTeam, DistrictType.CapturableDistrict)
+	private new void Start()
 	{
+		mDistrictType = DistrictType.CapturableDistrict;
+		base.Start();
+	}
+
+	protected override void OnTeamChanged()
+	{
+		gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
+		gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
 	}
 }
