@@ -17,51 +17,57 @@ public enum TeamID : byte
 
 public class TeamData
 {
+	private static Color mNotSet = new Color(1, 0, 1);
+
 	private static Color[] mTeamColors = new Color[] {
-		new Color(1, 0, 1),		//NotSet
 		Color.magenta,	//Team1
 		Color.red,		//Team2
 		Color.cyan,		//Team3
 		Color.blue,		//Team4
-		Color.green,		//Team5
-		Color.yellow,			//Team6
-		new Color(0, 0, 0, 128),	//Neutral
-		new Color(0, 0, 100),		//GrandMarket
-		new Color(0, 0, 0, 20),		//Capturable
-		new Color(0.5f,0,0,1),					//Outside
-		new Color(1,0.5f,0,1)				//Square
+		Color.green,	//Team5
+		Color.yellow,	//Team6
+		Color.grey		//NoTeam
 	};
 
-	public static Color GetColor(TeamID team, DistrictType type = DistrictType.NotSet)
+	private static Color[] mDistrictColors = new Color[] {
+		new Color(0, 0, 0, 128 /255f),						//HeadDistrict
+		new Color(0, 0, 0, 128 /255f),						//Neutral
+		new Color(245/255f, 132/255f, 42/255f,128/255f),	//GrandMarket
+		new Color(0, 0, 0, 20/255f),						//Capturable
+		new Color(125/255f,0,0,255/255f),					//Outside
+		new Color(255/255f,128/255f,0,255/255f)				//Square
+	};
+
+	private static Color[] mBuildingColors = new Color[] {
+		new Color(0, 159/255f, 227/255f),		//Bank
+		new Color(245/255f, 132/255f, 42/255f)	//TradingPost
+	};
+
+	public static Color GetColor(TeamID team)
 	{
-		if (type == DistrictType.square) {
-			return mTeamColors[11];
+		if (team == TeamID.NotSet) {
+			return mNotSet;
 		}
 
-		if (team == TeamID.NotSet || team == TeamID.NoTeam) {
-			switch (type) {
-				case DistrictType.NotSet:
-				case DistrictType.HeadDistrict:
-				default:
-				return mTeamColors[0];
-				case DistrictType.Neutral:
-				return mTeamColors[7];
-				case DistrictType.GrandMarket:
-				return mTeamColors[8];
-				case DistrictType.CapturableDistrict:
-				return mTeamColors[9];
-				case DistrictType.Outside:
-				return mTeamColors[10];
-			}
-		}
-		else {
-			return mTeamColors[(int)team];
-		}
+		return mTeamColors[(int)team - 1];
 	}
 
-	public static TeamID GetTeamByColor(Color teamColor)
+	public static Color GetColor(DistrictType type)
 	{
-		return (TeamID)Array.IndexOf(mTeamColors, teamColor);
+		if (type == DistrictType.NotSet) {
+			return mNotSet;
+		}
+
+		return mDistrictColors[(int)type - 1];
+	}
+
+	public static Color GetColor(BuildingType type)
+	{
+		if (type == BuildingType.NotSet) {
+			return mNotSet;
+		}
+
+		return mBuildingColors[(int)type - 1];
 	}
 
 	public static TeamID GetNextTeam(TeamID team)
@@ -81,4 +87,3 @@ public class TeamData
 		return (TeamID)newTeamID;
 	}
 }
-
