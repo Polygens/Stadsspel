@@ -9,6 +9,8 @@ public class Player : Person
 {
 	private int mDetectionRadius;
 	private List<GameObject> enemiesInRadius = new List<GameObject>();
+
+  [SerializeField]
 	private List<GameObject> allGameObjectsInRadius = new List<GameObject>();
 	private Button[] buttons;
 	private int[] currentButtons;
@@ -19,8 +21,13 @@ public class Player : Person
 
 	private RectTransform[] panels;
 
+  [SerializeField]
 	private RectTransform MainPanel;
+
+  [SerializeField]
 	private RectTransform ListPanel;
+
+  [SerializeField]
 	private RectTransform Switch;
 	public int mNumberOfButtonsInlistPanel = 0;
 
@@ -55,7 +62,7 @@ public class Player : Person
 		moveAvatar.mDistrictManager = GameManager.s_Singleton.DistrictManager;
 		GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
-		InitializeUI();
+		Invoke("InitializeUI",0.5f);
 	}
 
 	private void InitializeUI()
@@ -115,7 +122,8 @@ public class Player : Person
 			// If the priority is higher then the current, update the priority
 			for (int i = 0; i < allGameObjectsInRadius.Count; i++) {
 				string tag = allGameObjectsInRadius[i].tag;
-				Priority tempP;
+        Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
+        Priority tempP;
 				if (tag == "Square") {
 					if (allGameObjectsInRadius[i].GetComponent<Square>().TeamID == GameManager.s_Singleton.Player.Team) {
 						tempP = Priority.Treasure;
@@ -233,7 +241,7 @@ public class Player : Person
 
 	public void OnTriggerEnter2D(Collider2D other)
 	{
-    Debug.Log(other.tag);
+    //Debug.Log(other.tag);
 		if (other.tag != "Untagged") {
 			allGameObjectsInRadius.Add(other.gameObject);
 			if (other.tag == "Enemy") {

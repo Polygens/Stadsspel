@@ -14,13 +14,13 @@ public class MoveAvatar : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-
+    Invoke("DelaySearch", 1f);
 	}
 
-  private void OnLevelWasLoaded(int level)
+  private void DelaySearch()
   {
     mDistrictManager = GameObject.Find("Districts").GetComponent<DistrictManager>();
-    mLocationManager = GameObject.Find("LocactionManager").GetComponent<LocationManager>();
+    mLocationManager = GameObject.Find("LocationManager").GetComponent<LocationManager>();
     mLocationManager.onOriginSet += OnOriginSet;
     mLocationManager.onLocationChanged += OnLocationChanged;
   }
