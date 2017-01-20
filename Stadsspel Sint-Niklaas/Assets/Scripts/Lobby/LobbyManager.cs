@@ -51,7 +51,7 @@ namespace Prototype.NetworkLobby
 			_lobbyHooks = GetComponent<LobbyHook>();
 			currentPanel = mCreateLobbyPanel;
 
-      startButton.SetActive(false);
+			SetStartButton(false);
 			backButton.gameObject.SetActive(false);
 		}
 
@@ -263,32 +263,32 @@ namespace Prototype.NetworkLobby
 			return true;
 		}
 
-    // --- Countdown management
+		// --- Countdown management
 
-    public override void OnLobbyServerPlayersReady()
+		public override void OnLobbyServerPlayersReady()
 		{
-      bool allready = true;
-      for (int i = 0; i < lobbySlots.Length; ++i)
-      {
-        if (lobbySlots[i] != null)
-          if (!lobbySlots[i].readyToBegin)
-            allready &= lobbySlots[i].readyToBegin;
-      }
+			bool allready = true;
+			for (int i = 0; i < lobbySlots.Length; ++i) {
+				if (lobbySlots[i] != null)
+					if (!lobbySlots[i].readyToBegin)
+						allready &= lobbySlots[i].readyToBegin;
+			}
 
+			SetStartButton(allready);
+		}
 
-      if (allready)
-      {
-        startButton.SetActive(true);
-        Debug.Log("All ready");
-      }
-      else
-      {
-        Debug.Log("Not All ready");
-        startButton.SetActive(false);
-      }
-      
-    }
-    
+		public void SetStartButton(bool canStart)
+		{
+			if (canStart) {
+				startButton.SetActive(true);
+				Debug.Log("All ready");
+			}
+			else {
+				startButton.SetActive(false);
+				Debug.Log("Not All ready");
+			}
+		}
+
 		public void OnStartButtonClicked()
 		{
 			StartCoroutine(ServerCountdownCoroutine());
@@ -322,7 +322,6 @@ namespace Prototype.NetworkLobby
 				}
 			}
 
-      
 			ServerChangeScene(playScene);
 		}
 

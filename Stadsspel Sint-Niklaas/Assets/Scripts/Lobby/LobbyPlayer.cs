@@ -63,21 +63,20 @@ namespace Prototype.NetworkLobby
 			LobbyPlayerList._instance.DisplayDirectServerWarning(isServer && LobbyManager.s_Singleton.matchMaker == null);
 			SetReadyButton(false);
 			if (mIsFirst) {
-				mIsFirst = false;
 				mIsHost = true;
 				mIcon.text = mHostIcon;
 			}
-
-			StartCoroutine(Init());
+			StartCoroutine(Init(mIsFirst));
+			mIsFirst = false;
 		}
 
-		public IEnumerator Init()
+		public IEnumerator Init(bool isFirst)
 		{
 			// need to wait a frame so that isLocalPlayer is set
 			yield return new WaitForEndOfFrame();
 
 			if (isLocalPlayer) {
-				if (mIsFirst) {
+				if (isFirst) {
 					mHostInstance = true;
 				}
 				SetupLocalPlayer();
