@@ -148,6 +148,8 @@ namespace Prototype.NetworkLobby
 				removePlayerButton.gameObject.SetActive(true);
 				removePlayerButton.onClick.RemoveAllListeners();
 				removePlayerButton.onClick.AddListener(OnRemovePlayerClicked);
+				Debug.Log("test");
+				LobbyManager.s_Singleton.SetStartButton(false);
 			}
 		}
 
