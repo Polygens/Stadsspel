@@ -338,7 +338,7 @@ namespace Prototype.NetworkLobby
 
 			if (!NetworkServer.active) {//only to do on pure client (not self hosting client)
 				ChangeTo(lobbyPanel);
-				backDelegate = StopClientClbk;
+        backDelegate = StopClientClbk;
 			}
 		}
 
@@ -351,7 +351,7 @@ namespace Prototype.NetworkLobby
 		public override void OnClientError(NetworkConnection conn, int errorCode)
 		{
 			ChangeTo(mCreateLobbyPanel);
-			infoPanel.Display("Client error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+      infoPanel.Display("Client error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
 		}
 
 		public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, System.Int16 playerControllerId)

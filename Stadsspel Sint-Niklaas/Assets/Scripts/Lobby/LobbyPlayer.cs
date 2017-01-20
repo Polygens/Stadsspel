@@ -298,9 +298,9 @@ namespace Prototype.NetworkLobby
 		{
 			LobbyManager.s_Singleton.countdownPanel.UIText.text = "Match start in " + countdown;
 			LobbyManager.s_Singleton.countdownPanel.gameObject.SetActive(countdown != 0);
-			if (countdown == 0) {
-				LobbyManager.s_Singleton.gameObject.transform.FindChild("EventSystem").gameObject.SetActive(false);
-			}
+			//if (countdown == 0) {
+			//	LobbyManager.s_Singleton.gameObject.transform.FindChild("EventSystem").gameObject.SetActive(false);
+			//}
 		}
 
 		//====== Server Command

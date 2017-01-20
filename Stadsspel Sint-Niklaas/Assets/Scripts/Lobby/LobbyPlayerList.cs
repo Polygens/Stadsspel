@@ -28,6 +28,11 @@ namespace Prototype.NetworkLobby
 			}
 		}
 
+		private void OnLevelWasLoaded(int level)
+		{
+			transform.FindChild("EventSystem").gameObject.SetActive(true);
+		}
+
 		public void OnEnable()
 		{
 			_instance = this;

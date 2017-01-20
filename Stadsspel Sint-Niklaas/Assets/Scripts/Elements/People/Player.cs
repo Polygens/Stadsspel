@@ -233,6 +233,7 @@ public class Player : Person
 
 	public void OnTriggerEnter2D(Collider2D other)
 	{
+    Debug.Log(other.tag);
 		if (other.tag != "Untagged") {
 			allGameObjectsInRadius.Add(other.gameObject);
 			if (other.tag == "Enemy") {

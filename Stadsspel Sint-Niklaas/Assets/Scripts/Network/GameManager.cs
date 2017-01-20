@@ -8,6 +8,7 @@ public class GameManager : NetworkBehaviour
 {
 	static public GameManager s_Singleton;
 
+  [SerializeField]
 	private DistrictManager mDistrictManager;
 
 	[SerializeField]

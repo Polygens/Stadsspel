@@ -10,14 +10,20 @@ public class MoveAvatar : MonoBehaviour
 	public DistrictManager mDistrictManager;
 
 
+
 	// Use this for initialization
 	void Start()
 	{
+
+	}
+
+  private void OnLevelWasLoaded(int level)
+  {
     mDistrictManager = GameObject.Find("Districts").GetComponent<DistrictManager>();
     mLocationManager = GameObject.Find("LocactionManager").GetComponent<LocationManager>();
-		mLocationManager.onOriginSet += OnOriginSet;
-		mLocationManager.onLocationChanged += OnLocationChanged;
-	}
+    mLocationManager.onOriginSet += OnOriginSet;
+    mLocationManager.onLocationChanged += OnLocationChanged;
+  }
 
 	private void Update()
 	{
