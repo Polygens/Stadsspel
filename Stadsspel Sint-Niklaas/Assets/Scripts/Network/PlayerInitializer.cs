@@ -9,7 +9,8 @@ public class PlayerInitializer : NetworkBehaviour
 	private TeamID mTeam = TeamID.NotSet;
 
 	[SyncVar(hook = "OnMyName")]
-	private string mName = "";
+  [SerializeField]
+  private string mName = "";
 
 	private bool mIsReady = false;
 
@@ -45,10 +46,17 @@ public class PlayerInitializer : NetworkBehaviour
 	{
 		mName = name;
 
-		transform.GetChild(0).GetComponent<TextMesh>().text = name;
-	}
+    transform.GetChild(0).GetComponent<TextMesh>().text = name;
+  }
 
-	public void Update()
+  //[Command]
+  //void CmdChangeNameOfPlayer()
+  //{
+    
+  //  transform.GetChild(0).GetComponent<TextMesh>().text = name;
+  //}
+
+  public void Update()
 	{
 		int amountOfTeams = LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
 		int players = GameManager.s_Singleton.transform.GetChild(0).GetChild(0).childCount;
@@ -67,26 +75,34 @@ public class PlayerInitializer : NetworkBehaviour
 
 			for (int i = 0; i < players; i++) {
 				GameObject playerObject = GameManager.s_Singleton.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
-				playerObject.transform.SetParent(GameManager.s_Singleton.transform.GetChild((int)playerObject.GetComponent<PlayerInitializer>().Team));
+        playerObject.transform.SetParent(GameManager.s_Singleton.transform.GetChild((int)playerObject.GetComponent<PlayerInitializer>().Team));
 				NetworkIdentity networkIdentity = playerObject.GetComponent<NetworkIdentity>();
 				TeamID teamID = playerObject.GetComponent<PlayerInitializer>().Team;
 				string name = playerObject.GetComponent<PlayerInitializer>().Name;
 				if (networkIdentity.isLocalPlayer) {
-					Player player = playerObject.AddComponent<Player>();
+          
+					Player player = playerObject.GetComponent<Player>();
+          player.enabled = true;
 					player.Team = teamID;
 					playerObject.name = "Player ID:" + networkIdentity.netId + " (" + name + ")";
 				}
 				else if (LobbyPlayer.mLocalPlayerTeam == teamID) {
-					Friend friend = playerObject.AddComponent<Friend>();
+					Friend friend = playerObject.GetComponent<Friend>();
+          friend.enabled = true;
 					friend.Team = teamID;
-					playerObject.name = "Friend ID:" + networkIdentity.netId + " (" + name + ")";
+          playerObject.transform.GetChild(0).GetComponent<TextMesh>().text = name;
+          playerObject.name = "Friend ID:" + networkIdentity.netId + " (" + name + ")";
 				}
 				else {
-					Enemy enemy = playerObject.AddComponent<Enemy>();
+					Enemy enemy = playerObject.GetComponent<Enemy>();
+          enemy.enabled = true;
 					enemy.Team = teamID;
-					playerObject.name = "Enemy ID:" + networkIdentity.netId + " (" + name + ")";
+          playerObject.transform.GetChild(0).GetComponent<TextMesh>().text = name;
+          playerObject.name = "Enemy ID:" + networkIdentity.netId + " (" + name + ")";
 				}
-			}
+        //ClientScene.RegisterPrefab(playerObject);
+
+      }
 			Destroy(this);
 		}
 	}

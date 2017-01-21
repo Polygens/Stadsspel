@@ -78,6 +78,9 @@ GameObject:
   - 114: {fileID: 114000010551960694}
   - 114: {fileID: 114000013315580104}
   - 114: {fileID: 114000010542107808}
+  - 114: {fileID: 114000012276409754}
+  - 114: {fileID: 114000010277105810}
+  - 114: {fileID: 114000011983173264}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -386,6 +389,20 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &114000010277105810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012407626070}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 798487c433fd05c41baeb61620f1c286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTeam: 0
+  mName: Not set
+  mAmountOfMoney: 0
 --- !u!114 &114000010542107808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -438,6 +455,39 @@ MonoBehaviour:
     i15: 221
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114000011983173264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012407626070}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86696125e49e1de469b5b85db33f4c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTeam: 0
+  mName: Not set
+  mAmountOfMoney: 0
+--- !u!114 &114000012276409754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012407626070}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245e0efa9a23f7a46a93a1f6547f6c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTeam: 0
+  mName: Not set
+  mAmountOfMoney: 0
+  allGameObjectsInRadius: []
+  MainPanel: {fileID: 0}
+  ListPanel: {fileID: 0}
+  Switch: {fileID: 0}
+  mNumberOfButtonsInlistPanel: 0
 --- !u!114 &114000013315580104
 MonoBehaviour:
   m_ObjectHideFlags: 1

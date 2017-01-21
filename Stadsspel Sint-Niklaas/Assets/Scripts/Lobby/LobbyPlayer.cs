@@ -272,12 +272,6 @@ namespace Prototype.NetworkLobby
 			CmdReadyChanged(mIsReady);
 		}
 
-		[Command]
-		private void CmdDeactivateStartButton()
-		{
-			LobbyManager.s_Singleton.startButton.SetActive(false);
-		}
-
 		public void OnNameChanged(string str)
 		{
 			CmdNameChanged(str);
@@ -323,8 +317,14 @@ namespace Prototype.NetworkLobby
 			mIsReady = newReadyState;
 		}
 
-		//Cleanup thing when get destroy (which happen when client kick or disconnect)
-		private void OnDestroy()
+    [Command]
+    private void CmdDeactivateStartButton()
+    {
+      LobbyManager.s_Singleton.startButton.SetActive(false);
+    }
+
+    //Cleanup thing when get destroy (which happen when client kick or disconnect)
+    private void OnDestroy()
 		{
 			LobbyPlayerList._instance.RemovePlayer(this);
 		}

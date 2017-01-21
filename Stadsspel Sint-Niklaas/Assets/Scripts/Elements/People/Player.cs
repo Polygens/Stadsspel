@@ -7,6 +7,7 @@ using GoMap;
 
 public class Player : Person
 {
+
 	private int mDetectionRadius;
 	private List<GameObject> enemiesInRadius = new List<GameObject>();
 
@@ -51,7 +52,6 @@ public class Player : Person
 		gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
 		base.Start();
 
-
     Invoke("InitializeUI", 0.5f);
     Rigidbody2D rigidbody = gameObject.AddComponent<Rigidbody2D>();
 		rigidbody.isKinematic = true;
@@ -76,10 +76,10 @@ public class Player : Person
 		for (int i = 0; i < numberOfPanels; i++) {
 			panels[i] = (RectTransform)panelsInCanvas.GetChild(i);
 		}
-		MainPanel = (RectTransform)priorityButtons.GetChild(1);
-		ListPanel = (RectTransform)priorityButtons.GetChild(0).GetChild(0);
-		Switch = (RectTransform)priorityButtons.GetChild(2);
-		MainPanel.gameObject.SetActive(false);
+    MainPanel = (RectTransform)priorityButtons.GetChild(1);
+    ListPanel = (RectTransform)priorityButtons.GetChild(0).GetChild(0);
+    Switch = (RectTransform)priorityButtons.GetChild(2);
+    MainPanel.gameObject.SetActive(false);
 		ListPanel.gameObject.SetActive(false);
 		Switch.gameObject.SetActive(false);
 		int lengthPriorities = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
