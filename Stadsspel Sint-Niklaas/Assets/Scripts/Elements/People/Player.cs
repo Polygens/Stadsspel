@@ -48,13 +48,12 @@ public class Player : Person
 	//Enemy
 	private new void Start()
 	{
-		tag = "Player";
-		gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+
 		base.Start();
 
     Invoke("InitializeUI", 0.5f);
-    Rigidbody2D rigidbody = gameObject.AddComponent<Rigidbody2D>();
-		rigidbody.isKinematic = true;
+  //  Rigidbody2D rigidbody = gameObject.AddComponent<Rigidbody2D>();
+		//rigidbody.isKinematic = true;
 
 		Camera.main.GetComponent<AudioListener>().enabled = true;
 
@@ -62,7 +61,7 @@ public class Player : Person
 		moveAvatar.mAvatarDirection = transform.GetChild(1);
 
 		moveAvatar.mDistrictManager = GameManager.s_Singleton.DistrictManager;
-		GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
+		//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
 		
 	}

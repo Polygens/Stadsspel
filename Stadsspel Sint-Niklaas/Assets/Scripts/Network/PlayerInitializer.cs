@@ -30,8 +30,13 @@ public class PlayerInitializer : NetworkBehaviour
 		}
 
 		set {
-			mName = value;
-		}
+      mName = value;
+      if (isLocalPlayer)
+      {
+        CmdChangeNameOfPlayer();
+      }
+      
+    }
 	}
 
 	public void OnMyTeam(TeamID team)
@@ -46,15 +51,29 @@ public class PlayerInitializer : NetworkBehaviour
 	{
 		mName = name;
 
+    //transform.GetChild(0).GetComponent<TextMesh>().text = name;
+  }
+
+  [Command]
+  void CmdChangeNameOfPlayer()
+  {
+
     transform.GetChild(0).GetComponent<TextMesh>().text = name;
   }
 
-  //[Command]
-  //void CmdChangeNameOfPlayer()
-  //{
-    
-  //  transform.GetChild(0).GetComponent<TextMesh>().text = name;
-  //}
+  private void Start()
+  {
+    if (isLocalPlayer)
+    {
+      tag = "Player";
+      gameObject.AddComponent<Player>();
+      gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+      DistrictManager DM = GameObject.Find("Districts").GetComponent<DistrictManager>();
+      GameManager.s_Singleton.DistrictManager = DM;
+      DM.mPlayerTrans = transform;
+      GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
+    }
+  }
 
   public void Update()
 	{
@@ -82,20 +101,18 @@ public class PlayerInitializer : NetworkBehaviour
 				if (networkIdentity.isLocalPlayer) {
           
 					Player player = playerObject.GetComponent<Player>();
-          player.enabled = true;
 					player.Team = teamID;
 					playerObject.name = "Player ID:" + networkIdentity.netId + " (" + name + ")";
-				}
+          playerObject.transform.GetChild(0).GetComponent<TextMesh>().text = name;
+        }
 				else if (LobbyPlayer.mLocalPlayerTeam == teamID) {
-					Friend friend = playerObject.GetComponent<Friend>();
-          friend.enabled = true;
+					Friend friend = playerObject.AddComponent<Friend>();
 					friend.Team = teamID;
           playerObject.transform.GetChild(0).GetComponent<TextMesh>().text = name;
           playerObject.name = "Friend ID:" + networkIdentity.netId + " (" + name + ")";
 				}
 				else {
-					Enemy enemy = playerObject.GetComponent<Enemy>();
-          enemy.enabled = true;
+					Enemy enemy = playerObject.AddComponent<Enemy>();
 					enemy.Team = teamID;
           playerObject.transform.GetChild(0).GetComponent<TextMesh>().text = name;
           playerObject.name = "Enemy ID:" + networkIdentity.netId + " (" + name + ")";

@@ -15,6 +15,7 @@ public class DistrictManager : MonoBehaviour
 {
 	public Transform mPlayerTrans;
 
+  [SerializeField]
 	private PolygonCollider2D[] mDistrictColliders;
 
 	public void StartGame(int amountOfTeams)

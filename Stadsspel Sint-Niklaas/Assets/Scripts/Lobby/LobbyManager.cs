@@ -240,11 +240,12 @@ namespace Prototype.NetworkLobby
 			}
 		}
 
-		// ----------------- Server callbacks ------------------
+    // ----------------- Server callbacks ------------------
 
-		//we want to disable the button JOIN if we don't have enough player
-		//But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
-		public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
+    //we want to disable the button JOIN if we don't have enough player
+    //But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
+
+    public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
 		{
 			return Instantiate(lobbyPlayerPrefab.gameObject);
 		}
@@ -325,18 +326,23 @@ namespace Prototype.NetworkLobby
 			ServerChangeScene(playScene);
 		}
 
-		// ----------------- Client callbacks ------------------
+    // ----------------- Client callbacks ------------------
 
-		public override void OnClientConnect(NetworkConnection conn)
+    //public void OnStartClient()
+    //{
+    //  ClientScene.RegisterPrefab(gamePlayerPrefab);
+    //}
+
+
+    public override void OnClientConnect(NetworkConnection conn)
 		{
-			base.OnClientConnect(conn);
+      base.OnClientConnect(conn);
 
 			infoPanel.gameObject.SetActive(false);
 			OnLobbyJoinUpdateName(lobbyNameToJoin);
+      conn.RegisterHandler(MsgKicked, KickedMessageHandler);
 
-			conn.RegisterHandler(MsgKicked, KickedMessageHandler);
-
-			if (!NetworkServer.active) {//only to do on pure client (not self hosting client)
+      if (!NetworkServer.active) {//only to do on pure client (not self hosting client)
 				ChangeTo(lobbyPanel);
         backDelegate = StopClientClbk;
 			}
@@ -356,7 +362,11 @@ namespace Prototype.NetworkLobby
 
 		public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, System.Int16 playerControllerId)
 		{
-			return Instantiate(gamePlayerPrefab);
+      GameObject prefabPlayer = Instantiate(gamePlayerPrefab);
+      NetworkServer.Spawn(prefabPlayer);
+      //ClientScene.AddPlayer(conn, playerControllerId); // TEST
+      //NetworkServer.AddPlayerForConnection(conn, prefabPlayer, playerControllerId); // TEST
+      return prefabPlayer;
 		}
 	}
 }

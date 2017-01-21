@@ -78,9 +78,7 @@ GameObject:
   - 114: {fileID: 114000010551960694}
   - 114: {fileID: 114000013315580104}
   - 114: {fileID: 114000010542107808}
-  - 114: {fileID: 114000012276409754}
-  - 114: {fileID: 114000010277105810}
-  - 114: {fileID: 114000011983173264}
+  - 50: {fileID: 50000011762623006}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -326,6 +324,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!50 &50000011762623006
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012407626070}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!58 &58000011100339616
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -389,20 +404,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114000010277105810
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012407626070}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 798487c433fd05c41baeb61620f1c286, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mTeam: 0
-  mName: Not set
-  mAmountOfMoney: 0
 --- !u!114 &114000010542107808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -414,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
+  m_TransformSyncMode: 2
   m_SendInterval: 0.1
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
@@ -455,39 +456,6 @@ MonoBehaviour:
     i15: 221
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114000011983173264
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012407626070}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86696125e49e1de469b5b85db33f4c9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mTeam: 0
-  mName: Not set
-  mAmountOfMoney: 0
---- !u!114 &114000012276409754
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012407626070}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 245e0efa9a23f7a46a93a1f6547f6c31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mTeam: 0
-  mName: Not set
-  mAmountOfMoney: 0
-  allGameObjectsInRadius: []
-  MainPanel: {fileID: 0}
-  ListPanel: {fileID: 0}
-  Switch: {fileID: 0}
-  mNumberOfButtonsInlistPanel: 0
 --- !u!114 &114000013315580104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -499,6 +467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2487140363115b4ebeebe75cdd508d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mName: 
 --- !u!114 &114000013402605382
 MonoBehaviour:
   m_ObjectHideFlags: 1
