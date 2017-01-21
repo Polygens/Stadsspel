@@ -51,7 +51,9 @@ public class Player : Person
 		gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
 		base.Start();
 
-		Rigidbody2D rigidbody = gameObject.AddComponent<Rigidbody2D>();
+
+    Invoke("InitializeUI", 0.5f);
+    Rigidbody2D rigidbody = gameObject.AddComponent<Rigidbody2D>();
 		rigidbody.isKinematic = true;
 
 		Camera.main.GetComponent<AudioListener>().enabled = true;
@@ -62,7 +64,7 @@ public class Player : Person
 		moveAvatar.mDistrictManager = GameManager.s_Singleton.DistrictManager;
 		GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
-		Invoke("InitializeUI",0.5f);
+		
 	}
 
 	private void InitializeUI()
