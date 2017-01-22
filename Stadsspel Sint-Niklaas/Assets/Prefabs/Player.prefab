@@ -77,8 +77,9 @@ GameObject:
   - 58: {fileID: 58000011100339616}
   - 114: {fileID: 114000010551960694}
   - 114: {fileID: 114000013315580104}
-  - 114: {fileID: 114000010542107808}
   - 50: {fileID: 50000011762623006}
+  - 114: {fileID: 114000011008547262}
+  - 114: {fileID: 114000013375646970}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -404,26 +405,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114000010542107808
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012407626070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 2
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114000010551960694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -456,6 +437,26 @@ MonoBehaviour:
     i15: 221
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114000011008547262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012407626070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 2
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 3
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114000013315580104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -468,6 +469,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mName: 
+--- !u!114 &114000013375646970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012407626070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c41fbb1862cbf4ea7c158628e12304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myTransform: {fileID: 4000012057001244}
+  lerpRate: 9
 --- !u!114 &114000013402605382
 MonoBehaviour:
   m_ObjectHideFlags: 1

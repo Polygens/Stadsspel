@@ -72,6 +72,7 @@ public class PlayerInitializer : NetworkBehaviour
       GameManager.s_Singleton.DistrictManager = DM;
       DM.mPlayerTrans = transform;
       GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
+
     }
   }
 
@@ -98,8 +99,8 @@ public class PlayerInitializer : NetworkBehaviour
 				NetworkIdentity networkIdentity = playerObject.GetComponent<NetworkIdentity>();
 				TeamID teamID = playerObject.GetComponent<PlayerInitializer>().Team;
 				string name = playerObject.GetComponent<PlayerInitializer>().Name;
+        Debug.Log("Team: " + (int)teamID + " + playername: " + name);
 				if (networkIdentity.isLocalPlayer) {
-          
 					Player player = playerObject.GetComponent<Player>();
 					player.Team = teamID;
 					playerObject.name = "Player ID:" + networkIdentity.netId + " (" + name + ")";
