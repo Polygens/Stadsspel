@@ -93,8 +93,9 @@ public class GameManager : NetworkBehaviour
 	{
 		for (int i = 0; i < amountOfTeams; i++) {
 			GameObject temp = Instantiate(mteamPrefab);
-			NetworkServer.Spawn(temp);
-      //ClientScene.RegisterPrefab(temp);
+   
+      NetworkServer.Spawn(temp);
+      
 			temp.GetComponent<Team>().TeamID = (TeamID)(i + 1);
 		}
 		RpcClientsStart(amountOfTeams);

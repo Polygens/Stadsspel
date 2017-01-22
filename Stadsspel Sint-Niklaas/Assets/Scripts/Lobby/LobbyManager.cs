@@ -336,6 +336,7 @@ namespace Prototype.NetworkLobby
 
     public override void OnClientConnect(NetworkConnection conn)
 		{
+      ClientScene.RegisterPrefab(playerPrefab); //Test
       base.OnClientConnect(conn);
 
 			infoPanel.gameObject.SetActive(false);
@@ -362,10 +363,7 @@ namespace Prototype.NetworkLobby
 
 		public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, System.Int16 playerControllerId)
 		{
-      GameObject prefabPlayer = Instantiate(gamePlayerPrefab);
-      NetworkServer.Spawn(prefabPlayer);
-      //ClientScene.AddPlayer(conn, playerControllerId); // TEST
-      //NetworkServer.AddPlayerForConnection(conn, prefabPlayer, playerControllerId); // TEST
+      GameObject prefabPlayer = Instantiate(playerPrefab);
       return prefabPlayer;
 		}
 	}
