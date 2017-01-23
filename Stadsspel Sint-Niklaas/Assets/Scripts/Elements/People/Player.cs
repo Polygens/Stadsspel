@@ -64,6 +64,7 @@ public class Player : Person
 		//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
 		
+		Destroy(LobbyManager.s_Singleton.gameObject);
 	}
 
 	private void InitializeUI()
