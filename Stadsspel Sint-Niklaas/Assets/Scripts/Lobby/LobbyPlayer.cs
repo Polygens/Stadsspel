@@ -1,10 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System;
+using UnityEngine.UI;
 
 namespace Prototype.NetworkLobby
 {
@@ -148,7 +145,6 @@ namespace Prototype.NetworkLobby
 				removePlayerButton.gameObject.SetActive(true);
 				removePlayerButton.onClick.RemoveAllListeners();
 				removePlayerButton.onClick.AddListener(OnRemovePlayerClicked);
-				Debug.Log("test");
 				LobbyManager.s_Singleton.SetStartButton(false);
 			}
 		}
@@ -317,14 +313,14 @@ namespace Prototype.NetworkLobby
 			mIsReady = newReadyState;
 		}
 
-    [Command]
-    private void CmdDeactivateStartButton()
-    {
-      LobbyManager.s_Singleton.startButton.SetActive(false);
-    }
+		[Command]
+		private void CmdDeactivateStartButton()
+		{
+			LobbyManager.s_Singleton.startButton.SetActive(false);
+		}
 
-    //Cleanup thing when get destroy (which happen when client kick or disconnect)
-    private void OnDestroy()
+		//Cleanup thing when get destroy (which happen when client kick or disconnect)
+		private void OnDestroy()
 		{
 			LobbyPlayerList._instance.RemovePlayer(this);
 		}

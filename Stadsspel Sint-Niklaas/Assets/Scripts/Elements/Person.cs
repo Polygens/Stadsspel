@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using Prototype.NetworkLobby;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Person : Element
 {
 	private List<int> illegalItems = new List<int>();
+	private bool mIsReady = false;
 
 	//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
 	private List<int> legalItems = new List<int>();
@@ -17,6 +18,8 @@ public class Person : Element
 	protected new void Start()
 	{
 		ActionRadius = 40;
+
+		GetComponent<NetworkIdentity>().localPlayerAuthority = true;
 
 		//instantiate list with 3 numbers for each list.
 		for (int i = 0; i < 3; i++) {
@@ -92,8 +95,36 @@ public class Person : Element
 		get { return mAmountOfMoney; }
 	}
 
-	public override void OnNameChange(string newName)
+	public void Update()
 	{
-		transform.GetChild(0).GetComponent<TextMesh>().text = newName;
+		int amountOfTeams = LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
+		if (!mIsReady && GameManager.s_Singleton.transform.childCount == amountOfTeams && Name != "Not set" && Team != TeamID.NotSet) {
+			mIsReady = true;
+			Debug.Log("Starting game");
+
+			transform.GetChild(0).GetComponent<TextMesh>().text = Name;
+			GetComponent<Renderer>().material.color = TeamData.GetColor(mTeam);
+			transform.SetParent(GameManager.s_Singleton.transform.GetChild(((int)Team) - 1));
+
+			NetworkIdentity networkIdentity = GetComponent<NetworkIdentity>();
+			if (networkIdentity.isLocalPlayer) {
+				Player player = gameObject.AddComponent<Player>();
+				Debug.Log("GameManager Player has been set");
+				GameManager.s_Singleton.Player = player;
+				GameManager.s_Singleton.DistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
+				GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
+				name = "Player ID:" + networkIdentity.netId + " (" + Name + ")";
+			}
+			else if (LobbyPlayer.mLocalPlayerTeam == mTeam) {
+				Friend friend = gameObject.AddComponent<Friend>();
+				name = "Friend ID:" + networkIdentity.netId + " (" + Name + ")";
+			}
+			else {
+				Enemy enemy = gameObject.AddComponent<Enemy>();
+				name = "Enemy ID:" + networkIdentity.netId + " (" + Name + ")";
+			}
+
+			Destroy(this);
+		}
 	}
 }

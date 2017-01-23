@@ -15,7 +15,7 @@ public class DistrictManager : MonoBehaviour
 {
 	public Transform mPlayerTrans;
 
-  [SerializeField]
+	[SerializeField]
 	private PolygonCollider2D[] mDistrictColliders;
 
 	public void StartGame(int amountOfTeams)
@@ -27,15 +27,19 @@ public class DistrictManager : MonoBehaviour
 
 		for (int i = 1; i <= 6; i++) {
 			if (amountOfTeams > i) {
-				HeadDistrict district = transform.GetChild(i).gameObject.AddComponent<HeadDistrict>();
+				HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
+				district.enabled = true;
 				district.TeamID = (TeamID)(i);
-				Treasure square = district.transform.GetChild(0).gameObject.AddComponent<Treasure>();
+				Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
+				square.enabled = true;
 				square.TeamID = (TeamID)(i);
 			}
 			else {
-				CapturableDistrict district = transform.GetChild(i).gameObject.AddComponent<CapturableDistrict>();
+				CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
+				district.enabled = true;
 				district.TeamID = TeamID.NoTeam;
-				CapturePoint square = district.transform.GetChild(0).gameObject.AddComponent<CapturePoint>();
+				CapturePoint square = district.transform.GetChild(0).gameObject.GetComponent<CapturePoint>();
+				square.enabled = true;
 				square.TeamID = TeamID.NoTeam;
 			}
 		}

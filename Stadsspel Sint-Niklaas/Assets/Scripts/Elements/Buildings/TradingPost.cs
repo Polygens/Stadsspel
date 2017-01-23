@@ -10,7 +10,7 @@ public class TradingPost : Building
 	//[Command]
 	public void CmdAddTeamToList()
 	{
-		visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Player>().Team);
+		visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Person>().Team);
 	}
 
 	private new void Start()

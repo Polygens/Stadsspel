@@ -17,24 +17,24 @@ public class BankUI : MonoBehaviour
 
 	public void UpdateUI()
 	{
-		amountOwnMoney.text = GameManager.s_Singleton.Player.AmountOfMoney.ToString();
-		amountBankMoney.text = GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Team - 1].BankAccount.Balance.ToString();
+		amountOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		amountBankMoney.text = GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].BankAccount.Balance.ToString();
 	}
 
 	public void SelectAll(bool value)
 	{
 		if (value) {
-			amountField.text = GameManager.s_Singleton.Player.AmountOfMoney.ToString();
+			amountField.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 		}
 	}
 
 	public void TransferMoney()
 	{
-		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Team - 1].CmdTransaction(int.Parse(amountField.text));
+		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].CmdTransaction(int.Parse(amountField.text));
 	}
 
 	public void RetractMoney()
 	{
-		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Team - 1].CmdTransaction(-int.Parse(amountField.text));
+		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].CmdTransaction(-int.Parse(amountField.text));
 	}
 }

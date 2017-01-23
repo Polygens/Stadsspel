@@ -1,14 +1,11 @@
-﻿using Prototype.NetworkLobby;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class GameManager : NetworkBehaviour
 {
 	static public GameManager s_Singleton;
 
-  [SerializeField]
+	[SerializeField]
 	private DistrictManager mDistrictManager;
 
 	[SerializeField]
@@ -93,10 +90,8 @@ public class GameManager : NetworkBehaviour
 	{
 		for (int i = 0; i < amountOfTeams; i++) {
 			GameObject temp = Instantiate(mteamPrefab);
-   
-      NetworkServer.Spawn(temp);
-      
-			temp.GetComponent<Team>().TeamID = (TeamID)(i + 1);
+
+			NetworkServer.Spawn(temp);
 		}
 		RpcClientsStart(amountOfTeams);
 	}
@@ -107,6 +102,11 @@ public class GameManager : NetworkBehaviour
 		mDistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
 		mDistrictManager.StartGame(amountOfTeams);
 		mGameIsRunning = true;
+
+		Teams = new Team[amountOfTeams];
+		for (int i = 0; i < amountOfTeams; i++) {
+			Teams[i] = transform.GetChild(i).gameObject.GetComponent<Team>();
+		}
 	}
 
 	public void UpdateGameDuration(float duration)

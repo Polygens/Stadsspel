@@ -1,29 +1,27 @@
-﻿using UnityEngine;
+﻿using GoMap;
 using System.Collections;
-using GoMap;
+using UnityEngine;
 
 public class MoveAvatar : MonoBehaviour
 {
-
 	public LocationManager mLocationManager;
-	public Transform mAvatarDirection;
+	private Transform mAvatarDirection;
 	public DistrictManager mDistrictManager;
-
-
 
 	// Use this for initialization
 	void Start()
 	{
-    Invoke("DelaySearch", 1f);
+		mAvatarDirection = transform.GetChild(1);
+		Invoke("DelaySearch", 1f);
 	}
 
-  private void DelaySearch()
-  {
-    mDistrictManager = GameObject.Find("Districts").GetComponent<DistrictManager>();
-    mLocationManager = GameObject.Find("LocationManager").GetComponent<LocationManager>();
-    mLocationManager.onOriginSet += OnOriginSet;
-    mLocationManager.onLocationChanged += OnLocationChanged;
-  }
+	private void DelaySearch()
+	{
+		mDistrictManager = GameObject.Find("Districts").GetComponent<DistrictManager>();
+		mLocationManager = GameObject.Find("LocationManager").GetComponent<LocationManager>();
+		mLocationManager.onOriginSet += OnOriginSet;
+		mLocationManager.onLocationChanged += OnLocationChanged;
+	}
 
 	private void Update()
 	{
@@ -43,7 +41,6 @@ public class MoveAvatar : MonoBehaviour
 
 	void OnLocationChanged(Coordinates currentLocation)
 	{
-
 		Vector3 lastPosition = transform.position;
 
 		//Position

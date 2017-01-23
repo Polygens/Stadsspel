@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.Networking;
-using Prototype.NetworkLobby;
 
 public class Team : NetworkBehaviour
 {
 	[SerializeField]
-	[SyncVar]
 	private TeamID mTeamID;
 
 	[SerializeField]
@@ -22,10 +18,6 @@ public class Team : NetworkBehaviour
 	public TeamID TeamID {
 		get {
 			return mTeamID;
-		}
-
-		set {
-			mTeamID = value;
 		}
 	}
 
@@ -43,6 +35,13 @@ public class Team : NetworkBehaviour
 		set {
 			mBankAccount = value;
 		}
+	}
+
+	private void Awake()
+	{
+		transform.SetParent(GameManager.s_Singleton.transform);
+		mTeamID = (TeamID)(transform.GetSiblingIndex() + 1);
+		name = TeamID.ToString();
 	}
 
 	public void AddOrRemoveMoney(int amount)

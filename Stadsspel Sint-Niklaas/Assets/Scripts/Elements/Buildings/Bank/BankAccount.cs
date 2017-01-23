@@ -27,8 +27,8 @@ public class BankAccount : NetworkBehaviour
 	{
 		if (amount > 0) //Add money to bank, subtract from player
 		{
-			if (amount <= GameManager.s_Singleton.Player.AmountOfMoney) {
-				GameManager.s_Singleton.Player.MoneyTransaction(amount);
+			if (amount <= GameManager.s_Singleton.Player.Person.AmountOfMoney) {
+				GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
 				mBalance += amount;
 				return true;
 			}
@@ -36,7 +36,7 @@ public class BankAccount : NetworkBehaviour
 		else //Subtract money from bank, add to player
 		{
 			if (amount <= mBalance) {
-				GameManager.s_Singleton.Player.MoneyTransaction(amount);
+				GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
 				mBalance += amount;
 				return true;
 			}

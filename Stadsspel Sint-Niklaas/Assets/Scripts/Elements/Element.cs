@@ -7,12 +7,24 @@ public class Element : NetworkBehaviour
 	private float mActionRadius;
 
 	[SerializeField]
-	[SyncVar]
+	[SyncVar(hook = "OnTeamChange")]
 	protected TeamID mTeam = TeamID.NotSet;
 
 	[SerializeField]
 	[SyncVar(hook = "OnNameChange")]
-	protected string mName = "Not set";
+	private string mName = "Not set";
+
+	[Command]
+	public void CmdSetName(string newName)
+	{
+		mName = newName;
+	}
+
+	[Command]
+	public void CmdSetTeam(TeamID newTeamID)
+	{
+		mTeam = newTeamID;
+	}
 
 	protected void Start()
 	{
@@ -34,6 +46,16 @@ public class Element : NetworkBehaviour
 
 		set {
 			mTeam = value;
+		}
+	}
+
+	public string Name {
+		get {
+			return mName;
+		}
+
+		set {
+			mName = value;
 		}
 	}
 
@@ -68,6 +90,10 @@ public class Element : NetworkBehaviour
 
 	public virtual void OnNameChange(string newName)
 	{
-		gameObject.name = newName;
+
+	}
+
+	public virtual void OnTeamChange(TeamID newTeam)
+	{
 	}
 }

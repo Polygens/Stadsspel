@@ -9,8 +9,8 @@ public class GoodsUI : MonoBehaviour
 
 	public void OnEnable()
 	{
-		legalItems = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpLegalItems;
-		illegalItems = GameObject.FindWithTag("Player").GetComponent<Player>().LookUpIllegalItems;
+		legalItems = GameManager.s_Singleton.Player.Person.LookUpLegalItems;
+		illegalItems = GameManager.s_Singleton.Player.Person.LookUpIllegalItems;
 
 		RectTransform Grid = (RectTransform)transform.FindChild("MainPanel").transform.FindChild("Grid");
 		for (int i = 1; i < Grid.childCount; i++) {

@@ -1,18 +1,21 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using GoMap;
+using Prototype.NetworkLobby;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
-using GoMap;
 
-public class Player : Person
+public class Player : MonoBehaviour
 {
-
 	private int mDetectionRadius;
 	private List<GameObject> enemiesInRadius = new List<GameObject>();
 
-  [SerializeField]
+	[SerializeField]
 	private List<GameObject> allGameObjectsInRadius = new List<GameObject>();
+
+	private Person mPerson;
+
 	private Button[] buttons;
 	private int[] currentButtons;
 	private int highestPriority;
@@ -22,20 +25,25 @@ public class Player : Person
 
 	private RectTransform[] panels;
 
-  [SerializeField]
+	[SerializeField]
 	private RectTransform MainPanel;
 
-  [SerializeField]
+	[SerializeField]
 	private RectTransform ListPanel;
 
-  [SerializeField]
+	[SerializeField]
 	private RectTransform Switch;
+
 	public int mNumberOfButtonsInlistPanel = 0;
 
-	private void Awake()
-	{
-		Debug.Log("GameManager Player has been set");
-		GameManager.s_Singleton.Player = this;
+	public Person Person {
+		get {
+			return mPerson;
+		}
+
+		set {
+			mPerson = value;
+		}
 	}
 
 	// Team,
@@ -46,25 +54,28 @@ public class Player : Person
 	//SchatkistEnemy
 	// EnemyPlein,
 	//Enemy
-	private new void Start()
+	private void Start()
 	{
+		mPerson = GetComponent<Person>();
+		InitializeUI();
 
-		base.Start();
+		tag = "Player";
 
-    Invoke("InitializeUI", 0.5f);
-  //  Rigidbody2D rigidbody = gameObject.AddComponent<Rigidbody2D>();
+		//Rigidbody2D rigidbody = gameObject.AddComponent<Rigidbody2D>();
 		//rigidbody.isKinematic = true;
 
 		Camera.main.GetComponent<AudioListener>().enabled = true;
 
+
 		MoveAvatar moveAvatar = gameObject.AddComponent<MoveAvatar>();
-		moveAvatar.mAvatarDirection = transform.GetChild(1);
 
 		moveAvatar.mDistrictManager = GameManager.s_Singleton.DistrictManager;
+
 		//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
-		
+
 		Destroy(LobbyManager.s_Singleton.gameObject);
+
 	}
 
 	private void InitializeUI()
@@ -76,10 +87,10 @@ public class Player : Person
 		for (int i = 0; i < numberOfPanels; i++) {
 			panels[i] = (RectTransform)panelsInCanvas.GetChild(i);
 		}
-    MainPanel = (RectTransform)priorityButtons.GetChild(1);
-    ListPanel = (RectTransform)priorityButtons.GetChild(0).GetChild(0);
-    Switch = (RectTransform)priorityButtons.GetChild(2);
-    MainPanel.gameObject.SetActive(false);
+		MainPanel = (RectTransform)priorityButtons.GetChild(1);
+		ListPanel = (RectTransform)priorityButtons.GetChild(0).GetChild(0);
+		Switch = (RectTransform)priorityButtons.GetChild(2);
+		MainPanel.gameObject.SetActive(false);
 		ListPanel.gameObject.SetActive(false);
 		Switch.gameObject.SetActive(false);
 		int lengthPriorities = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
@@ -96,7 +107,7 @@ public class Player : Person
 	public void Rob()
 	{
 		foreach (GameObject enemy in enemiesInRadius) {
-			AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
+			mPerson.AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
 			enemy.GetComponent<Person>().GetRobbed();
 		}
 	}
@@ -124,10 +135,10 @@ public class Player : Person
 			// If the priority is higher then the current, update the priority
 			for (int i = 0; i < allGameObjectsInRadius.Count; i++) {
 				string tag = allGameObjectsInRadius[i].tag;
-        Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
-        Priority tempP;
+				Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
+				Priority tempP;
 				if (tag == "Square") {
-					if (allGameObjectsInRadius[i].GetComponent<Square>().TeamID == GameManager.s_Singleton.Player.Team) {
+					if (allGameObjectsInRadius[i].GetComponent<Square>().TeamID == mPerson.Team) {
 						tempP = Priority.Treasure;
 					}
 					else {
@@ -243,7 +254,7 @@ public class Player : Person
 
 	public void OnTriggerEnter2D(Collider2D other)
 	{
-    //Debug.Log(other.tag);
+		//Debug.Log(other.tag);
 		if (other.tag != "Untagged") {
 			allGameObjectsInRadius.Add(other.gameObject);
 			if (other.tag == "Enemy") {

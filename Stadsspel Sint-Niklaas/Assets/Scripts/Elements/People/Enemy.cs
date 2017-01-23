@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Enemy : Person
+public class Enemy : MonoBehaviour
 {
 	private int mDetectionRadius = 100;
+	private Person mPerson;
 
-	private new void Start()
+	private void Start()
 	{
+		mPerson = GetComponent<Person>();
 		tag = "Enemy";
-		base.Start();
 		Destroy(transform.GetChild(1).gameObject);
 		Destroy(transform.GetChild(2).gameObject);
 		Destroy(transform.GetChild(3).gameObject);
-		Destroy(GetComponent<MoveAvatar>());
-		GetComponent<NetworkIdentity>().localPlayerAuthority = false;
 
 		NetworkProximityChecker proximityChecker = gameObject.AddComponent<NetworkProximityChecker>();
 		proximityChecker.checkMethod = NetworkProximityChecker.CheckMethod.Physics2D;
