@@ -57,6 +57,8 @@ public class TradingPostUI : MonoBehaviour
 	{
 		bool teamAlreadyVisited = false;
 		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetTradingPost();
+    Debug.Log(tempTradePost.name);
+    Debug.Log(tempTradePost.GetComponent<TradingPost>().VisitedTeams.Count);
 		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
 		for (int i = 0; i < visitedTeams.Count; i++) {
 			if (visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team) {

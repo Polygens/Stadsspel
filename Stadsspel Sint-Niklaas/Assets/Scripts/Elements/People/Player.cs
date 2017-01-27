@@ -277,7 +277,7 @@ public class Player : MonoBehaviour
 		GameObject tradingpost = null;
 		foreach (GameObject GO in allGameObjectsInRadius) {
 			if (GO.tag == "TradingPost") {
-				tradingpost = GO.transform.parent.gameObject;
+				tradingpost = GO.transform.gameObject;
 			}
 		}
 		return tradingpost;
