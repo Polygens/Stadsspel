@@ -1,11 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.Networking;
-using UnityEngine.Networking.Types;
-using UnityEngine.Networking.Match;
 using System.Collections;
-using System;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
+using UnityEngine.Networking.Types;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Prototype.NetworkLobby
 {
@@ -129,6 +128,11 @@ namespace Prototype.NetworkLobby
 			}
 			else {
 				backButton.gameObject.SetActive(false);
+
+			}
+
+			if (currentPanel == mCreateLobbyPanel) {
+				LobbyPlayer.ResetLobbyPlayer();
 			}
 		}
 
@@ -240,12 +244,12 @@ namespace Prototype.NetworkLobby
 			}
 		}
 
-    // ----------------- Server callbacks ------------------
+		// ----------------- Server callbacks ------------------
 
-    //we want to disable the button JOIN if we don't have enough player
-    //But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
+		//we want to disable the button JOIN if we don't have enough player
+		//But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
 
-    public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
+		public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
 		{
 			return Instantiate(lobbyPlayerPrefab.gameObject);
 		}
@@ -326,26 +330,26 @@ namespace Prototype.NetworkLobby
 			ServerChangeScene(playScene);
 		}
 
-    // ----------------- Client callbacks ------------------
+		// ----------------- Client callbacks ------------------
 
-    //public void OnStartClient()
-    //{
-    //  ClientScene.RegisterPrefab(gamePlayerPrefab);
-    //}
+		//public void OnStartClient()
+		//{
+		//  ClientScene.RegisterPrefab(gamePlayerPrefab);
+		//}
 
 
-    public override void OnClientConnect(NetworkConnection conn)
+		public override void OnClientConnect(NetworkConnection conn)
 		{
-      ClientScene.RegisterPrefab(playerPrefab); //Test
-      base.OnClientConnect(conn);
+			ClientScene.RegisterPrefab(playerPrefab); //Test
+			base.OnClientConnect(conn);
 
 			infoPanel.gameObject.SetActive(false);
 			OnLobbyJoinUpdateName(lobbyNameToJoin);
-      conn.RegisterHandler(MsgKicked, KickedMessageHandler);
+			conn.RegisterHandler(MsgKicked, KickedMessageHandler);
 
-      if (!NetworkServer.active) {//only to do on pure client (not self hosting client)
+			if (!NetworkServer.active) {//only to do on pure client (not self hosting client)
 				ChangeTo(lobbyPanel);
-        backDelegate = StopClientClbk;
+				backDelegate = StopClientClbk;
 			}
 		}
 
@@ -358,13 +362,13 @@ namespace Prototype.NetworkLobby
 		public override void OnClientError(NetworkConnection conn, int errorCode)
 		{
 			ChangeTo(mCreateLobbyPanel);
-      infoPanel.Display("Client error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+			infoPanel.Display("Client error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
 		}
 
 		public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, System.Int16 playerControllerId)
 		{
-      GameObject prefabPlayer = Instantiate(playerPrefab);
-      return prefabPlayer;
+			GameObject prefabPlayer = Instantiate(playerPrefab);
+			return prefabPlayer;
 		}
 	}
 }

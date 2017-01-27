@@ -324,5 +324,13 @@ namespace Prototype.NetworkLobby
 		{
 			LobbyPlayerList._instance.RemovePlayer(this);
 		}
+
+		public static void ResetLobbyPlayer()
+		{
+			mHostInstance = false;
+			mIsFirst = true;
+			mLocalPlayerTeam = TeamID.NotSet;
+			mLocalPlayerNetID = 0;
+		}
 	}
 }
