@@ -120,10 +120,9 @@ public class SimpleRoad : MonoBehaviour
 
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
-		mesh.Optimize(); // -> Depricated - Use following line instead for Unity 5.5.0p4 and higher
-        //MeshUtility.Optimize(mesh);
+		mesh.Optimize();
 
-        return mesh;
+		return mesh;
 	}
 
 }
