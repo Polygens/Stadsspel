@@ -126,9 +126,10 @@ public class SimplePolygon : MonoBehaviour
 
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
-		mesh.Optimize();
+		mesh.Optimize(); // -> Depricated - Use following line instead for Unity 5.5.0p4 and higher
+        //MeshUtility.Optimize(mesh);
 
-		return mesh;
+        return mesh;
 	}
 
 	public void Rebuild()
