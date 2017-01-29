@@ -3,8 +3,8 @@
 public class Enemy : MonoBehaviour
 {
 	private int mDetectionRadius = 150;
-	private float mDetectionTimer = .5f;
-	private float mTimer = 0;
+	private float mDetectionTime = .5f;
+	private float mTimer;
 	private Person mPerson;
 
 	private MeshRenderer mCircleMesh;
@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
 		Destroy(transform.GetChild(2).gameObject);
 		Destroy(transform.GetChild(3).gameObject);
 
-		mTimer = mDetectionTimer;
+		mTimer = mDetectionTime;
 
 		mCircleMesh = GetComponent<MeshRenderer>();
 		mTextMesh = transform.GetChild(0).GetComponent<MeshRenderer>();
@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
 	{
 		mTimer -= Time.deltaTime;
 		if (mTimer < 0) {
-			mTimer = mDetectionTimer;
+			mTimer = mDetectionTime;
 			if (Vector2.Distance(transform.position, GameManager.s_Singleton.Player.transform.position) > mDetectionRadius) {
 				mCircleMesh.enabled = false;
 				mTextMesh.enabled = false;
