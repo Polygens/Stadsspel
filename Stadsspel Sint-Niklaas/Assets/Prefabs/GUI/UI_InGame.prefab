@@ -551,7 +551,7 @@ GameObject:
   - 114: {fileID: 114000012194791800}
   m_Layer: 5
   m_Name: Header
-  m_TagString: Untagged
+  m_TagString: Header
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3617,7 +3617,7 @@ GameObject:
   - 222: {fileID: 222000012004559294}
   - 114: {fileID: 114000011022236862}
   m_Layer: 5
-  m_Name: MoneyAmount
+  m_Name: TeamMoneyAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -82,7 +82,8 @@ public class Player : MonoBehaviour
 
         Destroy(LobbyManager.s_Singleton.gameObject);
 
-	}
+        GameObject.FindGameObjectWithTag("Header").GetComponent<Header>().Player = mPerson;
+    }
 
 	private void InitializeUI()
 	{
