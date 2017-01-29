@@ -74,7 +74,13 @@ public class Player : MonoBehaviour
 		//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
 
-		Destroy(LobbyManager.s_Singleton.gameObject);
+        Image headerImage = GameObject.FindGameObjectWithTag("Header").GetComponent<Image>();
+        Color c = headerImage.color;
+        c = TeamData.GetColor(mPerson.Team);
+        c.a = 0.5f;
+        headerImage.color = c;
+
+        Destroy(LobbyManager.s_Singleton.gameObject);
 
 	}
 

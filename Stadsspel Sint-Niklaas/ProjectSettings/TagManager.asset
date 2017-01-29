@@ -16,6 +16,7 @@ TagManager:
   - Team
   - Square
   - host
+  - Header
   layers:
   - Default
   - TransparentFX
