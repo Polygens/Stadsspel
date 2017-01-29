@@ -12,9 +12,6 @@ namespace Prototype.NetworkLobby
 		public GameObject serverEntryPrefab;
 		public GameObject noServerFound;
 
-		protected int currentPage = 0;
-		protected int previousPage = 0;
-
 		static Color OddServerColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		static Color EvenServerColor = new Color(.94f, .94f, .94f, 1.0f);
 
@@ -25,15 +22,12 @@ namespace Prototype.NetworkLobby
 		{
 			mTimer = mRefreshTime;
 
-			currentPage = 0;
-			previousPage = 0;
-
 			foreach (Transform t in serverListRect)
 				Destroy(t.gameObject);
 
 			noServerFound.SetActive(false);
 
-			RequestPage(0);
+			UpdateList();
 		}
 
 		private void Update()
@@ -41,19 +35,14 @@ namespace Prototype.NetworkLobby
 			mTimer -= Time.deltaTime;
 			if (mTimer < 0) {
 				mTimer = mRefreshTime;
-				RequestPage(currentPage);
+				UpdateList();
 			}
 		}
 
 		public void OnGUIMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
 		{
 			if (matches.Count == 0) {
-				if (currentPage == 0) {
-					noServerFound.SetActive(true);
-				}
-
-				currentPage = previousPage;
-
+				noServerFound.SetActive(true);
 				return;
 			}
 
@@ -70,22 +59,9 @@ namespace Prototype.NetworkLobby
 			}
 		}
 
-		public void ChangePage(int dir)
+		public void UpdateList()
 		{
-			int newPage = Mathf.Max(0, currentPage + dir);
-
-			//if we have no server currently displayed, need we need to refresh page0 first instead of trying to fetch any other page
-			if (noServerFound.activeSelf)
-				newPage = 0;
-
-			RequestPage(newPage);
-		}
-
-		public void RequestPage(int page)
-		{
-			previousPage = currentPage;
-			currentPage = page;
-			lobbyManager.matchMaker.ListMatches(page, 6, "", false, 0, 0, OnGUIMatchList);
+			lobbyManager.matchMaker.ListMatches(0, 1000, "", false, 0, 0, OnGUIMatchList);
 		}
 	}
 }
