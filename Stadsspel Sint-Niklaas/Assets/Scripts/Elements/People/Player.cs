@@ -126,7 +126,10 @@ public class Player : MonoBehaviour
 			// In case there were no collidings before.
 			MainPanel.gameObject.SetActive(true);
 			ListPanel.gameObject.SetActive(true);
-			Switch.gameObject.SetActive(true);
+            if (allGameObjectsInRadius.Count != 1)
+            {
+                Switch.gameObject.SetActive(true);
+            }
 
 			int lengthEnum = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
 			int[] priorityPresence = new int[lengthEnum];

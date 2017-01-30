@@ -3,42 +3,52 @@ using UnityEngine.Networking;
 
 public class GameManager : NetworkBehaviour
 {
-	static public GameManager s_Singleton;
+    static public GameManager s_Singleton;
 
-	[SerializeField]
-	private DistrictManager mDistrictManager;
+    [SerializeField]
+    private DistrictManager mDistrictManager;
 
-	[SerializeField]
-	private GameObject mteamPrefab;
+    [SerializeField]
+    private GameObject mteamPrefab;
 
-	private float mGameLength;
-	private bool mGameIsRunning = false;
-	private float nextMoneyUpdateTime;
-	private float moneyUpdateTimeInterval = 5;
+    private float mGameLength;
+    private bool mGameIsRunning = false;
+    private float nextMoneyUpdateTime;
+    private float moneyUpdateTimeInterval = 5;
 
-	private Team[] mTeams;
+    private Team[] mTeams;
 
-	private Player mPlayer;
+    private Player mPlayer;
 
-	public Player Player {
-		get {
-			return mPlayer;
-		}
+    private Treasure[] mTreasures;
 
-		set {
-			mPlayer = value;
-		}
-	}
+    public Player Player {
+        get {
+            return mPlayer;
+        }
 
-	public Team[] Teams {
-		get {
-			return mTeams;
-		}
+        set {
+            mPlayer = value;
+        }
+    }
 
-		set {
-			mTeams = value;
-		}
-	}
+    public Team[] Teams {
+        get {
+            return mTeams;
+        }
+
+        set {
+            mTeams = value;
+        }
+    }
+
+    public Treasure[] Treasures
+    {
+        get
+        {
+            return mTreasures;
+        }
+    }
 
 	public DistrictManager DistrictManager {
 		get {
@@ -83,6 +93,7 @@ public class GameManager : NetworkBehaviour
 	public void StartGame(int amountOfTeams)
 	{
 		CmdCreateTeams(amountOfTeams);
+        FindTreasures();
 	}
 
 	[Command]
@@ -114,4 +125,16 @@ public class GameManager : NetworkBehaviour
 		Debug.Log(duration);
 		mGameLength = duration;
 	}
+
+    private void FindTreasures()
+    {
+        GameObject[] tempList = GameObject.FindGameObjectsWithTag("Treasure");
+        mTreasures = new Treasure[tempList.Length];
+        
+        for (int i = 0; i < mTreasures.Length; i++)
+        {
+            mTreasures[i] = tempList[i].GetComponent<Treasure>();
+        }
+        Debug.Log(mTreasures.Length + " Treasures found");
+    }
 }
