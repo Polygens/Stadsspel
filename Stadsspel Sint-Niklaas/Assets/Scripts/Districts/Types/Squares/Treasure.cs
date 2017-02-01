@@ -6,7 +6,17 @@ public class Treasure : Square
 {
 	private static int robThreshold = 20; // This percentage can be stolen
 	private int moneyGainPerDistrict = 1000;
+
+    [SyncVar]
 	private int mAmountOfMoney = 5000;
+
+    public int AmountOfMoney
+    {
+        get
+        {
+            return mAmountOfMoney;
+        }
+    }
 
 	private new void Start()
 	{
@@ -33,8 +43,14 @@ public class Treasure : Square
 		return GameManager.s_Singleton.Teams[(int)mTeamID - 1].AmountOfDistricts;
 	}
 
-	public bool Transaction(int amount)
+    [Command]
+	public void CmdTransaction(int amount)
 	{
-		return false; // TO DO
+		if (amount <= mAmountOfMoney)
+        {
+            mAmountOfMoney -= amount;
+            GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
+            Debug.Log("ChestMoney: " + mAmountOfMoney);
+        }
 	}
 }

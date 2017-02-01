@@ -46,6 +46,14 @@ public class Player : MonoBehaviour
 		}
 	}
 
+    public List<GameObject> AllGameObjectsInRadius
+    {
+        get
+        {
+            return allGameObjectsInRadius;
+        }
+    }
+
 	// Team,
 	//Bank,
 	//TradingPost,
@@ -282,15 +290,15 @@ public class Player : MonoBehaviour
 		PriorityUpdate(allGameObjectsInRadius, other);
 	}
 
-	public GameObject GetTradingPost()
+	public GameObject GetGameObjectInRadius(string tag)
 	{
-		GameObject tradingpost = null;
+		GameObject obj = null;
 		foreach (GameObject GO in allGameObjectsInRadius) {
-			if (GO.tag == "TradingPost") {
-				tradingpost = GO.transform.gameObject;
+			if (GO.tag == tag) {
+				obj = GO.transform.gameObject;
 			}
 		}
-		return tradingpost;
+		return obj;
 	}
 }
 

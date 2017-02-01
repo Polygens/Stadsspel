@@ -145,6 +145,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000013039153936, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224000010571540820, guid: cc3c651953d2f034a917167c04489f68,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -379,6 +384,31 @@ Prefab:
       propertyPath: m_Name
       value: Treasure
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013039153936, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013039153936, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013039153936, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 613978500}
+    - target: {fileID: 114000013039153936, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TransferMoney
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013039153936, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114000011095149674, guid: cc3c651953d2f034a917167c04489f68, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: cc3c651953d2f034a917167c04489f68, type: 2}
@@ -413,6 +443,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountOfOwnMoney: {fileID: 613978498}
   amountOfChestMoney: {fileID: 613978497}
+  input: {fileID: 613978501}
+--- !u!114 &613978501 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000014269885454, guid: cc3c651953d2f034a917167c04489f68,
+    type: 2}
+  m_PrefabInternal: {fileID: 613978496}
+  m_Script: {fileID: 575553740, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &617662849
 Prefab:
   m_ObjectHideFlags: 0

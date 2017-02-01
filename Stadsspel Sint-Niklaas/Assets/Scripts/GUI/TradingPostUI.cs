@@ -56,7 +56,7 @@ public class TradingPostUI : MonoBehaviour
 	private bool CheckIfTeamAlreadyVisited()
 	{
 		bool teamAlreadyVisited = false;
-		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetTradingPost();
+		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
     Debug.Log(tempTradePost.name);
     Debug.Log(tempTradePost.GetComponent<TradingPost>().VisitedTeams.Count);
 		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
@@ -115,7 +115,7 @@ public class TradingPostUI : MonoBehaviour
 		}
 		GameManager.s_Singleton.Player.Person.AddLegalItems(legalItems);
 		GameManager.s_Singleton.Player.Person.AddIllegalItems(illegalItems);
-		GameManager.s_Singleton.Player.GetTradingPost().GetComponent<TradingPost>().CmdAddTeamToList();
+		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().CmdAddTeamToList();
 		GameManager.s_Singleton.Player.Person.MoneyTransaction(-totalPriceAmount);
 
 		for (int i = 0; i < inputfields.Count; i++) {
