@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class GameManager : NetworkBehaviour
@@ -20,7 +21,7 @@ public class GameManager : NetworkBehaviour
 
     private Player mPlayer;
 
-    private Treasure[] mTreasures;
+    private List<Treasure> mTreasures;
 
     public Player Player {
         get {
@@ -39,14 +40,6 @@ public class GameManager : NetworkBehaviour
 
         set {
             mTeams = value;
-        }
-    }
-
-    public Treasure[] Treasures
-    {
-        get
-        {
-            return mTreasures;
         }
     }
 
@@ -70,6 +63,7 @@ public class GameManager : NetworkBehaviour
 			return;
 		}
 		s_Singleton = this;
+        mTreasures = new List<Treasure>();
 		nextMoneyUpdateTime = moneyUpdateTimeInterval;
 		DontDestroyOnLoad(gameObject);
 	}
@@ -85,6 +79,10 @@ public class GameManager : NetworkBehaviour
 			if (Time.timeSinceLevelLoad > nextMoneyUpdateTime) {
 
 				// Call GainMoneyOverTime() from each financial object
+                for (int i = 0; i < mTreasures.Count; i++)
+                {
+                    mTreasures[i].GainMoneyOverTime();
+                }
 				nextMoneyUpdateTime = Time.timeSinceLevelLoad + moneyUpdateTimeInterval;
 			}
 		}
@@ -93,7 +91,6 @@ public class GameManager : NetworkBehaviour
 	public void StartGame(int amountOfTeams)
 	{
 		CmdCreateTeams(amountOfTeams);
-        FindTreasures();
 	}
 
 	[Command]
@@ -126,15 +123,13 @@ public class GameManager : NetworkBehaviour
 		mGameLength = duration;
 	}
 
-    private void FindTreasures()
+    public void AddTreasure(Treasure t)
     {
-        GameObject[] tempList = GameObject.FindGameObjectsWithTag("Treasure");
-        mTreasures = new Treasure[tempList.Length];
-        
-        for (int i = 0; i < mTreasures.Length; i++)
-        {
-            mTreasures[i] = tempList[i].GetComponent<Treasure>();
-        }
-        Debug.Log(mTreasures.Length + " Treasures found");
+        mTreasures.Add(t);
+    }
+
+    public Treasure GetTreasureFrom(TeamID id)
+    {
+        return mTreasures[(int)id];
     }
 }

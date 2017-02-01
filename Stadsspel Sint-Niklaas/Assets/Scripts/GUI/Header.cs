@@ -19,8 +19,8 @@ public class Header : MonoBehaviour {
 
     public void Start()
     {
-        teamMoney = transform.FindChild("TeamMoneyAmount").GetComponent<Text>();
-        playerMoney = transform.FindChild("PlayerMoney").GetComponent<Text>();
+        //teamMoney = transform.FindChild("TeamMoneyAmount").GetComponent<Text>(); -> Null Ref ?
+        //playerMoney = transform.FindChild("PlayerMoney").GetComponent<Text>(); -> Same
     }
 
     public void Update()
@@ -43,7 +43,7 @@ public class Header : MonoBehaviour {
 
     public void UpdatePlayerMoney(int pPlayerMoney)
     {
-        playerMoney.text = pPlayerMoney.ToString();
+        //playerMoney.text = pPlayerMoney.ToString(); -> Null Ref ?
     }
 
     public void UpdateTeamMoney(int pTeamMoney)

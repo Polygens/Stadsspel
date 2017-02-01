@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Treasure : Square
@@ -24,11 +25,12 @@ public class Treasure : Square
 	public void GainMoneyOverTime()
 	{
 		mAmountOfMoney += moneyGainPerDistrict * CheckAmountOfCapturedDistricts();
+        Debug.Log("Treasure" + (int)mTeamID + " has " + mAmountOfMoney);
 	}
 
 	private int CheckAmountOfCapturedDistricts()
 	{
-		return GameManager.s_Singleton.Teams[(int)mTeamID].AmountOfDistricts;
+		return GameManager.s_Singleton.Teams[(int)mTeamID - 1].AmountOfDistricts;
 	}
 
 	public bool Transaction(int amount)

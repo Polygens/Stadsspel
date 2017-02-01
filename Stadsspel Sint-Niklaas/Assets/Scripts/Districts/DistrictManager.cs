@@ -20,19 +20,30 @@ public class DistrictManager : MonoBehaviour
 
 	public void StartGame(int amountOfTeams)
 	{
+        Debug.Log("There are " + amountOfTeams + " teams");
 		mDistrictColliders = new PolygonCollider2D[gameObject.transform.childCount];
 		for (int i = 0; i < gameObject.transform.childCount; i++) {
 			mDistrictColliders[i] = gameObject.transform.GetChild(i).gameObject.GetComponent<PolygonCollider2D>();
 		}
 
 		for (int i = 1; i <= 6; i++) {
-			if (amountOfTeams > i) {
+			if (amountOfTeams >= i) {
 				HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
 				district.enabled = true;
 				district.TeamID = (TeamID)(i);
 				Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
 				square.enabled = true;
 				square.TeamID = (TeamID)(i);
+                try
+                {
+                    GameManager.s_Singleton.AddTreasure(square);
+                    Debug.Log("Treasure" + i + " added");
+                }
+                catch
+                {
+                    Debug.Log("hhhhhhhhhhh");
+                }
+                
 			}
 			else {
 				CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
