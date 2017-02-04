@@ -87,10 +87,8 @@ public class Player : MonoBehaviour
         c = TeamData.GetColor(mPerson.Team);
         c.a = 0.5f;
         headerImage.color = c;
-
+        //GameObject.FindGameObjectWithTag("Header").GetComponent<Header>().Player = mPerson;
         Destroy(LobbyManager.s_Singleton.gameObject);
-
-        GameObject.FindGameObjectWithTag("Header").GetComponent<Header>().Player = mPerson;
     }
 
 	private void InitializeUI()

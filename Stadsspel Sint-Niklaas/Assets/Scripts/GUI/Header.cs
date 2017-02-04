@@ -7,27 +7,40 @@ public class Header : MonoBehaviour {
   public RectTransform mProfilePanel;
   public RectTransform mGoodsPanel;
 
-    private Text teamMoney;
-    private Text playerMoney;
+    public Text teamMoney;
+    public Text playerMoney;
 
-    private Person player;
-
-    public Person Player
-    {
-        set { player = value; }
-    }
+    private Player player;
+    private bool playerFound = false;
 
     public void Start()
     {
-        //teamMoney = transform.FindChild("TeamMoneyAmount").GetComponent<Text>(); -> Null Ref ?
-        //playerMoney = transform.FindChild("PlayerMoney").GetComponent<Text>(); -> Same
+        player = GameManager.s_Singleton.Player;
+        if(player != null)
+        {
+            playerFound = true;
+        }
     }
 
     public void Update()
     {
         if(Time.frameCount % 30 == 0) //update every 30 frames = each second(mobile running at 30fps?)
         {
-            UpdatePlayerMoney(player.AmountOfMoney);
+            if(playerFound)
+            {
+                UpdatePlayerMoney(player.Person.AmountOfMoney);
+            }      
+        }
+
+        if(!playerFound)
+        {
+            player = GameManager.s_Singleton.Player;
+
+            if(player != null)
+            {
+                playerFound = true;
+                Debug.Log("Player found for header");
+            }
         }
     }
 
@@ -43,7 +56,8 @@ public class Header : MonoBehaviour {
 
     public void UpdatePlayerMoney(int pPlayerMoney)
     {
-        //playerMoney.text = pPlayerMoney.ToString(); -> Null Ref ?
+        Debug.Log("MoneyUpdated");
+        playerMoney.text = pPlayerMoney.ToString();
     }
 
     public void UpdateTeamMoney(int pTeamMoney)
