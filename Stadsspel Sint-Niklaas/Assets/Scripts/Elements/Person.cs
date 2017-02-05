@@ -123,8 +123,6 @@ public class Person : Element
 				Enemy enemy = gameObject.AddComponent<Enemy>();
 				name = "Enemy ID:" + networkIdentity.netId + " (" + Name + ")";
 			}
-
-			Destroy(this);
 		}
 	}
 }
