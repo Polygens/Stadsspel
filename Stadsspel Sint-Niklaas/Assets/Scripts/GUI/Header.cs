@@ -1,67 +1,63 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
-public class Header : MonoBehaviour {
+public class Header : MonoBehaviour
+{
+	[SerializeField]
+	private RectTransform mProfilePanel;
+	[SerializeField]
+	private RectTransform mGoodsPanel;
+	[SerializeField]
+	private Image mTeamColor;
+	[SerializeField]
+	private Text mTeamMoney;
+	[SerializeField]
+	private Text mPlayerMoney;
 
-  public RectTransform mProfilePanel;
-  public RectTransform mGoodsPanel;
 
-    public Text teamMoney;
-    public Text playerMoney;
+	private Person mPerson;
+	private bool mPersonIsSet = false;
 
-    private Player player;
-    private bool playerFound = false;
+	private float mUpdateTimer = 0;
+	private float mUpdateTime = 1;
 
-    public void Start()
-    {
-        player = GameManager.s_Singleton.Player;
-        if(player != null)
-        {
-            playerFound = true;
-        }
-    }
+	public void Update()
+	{
+		mUpdateTimer += Time.deltaTime;
+		if (mUpdateTimer > mUpdateTime) {
+			mUpdateTimer = 0;
+			if (GameManager.s_Singleton.Player.Person) {
+				if (!mPersonIsSet) {
+					mPersonIsSet = true;
+					// Start: initial setup
+					mTeamColor.color = TeamData.GetColor(GameManager.s_Singleton.Player.Person.Team);
+				}
 
-    public void Update()
-    {
-        if(Time.frameCount % 30 == 0) //update every 30 frames = each second(mobile running at 30fps?)
-        {
-            if(playerFound)
-            {
-                UpdatePlayerMoney(player.Person.AmountOfMoney);
-            }      
-        }
+				// Header Update 
+				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
+				//UpdateTeamMoney(...);
+			}
+		}
+	}
 
-        if(!playerFound)
-        {
-            player = GameManager.s_Singleton.Player;
+	public void OpenProfilePanelOnClick()
+	{
+		mProfilePanel.gameObject.SetActive(true);
+	}
 
-            if(player != null)
-            {
-                playerFound = true;
-                Debug.Log("Player found for header");
-            }
-        }
-    }
+	public void OpenInventoryOnClick()
+	{
+		mGoodsPanel.gameObject.SetActive(true);
+	}
 
-  public void OpenProfilePanelOnClick()
-  {
-    mProfilePanel.gameObject.SetActive(true);
-  }
+	private void UpdatePlayerMoney(int pPlayerMoney)
+	{
+		Debug.Log("MoneyUpdated");
+		mPlayerMoney.text = pPlayerMoney.ToString();
+	}
 
-  public void OpenInventoryOnClick()
-  {
-    mGoodsPanel.gameObject.SetActive(true);
-  }
-
-    public void UpdatePlayerMoney(int pPlayerMoney)
-    {
-        Debug.Log("MoneyUpdated");
-        playerMoney.text = pPlayerMoney.ToString();
-    }
-
-    public void UpdateTeamMoney(int pTeamMoney)
-    {
-        teamMoney.text = pTeamMoney.ToString();
-    }
+	private void UpdateTeamMoney(int pTeamMoney)
+	{
+		mTeamMoney.text = pTeamMoney.ToString();
+	}
 }

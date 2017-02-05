@@ -46,13 +46,11 @@ public class Player : MonoBehaviour
 		}
 	}
 
-    public List<GameObject> AllGameObjectsInRadius
-    {
-        get
-        {
-            return allGameObjectsInRadius;
-        }
-    }
+	public List<GameObject> AllGameObjectsInRadius {
+		get {
+			return allGameObjectsInRadius;
+		}
+	}
 
 	// Team,
 	//Bank,
@@ -82,14 +80,8 @@ public class Player : MonoBehaviour
 		//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
 
-        Image headerImage = GameObject.FindGameObjectWithTag("Header").GetComponent<Image>();
-        Color c = headerImage.color;
-        c = TeamData.GetColor(mPerson.Team);
-        c.a = 0.5f;
-        headerImage.color = c;
-        //GameObject.FindGameObjectWithTag("Header").GetComponent<Header>().Player = mPerson;
-        Destroy(LobbyManager.s_Singleton.gameObject);
-    }
+		Destroy(LobbyManager.s_Singleton.gameObject);
+	}
 
 	private void InitializeUI()
 	{
@@ -132,10 +124,9 @@ public class Player : MonoBehaviour
 			// In case there were no collidings before.
 			MainPanel.gameObject.SetActive(true);
 			ListPanel.gameObject.SetActive(true);
-            if (allGameObjectsInRadius.Count != 1)
-            {
-                Switch.gameObject.SetActive(true);
-            }
+			if (allGameObjectsInRadius.Count != 1) {
+				Switch.gameObject.SetActive(true);
+			}
 
 			int lengthEnum = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
 			int[] priorityPresence = new int[lengthEnum];

@@ -10590,8 +10590,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mProfilePanel: {fileID: 224000010796810876}
   mGoodsPanel: {fileID: 224000013118765264}
-  teamMoney: {fileID: 114000011022236862}
-  playerMoney: {fileID: 114000013364109362}
+  mTeamColor: {fileID: 114000010607691228}
+  mTeamMoney: {fileID: 114000011022236862}
+  mPlayerMoney: {fileID: 114000013364109362}
 --- !u!114 &114000012213841938
 MonoBehaviour:
   m_ObjectHideFlags: 1
