@@ -27,7 +27,15 @@ public class Team : NetworkBehaviour
 		}
 	}
 
-	public BankAccount BankAccount {
+    public int TotalMoney
+    {
+        get
+        {
+            return mTotalMoney;
+        }
+    }
+
+    public BankAccount BankAccount {
 		get {
 			return mBankAccount;
 		}
