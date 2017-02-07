@@ -1,7 +1,6 @@
 ﻿//Thanks to Benblo
 //https://gist.github.com/benblo/10732554
 
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -16,22 +15,23 @@ namespace GoMap
 
 		public bool finished = false;
 
-		public static GORoutine start( IEnumerator _routine, MonoBehaviour owner)
+		public static GORoutine start(IEnumerator _routine, MonoBehaviour owner)
 		{
 			if (Application.isEditor) {
-			
+
 				GORoutine coroutine = new GORoutine(_routine);
 				coroutine.start();
 				return coroutine;
-			} else {
+			}
+			else {
 
-				owner.StartCoroutine (_routine);
+				owner.StartCoroutine(_routine);
 				return null;
 			}
 		}
 
 		readonly IEnumerator routine;
-		GORoutine( IEnumerator _routine )
+		GORoutine(IEnumerator _routine)
 		{
 			routine = _routine;
 		}
@@ -39,15 +39,15 @@ namespace GoMap
 		void start()
 		{
 			//Debug.Log("start");
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			EditorApplication.update += update;
-			#endif
+#endif
 		}
 		public void stop()
 		{
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			EditorApplication.update -= update;
-			#endif
+#endif
 		}
 
 		void update()
@@ -57,8 +57,7 @@ namespace GoMap
 			 * Also, Unity probably catches when calling EditorApplication.update.
 			 */
 
-			if (!routine.MoveNext())
-			{
+			if (!routine.MoveNext()) {
 				finished = true;
 				stop();
 			}
@@ -67,8 +66,7 @@ namespace GoMap
 
 		public IEnumerator WaitFor()
 		{
-			while(!finished)
-			{
+			while (!finished) {
 				yield return null;
 			}
 		}

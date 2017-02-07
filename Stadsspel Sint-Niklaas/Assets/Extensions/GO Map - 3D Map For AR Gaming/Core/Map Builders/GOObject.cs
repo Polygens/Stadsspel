@@ -1,17 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
-using GoMap;
+﻿using GoMap;
+using UnityEngine;
 
-public class GOObject : MonoBehaviour {
-	
+public class GOObject : MonoBehaviour
+{
+
 	public GOMap map;
 	public Coordinates coordinatesGPS;
 
 	// Use this for initialization
-	void Awake () {
+	void Awake()
+	{
 
 		if (map == null) {
-			Debug.LogWarning ("GOObject - Map property not set");
+			Debug.LogWarning("GOObject - Map property not set");
 			return;
 		}
 
@@ -20,9 +21,10 @@ public class GOObject : MonoBehaviour {
 
 	}
 
-	void LoadData (Coordinates currentLocation) {//This is called when the origin is set
+	void LoadData(Coordinates currentLocation)
+	{//This is called when the origin is set
 
-		map.dropPin (coordinatesGPS.latitude, coordinatesGPS.longitude, gameObject);
+		map.dropPin(coordinatesGPS.latitude, coordinatesGPS.longitude, gameObject);
 
 	}
 

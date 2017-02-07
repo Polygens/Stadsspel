@@ -1,5 +1,4 @@
 ﻿using MiniJSON;
-using UnityEngine;
 
 public class ParseJob : ThreadedJob
 {
@@ -8,10 +7,10 @@ public class ParseJob : ThreadedJob
 
 	protected override void ThreadFunction()
 	{
-		OutData = Json.Deserialize (InData);
+		OutData = Json.Deserialize(InData);
 	}
-//	protected override void OnFinished()
-//	{
-//		Debug.Log("Json data is ready");
-//	}
+	//	protected override void OnFinished()
+	//	{
+	//		Debug.Log("Json data is ready");
+	//	}
 }

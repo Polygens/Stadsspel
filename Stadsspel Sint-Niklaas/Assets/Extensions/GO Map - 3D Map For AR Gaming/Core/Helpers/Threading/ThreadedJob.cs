@@ -5,21 +5,16 @@ public class ThreadedJob
 	private bool m_IsDone = false;
 	private object m_Handle = new object();
 	private System.Threading.Thread m_Thread = null;
-	public bool IsDone
-	{
-		get
-		{
+	public bool IsDone {
+		get {
 			bool tmp;
-			lock (m_Handle)
-			{
+			lock (m_Handle) {
 				tmp = m_IsDone;
 			}
 			return tmp;
 		}
-		set
-		{
-			lock (m_Handle)
-			{
+		set {
+			lock (m_Handle) {
 				m_IsDone = value;
 			}
 		}
@@ -41,8 +36,7 @@ public class ThreadedJob
 
 	public virtual bool Update()
 	{
-		if (IsDone)
-		{
+		if (IsDone) {
 			OnFinished();
 			return true;
 		}
@@ -50,8 +44,7 @@ public class ThreadedJob
 	}
 	public IEnumerator WaitFor()
 	{
-		while(!Update())
-		{
+		while (!Update()) {
 			yield return null;
 		}
 	}

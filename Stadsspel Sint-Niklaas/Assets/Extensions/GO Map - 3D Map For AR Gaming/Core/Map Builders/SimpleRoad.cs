@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Assets.Helpers;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class SimpleRoad : MonoBehaviour

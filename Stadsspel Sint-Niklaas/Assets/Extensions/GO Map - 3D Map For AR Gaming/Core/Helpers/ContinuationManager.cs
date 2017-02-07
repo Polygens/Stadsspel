@@ -28,11 +28,9 @@ internal static class ContinuationManager
 
 	private static void Update()
 	{
-		for (int i = 0; i >= 0; --i)
-		{
+		for (int i = 0; i >= 0; --i) {
 			var jobIt = jobs[i];
-			if (jobIt.Completed())
-			{
+			if (jobIt.Completed()) {
 				jobIt.ContinueWith();
 				jobs.RemoveAt(i);
 			}

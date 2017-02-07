@@ -1,12 +1,9 @@
-﻿using Assets;
+﻿using System;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
-using System;
-using UnityEngine.UI;
 using UnityEngine.Events;
 
-namespace GoMap {
+namespace GoMap
+{
 
 	[Serializable]
 	//Feature's mesh
@@ -14,17 +11,19 @@ namespace GoMap {
 	//Features's kind
 	//Mesh center
 
-	public class GOEvent : UnityEvent <Mesh,Layer,string,Vector3> {
+	public class GOEvent : UnityEvent<Mesh, Layer, string, Vector3>
+	{
 
 
 	}
 
 	[Serializable]
-	public class GOTileEvent : UnityEvent <GOTile> {
+	public class GOTileEvent : UnityEvent<GOTile>
+	{
 
 
 	}
-		
+
 }
 
 

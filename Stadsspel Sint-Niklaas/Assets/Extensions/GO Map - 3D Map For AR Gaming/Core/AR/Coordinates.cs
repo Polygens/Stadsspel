@@ -1,10 +1,6 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
+using UnityEngine;
 
 [System.Serializable]
 public class Coordinates

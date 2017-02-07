@@ -31,273 +31,256 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace Poly2Tri
 {
-    public class PointSet : Point2DList, ITriangulatable, IEnumerable<TriangulationPoint>, IList<TriangulationPoint>
-    {
-        protected Dictionary<uint, TriangulationPoint> mPointMap = new Dictionary<uint, TriangulationPoint>();
-        public IList<TriangulationPoint> Points { get { return this; } private set { } }
-        public IList<DelaunayTriangle> Triangles { get; private set; }
+	public class PointSet : Point2DList, ITriangulatable, IEnumerable<TriangulationPoint>, IList<TriangulationPoint>
+	{
+		protected Dictionary<uint, TriangulationPoint> mPointMap = new Dictionary<uint, TriangulationPoint>();
+		public IList<TriangulationPoint> Points { get { return this; } private set { } }
+		public IList<DelaunayTriangle> Triangles { get; private set; }
 
-        public string FileName { get; set; }
-        public bool DisplayFlipX { get; set; }
-        public bool DisplayFlipY { get; set; }
-        public float DisplayRotate { get; set; }
+		public string FileName { get; set; }
+		public bool DisplayFlipX { get; set; }
+		public bool DisplayFlipY { get; set; }
+		public float DisplayRotate { get; set; }
 
-        protected double mPrecision = TriangulationPoint.kVertexCodeDefaultPrecision;
-        public double Precision { get { return mPrecision; } set { mPrecision = value; } }
+		protected double mPrecision = TriangulationPoint.kVertexCodeDefaultPrecision;
+		public double Precision { get { return mPrecision; } set { mPrecision = value; } }
 
-        public double MinX { get { return mBoundingBox.MinX; } }
-        public double MaxX { get { return mBoundingBox.MaxX; } }
-        public double MinY { get { return mBoundingBox.MinY; } }
-        public double MaxY { get { return mBoundingBox.MaxY; } }
-        public Rect2D Bounds { get { return mBoundingBox; } }
+		public double MinX { get { return mBoundingBox.MinX; } }
+		public double MaxX { get { return mBoundingBox.MaxX; } }
+		public double MinY { get { return mBoundingBox.MinY; } }
+		public double MaxY { get { return mBoundingBox.MaxY; } }
+		public Rect2D Bounds { get { return mBoundingBox; } }
 
-        public virtual TriangulationMode TriangulationMode { get { return TriangulationMode.Unconstrained; } }
+		public virtual TriangulationMode TriangulationMode { get { return TriangulationMode.Unconstrained; } }
 
-        public new TriangulationPoint this[int index]
-        {
-            get { return mPoints[index] as TriangulationPoint; }
-            set { mPoints[index] = value; }
-        }
-
-
-        public PointSet(List<TriangulationPoint> bounds)
-        {
-            //Points = new List<TriangulationPoint>();
-            foreach (TriangulationPoint p in bounds)
-            {
-                Add(p, -1, false);
-
-                // Only the initial points are counted toward min/max x/y as they 
-                // are considered to be the boundaries of the point-set
-                mBoundingBox.AddPoint(p);
-            }
-            mEpsilon = CalculateEpsilon();
-            mWindingOrder = WindingOrderType.Unknown;   // not valid for a point-set
-        }
+		public new TriangulationPoint this[int index] {
+			get { return mPoints[index] as TriangulationPoint; }
+			set { mPoints[index] = value; }
+		}
 
 
-        IEnumerator<TriangulationPoint> IEnumerable<TriangulationPoint>.GetEnumerator()
-        {
-            return new TriangulationPointEnumerator(mPoints);
-        }
+		public PointSet(List<TriangulationPoint> bounds)
+		{
+			//Points = new List<TriangulationPoint>();
+			foreach (TriangulationPoint p in bounds) {
+				Add(p, -1, false);
+
+				// Only the initial points are counted toward min/max x/y as they 
+				// are considered to be the boundaries of the point-set
+				mBoundingBox.AddPoint(p);
+			}
+			mEpsilon = CalculateEpsilon();
+			mWindingOrder = WindingOrderType.Unknown;   // not valid for a point-set
+		}
 
 
-        public int IndexOf(TriangulationPoint p)
-        {
-            return mPoints.IndexOf(p);
-        }
+		IEnumerator<TriangulationPoint> IEnumerable<TriangulationPoint>.GetEnumerator()
+		{
+			return new TriangulationPointEnumerator(mPoints);
+		}
 
 
-        public override void Add(Point2D p)
-        {
-            Add(p as TriangulationPoint, -1, false);
-        }
-
-        public virtual void Add(TriangulationPoint p)
-        {
-            Add(p, -1, false);
-        }
+		public int IndexOf(TriangulationPoint p)
+		{
+			return mPoints.IndexOf(p);
+		}
 
 
-        protected override void Add(Point2D p, int idx, bool constrainToBounds)
-        {
-            Add(p as TriangulationPoint, idx, constrainToBounds);
-        }
+		public override void Add(Point2D p)
+		{
+			Add(p as TriangulationPoint, -1, false);
+		}
+
+		public virtual void Add(TriangulationPoint p)
+		{
+			Add(p, -1, false);
+		}
 
 
-        protected bool Add(TriangulationPoint p, int idx, bool constrainToBounds)
-        {
-            if (p == null)
-            {
-                return false;
-            }
-
-            if (constrainToBounds)
-            {
-                ConstrainPointToBounds(p);
-            }
-
-            // if we already have an instance of the point, then don't bother inserting it again as duplicate points
-            // will actually cause some real problems later on.   Still return true though to indicate that the point
-            // is successfully "added"
-            if (mPointMap.ContainsKey(p.VertexCode))
-            {
-                return true;
-            }
-            mPointMap.Add(p.VertexCode, p);
-
-            if (idx < 0)
-            {
-                mPoints.Add(p);
-            }
-            else
-            {
-                mPoints.Insert(idx, p);
-            }
-
-            return true;
-        }
+		protected override void Add(Point2D p, int idx, bool constrainToBounds)
+		{
+			Add(p as TriangulationPoint, idx, constrainToBounds);
+		}
 
 
-        public override void AddRange(IEnumerator<Point2D> iter, WindingOrderType windingOrder)
-        {
-            if (iter == null)
-            {
-                return;
-            }
+		protected bool Add(TriangulationPoint p, int idx, bool constrainToBounds)
+		{
+			if (p == null) {
+				return false;
+			}
 
-            iter.Reset();
-            while (iter.MoveNext())
-            {
-                Add(iter.Current);
-            }
-        }
+			if (constrainToBounds) {
+				ConstrainPointToBounds(p);
+			}
 
-        
-        public virtual bool AddRange(List<TriangulationPoint> points)
-        {
-            bool bOK = true;
-            foreach (TriangulationPoint p in points)
-            {
-                bOK = Add(p, -1, false) && bOK;
-            }
+			// if we already have an instance of the point, then don't bother inserting it again as duplicate points
+			// will actually cause some real problems later on.   Still return true though to indicate that the point
+			// is successfully "added"
+			if (mPointMap.ContainsKey(p.VertexCode)) {
+				return true;
+			}
+			mPointMap.Add(p.VertexCode, p);
 
-            return bOK;
-        }
+			if (idx < 0) {
+				mPoints.Add(p);
+			}
+			else {
+				mPoints.Insert(idx, p);
+			}
 
-
-        public bool TryGetPoint(double x, double y, out TriangulationPoint p)
-        {
-            uint vc = TriangulationPoint.CreateVertexCode(x, y, Precision);
-            if (mPointMap.TryGetValue(vc, out p))
-            {
-                return true;
-            }
-
-            return false;
-        }
+			return true;
+		}
 
 
-        //public override void Insert(int idx, Point2D item)
-        //{
-        //    Add(item, idx, true);
-        //}
+		public override void AddRange(IEnumerator<Point2D> iter, WindingOrderType windingOrder)
+		{
+			if (iter == null) {
+				return;
+			}
+
+			iter.Reset();
+			while (iter.MoveNext()) {
+				Add(iter.Current);
+			}
+		}
 
 
-        public void Insert(int idx, TriangulationPoint item)
-        {
-            mPoints.Insert(idx, item);
-        }
+		public virtual bool AddRange(List<TriangulationPoint> points)
+		{
+			bool bOK = true;
+			foreach (TriangulationPoint p in points) {
+				bOK = Add(p, -1, false) && bOK;
+			}
+
+			return bOK;
+		}
 
 
-        public override bool Remove(Point2D p)
-        {
-            return mPoints.Remove(p);
-        }
+		public bool TryGetPoint(double x, double y, out TriangulationPoint p)
+		{
+			uint vc = TriangulationPoint.CreateVertexCode(x, y, Precision);
+			if (mPointMap.TryGetValue(vc, out p)) {
+				return true;
+			}
+
+			return false;
+		}
 
 
-        public bool Remove(TriangulationPoint p)
-        {
-            return mPoints.Remove(p);
-        }
+		//public override void Insert(int idx, Point2D item)
+		//{
+		//    Add(item, idx, true);
+		//}
 
 
-        public override void RemoveAt(int idx)
-        {
-            if (idx < 0 || idx >= Count)
-            {
-                return;
-            }
-            mPoints.RemoveAt(idx);
-        }
+		public void Insert(int idx, TriangulationPoint item)
+		{
+			mPoints.Insert(idx, item);
+		}
 
 
-        public bool Contains(TriangulationPoint p)
-        {
-            return mPoints.Contains(p);
-        }
+		public override bool Remove(Point2D p)
+		{
+			return mPoints.Remove(p);
+		}
 
 
-        public void CopyTo(TriangulationPoint[] array, int arrayIndex)
-        {
-            int numElementsToCopy = Math.Min(Count, array.Length - arrayIndex);
-            for (int i = 0; i < numElementsToCopy; ++i)
-            {
-                array[arrayIndex + i] = mPoints[i] as TriangulationPoint;
-            }
-        }
+		public bool Remove(TriangulationPoint p)
+		{
+			return mPoints.Remove(p);
+		}
 
 
-        // returns true if the point is changed, false if the point is unchanged
-        protected bool ConstrainPointToBounds(Point2D p)
-        {
-            double oldX = p.X;
-            double oldY = p.Y;
-            p.X = Math.Max(MinX, p.X);
-            p.X = Math.Min(MaxX, p.X);
-            p.Y = Math.Max(MinY, p.Y);
-            p.Y = Math.Min(MaxY, p.Y);
-
-            return (p.X != oldX) || (p.Y != oldY);
-        }
+		public override void RemoveAt(int idx)
+		{
+			if (idx < 0 || idx >= Count) {
+				return;
+			}
+			mPoints.RemoveAt(idx);
+		}
 
 
-        protected bool ConstrainPointToBounds(TriangulationPoint p)
-        {
-            double oldX = p.X;
-            double oldY = p.Y;
-            p.X = Math.Max(MinX, p.X);
-            p.X = Math.Min(MaxX, p.X);
-            p.Y = Math.Max(MinY, p.Y);
-            p.Y = Math.Min(MaxY, p.Y);
-
-            return (p.X != oldX) || (p.Y != oldY);
-        }
-
-        
-        public virtual void AddTriangle(DelaunayTriangle t)
-        {
-            Triangles.Add(t);
-        }
+		public bool Contains(TriangulationPoint p)
+		{
+			return mPoints.Contains(p);
+		}
 
 
-        public void AddTriangles(IEnumerable<DelaunayTriangle> list)
-        {
-            foreach (var tri in list)
-            {
-                AddTriangle(tri);
-            }
-        }
+		public void CopyTo(TriangulationPoint[] array, int arrayIndex)
+		{
+			int numElementsToCopy = Math.Min(Count, array.Length - arrayIndex);
+			for (int i = 0; i < numElementsToCopy; ++i) {
+				array[arrayIndex + i] = mPoints[i] as TriangulationPoint;
+			}
+		}
 
 
-        public void ClearTriangles()
-        {
-            Triangles.Clear();
-        }
+		// returns true if the point is changed, false if the point is unchanged
+		protected bool ConstrainPointToBounds(Point2D p)
+		{
+			double oldX = p.X;
+			double oldY = p.Y;
+			p.X = Math.Max(MinX, p.X);
+			p.X = Math.Min(MaxX, p.X);
+			p.Y = Math.Max(MinY, p.Y);
+			p.Y = Math.Min(MaxY, p.Y);
+
+			return (p.X != oldX) || (p.Y != oldY);
+		}
 
 
-        public virtual bool Initialize()
-        {
-            return true;
-        }
+		protected bool ConstrainPointToBounds(TriangulationPoint p)
+		{
+			double oldX = p.X;
+			double oldY = p.Y;
+			p.X = Math.Max(MinX, p.X);
+			p.X = Math.Min(MaxX, p.X);
+			p.Y = Math.Max(MinY, p.Y);
+			p.Y = Math.Min(MaxY, p.Y);
+
+			return (p.X != oldX) || (p.Y != oldY);
+		}
 
 
-        public virtual void Prepare(TriangulationContext tcx)
-        {
-            if (Triangles == null)
-            {
-                Triangles = new List<DelaunayTriangle>(Points.Count);
-            }
-            else
-            {
-                Triangles.Clear();
-            }
-            tcx.Points.AddRange(Points);
-        }
-    }
+		public virtual void AddTriangle(DelaunayTriangle t)
+		{
+			Triangles.Add(t);
+		}
+
+
+		public void AddTriangles(IEnumerable<DelaunayTriangle> list)
+		{
+			foreach (var tri in list) {
+				AddTriangle(tri);
+			}
+		}
+
+
+		public void ClearTriangles()
+		{
+			Triangles.Clear();
+		}
+
+
+		public virtual bool Initialize()
+		{
+			return true;
+		}
+
+
+		public virtual void Prepare(TriangulationContext tcx)
+		{
+			if (Triangles == null) {
+				Triangles = new List<DelaunayTriangle>(Points.Count);
+			}
+			else {
+				Triangles.Clear();
+			}
+			tcx.Points.AddRange(Points);
+		}
+	}
 }

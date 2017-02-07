@@ -1,8 +1,5 @@
-﻿using Assets;
+﻿using System.Collections;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
-using System;
 using UnityEngine.UI;
 
 namespace GoMap

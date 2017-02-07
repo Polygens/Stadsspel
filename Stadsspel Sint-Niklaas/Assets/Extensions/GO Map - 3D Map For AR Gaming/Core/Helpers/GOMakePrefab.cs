@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
 using System.IO;
 
-public class GOMakePrefab : MonoBehaviour {
+public class GOMakePrefab : MonoBehaviour
+{
 
 	private string prefabName;
 
@@ -19,35 +19,37 @@ public class GOMakePrefab : MonoBehaviour {
 
 			GOMakePrefab editor = (GOMakePrefab)target;
 
-			EditorGUILayout.HelpBox ("The name for the exported prefab",MessageType.Info);
-			editor.prefabName = EditorGUILayout.TextField ("Prefab Name",editor.prefabName);
+			EditorGUILayout.HelpBox("The name for the exported prefab", MessageType.Info);
+			editor.prefabName = EditorGUILayout.TextField("Prefab Name", editor.prefabName);
 
 
-			if(GUILayout.Button("Save object as prefab")) {
-				editor.SaveAsPrefab ();
+			if (GUILayout.Button("Save object as prefab")) {
+				editor.SaveAsPrefab();
 			}
 
-			EditorGUILayout.Separator ();
+			EditorGUILayout.Separator();
 
-			if(GUILayout.Button("Combine meshes")) {
-				editor.CombineMesh ();
+			if (GUILayout.Button("Combine meshes")) {
+				editor.CombineMesh();
 			}
 		}
 	}
 
-	public void SaveAsPrefab () {
+	public void SaveAsPrefab()
+	{
 
 		try {
-			MeshFilter filter = GetComponent<MeshFilter> ();
+			MeshFilter filter = GetComponent<MeshFilter>();
 			Mesh mesh;
 			if (filter != null) {
 				mesh = filter.mesh;
-			} else mesh = CombineMesh();
-				
-			if (!Directory.Exists ("Assets/GO Map - 3D Map For AR Gaming/Exported")) {
-				AssetDatabase.CreateFolder ("Assets/GO Map - 3D Map For AR Gaming", "Exported");
-				AssetDatabase.CreateFolder ("Assets/GO Map - 3D Map For AR Gaming/Exported", "Objects");
-				AssetDatabase.CreateFolder ("Assets/GO Map - 3D Map For AR Gaming/Exported", "Meshes");
+			}
+			else mesh = CombineMesh();
+
+			if (!Directory.Exists("Assets/GO Map - 3D Map For AR Gaming/Exported")) {
+				AssetDatabase.CreateFolder("Assets/GO Map - 3D Map For AR Gaming", "Exported");
+				AssetDatabase.CreateFolder("Assets/GO Map - 3D Map For AR Gaming/Exported", "Objects");
+				AssetDatabase.CreateFolder("Assets/GO Map - 3D Map For AR Gaming/Exported", "Meshes");
 			}
 
 			if (prefabName.Length == 0) {
@@ -55,12 +57,13 @@ public class GOMakePrefab : MonoBehaviour {
 				return;
 			}
 
-			AssetDatabase.CreateAsset(mesh, "Assets/GO Map - 3D Map For AR Gaming/Exported/Meshes/"+prefabName+".asset");
-			PrefabUtility.CreatePrefab ("Assets/GO Map - 3D Map For AR Gaming/Exported/Objects/"+prefabName+".prefab", gameObject,ReplacePrefabOptions.Default);
+			AssetDatabase.CreateAsset(mesh, "Assets/GO Map - 3D Map For AR Gaming/Exported/Meshes/" + prefabName + ".asset");
+			PrefabUtility.CreatePrefab("Assets/GO Map - 3D Map For AR Gaming/Exported/Objects/" + prefabName + ".prefab", gameObject, ReplacePrefabOptions.Default);
 			Debug.Log("[GOMakePrefab] Object saved correctly!");
 
-		} catch (System.Exception ex) {
-			Debug.LogWarning ("[GOMakePrefab] Error saving object: "+ex);
+		}
+		catch (System.Exception ex) {
+			Debug.LogWarning("[GOMakePrefab] Error saving object: " + ex);
 		}
 
 	}
@@ -85,19 +88,19 @@ public class GOMakePrefab : MonoBehaviour {
 
 		Mesh newMesh = new Mesh();
 
-		MeshRenderer meshRendererCombine = gameObject.GetComponent<MeshRenderer> ();
+		MeshRenderer meshRendererCombine = gameObject.GetComponent<MeshRenderer>();
 
-		for (int i = 0; i < mfChildren.Length; i++){
+		for (int i = 0; i < mfChildren.Length; i++) {
 			if (!meshRendererCombine)
-				meshRendererCombine = gameObject.AddComponent<MeshRenderer> ();   
+				meshRendererCombine = gameObject.AddComponent<MeshRenderer>();
 
 			combine[i].mesh = mfChildren[i].sharedMesh;
 			combine[i].transform = mfChildren[i].transform.localToWorldMatrix;
 
-			Destroy (mfChildren [i].gameObject);
+			Destroy(mfChildren[i].gameObject);
 
 		}
-			
+
 		newMesh.CombineMeshes(combine, false, true);
 		mfSelf.mesh = newMesh;
 
