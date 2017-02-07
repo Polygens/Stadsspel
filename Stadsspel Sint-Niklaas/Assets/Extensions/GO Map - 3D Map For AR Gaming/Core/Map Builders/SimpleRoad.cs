@@ -118,7 +118,6 @@ public class SimpleRoad : MonoBehaviour
 
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
-		mesh.Optimize();
 
 		return mesh;
 	}

@@ -125,7 +125,6 @@ public class SimplePolygon : MonoBehaviour
 
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
-		mesh.Optimize();
 
 		return mesh;
 	}
