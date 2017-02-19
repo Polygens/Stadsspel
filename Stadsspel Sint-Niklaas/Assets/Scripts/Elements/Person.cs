@@ -52,7 +52,8 @@ public class Person : Element
 
 	public void GetRobbed()
 	{
-		mAmountOfMoney = 0;
+        GameManager.s_Singleton.Teams[(int)mTeam].AddOrRemoveMoney(-mAmountOfMoney);
+        mAmountOfMoney = 0;
 		ResetLegalItems();
 		ResetIllegalItems();
 	}
@@ -82,7 +83,8 @@ public class Person : Element
 	public void MoneyTransaction(int money)
 	{
 		mAmountOfMoney += money;
-	}
+        GameManager.s_Singleton.Teams[(int)mTeam].AddOrRemoveMoney(money);
+    }
 
 	public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)
 	{
