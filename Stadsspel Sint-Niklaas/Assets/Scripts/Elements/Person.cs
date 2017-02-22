@@ -93,6 +93,11 @@ public class Person : Element
 		AddIllegalItems(illegalItems);
 	}
 
+  public void AddGoods(int money)
+  {
+    mAmountOfMoney += money;
+  }
+
 	public int AmountOfMoney {
 		get { return mAmountOfMoney; }
 	}
