@@ -97,7 +97,13 @@ public class Person : Element
 		get { return mAmountOfMoney; }
 	}
 
-	public void Update()
+  public void AddGoods(int money)
+  { 
+    mAmountOfMoney += money; 
+  }
+
+
+public void Update()
 	{
 		int amountOfTeams = LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
 		if (!mIsReady && GameManager.s_Singleton.transform.childCount == amountOfTeams && Name != "Not set" && Team != TeamID.NotSet) {
