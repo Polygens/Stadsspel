@@ -5189,6 +5189,7 @@ GameObject:
   - component: {fileID: 222000013343437856}
   - component: {fileID: 114000014013744166}
   - component: {fileID: 114000010383222036}
+  - component: {fileID: 114891180255359896}
   m_Layer: 5
   m_Name: KBCImage
   m_TagString: Untagged
@@ -6096,6 +6097,7 @@ GameObject:
   - component: {fileID: 222000013605982080}
   - component: {fileID: 114000013420362908}
   - component: {fileID: 114000011707936652}
+  - component: {fileID: 114155842132125140}
   m_Layer: 5
   m_Name: StNikImage
   m_TagString: Untagged
@@ -7327,9 +7329,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1000011245785758}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 114891180255359896}
+        m_MethodName: OpenKBCWebsite
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9167,9 +9169,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1000012942679554}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 114155842132125140}
+        m_MethodName: Open800StNikWebsite
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12200,6 +12202,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Bank
+--- !u!114 &114155842132125140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013554142902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c380fb9158105479a61680757e308b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114563687674487442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12478,6 +12491,17 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: Het doel van het spel is om zoveel mogelijk geld in te zamelen met je team,
     dit doe je d.m.v handel drijven, schatkisten en door te stelen.
+--- !u!114 &114891180255359896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011988682920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c380fb9158105479a61680757e308b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222000010057831322
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -14362,8 +14386,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -1835.5499}
-  m_SizeDelta: {x: 720, y: 309.11}
+  m_AnchoredPosition: {x: 337.73517, y: -1835.5499}
+  m_SizeDelta: {x: 675.47034, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224000011347536270
 RectTransform:
@@ -14628,8 +14652,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -1511.44}
-  m_SizeDelta: {x: 720, y: 309.11}
+  m_AnchoredPosition: {x: 337.73517, y: -1511.44}
+  m_SizeDelta: {x: 675.47034, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224000011734126786
 RectTransform:
@@ -15063,8 +15087,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -215}
-  m_SizeDelta: {x: 720, y: 309.11}
+  m_AnchoredPosition: {x: 337.73517, y: -215}
+  m_SizeDelta: {x: 675.47034, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224000012555358982
 RectTransform:
@@ -15083,8 +15107,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -1187.33}
-  m_SizeDelta: {x: 720, y: 309.11}
+  m_AnchoredPosition: {x: 337.73517, y: -1187.33}
+  m_SizeDelta: {x: 675.47034, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224000012586920128
 RectTransform:
@@ -15549,8 +15573,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: 0}
-  m_SizeDelta: {x: 720, y: 200}
+  m_AnchoredPosition: {x: 337.73517, y: 0}
+  m_SizeDelta: {x: 675.47034, y: 200}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224000013609079804
 RectTransform:
@@ -16119,8 +16143,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -539.11}
-  m_SizeDelta: {x: 720, y: 309.11}
+  m_AnchoredPosition: {x: 337.73517, y: -539.11}
+  m_SizeDelta: {x: 675.47034, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224524147702684330
 RectTransform:
@@ -16212,8 +16236,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -863.22}
-  m_SizeDelta: {x: 720, y: 309.11}
+  m_AnchoredPosition: {x: 337.73517, y: -863.22}
+  m_SizeDelta: {x: 675.47034, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224970786995245518
 RectTransform:
