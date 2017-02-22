@@ -35,7 +35,7 @@ public class Header : MonoBehaviour
 
 				// Header Update 
 				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
-                UpdateTeamMoney(GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team].TotalMoney);
+                UpdateTeamMoney(GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].TotalMoney);
                 //UpdateTeamMoney(...);
             }
 		}
