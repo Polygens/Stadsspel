@@ -90,12 +90,14 @@ public class GameManager : NetworkBehaviour
 
 	public void StartGame(int amountOfTeams)
 	{
-		CmdCreateTeams(amountOfTeams);
-	}
-
+        Debug.Log("Gamemanager.StartGame(" + amountOfTeams + ")");
+        CmdCreateTeams(amountOfTeams);
+    }
+    
 	[Command]
 	public void CmdCreateTeams(int amountOfTeams)
 	{
+        Debug.Log("Command Create Teams");
 		for (int i = 0; i < amountOfTeams; i++) {
 			GameObject temp = Instantiate(mteamPrefab);
 
@@ -107,6 +109,7 @@ public class GameManager : NetworkBehaviour
 	[ClientRpc]
 	private void RpcClientsStart(int amountOfTeams)
 	{
+        Debug.Log("RPC client start");
 		mDistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
 		mDistrictManager.StartGame(amountOfTeams);
 		mGameIsRunning = true;

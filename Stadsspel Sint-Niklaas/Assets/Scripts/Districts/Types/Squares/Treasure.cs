@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public class Treasure : Square
 {
-	private static int robThreshold = 20; // This percentage can be stolen
+	private static int robThreshold = 2000; // Above this amount can be stolen
 	private int moneyGainPerDistrict = 1000;
 
     [SyncVar]
@@ -24,6 +24,15 @@ public class Treasure : Square
 		base.Start();
 		tag = "Treasure";
 	}
+
+    public int GetRobAmount()
+    {
+        if (mAmountOfMoney > robThreshold)
+        {
+            return AmountOfMoney - robThreshold;
+        }
+        return 0;
+    }
 
 	public int RobChest()
 	{
