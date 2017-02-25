@@ -102,8 +102,13 @@ public class Person : Element
     mAmountOfMoney += money; 
   }
 
+  public override void OnDeserialize(NetworkReader reader, bool initialState)
+  {
+    base.OnDeserialize(reader, initialState);
+  }
 
-public void Update()
+
+  public void Update()
 	{
 		int amountOfTeams = LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
 		if (!mIsReady && GameManager.s_Singleton.transform.childCount == amountOfTeams && Name != "Not set" && Team != TeamID.NotSet) {
