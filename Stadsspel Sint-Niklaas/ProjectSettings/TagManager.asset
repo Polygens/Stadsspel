@@ -17,6 +17,7 @@ TagManager:
   - Square
   - host
   - Header
+  - MainSquareArrowPivot
   layers:
   - Default
   - TransparentFX
