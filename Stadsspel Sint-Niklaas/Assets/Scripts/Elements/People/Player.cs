@@ -144,7 +144,7 @@ public class Player : MonoBehaviour
 				string tag = allGameObjectsInRadius[i].tag;
 				Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
 				Priority tempP;
-				if (tag == "Square") {
+				if (tag == "Treasure") /*Square */ {
 					if (allGameObjectsInRadius[i].GetComponent<Square>().TeamID == mPerson.Team) {
 						tempP = Priority.Treasure;
 					}

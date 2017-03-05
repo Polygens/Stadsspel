@@ -70,10 +70,15 @@ public class TradingPostUI : MonoBehaviour
 
 	public void OnEnable()
 	{
-		if (CheckIfTeamAlreadyVisited()) {
-			TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
-			return;
-		}
+    if (CheckIfTeamAlreadyVisited())
+    {
+      TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
+    }
+    else
+    {
+      if (TradingPostPanel.transform.FindChild("MessagePanel").gameObject.activeSelf)
+      TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
+    }
 		if (everythingIsInstantiated) {
 			TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 		}

@@ -121,7 +121,19 @@ public void Update()
 				GameManager.s_Singleton.Player = player;
 				GameManager.s_Singleton.DistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
 				GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
-				name = "Player ID:" + networkIdentity.netId + " (" + Name + ")";
+        //TESTTTTTT
+        GameManager.s_Singleton.DistrictManager.StartGame(amountOfTeams);
+        GameManager.s_Singleton.GameIsRunning = true;
+
+        GameManager.s_Singleton.Teams = new Team[amountOfTeams];
+        for (int i = 0; i < amountOfTeams; i++)
+        {
+          GameManager.s_Singleton.Teams[i] = GameManager.s_Singleton.transform.GetChild(i).gameObject.GetComponent<Team>();
+        }
+
+        //TESSTTTT
+      
+      name = "Player ID:" + networkIdentity.netId + " (" + Name + ")";
 			}
 			else if (LobbyPlayer.mLocalPlayerTeam == mTeam) {
 				Friend friend = gameObject.AddComponent<Friend>();

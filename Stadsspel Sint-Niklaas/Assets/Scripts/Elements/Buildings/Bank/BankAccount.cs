@@ -15,7 +15,7 @@ public class BankAccount : NetworkBehaviour
 
 	private void Update()
 	{
-		mBalance += Mathf.RoundToInt(mBalance * interestMultiplier);//Add 2% from current balance to the total balance
+		//mBalance += Mathf.RoundToInt(mBalance * interestMultiplier);//Add 2% from current balance to the total balance
 	}
 
 	public void Transaction(int amount)
@@ -28,15 +28,15 @@ public class BankAccount : NetworkBehaviour
 		if (amount > 0) //Add money to bank, subtract from player
 		{
 			if (amount <= GameManager.s_Singleton.Player.Person.AmountOfMoney) {
-				GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
+				GameManager.s_Singleton.Player.Person.MoneyTransaction(-amount);
 				mBalance += amount;
 				return true;
 			}
 		}
 		else //Subtract money from bank, add to player
 		{
-			if (amount <= mBalance) {
-				GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
+			if (-amount <= mBalance) {
+				GameManager.s_Singleton.Player.Person.MoneyTransaction(-amount);
 				mBalance += amount;
 				return true;
 			}
