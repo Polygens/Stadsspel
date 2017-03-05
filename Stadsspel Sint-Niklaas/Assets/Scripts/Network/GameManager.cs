@@ -43,6 +43,18 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+  public bool GameIsRunning
+  {
+    get
+    {
+      return mGameIsRunning;
+    }
+    set
+    {
+      mGameIsRunning = value;
+    }
+  }
+
 	public DistrictManager DistrictManager {
 		get {
 			return mDistrictManager;
@@ -103,7 +115,7 @@ public class GameManager : NetworkBehaviour
 
 			NetworkServer.Spawn(temp);
 		}
-		RpcClientsStart(amountOfTeams);
+		//RpcClientsStart(amountOfTeams);
 	}
 
 	[ClientRpc]

@@ -55,7 +55,7 @@ public class Treasure : Square
     [Command]
 	public void CmdTransaction(int amount)
 	{
-		if (amount <= mAmountOfMoney)
+    if (amount <= mAmountOfMoney)
         {
             mAmountOfMoney -= amount;
             GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
