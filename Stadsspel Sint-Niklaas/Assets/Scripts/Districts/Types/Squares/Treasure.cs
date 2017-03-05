@@ -44,6 +44,7 @@ public class Treasure : Square
 	public void GainMoneyOverTime()
 	{
 		mAmountOfMoney += moneyGainPerDistrict * CheckAmountOfCapturedDistricts();
+        GameManager.s_Singleton.Teams[(int)mTeamID - 1].AddOrRemoveMoney(moneyGainPerDistrict * CheckAmountOfCapturedDistricts()); //Update total team money
         Debug.Log("Treasure" + (int)mTeamID + " has " + mAmountOfMoney);
 	}
 
