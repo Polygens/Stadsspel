@@ -1,4 +1,4 @@
-﻿using GoMap;
+using GoMap;
 using UnityEngine;
 
 public class GOObject : MonoBehaviour

@@ -1,4 +1,4 @@
-﻿//Thanks to Benblo
+//Thanks to Benblo
 //https://gist.github.com/benblo/10732554
 
 using System.Collections;

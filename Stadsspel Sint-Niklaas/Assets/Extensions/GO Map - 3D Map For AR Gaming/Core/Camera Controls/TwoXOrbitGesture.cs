@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [AddComponentMenu("Camera-Control/TwoX Orbit")]
 public class TwoXOrbitGesture : MonoBehaviour

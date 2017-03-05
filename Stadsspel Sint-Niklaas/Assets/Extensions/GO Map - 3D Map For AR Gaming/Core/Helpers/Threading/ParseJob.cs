@@ -1,4 +1,4 @@
-﻿using MiniJSON;
+using MiniJSON;
 
 public class ParseJob : ThreadedJob
 {

@@ -1,4 +1,4 @@
-﻿//	Poly2Mesh
+//	Poly2Mesh
 //
 //	This is a static class that wraps up all the details of creating a Mesh
 //	(or even an entire GameObject) out of a polygon.  The polygon must be

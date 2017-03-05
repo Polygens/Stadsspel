@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [AddComponentMenu("Camera-Control/GOOrbit")]
 public class GOOrbit : MonoBehaviour
