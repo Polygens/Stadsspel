@@ -71,13 +71,11 @@ public class Team : NetworkBehaviour
 	public void CmdPlayerTransaction(int amount)
 	{
 		mBankAccount.PlayerTransaction(amount);
-        AddOrRemoveMoney(amount);
     }
 
 	[Command]
 	public void CmdTransaction(int amount)
 	{
 		mBankAccount.Transaction(amount);
-        AddOrRemoveMoney(amount);
     }
 }
