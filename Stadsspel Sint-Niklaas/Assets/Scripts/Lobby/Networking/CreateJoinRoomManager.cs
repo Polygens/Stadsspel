@@ -22,7 +22,7 @@ namespace Stadsspel.Networking
 			gameObject.SetActive(newState);
 			if(newState) {
 				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(false);
-				NetworkManager.Singleton.TopPanelManager.SetName("STADSSPEL");
+				NetworkManager.Singleton.TopPanelManager.SetName("");
 			}
 		}
 

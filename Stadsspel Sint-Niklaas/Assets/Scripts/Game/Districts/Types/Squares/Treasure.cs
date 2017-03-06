@@ -4,19 +4,18 @@ using UnityEngine.Networking;
 
 public class Treasure : Square
 {
-	private static int robThreshold = 2000; // Above this amount can be stolen
+	private static int robThreshold = 2000;
+	// Above this amount can be stolen
 	private int moneyGainPerDistrict = 1000;
 
-    [SyncVar]
+	[SyncVar]
 	private int mAmountOfMoney = 5000;
 
-    public int AmountOfMoney
-    {
-        get
-        {
-            return mAmountOfMoney;
-        }
-    }
+	public int AmountOfMoney {
+		get {
+			return mAmountOfMoney;
+		}
+	}
 
 	private new void Start()
 	{
@@ -25,14 +24,13 @@ public class Treasure : Square
 		tag = "Treasure";
 	}
 
-    public int GetRobAmount()
-    {
-        if (mAmountOfMoney > robThreshold)
-        {
-            return AmountOfMoney - robThreshold;
-        }
-        return 0;
-    }
+	public int GetRobAmount()
+	{
+		if(mAmountOfMoney > robThreshold) {
+			return AmountOfMoney - robThreshold;
+		}
+		return 0;
+	}
 
 	public int RobChest()
 	{
@@ -44,7 +42,8 @@ public class Treasure : Square
 	public void GainMoneyOverTime()
 	{
 		mAmountOfMoney += moneyGainPerDistrict * CheckAmountOfCapturedDistricts();
-        Debug.Log("Treasure" + (int)mTeamID + " has " + mAmountOfMoney);
+		GameManager.s_Singleton.Teams[(int)mTeamID - 1].AddOrRemoveMoney(moneyGainPerDistrict * CheckAmountOfCapturedDistricts()); //Update total team money
+		Debug.Log("Treasure" + (int)mTeamID + " has " + mAmountOfMoney);
 	}
 
 	private int CheckAmountOfCapturedDistricts()
@@ -52,14 +51,13 @@ public class Treasure : Square
 		return GameManager.s_Singleton.Teams[(int)mTeamID - 1].AmountOfDistricts;
 	}
 
-    [Command]
+	[Command]
 	public void CmdTransaction(int amount)
 	{
-		if (amount <= mAmountOfMoney)
-        {
-            mAmountOfMoney -= amount;
-            GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
-            Debug.Log("ChestMoney: " + mAmountOfMoney);
-        }
+		if(amount <= mAmountOfMoney) {
+			mAmountOfMoney -= amount;
+			GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
+			Debug.Log("ChestMoney: " + mAmountOfMoney);
+		}
 	}
 }

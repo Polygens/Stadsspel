@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Stadsspel.Networking;
 
 public class Player : MonoBehaviour
 {
@@ -87,8 +86,6 @@ public class Player : MonoBehaviour
 
 		//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
-
-		Destroy(NetworkManager.Singleton.gameObject);
 	}
 
 	private void InitializeUI()
@@ -152,7 +149,7 @@ public class Player : MonoBehaviour
 				string tag = allGameObjectsInRadius[i].tag;
 				Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
 				Priority tempP;
-				if(tag == "Square") {
+				if(tag == "Treasure") { /*Square */
 					if(allGameObjectsInRadius[i].GetComponent<Square>().TeamID == mPerson.Team) {
 						tempP = Priority.Treasure;
 					} else {

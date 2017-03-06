@@ -24,10 +24,10 @@ public class Header : MonoBehaviour
 	public void Update()
 	{
 		mUpdateTimer += Time.deltaTime;
-		if (mUpdateTimer > mUpdateTime) {
+		if(mUpdateTimer > mUpdateTime) {
 			mUpdateTimer = 0;
-			if (GameManager.s_Singleton.Player.Person) {
-				if (!mPersonIsSet) {
+			if(GameManager.s_Singleton.Player.Person) {
+				if(!mPersonIsSet) {
 					mPersonIsSet = true;
 					// Start: initial setup
 					mTeamColor.color = TeamData.GetColor(GameManager.s_Singleton.Player.Person.Team);
@@ -35,9 +35,8 @@ public class Header : MonoBehaviour
 
 				// Header Update 
 				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
-                UpdateTeamMoney(GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].TotalMoney);
-                //UpdateTeamMoney(...);
-            }
+				UpdateTeamMoney(GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].TotalMoney);
+			}
 		}
 	}
 
@@ -53,8 +52,8 @@ public class Header : MonoBehaviour
 
 	private void UpdatePlayerMoney(int pPlayerMoney)
 	{
-		Debug.Log("MoneyUpdated");
 		mPlayerMoney.text = pPlayerMoney.ToString();
+		Debug.Log("Update player money");
 	}
 
 	private void UpdateTeamMoney(int pTeamMoney)

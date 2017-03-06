@@ -1872,7 +1872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1542527712407882
 GameObject:
   m_ObjectHideFlags: 1
@@ -3545,7 +3545,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0
-  m_Text: LOBBYNAAM
+  m_Text: 
 --- !u!114 &114030424965810718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8035,10 +8035,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3030cfa2e404141a0d2f70a3cff1c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RoomNameInp: {fileID: 0}
-  m_RoomPasswordInp: {fileID: 0}
-  m_RoomGameDurationDro: {fileID: 0}
-  m_RoomAmountOfPlayersSli: {fileID: 0}
+  m_RoomNameInp: {fileID: 114074886075173358}
+  m_RoomPasswordInp: {fileID: 114784839510289638}
+  m_RoomGameDurationDro: {fileID: 114733947715986700}
+  m_RoomAmountOfPlayersSli: {fileID: 114283510817787514}
   m_AmountOfPlayersTxt: {fileID: 114134077835953542}
 --- !u!114 &114674608621663264
 MonoBehaviour:
