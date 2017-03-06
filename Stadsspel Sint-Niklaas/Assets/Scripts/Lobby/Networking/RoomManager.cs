@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Photon;
 
 namespace Stadsspel.Networking
 {
-	public class RoomManager : MonoBehaviour
+	public class RoomManager : PunBehaviour
 	{
 		[SerializeField]
 		private RectTransform m_LobbyPlayerList;
@@ -16,6 +17,21 @@ namespace Stadsspel.Networking
 			get {
 				return m_LobbyPlayerList;
 			}
+		}
+
+		private uint m_PlayersReady = 0;
+
+		private void Start()
+		{
+			m_StartGameBtn.onClick.AddListener(() => {
+				photonView.RPC("StartCountDown", PhotonTargets.AllBufferedViaServer);
+			});
+		}
+
+		[PunRPC]
+		private void StartCountDown()
+		{
+			NetworkManager.Singleton.CountdownManager.EnableDisableMenu(true);
 		}
 
 		public void InitializeRoom(string roomName, string roomPassword, int gameDuration, byte amountPlayers)
@@ -69,6 +85,22 @@ namespace Stadsspel.Networking
 			NetworkManager.Singleton.KickedManager.EnableDisableMenu(true);
 			EnableDisableMenu(false);
 			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
+			m_PlayersReady = 0;
+		}
+
+		public void CheckIfReadyToStart()
+		{
+			int playersReady = 0;
+			foreach(Transform item in m_LobbyPlayerList) {
+				if(item.GetComponent<LobbyPlayer>().IsReady) {
+					++playersReady;
+				}
+			}
+			if(playersReady == PhotonNetwork.room.MaxPlayers) {
+				m_StartGameBtn.gameObject.SetActive(true);
+			} else {
+				m_StartGameBtn.gameObject.SetActive(false);
+			}
 		}
 	}
 }

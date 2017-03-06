@@ -32,6 +32,13 @@ namespace Stadsspel.Networking
 		private bool m_IsMasterClient = false;
 
 		private bool m_IsReady = false;
+
+		public bool IsReady {
+			get {
+				return m_IsReady;
+			}
+		}
+
 		private TeamID m_TeamID = TeamID.NotSet;
 
 		[PunRPC]
@@ -45,6 +52,9 @@ namespace Stadsspel.Networking
 		{
 			m_IsReady = newReadyState;
 			SetReadyButton(m_IsReady);
+			if(PhotonNetwork.player.IsMasterClient) {
+				NetworkManager.Singleton.RoomManager.CheckIfReadyToStart();
+			}
 		}
 
 		[PunRPC]
@@ -130,11 +140,12 @@ namespace Stadsspel.Networking
 			m_NameInp.text = photonView.owner.NickName;
 			SetReadyButton(m_IsReady);
 
-			if(m_IsMasterClient) {
+			if(PhotonNetwork.player.IsMasterClient) {
 				m_KickPlayerBtn.gameObject.SetActive(true);
 				m_KickPlayerBtn.onClick.AddListener(() => {
 					PhotonNetwork.CloseConnection(photonView.owner);
 				});
+
 			}
 		}
 
@@ -157,11 +168,13 @@ namespace Stadsspel.Networking
 			textComponent.text = text;
 
 			textComponent.color = textColor;
+
 		}
 
 		private void OnMasterClientSwitched()
 		{
 			if(photonView.owner.IsMasterClient) {
+				m_IsMasterClient = true;
 				transform.SetAsFirstSibling();
 				m_IconTxt.text = m_HostIcon;
 			}
