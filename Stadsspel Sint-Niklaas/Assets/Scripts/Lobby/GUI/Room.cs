@@ -28,6 +28,7 @@ namespace Stadsspel.Networking
 		public void ClickJoinRoom()
 		{
 			if(m_Password == "") {
+				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
 				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
 				PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
@@ -39,6 +40,7 @@ namespace Stadsspel.Networking
 		public bool JoinProtectedRoom(string password)
 		{
 			if(m_Password == password) {
+				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
 				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
 				PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
