@@ -72,7 +72,7 @@ public class GrandMarketUI : MonoBehaviour
   public void Sell()
   {
 
-    player.Person.AddGoods(total);
+    player.Person.MoneyTransaction(total);
     player.Person.ResetIllegalItems();
     player.Person.ResetLegalItems();
     //GameObject.FindWithTag("Player").GetComponent<Player>().Person.MoneyTransaction(total); 
