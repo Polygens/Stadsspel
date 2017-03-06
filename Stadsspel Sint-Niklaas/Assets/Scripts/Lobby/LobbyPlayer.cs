@@ -18,8 +18,8 @@ namespace Stadsspel.Networking
 		private Text m_IconTxt;
 
 		private Color m_OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
-		private Color m_EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
-		private Color m_LocalPlayerColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
+		private Color m_EvenRowColor = new Color(230.0f / 255.0f, 230.0f / 255.0f, 230.0f / 255.0f, 1.0f);
+		private Color m_LocalPlayerColor = new Color(245.0f / 255.0f, 132.0f / 255.0f, 42.0f / 255.0f, 0.3f);
 
 		private Color m_ReadyColor = new Color(245.0f / 255.0f, 132.0f / 255.0f, 42.0f / 255.0f, 1.0f);
 		private Color m_NotReadyColor = new Color(255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f, 1.0f);
@@ -57,20 +57,8 @@ namespace Stadsspel.Networking
 
 		void Start()
 		{
-			if(photonView.owner.IsLocal) {
-				m_IsLocalPlayer = true;
-			}
-			if(photonView.owner.IsMasterClient) {
-				m_IsMasterClient = true;
-			}
-
-			if(m_IsMasterClient) {
-				m_IconTxt.text = m_HostIcon;
-			} else if(m_IsLocalPlayer) {
-				m_IconTxt.text = m_LocalPlayerIcon;
-			} else {
-				m_IconTxt.text = m_OtherPlayerIcon;
-			}
+			m_IsLocalPlayer = photonView.owner.IsLocal;
+			m_IsMasterClient = photonView.owner.IsMasterClient;
 
 			if(m_IsLocalPlayer) {
 				SetupLocalPlayer();
@@ -78,20 +66,41 @@ namespace Stadsspel.Networking
 				SetupOtherPlayer();
 			}
 				
+			transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList, false);
+			if(m_IsMasterClient) {
+				transform.SetAsFirstSibling();
+			} else if(m_IsLocalPlayer) {
+				transform.SetSiblingIndex(1);
+			}
+
+			SetupStyling();
+		}
+
+		private void SetupStyling()
+		{
+			if(m_IsMasterClient) {
+				m_IconTxt.text = m_HostIcon;
+			} else if(m_IsLocalPlayer) {
+				m_IconTxt.text = m_LocalPlayerIcon;
+			} else {
+				m_IconTxt.text = m_OtherPlayerIcon;
+			}
 			if(transform.GetSiblingIndex() % 2 == 0) {
 				GetComponent<Image>().color = m_EvenRowColor;
 			} else {
 				GetComponent<Image>().color = m_OddRowColor;
 			}
 
-			transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList, false);
+			if(m_IsLocalPlayer) {
+				GetComponent<Image>().color = m_LocalPlayerColor;
+			}
 		}
 
 		private void SetupLocalPlayer()
 		{
 			GetComponent<Image>().color = m_LocalPlayerColor;
 
-			PhotonNetwork.playerName = "Speler: " + PhotonNetwork.room.PlayerCount;
+			PhotonNetwork.playerName = "Speler: " + photonView.ownerId;
 			m_NameInp.text = PhotonNetwork.playerName;
 			photonView.RPC("NameChanged", PhotonTargets.AllBufferedViaServer);
 
@@ -121,7 +130,7 @@ namespace Stadsspel.Networking
 			m_NameInp.text = photonView.owner.NickName;
 			SetReadyButton(m_IsReady);
 
-			if(PhotonNetwork.player.IsMasterClient) {
+			if(m_IsMasterClient) {
 				m_KickPlayerBtn.gameObject.SetActive(true);
 				m_KickPlayerBtn.onClick.AddListener(() => {
 					PhotonNetwork.CloseConnection(photonView.owner);
@@ -148,6 +157,14 @@ namespace Stadsspel.Networking
 			textComponent.text = text;
 
 			textComponent.color = textColor;
+		}
+
+		private void OnMasterClientSwitched()
+		{
+			if(photonView.owner.IsMasterClient) {
+				transform.SetAsFirstSibling();
+				m_IconTxt.text = m_HostIcon;
+			}
 		}
 	}
 }

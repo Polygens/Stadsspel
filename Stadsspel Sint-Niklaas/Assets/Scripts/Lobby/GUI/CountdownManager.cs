@@ -10,4 +10,9 @@ public class CountdownManager : MonoBehaviour
 	{
 		gameObject.SetActive(newState);
 	}
+
+	public void SetText(string text)
+	{
+		m_CountDownTxt.text = text;
+	}
 }

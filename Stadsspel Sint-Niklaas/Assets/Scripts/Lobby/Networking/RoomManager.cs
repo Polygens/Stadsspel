@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Stadsspel.Networking
 {
@@ -7,6 +8,9 @@ namespace Stadsspel.Networking
 	{
 		[SerializeField]
 		private RectTransform m_LobbyPlayerList;
+
+		[SerializeField]
+		private Button m_StartGameBtn;
 
 		public RectTransform LobbyPlayerList {
 			get {
@@ -57,6 +61,7 @@ namespace Stadsspel.Networking
 		{
 			NetworkManager.Singleton.TopPanelManager.SetName(PhotonNetwork.room.Name);
 			PhotonNetwork.Instantiate(NetworkManager.Singleton.LobbyPlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
+			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
 		}
 
 		void OnLeftRoom()

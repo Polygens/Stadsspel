@@ -35,7 +35,7 @@ namespace Stadsspel.Networking
 		{
 			if(m_RoomNameInp.text != "") {
 				int gameDuration = 50;
-
+				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.RoomManager.InitializeRoom(m_RoomNameInp.text, m_RoomPasswordInp.text, gameDuration, (byte)Mathf.Round(m_RoomAmountOfPlayersSli.value));
 				gameObject.SetActive(false);
 			} else {
