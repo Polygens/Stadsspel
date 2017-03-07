@@ -44,7 +44,7 @@ public class TreasureUI : MonoBehaviour
         int amount;
         int.TryParse(input.text, out amount);
         Debug.Log("amount = " + amount);
-        currentTreasure.CmdTransaction(amount);
+        currentTreasure.Transaction(amount);
         UpdateUI();
     }
 }

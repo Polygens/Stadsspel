@@ -53,14 +53,25 @@ public class Treasure : Square
 		return GameManager.s_Singleton.Teams[(int)mTeamID - 1].AmountOfDistricts;
 	}
 
-    [Command]
-	public void CmdTransaction(int amount)
-	{
-    if (amount <= mAmountOfMoney)
+    public void Transaction(int amount) // Give the player money
+    {
+        if (amount <= mAmountOfMoney)
         {
             mAmountOfMoney -= amount;
             GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
-            Debug.Log("ChestMoney: " + mAmountOfMoney);
         }
+        
+    }
+
+    [Command]
+	public void CmdTransaction(int amount)
+	{
+        RpcTransaction(amount);
 	}
+
+    [ClientRpc]
+    public void RpcTransaction(int amount)
+    {
+        
+    }
 }

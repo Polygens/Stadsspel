@@ -76,7 +76,6 @@ public class TradingPostUI : MonoBehaviour
     }
     else
     {
-3
       TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
     }
 		if (everythingIsInstantiated) {
