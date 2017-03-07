@@ -134,5 +134,10 @@ namespace Stadsspel.Networking
 				m_StartGameBtn.gameObject.SetActive(false);
 			}
 		}
+
+		public void DisableStartButton()
+		{
+			m_StartGameBtn.gameObject.SetActive(false);
+		}
 	}
 }

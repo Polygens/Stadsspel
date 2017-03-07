@@ -167,7 +167,6 @@ namespace Stadsspel.Networking
 			textComponent.text = text;
 
 			textComponent.color = textColor;
-
 		}
 
 		private void OnMasterClientSwitched()
@@ -177,6 +176,13 @@ namespace Stadsspel.Networking
 				transform.SetAsFirstSibling();
 				m_IconTxt.text = m_HostIcon;
 				photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, true);
+			}
+		}
+
+		private void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+		{
+			if(PhotonNetwork.player.IsMasterClient) {
+				NetworkManager.Singleton.RoomManager.DisableStartButton();
 			}
 		}
 	}
