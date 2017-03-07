@@ -129,8 +129,7 @@ namespace Stadsspel.Networking
 				m_ReadyBtn.interactable = true;
 				SetReadyButton(false);
 				m_ReadyBtn.onClick.AddListener(() => {
-					m_IsReady = !m_IsReady;
-					photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, m_IsReady);
+					photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, !m_IsReady);
 				});
 			}
 		}
@@ -177,6 +176,7 @@ namespace Stadsspel.Networking
 				m_IsMasterClient = true;
 				transform.SetAsFirstSibling();
 				m_IconTxt.text = m_HostIcon;
+				photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, true);
 			}
 		}
 	}
