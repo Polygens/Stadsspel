@@ -34,6 +34,14 @@ namespace Stadsspel.Networking
 		public void MakeRoom()
 		{
 			if(m_RoomNameInp.text != "") {
+				RoomInfo[] rooms = PhotonNetwork.GetRoomList();
+				foreach(RoomInfo room in rooms) {
+					if(room.Name == m_RoomNameInp.text) {
+						Debug.Log("Room creation failed");
+						NetworkManager.Singleton.RoomExistsManager.EnableDisableMenu(true);
+						return;
+					}
+				}
 				int gameDuration = 50;
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.RoomManager.InitializeRoom(m_RoomNameInp.text, m_RoomPasswordInp.text, gameDuration, (byte)Mathf.Round(m_RoomAmountOfPlayersSli.value));

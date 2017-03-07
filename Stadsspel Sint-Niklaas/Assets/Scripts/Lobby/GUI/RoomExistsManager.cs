@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class KickedManager : MonoBehaviour
+public class RoomExistsManager : MonoBehaviour
 {
 	[SerializeField]
-	private Button m_QuitPanelBtn;
+	private Button m_QuitBtn;
 
 	public void EnableDisableMenu(bool newState)
 	{
@@ -14,7 +14,7 @@ public class KickedManager : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		m_QuitPanelBtn.onClick.AddListener(() => {
+		m_QuitBtn.onClick.AddListener(() => {
 			EnableDisableMenu(false);
 		});
 	}

@@ -23,7 +23,10 @@ namespace Stadsspel.Networking
 		[SerializeField]
 		private KickedManager m_KickedManager;
 		[SerializeField]
+		private RoomExistsManager m_RoomExistsManager;
+		[SerializeField]
 		private string m_LobbyPlayerPrefabName;
+
 
 		public string VERSION {
 			get {
@@ -76,6 +79,12 @@ namespace Stadsspel.Networking
 		public KickedManager KickedManager {
 			get {
 				return m_KickedManager;
+			}
+		}
+
+		public RoomExistsManager RoomExistsManager {
+			get {
+				return m_RoomExistsManager;
 			}
 		}
 
