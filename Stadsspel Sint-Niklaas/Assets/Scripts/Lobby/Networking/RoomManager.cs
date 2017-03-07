@@ -2,6 +2,8 @@
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Photon;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 namespace Stadsspel.Networking
 {
@@ -12,6 +14,9 @@ namespace Stadsspel.Networking
 
 		[SerializeField]
 		private Button m_StartGameBtn;
+
+		[SerializeField]
+		private int m_CountdownDuration = 5;
 
 		public RectTransform LobbyPlayerList {
 			get {
@@ -24,14 +29,42 @@ namespace Stadsspel.Networking
 		private void Start()
 		{
 			m_StartGameBtn.onClick.AddListener(() => {
-				photonView.RPC("StartCountDown", PhotonTargets.AllBufferedViaServer);
+				StartCoroutine(ServerCountdownCoroutine(m_CountdownDuration));
 			});
 		}
 
 		[PunRPC]
-		private void StartCountDown()
+		private void UpdateCountDown(uint time)
 		{
-			NetworkManager.Singleton.CountdownManager.EnableDisableMenu(true);
+			NetworkManager.Singleton.CountdownManager.SetText("Het spel start in...\n" + time);
+		}
+
+		[PunRPC]
+		private void StartCountDown(bool state)
+		{
+			NetworkManager.Singleton.CountdownManager.EnableDisableMenu(state);
+		}
+
+		public IEnumerator ServerCountdownCoroutine(int time)
+		{ 
+			photonView.RPC("StartCountDown", PhotonTargets.AllBufferedViaServer, true);
+
+			float remainingTime = time; 
+			int floorTime = Mathf.FloorToInt(remainingTime); 
+
+			while(floorTime > 0) { 
+				remainingTime -= Time.deltaTime; 
+				int newFloorTime = Mathf.FloorToInt(remainingTime); 
+
+				if(newFloorTime != floorTime) {//to avoid flooding the network of message, we only send a notice to client when the number of plain seconds change. 
+					floorTime = newFloorTime; 
+
+					photonView.RPC("UpdateCountDown", PhotonTargets.AllBufferedViaServer, floorTime);
+				} 
+				yield return null; 
+			} 
+			photonView.RPC("StartCountDown", PhotonTargets.AllBufferedViaServer, false);
+			SceneManager.LoadScene("Game");	
 		}
 
 		public void InitializeRoom(string roomName, string roomPassword, int gameDuration, byte amountPlayers)
@@ -55,9 +88,8 @@ namespace Stadsspel.Networking
 				CustomRoomPropertiesForLobby = lobbyOptions,
 				CustomRoomProperties = ht
 			};
-
+					
 			PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-
 		}
 
 		public void EnableDisableMenu(bool newState)

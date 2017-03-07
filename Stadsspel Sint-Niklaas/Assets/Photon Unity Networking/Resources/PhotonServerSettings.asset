@@ -47,4 +47,5 @@ MonoBehaviour:
   - ReadyChanged
   - TeamChanged
   - StartCountDown
+  - UpdateCountDown
   DisableAutoOpenWizard: 1
