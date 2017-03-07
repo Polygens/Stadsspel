@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 	private int highestPriority;
 
 	//order of strings is important
-	private string[] buttonNames = new string[] { "Ruil", "Bank", "Koop", "Verkoop", "Belastingen innen", "Belastingen stelen", "Stelen" };
+	private string[] buttonNames = new string[] { "Ruil", "Bank", "Koop", "Verkoop", "Belastingen innen", "Belastingen stelen", "Stelen", "Overnemen" };
 
 	private RectTransform[] panels;
 
@@ -152,6 +152,10 @@ public class Player : MonoBehaviour
 						tempP = Priority.TreasureEnemy;
 					}
 				}
+                else if (tag == "Square")
+                {
+                    tempP = Priority.EnemyDistrict;
+                }
 				else {
 					tempP = (Priority)Enum.Parse(typeof(Priority), tag);
 				}
@@ -299,5 +303,6 @@ public enum Priority : byte
 	GrandMarket,
 	Treasure,
 	TreasureEnemy,
-	Enemy
+	Enemy,
+    EnemyDistrict
 }
