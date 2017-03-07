@@ -13,6 +13,8 @@ namespace Stadsspel.Networking
 		[SerializeField]
 		private Button m_ReadyBtn;
 		[SerializeField]
+		private Text m_ReadyTxt;
+		[SerializeField]
 		private Button m_KickPlayerBtn;
 		[SerializeField]
 		private Text m_IconTxt;
@@ -27,6 +29,9 @@ namespace Stadsspel.Networking
 		private const string m_HostIcon = "";
 		private const string m_LocalPlayerIcon = "";
 		private const string m_OtherPlayerIcon = "";
+
+		private const string m_ReadyIcon = "";
+		private const string m_NotReadyIcon = "";
 
 		private bool m_IsLocalPlayer = false;
 		private bool m_IsMasterClient = false;
@@ -128,6 +133,7 @@ namespace Stadsspel.Networking
 			} else {
 				m_ReadyBtn.interactable = true;
 				SetReadyButton(false);
+				m_ReadyTxt.gameObject.SetActive(true);
 				m_ReadyBtn.onClick.AddListener(() => {
 					photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, !m_IsReady);
 				});
@@ -156,16 +162,19 @@ namespace Stadsspel.Networking
 				btn = m_ReadyColor;
 				textColor = m_NotReadyColor;
 				text = "GEREED";
+				m_ReadyTxt.text = m_ReadyIcon;
 			} else {
 				btn = m_NotReadyColor;
 				textColor = m_ReadyColor;
 				text = "...";
+				m_ReadyTxt.text = m_NotReadyIcon;
 			}
 			m_ReadyBtn.GetComponent<Image>().color = btn;
 
-			Text textComponent = m_ReadyBtn.transform.GetChild(0).GetComponent<Text>();
-			textComponent.text = text;
 
+			Text textComponent = m_ReadyBtn.transform.GetChild(1).GetComponent<Text>();
+			textComponent.text = text;
+			m_ReadyTxt.color = textColor;
 			textComponent.color = textColor;
 		}
 
@@ -175,6 +184,7 @@ namespace Stadsspel.Networking
 				m_IsMasterClient = true;
 				transform.SetAsFirstSibling();
 				m_IconTxt.text = m_HostIcon;
+				m_ReadyTxt.gameObject.SetActive(false);
 				photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, true);
 			}
 		}
