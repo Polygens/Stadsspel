@@ -51,7 +51,7 @@ namespace Stadsspel.Networking
 				GameObject room = Instantiate(Resources.Load("Room") as GameObject);
 				room.transform.SetParent(m_RoomList, false);
 
-				string password = rooms[i].CustomProperties["password"] as string;
+				string password = rooms[i].CustomProperties[RoomManager.RoomPasswordProp] as string;
 				room.GetComponent<Room>().InitializeRoom(rooms[i].Name, rooms[i].PlayerCount, rooms[i].MaxPlayers, password != "" ? password : "");
 			}
 		}

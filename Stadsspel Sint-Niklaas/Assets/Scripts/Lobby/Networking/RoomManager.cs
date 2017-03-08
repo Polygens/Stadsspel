@@ -18,6 +18,9 @@ namespace Stadsspel.Networking
 		[SerializeField]
 		private int m_CountdownDuration = 5;
 
+		public const string RoomPasswordProp = "password";
+		public const string RoomGameDurationProp = "gameDuration";
+
 		public RectTransform LobbyPlayerList {
 			get {
 				return m_LobbyPlayerList;
@@ -69,16 +72,13 @@ namespace Stadsspel.Networking
 		{
 			EnableDisableMenu(true);
 
-			string passwordKey = "password";
-			string gameDurationKey = "gameDuration";
-
 			string[] lobbyOptions = new string[2];
-			lobbyOptions[0] = passwordKey;
-			lobbyOptions[1] = gameDurationKey;
+			lobbyOptions[0] = RoomPasswordProp;
+			lobbyOptions[1] = RoomGameDurationProp;
 
 			ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable();
-			ht.Add(passwordKey, roomPassword);
-			ht.Add(gameDurationKey, gameDuration);
+			ht.Add(RoomPasswordProp, roomPassword);
+			ht.Add(RoomGameDurationProp, gameDuration);
 
 			RoomOptions roomOptions = new RoomOptions() {
 				MaxPlayers = amountPlayers,
