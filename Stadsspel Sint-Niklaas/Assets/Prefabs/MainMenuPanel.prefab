@@ -2080,6 +2080,7 @@ GameObject:
   - component: {fileID: 224182743308220892}
   - component: {fileID: 114475082360867580}
   - component: {fileID: 114887219037951962}
+  - component: {fileID: 114624606653585470}
   m_Layer: 5
   m_Name: RoomPanel
   m_TagString: Untagged
@@ -7739,6 +7740,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Terug
+--- !u!114 &114624606653585470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1607071749709738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe81dfe8e04db64183fe74ef6d71ab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114625370733689338
 MonoBehaviour:
   m_ObjectHideFlags: 1

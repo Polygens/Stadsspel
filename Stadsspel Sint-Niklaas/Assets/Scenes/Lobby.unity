@@ -418,22 +418,22 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114887219037951962, guid: e357a9498a14ad24492ffc5e0f90b30e,
+    - target: {fileID: 114615412061153252, guid: e357a9498a14ad24492ffc5e0f90b30e,
         type: 2}
       propertyPath: viewIdField
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114887219037951962, guid: e357a9498a14ad24492ffc5e0f90b30e,
+    - target: {fileID: 114615412061153252, guid: e357a9498a14ad24492ffc5e0f90b30e,
         type: 2}
       propertyPath: instantiationId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114615412061153252, guid: e357a9498a14ad24492ffc5e0f90b30e,
+    - target: {fileID: 114887219037951962, guid: e357a9498a14ad24492ffc5e0f90b30e,
         type: 2}
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114615412061153252, guid: e357a9498a14ad24492ffc5e0f90b30e,
+    - target: {fileID: 114887219037951962, guid: e357a9498a14ad24492ffc5e0f90b30e,
         type: 2}
       propertyPath: instantiationId
       value: 2
