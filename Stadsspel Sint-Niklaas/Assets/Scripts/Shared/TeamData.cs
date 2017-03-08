@@ -137,17 +137,17 @@ public class TeamData
 	public static TeamID GetNextTeam(TeamID team)
 	{
 		int newTeamID = (int)team;
-		/*newTeamID %= LobbyPlayerList._instance.AmountOfTeams;
-		newTeamID++;*/
+		newTeamID %= TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);
+		newTeamID++;
 		return (TeamID)newTeamID;
 	}
 
 	public static TeamID GetPreviousTeam(TeamID team)
 	{
 		int newTeamID = (int)team - 2;
-		/*if(newTeamID < 0) {
-			newTeamID = LobbyPlayerList._instance.AmountOfTeams - 1;
-		}*/
+		if(newTeamID < 0) {
+			newTeamID = TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);
+		}
 		return (TeamID)newTeamID;
 	}
 

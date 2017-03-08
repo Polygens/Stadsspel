@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon;
 using UnityEngine.UI;
+using ExitGames.Client.Photon;
 
 namespace Stadsspel.Networking
 {
@@ -44,8 +45,6 @@ namespace Stadsspel.Networking
 			}
 		}
 
-		private TeamID m_TeamID = TeamID.NotSet;
-
 		[PunRPC]
 		private void NameChanged()
 		{
@@ -62,18 +61,11 @@ namespace Stadsspel.Networking
 			}
 		}
 
-		[PunRPC]
-		private void TeamChanged(TeamID newTeam)
-		{
-			m_TeamID = newTeam;
-
-			m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(m_TeamID);
-		}
-
 		void Start()
 		{
 			m_IsLocalPlayer = photonView.owner.IsLocal;
 			m_IsMasterClient = photonView.owner.IsMasterClient;
+
 
 			if(m_IsLocalPlayer) {
 				SetupLocalPlayer();
@@ -113,6 +105,9 @@ namespace Stadsspel.Networking
 
 		private void SetupLocalPlayer()
 		{
+			photonView.owner.RequestTeam();
+			//m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(photonView.owner.GetTeam());
+
 			GetComponent<Image>().color = m_LocalPlayerColor;
 
 			PhotonNetwork.playerName = "Speler: " + photonView.ownerId;
@@ -121,6 +116,8 @@ namespace Stadsspel.Networking
 
 			m_TeamBtn.interactable = true;
 			m_TeamBtn.onClick.AddListener(() => {
+				photonView.owner.RequestTeam();
+				//m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(photonView.owner.GetTeam());
 				//photonView.RPC("TeamChanged", PhotonTargets.AllBufferedViaServer, TeamData.GetNextTeam());
 			});
 			m_NameInp.interactable = true;
@@ -142,6 +139,7 @@ namespace Stadsspel.Networking
 
 		private void SetupOtherPlayer()
 		{
+			m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(photonView.owner.GetTeam());
 			m_NameInp.text = photonView.owner.NickName;
 			SetReadyButton(m_IsReady);
 
@@ -194,6 +192,19 @@ namespace Stadsspel.Networking
 			base.OnPhotonPlayerDisconnected(otherPlayer);
 			if(PhotonNetwork.player.IsMasterClient) {
 				NetworkManager.Singleton.RoomManager.DisableStartButton();
+			}
+		}
+
+		public override void  OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
+		{
+			base.OnPhotonPlayerPropertiesChanged(playerAndUpdatedProps);
+			PhotonPlayer player = playerAndUpdatedProps[0] as PhotonPlayer;
+			if(player == photonView.owner) {
+				Hashtable props = playerAndUpdatedProps[1] as Hashtable;
+				if(props[RoomTeams.TeamPlayerProp] != null) {
+					m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor((TeamID)props[RoomTeams.TeamPlayerProp]);
+				}
+
 			}
 		}
 	}

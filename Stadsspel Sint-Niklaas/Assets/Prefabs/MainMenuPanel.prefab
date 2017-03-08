@@ -2079,8 +2079,8 @@ GameObject:
   m_Component:
   - component: {fileID: 224182743308220892}
   - component: {fileID: 114475082360867580}
-  - component: {fileID: 114887219037951962}
   - component: {fileID: 114624606653585470}
+  - component: {fileID: 114887219037951962}
   m_Layer: 5
   m_Name: RoomPanel
   m_TagString: Untagged

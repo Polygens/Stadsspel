@@ -26,31 +26,19 @@ namespace Stadsspel.Networking
 
 		#region Events by Unity and Photon
 
-		public void Start()
-		{
-			PlayersPerTeam = new Dictionary<TeamID, List<PhotonPlayer>>();
-			Array enumVals = Enum.GetValues(typeof(TeamID));
-			foreach(var enumVal in enumVals) {
-				PlayersPerTeam[(TeamID)enumVal] = new List<PhotonPlayer>();
-			}
-		}
-
-		public void OnDisable()
-		{
-			PlayersPerTeam = new Dictionary<TeamID, List<PhotonPlayer>>();
-		}
 
 		/// <summary>Needed to update the team lists when joining a room.</summary>
 		/// <remarks>Called by PUN. See enum PhotonNetworkingMessage for an explanation.</remarks>
 		public void OnJoinedRoom()
 		{
+			PlayersPerTeam = new Dictionary<TeamID, List<PhotonPlayer>>();
+			Array enumVals = Enum.GetValues(typeof(TeamID));
+
+			for(int i = 0; i < TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers) + 1; i++) {
+				PlayersPerTeam[(TeamID)enumVals.GetValue(i)] = new List<PhotonPlayer>();
+			}
 
 			this.UpdateTeams();
-		}
-
-		public void OnLeftRoom()
-		{
-			Start();
 		}
 
 		/// <summary>Refreshes the team lists. It could be a non-team related property change, too.</summary>
@@ -76,8 +64,9 @@ namespace Stadsspel.Networking
 		public void UpdateTeams()
 		{
 			Array enumVals = Enum.GetValues(typeof(TeamID));
-			foreach(var enumVal in enumVals) {
-				PlayersPerTeam[(TeamID)enumVal].Clear();
+
+			for(int i = 0; i < TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers) + 1; i++) {
+				PlayersPerTeam[(TeamID)enumVals.GetValue(i)].Clear();
 			}
 
 			for(int i = 0; i < PhotonNetwork.playerList.Length; i++) {
@@ -121,6 +110,20 @@ namespace Stadsspel.Networking
 			if(currentTeam != team) {
 				player.SetCustomProperties(new Hashtable() { { RoomTeams.TeamPlayerProp, (byte)team } });
 			}
+		}
+
+		public static void RequestTeam(this PhotonPlayer player)
+		{
+			if(!PhotonNetwork.connectedAndReady) {
+				Debug.LogWarning("JoinTeam was called in state: " + PhotonNetwork.connectionStateDetailed + ". Not connectedAndReady.");
+				return;
+			}
+
+			TeamID currentTeam = player.GetTeam();
+			TeamID newTeam = TeamData.GetNextTeam(currentTeam);
+			Debug.Log(RoomTeams.PlayersPerTeam[newTeam].Count);
+			player.SetCustomProperties(new Hashtable() { { RoomTeams.TeamPlayerProp, (byte)newTeam } });
+
 		}
 	}
 }
