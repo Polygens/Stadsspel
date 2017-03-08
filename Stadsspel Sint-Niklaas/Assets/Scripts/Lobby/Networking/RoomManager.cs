@@ -24,8 +24,6 @@ namespace Stadsspel.Networking
 			}
 		}
 
-		private uint m_PlayersReady = 0;
-
 		private void Start()
 		{
 			m_StartGameBtn.onClick.AddListener(() => {
@@ -47,7 +45,7 @@ namespace Stadsspel.Networking
 
 		public IEnumerator ServerCountdownCoroutine(int time)
 		{ 
-			photonView.RPC("StartCountDown", PhotonTargets.AllBufferedViaServer, true);
+			photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, true);
 
 			float remainingTime = time; 
 			int floorTime = Mathf.FloorToInt(remainingTime); 
@@ -56,14 +54,14 @@ namespace Stadsspel.Networking
 				remainingTime -= Time.deltaTime; 
 				int newFloorTime = Mathf.FloorToInt(remainingTime); 
 
-				if(newFloorTime != floorTime) {//to avoid flooding the network of message, we only send a notice to client when the number of plain seconds change. 
+				if(newFloorTime != floorTime) {//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
 					floorTime = newFloorTime; 
 
-					photonView.RPC("UpdateCountDown", PhotonTargets.AllBufferedViaServer, floorTime);
+					photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, floorTime);
 				} 
 				yield return null; 
 			} 
-			photonView.RPC("StartCountDown", PhotonTargets.AllBufferedViaServer, false);
+			photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, false);
 			SceneManager.LoadScene("Game");	
 		}
 
@@ -105,19 +103,20 @@ namespace Stadsspel.Networking
 			}
 		}
 
-		void OnJoinedRoom()
+		public override void OnJoinedRoom()
 		{
+			base.OnJoinedRoom();
 			NetworkManager.Singleton.TopPanelManager.SetName(PhotonNetwork.room.Name);
 			PhotonNetwork.Instantiate(NetworkManager.Singleton.LobbyPlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
 		}
 
-		void OnLeftRoom()
+		public override void OnLeftRoom()
 		{
+			base.OnLeftRoom();
 			NetworkManager.Singleton.KickedManager.EnableDisableMenu(true);
 			EnableDisableMenu(false);
 			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
-			m_PlayersReady = 0;
 		}
 
 		public void CheckIfReadyToStart()

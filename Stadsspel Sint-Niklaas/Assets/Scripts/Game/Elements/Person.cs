@@ -5,7 +5,6 @@ using UnityEngine.Networking;
 public class Person : Element
 {
 	private List<int> illegalItems = new List<int>();
-	private bool mIsReady = false;
 
 	//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
 	private List<int> legalItems = new List<int>();

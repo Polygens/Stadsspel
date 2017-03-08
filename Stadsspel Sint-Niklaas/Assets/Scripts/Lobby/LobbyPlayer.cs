@@ -189,8 +189,9 @@ namespace Stadsspel.Networking
 			}
 		}
 
-		private void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+		public override void  OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 		{
+			base.OnPhotonPlayerDisconnected(otherPlayer);
 			if(PhotonNetwork.player.IsMasterClient) {
 				NetworkManager.Singleton.RoomManager.DisableStartButton();
 			}
