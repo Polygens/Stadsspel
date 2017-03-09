@@ -16,6 +16,10 @@ public class Treasure : Square
         {
             return mAmountOfMoney;
         }
+        set
+        {
+            mAmountOfMoney = value;
+        }
     }
 
 	private new void Start()
@@ -23,7 +27,8 @@ public class Treasure : Square
 		mDistrictType = DistrictType.square;
 		base.Start();
 		tag = "Treasure";
-	}
+        GameManager.s_Singleton.Teams[(int)mTeamID - 1].AddOrRemoveMoney(mAmountOfMoney); //Update total team money
+    }
 
     public int GetRobAmount()
     {
@@ -43,8 +48,9 @@ public class Treasure : Square
 
 	public void GainMoneyOverTime()
 	{
-		mAmountOfMoney += moneyGainPerDistrict * CheckAmountOfCapturedDistricts();
-        GameManager.s_Singleton.Teams[(int)mTeamID - 1].AddOrRemoveMoney(moneyGainPerDistrict * CheckAmountOfCapturedDistricts()); //Update total team money
+        int moneyGain = moneyGainPerDistrict * CheckAmountOfCapturedDistricts();
+        mAmountOfMoney += moneyGain;
+        GameManager.s_Singleton.Teams[(int)mTeamID - 1].AddOrRemoveMoney(moneyGain); //Update total team money
         Debug.Log("Treasure" + (int)mTeamID + " has " + mAmountOfMoney);
 	}
 
@@ -53,25 +59,9 @@ public class Treasure : Square
 		return GameManager.s_Singleton.Teams[(int)mTeamID - 1].AmountOfDistricts;
 	}
 
-    public void Transaction(int amount) // Give the player money
+    public bool IsMoneyTransferValid(int amount)
     {
-        if (amount <= mAmountOfMoney)
-        {
-            mAmountOfMoney -= amount;
-            GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
-        }
-        
+        return amount <= mAmountOfMoney;
     }
-
-    [Command]
-	public void CmdTransaction(int amount)
-	{
-        RpcTransaction(amount);
-	}
-
-    [ClientRpc]
-    public void RpcTransaction(int amount)
-    {
-        
-    }
+    
 }

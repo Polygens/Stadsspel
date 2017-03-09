@@ -86,6 +86,13 @@ public class Person : Element
         GameManager.s_Singleton.Teams[(int)mTeam].AddOrRemoveMoney(money);
     }
 
+    [Command]
+    public void CmdTreasureTransaction(int amount)
+    {
+        GameManager.s_Singleton.GetTreasureFrom(Team).AmountOfMoney -= amount;
+        MoneyTransaction(amount);
+    }
+
 	public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)
 	{
 		MoneyTransaction(money);

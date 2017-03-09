@@ -145,6 +145,6 @@ public class GameManager : NetworkBehaviour
 
     public Treasure GetTreasureFrom(TeamID id)
     {
-        return mTreasures[(int)id];
+        return mTreasures[(int)id -1];
     }
 }
