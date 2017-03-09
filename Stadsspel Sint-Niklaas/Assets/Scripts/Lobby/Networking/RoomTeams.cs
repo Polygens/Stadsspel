@@ -119,11 +119,25 @@ namespace Stadsspel.Networking
 				return;
 			}
 
-			TeamID currentTeam = player.GetTeam();
-			TeamID newTeam = TeamData.GetNextTeam(currentTeam);
-			Debug.Log(RoomTeams.PlayersPerTeam[newTeam].Count);
-			player.SetCustomProperties(new Hashtable() { { RoomTeams.TeamPlayerProp, (byte)newTeam } });
+			TeamID newTeam = player.GetTeam();
+			int maxIterations = TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);
 
+			do {
+				if(maxIterations <= 0) {
+					newTeam = TeamID.NotSet;
+					break;
+				}
+				maxIterations--;
+
+				newTeam = TeamData.GetNextTeam(newTeam);
+				Debug.Log(newTeam);
+			} while (RoomTeams.PlayersPerTeam[newTeam].Count >= TeamData.GetMaxPlayersPerTeam(PhotonNetwork.room.MaxPlayers));
+
+			if(newTeam == TeamID.NotSet) {
+				Debug.Log("ERROR: No empty team found!");
+			} else {
+				player.SetCustomProperties(new Hashtable() { { RoomTeams.TeamPlayerProp, (byte)newTeam } });
+			}
 		}
 	}
 }
