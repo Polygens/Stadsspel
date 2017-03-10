@@ -35,7 +35,7 @@ namespace Stadsspel.Networking
 		}
 
 		[PunRPC]
-		private void UpdateCountDown(uint time)
+		private void UpdateCountDown(byte time)
 		{
 			NetworkManager.Singleton.CountdownManager.SetText("Het spel start in...\n" + time);
 		}
@@ -60,7 +60,7 @@ namespace Stadsspel.Networking
 				if(newFloorTime != floorTime) {//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
 					floorTime = newFloorTime; 
 
-					photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, floorTime);
+					photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime);
 				} 
 				yield return null; 
 			} 
@@ -132,6 +132,11 @@ namespace Stadsspel.Networking
 			} else {
 				m_StartGameBtn.gameObject.SetActive(false);
 			}
+
+			#if (UNITY_EDITOR)
+			m_StartGameBtn.gameObject.SetActive(true);
+			m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
+			#endif
 		}
 
 		public void DisableStartButton()
