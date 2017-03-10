@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.Networking;
 
 namespace Stadsspel.Districts
 {

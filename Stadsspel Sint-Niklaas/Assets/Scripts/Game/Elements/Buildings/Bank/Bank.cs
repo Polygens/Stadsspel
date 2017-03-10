@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using UnityEngine.Networking;
 
 namespace Stadsspel.Elements
 {
