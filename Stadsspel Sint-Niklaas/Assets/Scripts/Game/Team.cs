@@ -1,16 +1,16 @@
 using UnityEngine;
-using UnityEngine.Networking;
+using Photon;
 
-public class Team : NetworkBehaviour
+public class Team : PunBehaviour
 {
 	[SerializeField]
 	private TeamID mTeamID;
 
 	[SerializeField]
-	[SyncVar]
+	//[SyncVar]
 	private int mTotalMoney = 0;
 
-	[SyncVar]
+	//[SyncVar]
 	private int mAmountOfDistricts = 1;
 
 	private BankAccount mBankAccount;
@@ -65,13 +65,13 @@ public class Team : NetworkBehaviour
 		mBankAccount = GetComponent<BankAccount>();
 	}
 
-	[Command]
+	//[Command]
 	public void CmdPlayerTransaction(int amount)
 	{
 		mBankAccount.PlayerTransaction(amount);
 	}
 
-	[Command]
+	//[Command]
 	public void CmdTransaction(int amount)
 	{
 		mBankAccount.Transaction(amount);

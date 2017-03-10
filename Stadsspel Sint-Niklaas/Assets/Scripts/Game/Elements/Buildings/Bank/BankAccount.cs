@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.Networking;
+using Photon;
 
-public class BankAccount : NetworkBehaviour
+public class BankAccount : PunBehaviour
 {
 	[SerializeField]
-	[SyncVar]
+	//[SyncVar]
 	private int mBalance;
 
 	private float interestMultiplier = 0.02f;

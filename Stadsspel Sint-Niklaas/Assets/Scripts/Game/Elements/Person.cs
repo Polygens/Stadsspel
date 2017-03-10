@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class Person : Element
 {
@@ -9,16 +8,23 @@ public class Person : Element
 	//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
 	private List<int> legalItems = new List<int>();
 
-	[SyncVar]
+	//[SyncVar]
 	[SerializeField]
 	private int mAmountOfMoney = 0;
 
 	protected new void Start()
 	{
+		m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
+		if(PhotonNetwork.player == photonView.owner) {
+			gameObject.AddComponent<Player>();
+		} else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
+			gameObject.AddComponent<Friend>();
+		} else {
+			gameObject.AddComponent<Enemy>();
+		}
+
 		ActionRadius = 40;
-
-		GetComponent<NetworkIdentity>().localPlayerAuthority = true;
-
+	
 		//instantiate list with 3 numbers for each list.
 		for(int i = 0; i < 3; i++) {
 			legalItems.Add(0);
@@ -50,7 +56,7 @@ public class Person : Element
 
 	public void GetRobbed()
 	{
-		GameManager.s_Singleton.Teams[(int)mTeam].AddOrRemoveMoney(-mAmountOfMoney);
+		GameManager.s_Singleton.Teams[(int)m_Team].AddOrRemoveMoney(-mAmountOfMoney);
 		mAmountOfMoney = 0;
 		ResetLegalItems();
 		ResetIllegalItems();
@@ -81,7 +87,7 @@ public class Person : Element
 	public void MoneyTransaction(int money)
 	{
 		mAmountOfMoney += money;
-		GameManager.s_Singleton.Teams[(int)mTeam].AddOrRemoveMoney(money);
+		GameManager.s_Singleton.Teams[(int)m_Team].AddOrRemoveMoney(money);
 	}
 
 	public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)

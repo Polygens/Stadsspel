@@ -48,4 +48,5 @@ MonoBehaviour:
   - TeamChanged
   - StartCountDown
   - UpdateCountDown
+  - ClientsStart
   DisableAutoOpenWizard: 1

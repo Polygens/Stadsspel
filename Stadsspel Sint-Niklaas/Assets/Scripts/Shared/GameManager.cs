@@ -1,64 +1,44 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Photon;
 
-public class GameManager : NetworkBehaviour
+public class GameManager : PunBehaviour
 {
 	static public GameManager s_Singleton;
 
 	[SerializeField]
-	private DistrictManager mDistrictManager;
+	private DistrictManager m_DistrictManager;
 
-	[SerializeField]
-	private GameObject mteamPrefab;
+	private const string m_TeamPrefabName = "Team";
+	private const string m_PlayerPrefabName = "Player";
 
-	private float mGameLength;
-	private bool mGameIsRunning = false;
-	private float nextMoneyUpdateTime;
-	private float moneyUpdateTimeInterval = 5;
+	private int m_AmountOfTeams;
 
-	private Team[] mTeams;
+	private float m_GameLength;
+	private float m_NextMoneyUpdateTime;
+	private float m_MoneyUpdateTimeInterval = 5;
 
-	private Player mPlayer;
+	private Team[] m_Teams;
 
-	private List<Treasure> mTreasures;
+	private Player m_Player;
+
+	private List<Treasure> m_Treasures;
 
 	public Player Player {
 		get {
-			return mPlayer;
-		}
-
-		set {
-			mPlayer = value;
+			return m_Player;
 		}
 	}
 
 	public Team[] Teams {
 		get {
-			return mTeams;
-		}
-
-		set {
-			mTeams = value;
-		}
-	}
-
-	public bool GameIsRunning {
-		get {
-			return mGameIsRunning;
-		}
-		set {
-			mGameIsRunning = value;
+			return m_Teams;
 		}
 	}
 
 	public DistrictManager DistrictManager {
 		get {
-			return mDistrictManager;
-		}
-
-		set {
-			mDistrictManager = value;
+			return m_DistrictManager;
 		}
 	}
 
@@ -72,75 +52,72 @@ public class GameManager : NetworkBehaviour
 			return;
 		}
 		s_Singleton = this;
-		mTreasures = new List<Treasure>();
-		nextMoneyUpdateTime = moneyUpdateTimeInterval;
-		DontDestroyOnLoad(gameObject);
+
+		m_AmountOfTeams = TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);
+		MasterClientStart();
+
+		m_Treasures = new List<Treasure>();
+		m_NextMoneyUpdateTime = m_MoneyUpdateTimeInterval;
 	}
 
 	// Update is called once per frame
 	private void Update()
 	{
-		if(mGameIsRunning) {
-			if(Time.timeSinceLevelLoad > mGameLength) {
+		if(Time.timeSinceLevelLoad > m_GameLength) {
 
-				//Debug.Log("The game has ended");
+			//Debug.Log("The game has ended");
+		}
+		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime) {
+
+			// Call GainMoneyOverTime() from each financial object
+			for(int i = 0; i < m_Treasures.Count; i++) {
+				m_Treasures[i].GainMoneyOverTime();
 			}
-			if(Time.timeSinceLevelLoad > nextMoneyUpdateTime) {
+			m_NextMoneyUpdateTime = Time.timeSinceLevelLoad + m_MoneyUpdateTimeInterval;
+		}
+	}
 
-				// Call GainMoneyOverTime() from each financial object
-				for(int i = 0; i < mTreasures.Count; i++) {
-					mTreasures[i].GainMoneyOverTime();
-				}
-				nextMoneyUpdateTime = Time.timeSinceLevelLoad + moneyUpdateTimeInterval;
+	private void MasterClientStart()
+	{
+		if(PhotonNetwork.player.IsMasterClient) {
+			Debug.Log("Master client started");
+			for(int i = 0; i < m_AmountOfTeams; i++) {
+				PhotonNetwork.Instantiate(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0);
 			}
+
+			photonView.RPC("ClientsStart", PhotonTargets.All);
 		}
 	}
 
-	public void StartGame(int amountOfTeams)
+	[PunRPC]
+	private void ClientsStart()
 	{
-		Debug.Log("Gamemanager.StartGame(" + amountOfTeams + ")");
-		CmdCreateTeams(amountOfTeams);
-	}
+		Debug.Log("Clients start");
+		//mDistrictManager.StartGame(m_AmountOfTeams);
 
-	[Command]
-	public void CmdCreateTeams(int amountOfTeams)
-	{
-		Debug.Log("Command Create Teams");
-		for(int i = 0; i < amountOfTeams; i++) {
-			GameObject temp = Instantiate(mteamPrefab);
-
-			NetworkServer.Spawn(temp);
+		m_Teams = new Team[m_AmountOfTeams];
+		for(int i = 0; i < m_AmountOfTeams; i++) {
+			m_Teams[i] = transform.GetChild(i).gameObject.GetComponent<Team>();
 		}
-		//RpcClientsStart(amountOfTeams);
-	}
 
-	[ClientRpc]
-	private void RpcClientsStart(int amountOfTeams)
-	{
-		Debug.Log("RPC client start");
-		mDistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
-		mDistrictManager.StartGame(amountOfTeams);
-		mGameIsRunning = true;
-
-		Teams = new Team[amountOfTeams];
-		for(int i = 0; i < amountOfTeams; i++) {
-			Teams[i] = transform.GetChild(i).gameObject.GetComponent<Team>();
-		}
+		GameObject temp = PhotonNetwork.Instantiate(m_PlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
+		m_Player = temp.GetComponent<Player>();
+		temp.transform.SetParent(transform.GetChild((int)m_Player.Person.Team - 1));
 	}
 
 	public void UpdateGameDuration(float duration)
 	{
 		Debug.Log(duration);
-		mGameLength = duration;
+		m_GameLength = duration;
 	}
 
 	public void AddTreasure(Treasure t)
 	{
-		mTreasures.Add(t);
+		m_Treasures.Add(t);
 	}
 
 	public Treasure GetTreasureFrom(TeamID id)
 	{
-		return mTreasures[(int)id];
+		return m_Treasures[(int)id];
 	}
 }

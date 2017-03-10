@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Networking;
+using Photon;
 
 public enum DistrictType
 {
@@ -12,10 +12,10 @@ public enum DistrictType
 	Outside,
 }
 
-public class District : NetworkBehaviour
+public class District : PunBehaviour
 {
 	[SerializeField]
-	[SyncVar]
+	//[SyncVar]
 	protected TeamID mTeamID = 0;
 
 	[SerializeField]

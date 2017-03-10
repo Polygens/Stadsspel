@@ -1,61 +1,38 @@
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Photon;
 
-public class Element : NetworkBehaviour
+public class Element : PunBehaviour
 {
 	private float mActionRadius;
 
 	[SerializeField]
-	[SyncVar(hook = "OnTeamChange")]
-	protected TeamID mTeam = TeamID.NotSet;
+	protected TeamID m_Team = TeamID.NotSet;
 
 	[SerializeField]
-	[SyncVar(hook = "OnNameChange")]
-	private string mName = "Not set";
-
-	[Command]
-	public void CmdSetName(string newName)
-	{
-		mName = newName;
-	}
-
-	[Command]
-	public void CmdSetTeam(TeamID newTeamID)
-	{
-		mTeam = newTeamID;
-	}
+	private string m_Name = "Not set";
 
 	protected void Start()
 	{
 	}
 
-	public Vector2 Position {
-		get {
-			throw new System.NotImplementedException();
-		}
-
-		set {
-		}
-	}
-
 	public TeamID Team {
 		get {
-			return mTeam;
+			return m_Team;
 		}
 
 		set {
-			mTeam = value;
+			m_Team = value;
 		}
 	}
 
 	public string Name {
 		get {
-			return mName;
+			return m_Name;
 		}
 
 		set {
-			mName = value;
+			m_Name = value;
 		}
 	}
 
@@ -86,14 +63,5 @@ public class Element : NetworkBehaviour
 	public bool IsInRadius(Vector2 pos)
 	{
 		throw new System.NotImplementedException();
-	}
-
-	public virtual void OnNameChange(string newName)
-	{
-
-	}
-
-	public virtual void OnTeamChange(TeamID newTeam)
-	{
 	}
 }

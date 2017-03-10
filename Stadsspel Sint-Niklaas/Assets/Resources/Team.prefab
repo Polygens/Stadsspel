@@ -16,12 +16,12 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000012804404186}
-  - 114: {fileID: 114000013079491224}
-  - 114: {fileID: 114000010318778590}
-  - 114: {fileID: 114000010458028942}
+  - component: {fileID: 4000012804404186}
+  - component: {fileID: 114000010318778590}
+  - component: {fileID: 114000010458028942}
+  - component: {fileID: 114943730590126090}
   m_Layer: 0
   m_Name: Team
   m_TagString: Untagged
@@ -38,10 +38,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114000010318778590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mBalance: 0
---- !u!114 &114000013079491224
+--- !u!114 &114943730590126090
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -75,27 +75,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011053925158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 153
-    i1: 119
-    i2: 236
-    i3: 188
-    i4: 207
-    i5: 3
-    i6: 225
-    i7: 68
-    i8: 121
-    i9: 2
-    i10: 146
-    i11: 181
-    i12: 142
-    i13: 221
-    i14: 142
-    i15: 43
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0

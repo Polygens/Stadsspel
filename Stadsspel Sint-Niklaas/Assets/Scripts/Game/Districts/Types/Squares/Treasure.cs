@@ -8,7 +8,7 @@ public class Treasure : Square
 	// Above this amount can be stolen
 	private int moneyGainPerDistrict = 1000;
 
-	[SyncVar]
+	//[SyncVar]
 	private int mAmountOfMoney = 5000;
 
 	public int AmountOfMoney {
@@ -51,7 +51,7 @@ public class Treasure : Square
 		return GameManager.s_Singleton.Teams[(int)mTeamID - 1].AmountOfDistricts;
 	}
 
-	[Command]
+	//[Command]
 	public void CmdTransaction(int amount)
 	{
 		if(amount <= mAmountOfMoney) {
