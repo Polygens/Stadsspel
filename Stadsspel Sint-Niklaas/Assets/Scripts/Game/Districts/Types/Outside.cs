@@ -1,10 +1,13 @@
 using UnityEngine;
 
-internal class Outside : District
+namespace Stadsspel.Districts
 {
-	private new void Start()
+	internal class Outside : District
 	{
-		mDistrictType = DistrictType.Outside;
-		base.Start();
+		private new void Start()
+		{
+			mDistrictType = DistrictType.Outside;
+			base.Start();
+		}
 	}
 }

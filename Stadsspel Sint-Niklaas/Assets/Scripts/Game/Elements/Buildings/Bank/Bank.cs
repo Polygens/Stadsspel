@@ -2,11 +2,14 @@ using UnityEngine;
 using System;
 using UnityEngine.Networking;
 
-public class Bank : Building
+namespace Stadsspel.Elements
 {
-	private new void Start()
+	public class Bank : Building
 	{
-		mBuildingType = BuildingType.Bank;
-		base.Start();
+		private new void Start()
+		{
+			mBuildingType = BuildingType.Bank;
+			base.Start();
+		}
 	}
 }

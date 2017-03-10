@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Stadsspel.Elements;
 
 public class TradingPostUI : MonoBehaviour
 {

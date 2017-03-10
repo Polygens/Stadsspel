@@ -1,22 +1,25 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class CapturePoint : Square
+namespace Stadsspel.Districts
 {
-	private new void Start()
+	[RequireComponent(typeof(Rigidbody2D))]
+	public class CapturePoint : Square
 	{
-		base.Start();
-		Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
-		rigidbody.isKinematic = true;
-	}
+		private new void Start()
+		{
+			base.Start();
+			Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
+			rigidbody.isKinematic = true;
+		}
 
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-		// TO DO
-	}
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+			// TO DO
+		}
 
-	private void OnCollisionExit2D(Collision2D collision)
-	{
-		// TO DO
+		private void OnCollisionExit2D(Collision2D collision)
+		{
+			// TO DO
+		}
 	}
 }

@@ -6,9 +6,9 @@ public class PasswordLoginManager : MonoBehaviour
 	[SerializeField]
 	private InputField m_PasswordTxt;
 
-	private Stadsspel.Networking.Room m_Room;
+	private Stadsspel.Room m_Room;
 
-	public void EnableDisableMenu(bool newState, Stadsspel.Networking.Room room)
+	public void EnableDisableMenu(bool newState, Stadsspel.Room room)
 	{
 		gameObject.SetActive(newState);
 		m_Room = room;

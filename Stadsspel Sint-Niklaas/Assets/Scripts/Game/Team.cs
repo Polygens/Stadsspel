@@ -1,79 +1,80 @@
 using UnityEngine;
 using Photon;
+using Stadsspel.Elements;
 
 public class Team : PunBehaviour
 {
 	[SerializeField]
-	private TeamID mTeamID;
+	private TeamID m_TeamID;
 
 	[SerializeField]
 	//[SyncVar]
-	private int mTotalMoney = 0;
+	private int m_TotalMoney = 0;
 
 	//[SyncVar]
-	private int mAmountOfDistricts = 1;
+	private int m_AmountOfDistricts = 1;
 
-	private BankAccount mBankAccount;
+	private BankAccount m_BankAccount;
 
 	public TeamID TeamID {
 		get {
-			return mTeamID;
+			return m_TeamID;
 		}
 	}
 
 	public int AmountOfDistricts {
 		get {
-			return mAmountOfDistricts;
+			return m_AmountOfDistricts;
 		}
 	}
 
 	public int TotalMoney {
 		get {
-			return mTotalMoney;
+			return m_TotalMoney;
 		}
 	}
 
 	public BankAccount BankAccount {
 		get {
-			return mBankAccount;
+			return m_BankAccount;
 		}
 
 		set {
-			mBankAccount = value;
+			m_BankAccount = value;
 		}
 	}
 
 	private void Awake()
 	{
 		transform.SetParent(GameManager.s_Singleton.transform);
-		mTeamID = (TeamID)(transform.GetSiblingIndex() + 1);
+		m_TeamID = (TeamID)(transform.GetSiblingIndex() + 1);
 		name = TeamID.ToString();
 	}
 
 	public void AddOrRemoveMoney(int amount)
 	{
-		mTotalMoney += amount;
+		m_TotalMoney += amount;
 	}
 
 	public void AddOrRemoveDistrict(int amount)
 	{
-		mAmountOfDistricts += amount;
+		m_AmountOfDistricts += amount;
 	}
 
 	private void Start()
 	{
-		mBankAccount = GetComponent<BankAccount>();
+		m_BankAccount = GetComponent<BankAccount>();
 	}
 
 	//[Command]
 	public void CmdPlayerTransaction(int amount)
 	{
-		mBankAccount.PlayerTransaction(amount);
+		m_BankAccount.PlayerTransaction(amount);
 	}
 
 	//[Command]
 	public void CmdTransaction(int amount)
 	{
-		mBankAccount.Transaction(amount);
+		m_BankAccount.Transaction(amount);
 	}
 }

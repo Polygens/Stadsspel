@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class Neutral : District
+namespace Stadsspel.Districts
 {
-	private new void Start()
+	public class Neutral : District
 	{
-		mDistrictType = DistrictType.Neutral;
-		base.Start();
+		private new void Start()
+		{
+			mDistrictType = DistrictType.Neutral;
+			base.Start();
+		}
 	}
 }

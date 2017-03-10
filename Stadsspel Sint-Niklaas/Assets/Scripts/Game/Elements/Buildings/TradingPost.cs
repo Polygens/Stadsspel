@@ -1,31 +1,33 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-using UnityEngine.UI;
 
-public class TradingPost : Building
+namespace Stadsspel.Elements
 {
-	private SyncListInt visitedTeams = new SyncListInt();
-
-	//[Command]
-	public void CmdAddTeamToList()
+	public class TradingPost : Building
 	{
-		visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Person>().Team);
-	}
+		private SyncListInt visitedTeams = new SyncListInt();
 
-	private new void Start()
-	{
-		mBuildingType = BuildingType.Tradingpost;
-		base.Start();
-	}
+		//[Command]
+		public void CmdAddTeamToList()
+		{
+			visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Person>().Team);
+		}
 
-	public List<int> VisitedTeams {
-		get {
-			List<int> teams = new List<int>();
-			foreach (int team in visitedTeams) {
-				teams.Add(team);
+		private new void Start()
+		{
+			mBuildingType = BuildingType.Tradingpost;
+			base.Start();
+		}
+
+		public List<int> VisitedTeams {
+			get {
+				List<int> teams = new List<int>();
+				foreach(int team in visitedTeams) {
+					teams.Add(team);
+				}
+				return teams;
 			}
-			return teams;
 		}
 	}
 }

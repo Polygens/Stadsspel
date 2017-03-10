@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class HeadDistrict : District
+namespace Stadsspel.Districts
 {
-	private new void Start()
+	public class HeadDistrict : District
 	{
-		mDistrictType = DistrictType.HeadDistrict;
-		base.Start();
-	}
+		private new void Start()
+		{
+			mDistrictType = DistrictType.HeadDistrict;
+			base.Start();
+		}
 
-	protected override void OnTeamChanged()
-	{
-		gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
-		gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
+		protected override void OnTeamChanged()
+		{
+			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
+			gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
+		}
 	}
 }

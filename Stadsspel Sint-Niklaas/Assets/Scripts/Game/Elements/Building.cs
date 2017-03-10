@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public enum BuildingType
+namespace Stadsspel.Elements
 {
-	NotSet,
-	Bank,
-	Tradingpost
-}
-
-public class Building : Element
-{
-	protected BuildingType mBuildingType = BuildingType.NotSet;
-
-	protected new void Start()
+	public enum BuildingType
 	{
-		Team = TeamID.NoTeam;
-		base.Start();
-		ActionRadius = 15;
+		NotSet,
+		Bank,
+		Tradingpost
+	}
 
-		GetComponent<Renderer>().material.color = TeamData.GetColor(mBuildingType);
+	public class Building : Element
+	{
+		protected BuildingType mBuildingType = BuildingType.NotSet;
+
+		protected new void Start()
+		{
+			Team = TeamID.NoTeam;
+			base.Start();
+			ActionRadius = 15;
+
+			GetComponent<Renderer>().material.color = TeamData.GetColor(mBuildingType);
+		}
 	}
 }

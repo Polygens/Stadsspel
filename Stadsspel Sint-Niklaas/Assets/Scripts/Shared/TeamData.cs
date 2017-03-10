@@ -116,18 +116,18 @@ public class TeamData
 		return mTeamColors[(int)team - 1];
 	}
 
-	public static Color GetColor(DistrictType type)
+	public static Color GetColor(Stadsspel.Districts.DistrictType type)
 	{
-		if(type == DistrictType.NotSet) {
+		if(type == Stadsspel.Districts.DistrictType.NotSet) {
 			return mNotSet;
 		}
 
 		return mDistrictColors[(int)type - 1];
 	}
 
-	public static Color GetColor(BuildingType type)
+	public static Color GetColor(Stadsspel.Elements.BuildingType type)
 	{
-		if(type == BuildingType.NotSet) {
+		if(type == Stadsspel.Elements.BuildingType.NotSet) {
 			return mNotSet;
 		}
 

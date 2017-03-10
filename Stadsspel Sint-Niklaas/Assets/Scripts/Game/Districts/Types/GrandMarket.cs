@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class GrandMarket : District
+namespace Stadsspel.Districts
 {
-	private new void Start()
+	public class GrandMarket : District
 	{
-		mDistrictType = DistrictType.GrandMarket;
-		base.Start();
+		private new void Start()
+		{
+			mDistrictType = DistrictType.GrandMarket;
+			base.Start();
+		}
 	}
 }

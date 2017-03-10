@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Stadsspel.Networking;
 
-
-namespace Stadsspel.Networking
+namespace Stadsspel
 {
 	public class Room : MonoBehaviour
 	{
@@ -51,3 +51,4 @@ namespace Stadsspel.Networking
 		}
 	}
 }
+

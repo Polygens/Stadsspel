@@ -1,12 +1,12 @@
 using GoMap;
 using System.Collections;
 using UnityEngine;
+using Stadsspel.Districts;
 
 public class MoveAvatar : MonoBehaviour
 {
 	public LocationManager mLocationManager;
 	private Transform mAvatarDirection;
-	public DistrictManager mDistrictManager;
 
 	// Use this for initialization
 	void Start()
@@ -17,7 +17,6 @@ public class MoveAvatar : MonoBehaviour
 
 	private void DelaySearch()
 	{
-		mDistrictManager = GameObject.Find("Districts").GetComponent<DistrictManager>();
 		mLocationManager = GameObject.Find("LocationManager").GetComponent<LocationManager>();
 		mLocationManager.onOriginSet += OnOriginSet;
 		mLocationManager.onLocationChanged += OnLocationChanged;
@@ -47,7 +46,7 @@ public class MoveAvatar : MonoBehaviour
 		Vector3 currentPosition = currentLocation.convertCoordinateToVector();
 		currentPosition.z = transform.position.z;
 
-		if (lastPosition == Vector3.zero) {
+		if(lastPosition == Vector3.zero) {
 			lastPosition = currentPosition;
 		}
 
@@ -55,7 +54,7 @@ public class MoveAvatar : MonoBehaviour
 		//		rotateAvatar (lastPosition);
 
 		moveAvatar(lastPosition, currentPosition);
-		mDistrictManager.CheckDisctrictState();
+		GameManager.s_Singleton.DistrictManager.CheckDisctrictState();
 	}
 
 	void moveAvatar(Vector3 lastPosition, Vector3 currentPosition)
@@ -68,7 +67,7 @@ public class MoveAvatar : MonoBehaviour
 	{
 		float elapsedTime = 0;
 
-		while (elapsedTime < time) {
+		while(elapsedTime < time) {
 			transform.position = Vector3.Lerp(lastPosition, currentPosition, (elapsedTime / time));
 			elapsedTime += Time.deltaTime;
 			yield return new WaitForEndOfFrame();

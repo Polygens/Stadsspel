@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon;
+using Stadsspel.Districts;
+using Stadsspel.Elements;
 
 public class GameManager : PunBehaviour
 {
