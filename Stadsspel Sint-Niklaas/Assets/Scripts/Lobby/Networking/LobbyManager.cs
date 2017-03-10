@@ -48,11 +48,13 @@ namespace Stadsspel.Networking
 				m_NoServerFound.gameObject.SetActive(false);
 			}
 			for(int i = 0; i < rooms.Length; i++) {
-				GameObject room = Instantiate(Resources.Load("Room") as GameObject);
-				room.transform.SetParent(m_RoomList, false);
+				if(rooms[i].PlayerCount != rooms[i].MaxPlayers) {
+					GameObject room = Instantiate(Resources.Load("Room") as GameObject);
+					room.transform.SetParent(m_RoomList, false);
 
-				string password = rooms[i].CustomProperties[RoomManager.RoomPasswordProp] as string;
-				room.GetComponent<Room>().InitializeRoom(rooms[i].Name, rooms[i].PlayerCount, rooms[i].MaxPlayers, password != "" ? password : "");
+					string password = rooms[i].CustomProperties[RoomManager.RoomPasswordProp] as string;
+					room.GetComponent<Room>().InitializeRoom(rooms[i].Name, rooms[i].PlayerCount, rooms[i].MaxPlayers, password != "" ? password : "");
+				}
 			}
 		}
 	}
