@@ -28,6 +28,7 @@ namespace Stadsspel.Elements
 
 		protected new void Start()
 		{
+			GetComponent<MeshRenderer>().material.color = TeamData.GetColor(m_Team);
 			transform.SetParent(GameManager.s_Singleton.Teams[(byte)m_Team - 1].transform, false);
 			transform.GetChild(0).GetComponent<TextMesh>().text = photonView.owner.NickName;
 			ActionRadius = 40;

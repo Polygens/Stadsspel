@@ -4,7 +4,6 @@ using Photon;
 using Stadsspel.Districts;
 using Stadsspel.Elements;
 using GoMap;
-using UnityEngine.WSA;
 
 public class GameManager : PunBehaviour
 {
