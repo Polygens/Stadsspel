@@ -10,17 +10,22 @@ public class TreasureUI : MonoBehaviour
 	private Text m_AmountOfChestMoney;
 	[SerializeField]
 	private InputField m_Input;
+	private float m_Timer;
 
 	private Treasure m_CurrentTreasure;
 
-	private void Start()
+	public Treasure CurrentTreasure()
 	{
-	
+		return m_CurrentTreasure;
 	}
 
 	private void Update()
 	{
-	
+		m_Timer += Time.deltaTime;
+		if(m_Timer >= 1) { //Refreshing for better feedback, can be adjusted if necessary
+			UpdateUI();
+			m_Timer = 0;
+		}
 	}
 
 	private void OnEnable()
@@ -45,8 +50,10 @@ public class TreasureUI : MonoBehaviour
 	{
 		int amount;
 		int.TryParse(m_Input.text, out amount);
-		Debug.Log("amount = " + amount);
-		m_CurrentTreasure.CmdTransaction(amount);
+		if(m_CurrentTreasure.IsMoneyTranferValid(amount)) {
+			Debug.Log("Valid Transaction");
+			GameManager.s_Singleton.Player.Person.CmdTreasureTransaction(amount);
+		}
 		UpdateUI();
 	}
 }

@@ -15,6 +15,9 @@ namespace Stadsspel.Districts
 			get {
 				return m_AmountOfMoney;
 			}
+			set {
+				m_AmountOfMoney = value;
+			}
 		}
 
 		private new void Start()
@@ -22,6 +25,7 @@ namespace Stadsspel.Districts
 			m_DistrictType = DistrictType.square;
 			base.Start();
 			tag = "Treasure";
+			GameManager.s_Singleton.Teams[(int)m_TeamID - 1].AddOrRemoveMoney(m_AmountOfMoney);//Update total team money
 			OnTeamChanged();
 		}
 
@@ -42,8 +46,9 @@ namespace Stadsspel.Districts
 
 		public void GainMoneyOverTime()
 		{
-			m_AmountOfMoney += m_MoneyGainPerDistrict * CheckAmountOfCapturedDistricts();
-			GameManager.s_Singleton.Teams[(int)m_TeamID - 1].AddOrRemoveMoney(m_MoneyGainPerDistrict * CheckAmountOfCapturedDistricts()); //Update total team money
+			int moneyGain = m_MoneyGainPerDistrict * CheckAmountOfCapturedDistricts();
+			m_AmountOfMoney += moneyGain;
+			GameManager.s_Singleton.Teams[(int)m_TeamID - 1].AddOrRemoveMoney(moneyGain);//Update total team money
 			Debug.Log("Treasure" + (int)m_TeamID + " has " + m_AmountOfMoney);
 		}
 
@@ -52,14 +57,9 @@ namespace Stadsspel.Districts
 			return GameManager.s_Singleton.Teams[(int)m_TeamID - 1].AmountOfDistricts;
 		}
 
-		//[Command]
-		public void CmdTransaction(int amount)
+		public bool IsMoneyTranferValid(int amount)
 		{
-			if(amount <= m_AmountOfMoney) {
-				m_AmountOfMoney -= amount;
-				GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
-				Debug.Log("ChestMoney: " + m_AmountOfMoney);
-			}
+			return amount <= m_AmountOfMoney;
 		}
 
 		protected override void OnTeamChanged()

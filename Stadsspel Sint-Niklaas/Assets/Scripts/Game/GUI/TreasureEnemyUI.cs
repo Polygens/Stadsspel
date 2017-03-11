@@ -44,7 +44,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	public void TransferMoney()
 	{
 		int amount = int.Parse(m_CurrentTreasure.GetRobAmount().ToString());
-		m_CurrentTreasure.CmdTransaction(amount);
+		//m_CurrentTreasure.Transaction(amount);
 		UpdateUI();
 	}
 }

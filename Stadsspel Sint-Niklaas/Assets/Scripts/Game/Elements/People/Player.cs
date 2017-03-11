@@ -29,7 +29,8 @@ namespace Stadsspel.Elements
 			"Verkoop",
 			"Belastingen innen",
 			"Belastingen stelen",
-			"Stelen"
+			"Stelen",
+			"Overnemen"
 		};
 
 		private RectTransform[] m_Panels;
@@ -160,6 +161,9 @@ namespace Stadsspel.Elements
 						} else {
 							tempP = Priority.TreasureEnemy;
 						}
+
+					} else if(tag == "Square") {
+						tempP = Priority.EnemyDistrict;
 					} else {
 						tempP = (Priority)Enum.Parse(typeof(Priority), tag);
 					}
@@ -304,6 +308,7 @@ namespace Stadsspel.Elements
 		GrandMarket,
 		Treasure,
 		TreasureEnemy,
-		Enemy
+		Enemy,
+		EnemyDistrict
 	}
 }
