@@ -18,18 +18,18 @@ namespace Stadsspel.Districts
 	{
 		[SerializeField]
 		//[SyncVar]
-		protected TeamID mTeamID = 0;
+		protected TeamID m_TeamID = 0;
 
 		[SerializeField]
-		protected DistrictType mDistrictType = 0;
+		protected DistrictType m_DistrictType = 0;
 
 		public TeamID TeamID {
 			get {
-				return mTeamID;
+				return m_TeamID;
 			}
 
 			set {
-				mTeamID = value;
+				m_TeamID = value;
 				OnTeamChanged();
 			}
 		}
@@ -40,7 +40,7 @@ namespace Stadsspel.Districts
 
 		protected void Start()
 		{
-			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mDistrictType);
+			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(m_DistrictType);
 		}
 	}
 }

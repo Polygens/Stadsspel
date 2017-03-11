@@ -3,6 +3,7 @@ using UnityEngine;
 using Photon;
 using Stadsspel.Districts;
 using Stadsspel.Elements;
+using GoMap;
 
 public class GameManager : PunBehaviour
 {
@@ -11,6 +12,9 @@ public class GameManager : PunBehaviour
 	[SerializeField]
 	private DistrictManager m_DistrictManager;
 
+	[SerializeField]
+	private LocationManager m_LocationManager;
+
 	private const string m_TeamPrefabName = "Team";
 	private const string m_PlayerPrefabName = "Player";
 
@@ -18,7 +22,7 @@ public class GameManager : PunBehaviour
 
 	private float m_GameLength;
 	private float m_NextMoneyUpdateTime;
-	private float m_MoneyUpdateTimeInterval = 5;
+	private const float m_MoneyUpdateTimeInterval = 5;
 
 	private Team[] m_Teams;
 
@@ -41,6 +45,12 @@ public class GameManager : PunBehaviour
 	public DistrictManager DistrictManager {
 		get {
 			return m_DistrictManager;
+		}
+	}
+
+	public LocationManager LocationManager {
+		get {
+			return m_LocationManager;
 		}
 	}
 
@@ -70,7 +80,7 @@ public class GameManager : PunBehaviour
 			//Debug.Log("The game has ended");
 		}
 		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime) {
-
+			
 			// Call GainMoneyOverTime() from each financial object
 			for(int i = 0; i < m_Treasures.Count; i++) {
 				m_Treasures[i].GainMoneyOverTime();
@@ -95,7 +105,7 @@ public class GameManager : PunBehaviour
 	private void ClientsStart()
 	{
 		Debug.Log("Clients start");
-		//mDistrictManager.StartGame(m_AmountOfTeams);
+		m_DistrictManager.StartGame(m_AmountOfTeams);
 
 		m_Teams = new Team[m_AmountOfTeams];
 		for(int i = 0; i < m_AmountOfTeams; i++) {
@@ -105,6 +115,7 @@ public class GameManager : PunBehaviour
 		GameObject temp = PhotonNetwork.Instantiate(m_PlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
 		m_Player = temp.GetComponent<Player>();
 		temp.transform.SetParent(transform.GetChild((int)m_Player.Person.Team - 1));
+		Debug.Log(m_Player);
 	}
 
 	public void UpdateGameDuration(float duration)

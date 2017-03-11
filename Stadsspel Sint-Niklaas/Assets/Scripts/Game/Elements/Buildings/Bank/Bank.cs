@@ -7,7 +7,7 @@ namespace Stadsspel.Elements
 	{
 		private new void Start()
 		{
-			mBuildingType = BuildingType.Bank;
+			m_BuildingType = BuildingType.Bank;
 			base.Start();
 		}
 	}

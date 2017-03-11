@@ -7,12 +7,12 @@ namespace Stadsspel.Elements
 	{
 		[SerializeField]
 		//[SyncVar]
-	private int mBalance;
+		private int m_Balance;
 
-		private float interestMultiplier = 0.02f;
+		private float m_InterestMultiplier = 0.02f;
 
 		public int Balance {
-			get { return mBalance; }
+			get { return m_Balance; }
 		}
 
 		private void Update()
@@ -22,7 +22,7 @@ namespace Stadsspel.Elements
 
 		public void Transaction(int amount)
 		{
-			mBalance += amount;
+			m_Balance += amount;
 		}
 
 		public bool PlayerTransaction(int amount)
@@ -30,13 +30,13 @@ namespace Stadsspel.Elements
 			if(amount > 0) { //Add money to bank, subtract from player
 				if(amount <= GameManager.s_Singleton.Player.Person.AmountOfMoney) {
 					GameManager.s_Singleton.Player.Person.MoneyTransaction(-amount);
-					mBalance += amount;
+					m_Balance += amount;
 					return true;
 				}
 			} else { //Subtract money from bank, add to player
-				if(-amount <= mBalance) {
+				if(-amount <= m_Balance) {
 					GameManager.s_Singleton.Player.Person.MoneyTransaction(-amount);
-					mBalance += amount;
+					m_Balance += amount;
 					return true;
 				}
 			}

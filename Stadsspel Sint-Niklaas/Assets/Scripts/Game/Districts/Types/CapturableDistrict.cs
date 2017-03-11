@@ -6,14 +6,14 @@ namespace Stadsspel.Districts
 	{
 		private new void Start()
 		{
-			mDistrictType = DistrictType.CapturableDistrict;
+			m_DistrictType = DistrictType.CapturableDistrict;
 			base.Start();
 		}
 
 		protected override void OnTeamChanged()
 		{
-			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
-			gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(mTeamID);
+			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(m_TeamID);
+			gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(m_TeamID);
 		}
 	}
 }

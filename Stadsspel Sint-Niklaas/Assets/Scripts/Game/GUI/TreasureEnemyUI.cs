@@ -4,18 +4,21 @@ using Stadsspel.Districts;
 
 public class TreasureEnemyUI : MonoBehaviour
 {
-	public Text amountOfOwnMoney;
-	public Text amountOfChestMoney;
-	public InputField label;
+	[SerializeField]
+	private Text m_AmountOfOwnMoney;
+	[SerializeField]
+	private Text m_AmountOfChestMoney;
+	[SerializeField]
+	private InputField m_Label;
 
-	private Treasure currentTreasure;
+	private Treasure m_CurrentTreasure;
 
-	void Start()
+	private void Start()
 	{
 	
 	}
 
-	void Update()
+	private void Update()
 	{
 	
 	}
@@ -28,20 +31,20 @@ public class TreasureEnemyUI : MonoBehaviour
 
 	private void UpdateUI()
 	{
-		amountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-		amountOfChestMoney.text = currentTreasure.AmountOfMoney.ToString();
-		label.text = currentTreasure.GetRobAmount().ToString();
+		m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
+		m_Label.text = m_CurrentTreasure.GetRobAmount().ToString();
 	}
 
 	private void FindCurrentTreasure()
 	{
-		currentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
+		m_CurrentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
 	}
 
 	public void TransferMoney()
 	{
-		int amount = int.Parse(currentTreasure.GetRobAmount().ToString());
-		currentTreasure.CmdTransaction(amount);
+		int amount = int.Parse(m_CurrentTreasure.GetRobAmount().ToString());
+		m_CurrentTreasure.CmdTransaction(amount);
 		UpdateUI();
 	}
 }

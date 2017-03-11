@@ -11,7 +11,7 @@ namespace Stadsspel.Elements
 
 	public class Building : Element
 	{
-		protected BuildingType mBuildingType = BuildingType.NotSet;
+		protected BuildingType m_BuildingType = BuildingType.NotSet;
 
 		protected new void Start()
 		{
@@ -19,7 +19,7 @@ namespace Stadsspel.Elements
 			base.Start();
 			ActionRadius = 15;
 
-			GetComponent<Renderer>().material.color = TeamData.GetColor(mBuildingType);
+			GetComponent<Renderer>().material.color = TeamData.GetColor(m_BuildingType);
 		}
 	}
 }

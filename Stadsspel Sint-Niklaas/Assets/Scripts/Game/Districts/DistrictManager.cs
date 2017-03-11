@@ -13,17 +13,18 @@ namespace Stadsspel.Districts
 
 	public class DistrictManager : MonoBehaviour
 	{
-		public Transform mPlayerTrans;
+		[SerializeField]
+		private Transform m_PlayerTrans;
 
 		[SerializeField]
-		private PolygonCollider2D[] mDistrictColliders;
+		private PolygonCollider2D[] m_DistrictColliders;
 
 		public void StartGame(int amountOfTeams)
 		{
 			Debug.Log("There are " + amountOfTeams + " teams");
-			mDistrictColliders = new PolygonCollider2D[gameObject.transform.childCount];
+			m_DistrictColliders = new PolygonCollider2D[gameObject.transform.childCount];
 			for(int i = 0; i < gameObject.transform.childCount; i++) {
-				mDistrictColliders[i] = gameObject.transform.GetChild(i).gameObject.GetComponent<PolygonCollider2D>();
+				m_DistrictColliders[i] = gameObject.transform.GetChild(i).gameObject.GetComponent<PolygonCollider2D>();
 			}
 
 			for(int i = 1; i <= 6; i++) {
@@ -54,17 +55,17 @@ namespace Stadsspel.Districts
 
 		public DistrictStates CheckDisctrictState()
 		{
-			for(int i = 0; i < mDistrictColliders.Length; i++) {
-				if(mDistrictColliders[i].OverlapPoint(mPlayerTrans.position)) {
-					if(mDistrictColliders[i].transform.childCount > 0) {
-						BoxCollider2D square = mDistrictColliders[i].transform.GetChild(0).GetComponent<BoxCollider2D>();
-						if(square.OverlapPoint(mPlayerTrans.position)) {
+			for(int i = 0; i < m_DistrictColliders.Length; i++) {
+				if(m_DistrictColliders[i].OverlapPoint(m_PlayerTrans.position)) {
+					if(m_DistrictColliders[i].transform.childCount > 0) {
+						BoxCollider2D square = m_DistrictColliders[i].transform.GetChild(0).GetComponent<BoxCollider2D>();
+						if(square.OverlapPoint(m_PlayerTrans.position)) {
 							Debug.Log(square.gameObject.name);
 						} else {
-							Debug.Log(mDistrictColliders[i].gameObject.name);
+							Debug.Log(m_DistrictColliders[i].gameObject.name);
 						}
 					} else {
-						Debug.Log(mDistrictColliders[i].gameObject.name);
+						Debug.Log(m_DistrictColliders[i].gameObject.name);
 					}
 
 					break;

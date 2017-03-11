@@ -4,46 +4,49 @@ using Stadsspel.Districts;
 
 public class TreasureUI : MonoBehaviour
 {
-	public Text amountOfOwnMoney;
-	public Text amountOfChestMoney;
-	public InputField input;
+	[SerializeField]
+	private Text m_AmountOfOwnMoney;
+	[SerializeField]
+	private Text m_AmountOfChestMoney;
+	[SerializeField]
+	private InputField m_Input;
 
-	private Treasure currentTreasure;
+	private Treasure m_CurrentTreasure;
 
-	void Start()
+	private void Start()
 	{
 	
 	}
 
-	void Update()
+	private void Update()
 	{
 	
 	}
 
 	private void OnEnable()
 	{
-		input.text = "";
+		m_Input.text = "";
 		FindCurrentTreasure();
 		UpdateUI();
 	}
 
 	private void UpdateUI()
 	{
-		amountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-		amountOfChestMoney.text = currentTreasure.AmountOfMoney.ToString();
+		m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
 	}
 
 	private void FindCurrentTreasure()
 	{
-		currentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
+		m_CurrentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
 	}
 
 	public void TransferMoney()
 	{
 		int amount;
-		int.TryParse(input.text, out amount);
+		int.TryParse(m_Input.text, out amount);
 		Debug.Log("amount = " + amount);
-		currentTreasure.CmdTransaction(amount);
+		m_CurrentTreasure.CmdTransaction(amount);
 		UpdateUI();
 	}
 }

@@ -10,72 +10,72 @@ public class TouchCamera : MonoBehaviour
 		AlignNorth,
 		Compass
 	}
-	private Vector2?[] mOldTouchPositions = {
+
+	private Vector2?[] m_OldTouchPositions = {
 		null,
 		null
 	};
-	private Vector2 mOldTouchVector;
-	private float mOldTouchDistance;
-	private Vector3 mDefaultCameraPosition;
-	private Transform mPlayerTrans;
-	private OrientationStates mOrientationState;
-	private Camera mCamera;
-	private Vector3 _min, _max;
-	public BoxCollider2D cameraBounds;
-	public Vector2 margin, smoothing;
 
+	[SerializeField]
+	private BoxCollider2D m_CameraBounds;
+	[SerializeField]
+	private Vector2 m_Margin, m_Smoothing;
+
+	private Vector2 m_OldTouchVector;
+	private float m_OldTouchDistance;
+	private Vector3 m_DefaultCameraPosition;
+	private Transform m_PlayerTrans;
+	private OrientationStates m_OrientationState;
+	private Camera m_Camera;
+	private Vector3 m_Min, m_Max;
 
 	void Start()
 	{
-		mDefaultCameraPosition = transform.localPosition;
-		mPlayerTrans = gameObject.transform.parent;
+		m_DefaultCameraPosition = transform.localPosition;
+		m_PlayerTrans = gameObject.transform.parent;
 		Input.location.Start();
 		Input.compass.enabled = true;
-		mCamera = GetComponent<Camera>();
+		m_Camera = GetComponent<Camera>();
 
-		_min = cameraBounds.bounds.min;
-		_max = cameraBounds.bounds.max;
+		m_Min = m_CameraBounds.bounds.min;
+		m_Max = m_CameraBounds.bounds.max;
 	}
 
 	void Update()
 	{
-		if (Input.touchCount == 0) {
-			mOldTouchPositions[0] = null;
-			mOldTouchPositions[1] = null;
-		}
-		else if (Input.touchCount == 1) {
-			if (mOldTouchPositions[0] == null || mOldTouchPositions[1] != null) {
-				mOldTouchPositions[0] = Input.GetTouch(0).position;
-				mOldTouchPositions[1] = null;
-			}
-			else {
+		if(Input.touchCount == 0) {
+			m_OldTouchPositions[0] = null;
+			m_OldTouchPositions[1] = null;
+		} else if(Input.touchCount == 1) {
+			if(m_OldTouchPositions[0] == null || m_OldTouchPositions[1] != null) {
+				m_OldTouchPositions[0] = Input.GetTouch(0).position;
+				m_OldTouchPositions[1] = null;
+			} else {
 				Vector2 newTouchPosition = Input.GetTouch(0).position;    
 				Vector3 positionOfCamera = transform.position;
 
-				positionOfCamera += transform.TransformDirection((Vector3)((mOldTouchPositions[0] - newTouchPosition) * mCamera.orthographicSize / mCamera.pixelHeight * 2f));
+				positionOfCamera += transform.TransformDirection((Vector3)((m_OldTouchPositions[0] - newTouchPosition) * m_Camera.orthographicSize / m_Camera.pixelHeight * 2f));
 
 				var x = positionOfCamera.x;
 				var y = positionOfCamera.y;
 
 				float cameraHalfWidth = GetComponent<Camera>().orthographicSize * ((float)Screen.width / Screen.height);
-				x = Mathf.Clamp(x, _min.x + cameraHalfWidth, _max.x - cameraHalfWidth);
-				y = Mathf.Clamp(y, _min.y + GetComponent<Camera>().orthographicSize, _max.y - GetComponent<Camera>().orthographicSize);
+				x = Mathf.Clamp(x, m_Min.x + cameraHalfWidth, m_Max.x - cameraHalfWidth);
+				y = Mathf.Clamp(y, m_Min.y + GetComponent<Camera>().orthographicSize, m_Max.y - GetComponent<Camera>().orthographicSize);
 
 				transform.position = new Vector3(x, y, transform.position.z);
 				
-				mOldTouchPositions[0] = newTouchPosition;
+				m_OldTouchPositions[0] = newTouchPosition;
 			}
-		}
-		else {
-			if (mOldTouchPositions[1] == null) {
-				mOldTouchPositions[0] = Input.GetTouch(0).position;
-				mOldTouchPositions[1] = Input.GetTouch(1).position;
-				mOldTouchVector = (Vector2)(mOldTouchPositions[0] - mOldTouchPositions[1]);
-				mOldTouchDistance = mOldTouchVector.magnitude;
-			}
-			else {
+		} else {
+			if(m_OldTouchPositions[1] == null) {
+				m_OldTouchPositions[0] = Input.GetTouch(0).position;
+				m_OldTouchPositions[1] = Input.GetTouch(1).position;
+				m_OldTouchVector = (Vector2)(m_OldTouchPositions[0] - m_OldTouchPositions[1]);
+				m_OldTouchDistance = m_OldTouchVector.magnitude;
+			} else {
 				gameObject.transform.parent = null;
-				mOrientationState = OrientationStates.FreeCam;
+				m_OrientationState = OrientationStates.FreeCam;
 				//Vector2 screen = new Vector2(mCamera.pixelWidth, mCamera.pixelHeight);
 
 				Vector2[] newTouchPositions = {
@@ -86,45 +86,45 @@ public class TouchCamera : MonoBehaviour
 				float newTouchDistance = newTouchVector.magnitude;
 
 				//transform.position += transform.TransformDirection((Vector3)((oldTouchPositions[0] + oldTouchPositions[1] - screen) * mCamera.orthographicSize / screen.y));
-				transform.localRotation *= Quaternion.Euler(new Vector3(0, 0, Mathf.Asin(Mathf.Clamp((mOldTouchVector.y * newTouchVector.x - mOldTouchVector.x * newTouchVector.y) / mOldTouchDistance / newTouchDistance, -1f, 1f)) / 0.0174532924f));
-				mCamera.orthographicSize *= mOldTouchDistance / newTouchDistance;
-				mCamera.orthographicSize = Mathf.Clamp(mCamera.orthographicSize, 50, 400);
+				transform.localRotation *= Quaternion.Euler(new Vector3(0, 0, Mathf.Asin(Mathf.Clamp((m_OldTouchVector.y * newTouchVector.x - m_OldTouchVector.x * newTouchVector.y) / m_OldTouchDistance / newTouchDistance, -1f, 1f)) / 0.0174532924f));
+				m_Camera.orthographicSize *= m_OldTouchDistance / newTouchDistance;
+				m_Camera.orthographicSize = Mathf.Clamp(m_Camera.orthographicSize, 50, 400);
 				
 				//transform.position -= transform.TransformDirection((newTouchPositions[0] + newTouchPositions[1] - screen) * mCamera.orthographicSize / screen.y);
 
-				mOldTouchPositions[0] = newTouchPositions[0];
-				mOldTouchPositions[1] = newTouchPositions[1];
-				mOldTouchVector = newTouchVector;
-				mOldTouchDistance = newTouchDistance;
+				m_OldTouchPositions[0] = newTouchPositions[0];
+				m_OldTouchPositions[1] = newTouchPositions[1];
+				m_OldTouchVector = newTouchVector;
+				m_OldTouchDistance = newTouchDistance;
 			}
 		}
-		if (mOrientationState == OrientationStates.Compass) {
+		if(m_OrientationState == OrientationStates.Compass) {
 			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, -Input.compass.trueHeading), Time.deltaTime * 2);
 		}
 	}
 
 	public void ResetCameraPosition()
 	{
-		gameObject.transform.parent = mPlayerTrans;
-		transform.localPosition = mDefaultCameraPosition;
+		gameObject.transform.parent = m_PlayerTrans;
+		transform.localPosition = m_DefaultCameraPosition;
 	}
 
 	public void ResetCameraRotation()
 	{
-		switch (mOrientationState) {
-			case OrientationStates.AlignNorth:
-				mOrientationState = OrientationStates.Compass;
-				break;
-			case OrientationStates.Compass:
-				mOrientationState = OrientationStates.AlignNorth;
-				AlignNorth();
-				break;
-			case OrientationStates.FreeCam:
-				mOrientationState = OrientationStates.AlignNorth;
-				AlignNorth();
-				break;
-			default:
-				break;
+		switch(m_OrientationState) {
+		case OrientationStates.AlignNorth:
+			m_OrientationState = OrientationStates.Compass;
+			break;
+		case OrientationStates.Compass:
+			m_OrientationState = OrientationStates.AlignNorth;
+			AlignNorth();
+			break;
+		case OrientationStates.FreeCam:
+			m_OrientationState = OrientationStates.AlignNorth;
+			AlignNorth();
+			break;
+		default:
+			break;
 		}
 	}
 

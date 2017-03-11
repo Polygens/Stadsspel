@@ -6,7 +6,7 @@ namespace Stadsspel.Districts
 	{
 		private new void Start()
 		{
-			mDistrictType = DistrictType.Neutral;
+			m_DistrictType = DistrictType.Neutral;
 			base.Start();
 		}
 	}

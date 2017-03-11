@@ -8,7 +8,7 @@ namespace Stadsspel.Districts
 	{
 		protected new void Start()
 		{
-			mDistrictType = DistrictType.square;
+			m_DistrictType = DistrictType.square;
 			base.Start();
 			tag = "Square";
 		}

@@ -5,14 +5,14 @@ namespace Stadsspel.Elements
 {
 	public class Person : Element
 	{
-		private List<int> illegalItems = new List<int>();
+		private List<int> m_IllegalItems = new List<int>();
 
 		//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
-		private List<int> legalItems = new List<int>();
+		private List<int> m_LegalItems = new List<int>();
 
 		//[SyncVar]
 		[SerializeField]
-		private int mAmountOfMoney = 0;
+		private int m_AmountOfMoney = 0;
 
 		protected new void Start()
 		{
@@ -25,12 +25,14 @@ namespace Stadsspel.Elements
 				gameObject.AddComponent<Enemy>();
 			}
 
+			transform.SetParent(GameManager.s_Singleton.Teams[(byte)m_Team - 1].transform, false);
+
 			ActionRadius = 40;
 	
 			//instantiate list with 3 numbers for each list.
 			for(int i = 0; i < 3; i++) {
-				legalItems.Add(0);
-				illegalItems.Add(0);
+				m_LegalItems.Add(0);
+				m_IllegalItems.Add(0);
 			}
 		}
 
@@ -44,51 +46,51 @@ namespace Stadsspel.Elements
 
 		public void ResetLegalItems()
 		{
-			for(int i = 0; i < legalItems.Count; i++) {
-				legalItems[i] = 0;
+			for(int i = 0; i < m_LegalItems.Count; i++) {
+				m_LegalItems[i] = 0;
 			}
 		}
 
 		public void ResetIllegalItems()
 		{
-			for(int i = 0; i < illegalItems.Count; i++) {
-				illegalItems[i] = 0;
+			for(int i = 0; i < m_IllegalItems.Count; i++) {
+				m_IllegalItems[i] = 0;
 			}
 		}
 
 		public void GetRobbed()
 		{
-			GameManager.s_Singleton.Teams[(int)m_Team].AddOrRemoveMoney(-mAmountOfMoney);
-			mAmountOfMoney = 0;
+			GameManager.s_Singleton.Teams[(int)m_Team].AddOrRemoveMoney(-m_AmountOfMoney);
+			m_AmountOfMoney = 0;
 			ResetLegalItems();
 			ResetIllegalItems();
 		}
 
 		public List<int> LookUpLegalItems {
-			get { return legalItems; }
+			get { return m_LegalItems; }
 		}
 
 		public List<int> LookUpIllegalItems {
-			get { return illegalItems; }
+			get { return m_IllegalItems; }
 		}
 
 		public void AddLegalItems(List<int> items)
 		{
 			for(int i = 0; i < items.Count; i++) {
-				legalItems[i] += items[i];
+				m_LegalItems[i] += items[i];
 			}
 		}
 
 		public void AddIllegalItems(List<int> items)
 		{
 			for(int i = 0; i < items.Count; i++) {
-				illegalItems[i] += items[i];
+				m_IllegalItems[i] += items[i];
 			}
 		}
 
 		public void MoneyTransaction(int money)
 		{
-			mAmountOfMoney += money;
+			m_AmountOfMoney += money;
 			GameManager.s_Singleton.Teams[(int)m_Team].AddOrRemoveMoney(money);
 		}
 
@@ -100,16 +102,16 @@ namespace Stadsspel.Elements
 		}
 
 		public int AmountOfMoney {
-			get { return mAmountOfMoney; }
+			get { return m_AmountOfMoney; }
 		}
 
 		public void AddGoods(int money)
 		{ 
-			mAmountOfMoney += money; 
+			m_AmountOfMoney += money; 
 		}
 
 
-		public void Update()
+		private void Update()
 		{
 			/*int amountOfTeams; //= LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
 		if(!mIsReady && GameManager.s_Singleton.transform.childCount == amountOfTeams && Name != "Not set" && Team != TeamID.NotSet) {

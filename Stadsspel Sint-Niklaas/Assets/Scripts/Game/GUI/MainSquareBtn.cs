@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class MainSquareBtn : MonoBehaviour
 {
-    private GameObject arrow;
+	private GameObject m_Arrow;
 	
-    // Use this for initialization
-	void Start ()
-    {
-        arrow = GameObject.FindGameObjectWithTag("MainSquareArrowPivot"); 
+	// Use this for initialization
+	private void Start()
+	{
+		m_Arrow = GameObject.FindGameObjectWithTag("MainSquareArrowPivot"); 
 	}
-	
-    public void ToggleMainSquareArrow(bool turnOn)
-    {
-        arrow.SetActive(turnOn);
-    }
+
+	public void ToggleMainSquareArrow(bool turnOn)
+	{
+		m_Arrow.SetActive(turnOn);
+	}
 }

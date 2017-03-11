@@ -4,11 +4,11 @@ namespace Stadsspel.Elements
 {
 	public class Friend : MonoBehaviour
 	{
-		private Person mPerson;
+		private Person m_Person;
 
 		private void Start()
 		{
-			mPerson = GetComponent<Person>();
+			m_Person = GetComponent<Person>();
 			tag = "Team";
 			Destroy(transform.GetChild(1).gameObject);
 			Destroy(transform.GetChild(2).gameObject);

@@ -5,29 +5,22 @@ using Stadsspel.Districts;
 
 public class MoveAvatar : MonoBehaviour
 {
-	public LocationManager mLocationManager;
-	private Transform mAvatarDirection;
+	private Transform m_AvatarDirection;
 
 	// Use this for initialization
 	void Start()
 	{
-		mAvatarDirection = transform.GetChild(1);
-		Invoke("DelaySearch", 1f);
-	}
-
-	private void DelaySearch()
-	{
-		mLocationManager = GameObject.Find("LocationManager").GetComponent<LocationManager>();
-		mLocationManager.onOriginSet += OnOriginSet;
-		mLocationManager.onLocationChanged += OnLocationChanged;
+		m_AvatarDirection = transform.GetChild(1);
+		GameManager.s_Singleton.LocationManager.onOriginSet += OnOriginSet;
+		GameManager.s_Singleton.LocationManager.onLocationChanged += OnLocationChanged;
 	}
 
 	private void Update()
 	{
-		mAvatarDirection.transform.rotation = Quaternion.Lerp(mAvatarDirection.transform.rotation, Quaternion.Euler(0, 0, -Input.compass.trueHeading), Time.deltaTime * 2);
+		m_AvatarDirection.transform.rotation = Quaternion.Lerp(m_AvatarDirection.transform.rotation, Quaternion.Euler(0, 0, -Input.compass.trueHeading), Time.deltaTime * 2);
 	}
 
-	void OnOriginSet(Coordinates currentLocation)
+	private void OnOriginSet(Coordinates currentLocation)
 	{
 
 		//Position
@@ -38,7 +31,7 @@ public class MoveAvatar : MonoBehaviour
 
 	}
 
-	void OnLocationChanged(Coordinates currentLocation)
+	private void OnLocationChanged(Coordinates currentLocation)
 	{
 		Vector3 lastPosition = transform.position;
 
@@ -57,7 +50,7 @@ public class MoveAvatar : MonoBehaviour
 		GameManager.s_Singleton.DistrictManager.CheckDisctrictState();
 	}
 
-	void moveAvatar(Vector3 lastPosition, Vector3 currentPosition)
+	private void moveAvatar(Vector3 lastPosition, Vector3 currentPosition)
 	{
 
 		StartCoroutine(move(lastPosition, currentPosition, 0.5f));

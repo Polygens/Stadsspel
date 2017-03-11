@@ -5,21 +5,30 @@ using Stadsspel.Elements;
 
 public class TradingPostUI : MonoBehaviour
 {
-	private RectTransform TradingPostPanel;
-	private Text totalPriceText;
-	private int totalPriceAmount;
-	private List<InputField> inputfields = new List<InputField>();
-	private List<Text> totalTextFields = new List<Text>();
+	private RectTransform m_TradingPostPanel;
+	private Text m_TotalPriceText;
+	private int m_TotalPriceAmount;
+	private List<InputField> m_Inputfields = new List<InputField>();
+	private List<Text> m_TotalTextFields = new List<Text>();
 
 	//SyncListInt visitedTeams = new SyncListInt();
-	private List<Item> shopItems = new List<Item>();
+	private List<Item> m_ShopItems = new List<Item>();
 
-	private int[] numberOfEachItem;
-	private bool everythingIsInstantiated = false;
+	private int[] m_NumberOfEachItem;
+	private bool m_EverythingIsInstantiated = false;
 
-	public void Start()
+	public bool IsVisited {
+		get {
+			throw new System.NotImplementedException();
+		}
+
+		set {
+		}
+	}
+
+	private void Start()
 	{
-		TradingPostPanel = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels").transform.FindChild("TradingPost");
+		m_TradingPostPanel = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels").transform.FindChild("TradingPost");
 
 		//if (!isLocalPlayer)
 		//{
@@ -28,27 +37,27 @@ public class TradingPostUI : MonoBehaviour
 		//}
 
 		if(CheckIfTeamAlreadyVisited()) {
-			TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
+			m_TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
 			return;
 		}
 
-		shopItems = Item.ShopItems;
+		m_ShopItems = Item.ShopItems;
 
-		RectTransform Grid = (RectTransform)TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
-		totalPriceText = TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
-		TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		RectTransform Grid = (RectTransform)m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
+		m_TotalPriceText = m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
+		m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 		int childsInGrid = Grid.childCount;
 		int index = 0;
 		for(int i = 1; i < childsInGrid; i++) {
 			for(int j = 0; j < 2; j++) {
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = shopItems[index].BuyPrice.ToString();
-				inputfields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
-				totalTextFields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Totaal").GetComponent<Text>());
+				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = m_ShopItems[index].BuyPrice.ToString();
+				m_Inputfields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
+				m_TotalTextFields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Totaal").GetComponent<Text>());
 				index++;
 			}
 		}
-		numberOfEachItem = new int[shopItems.Count];
-		everythingIsInstantiated = true;
+		m_NumberOfEachItem = new int[m_ShopItems.Count];
+		m_EverythingIsInstantiated = true;
 
 		//TradingPostPanel.gameObject.SetActive(false);
 	}
@@ -68,16 +77,16 @@ public class TradingPostUI : MonoBehaviour
 		return teamAlreadyVisited;
 	}
 
-	public void OnEnable()
+	private void OnEnable()
 	{
 		if(CheckIfTeamAlreadyVisited()) {
-			TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
+			m_TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
 		} else {
-			if(TradingPostPanel.transform.FindChild("MessagePanel").gameObject.activeSelf)
-				TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
+			if(m_TradingPostPanel.transform.FindChild("MessagePanel").gameObject.activeSelf)
+				m_TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
 		}
-		if(everythingIsInstantiated) {
-			TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		if(m_EverythingIsInstantiated) {
+			m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 		}
 	}
 
@@ -88,14 +97,14 @@ public class TradingPostUI : MonoBehaviour
 		//  return;
 		//}
 		if(!CheckIfTeamAlreadyVisited()) {
-			if(GameManager.s_Singleton.Player.Person.AmountOfMoney > totalPriceAmount) {
+			if(GameManager.s_Singleton.Player.Person.AmountOfMoney > m_TotalPriceAmount) {
 				AddGoodsToPlayer();
-				TradingPostPanel.gameObject.SetActive(false);
+				m_TradingPostPanel.gameObject.SetActive(false);
 			} else {
 				Debug.Log("Not enough money");
 			}
 		} else {
-			TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
+			m_TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
 		}
 	}
 
@@ -105,29 +114,29 @@ public class TradingPostUI : MonoBehaviour
 	{
 		List<int> legalItems = new List<int>();
 		List<int> illegalItems = new List<int>();
-		for(int i = 0; i < numberOfEachItem.Length; i++) {
-			if(shopItems[i].IsLegal) {
-				legalItems.Add(numberOfEachItem[i]);
+		for(int i = 0; i < m_NumberOfEachItem.Length; i++) {
+			if(m_ShopItems[i].IsLegal) {
+				legalItems.Add(m_NumberOfEachItem[i]);
 			} else {
-				illegalItems.Add(numberOfEachItem[i]);
+				illegalItems.Add(m_NumberOfEachItem[i]);
 			}
 		}
 		GameManager.s_Singleton.Player.Person.AddLegalItems(legalItems);
 		GameManager.s_Singleton.Player.Person.AddIllegalItems(illegalItems);
 		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().CmdAddTeamToList();
-		GameManager.s_Singleton.Player.Person.MoneyTransaction(-totalPriceAmount);
+		GameManager.s_Singleton.Player.Person.MoneyTransaction(-m_TotalPriceAmount);
 
-		for(int i = 0; i < inputfields.Count; i++) {
-			inputfields[i].text = "";
-			totalTextFields[i].text = "Totaal: 0";
+		for(int i = 0; i < m_Inputfields.Count; i++) {
+			m_Inputfields[i].text = "";
+			m_TotalTextFields[i].text = "Totaal: 0";
 		}
-		totalPriceText.text = "0";
-		totalPriceAmount = 0;
+		m_TotalPriceText.text = "0";
+		m_TotalPriceAmount = 0;
 	}
 
 	public void OnClose()
 	{
-		TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
+		m_TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
 	}
 
 	//For drop down or inputField
@@ -138,32 +147,24 @@ public class TradingPostUI : MonoBehaviour
 		if(number == "") {
 			number = "0";
 		}
-		for(int i = 0; i < inputfields.Count; i++) {
-			if(inputfields[i].isFocused) {
+		for(int i = 0; i < m_Inputfields.Count; i++) {
+			if(m_Inputfields[i].isFocused) {
 				bool isNumber = int.TryParse(number, out result);
 				if(isNumber) {
-					numberOfEachItem[i] = result;
+					m_NumberOfEachItem[i] = result;
 				}
 				focusedIndex = i;
 			}
 		}
 		int tempTotal = 0;
-		for(int i = 0; i < numberOfEachItem.Length; i++) {
-			tempTotal += (numberOfEachItem[i] * shopItems[i].BuyPrice);
+		for(int i = 0; i < m_NumberOfEachItem.Length; i++) {
+			tempTotal += (m_NumberOfEachItem[i] * m_ShopItems[i].BuyPrice);
 		}
 
-		totalPriceAmount = tempTotal;
-		totalPriceText.text = tempTotal.ToString();
-		int itemTotal = (result * shopItems[focusedIndex].BuyPrice);
-		totalTextFields[focusedIndex].text = "Totaal: " + itemTotal.ToString();
+		m_TotalPriceAmount = tempTotal;
+		m_TotalPriceText.text = tempTotal.ToString();
+		int itemTotal = (result * m_ShopItems[focusedIndex].BuyPrice);
+		m_TotalTextFields[focusedIndex].text = "Totaal: " + itemTotal.ToString();
 	}
 
-	public bool IsVisited {
-		get {
-			throw new System.NotImplementedException();
-		}
-
-		set {
-		}
-	}
 }

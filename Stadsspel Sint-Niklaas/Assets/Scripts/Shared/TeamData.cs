@@ -14,9 +14,9 @@ public enum TeamID : byte
 
 public class TeamData
 {
-	private static Color mNotSet = new Color(1, 0, 1);
+	private static Color m_NotSet = new Color(1, 0, 1);
 
-	private static Color[] mTeamColors = new Color[] {
+	private static Color[] m_TeamColors = new Color[] {
 		Color.magenta,	//Team1
 		Color.red,		//Team2
 		Color.cyan,		//Team3
@@ -110,16 +110,16 @@ public class TeamData
 	public static Color GetColor(TeamID team)
 	{
 		if(team == TeamID.NotSet) {
-			return mNotSet;
+			return m_NotSet;
 		}
 
-		return mTeamColors[(int)team - 1];
+		return m_TeamColors[(int)team - 1];
 	}
 
 	public static Color GetColor(Stadsspel.Districts.DistrictType type)
 	{
 		if(type == Stadsspel.Districts.DistrictType.NotSet) {
-			return mNotSet;
+			return m_NotSet;
 		}
 
 		return mDistrictColors[(int)type - 1];
@@ -128,7 +128,7 @@ public class TeamData
 	public static Color GetColor(Stadsspel.Elements.BuildingType type)
 	{
 		if(type == Stadsspel.Elements.BuildingType.NotSet) {
-			return mNotSet;
+			return m_NotSet;
 		}
 
 		return mBuildingColors[(int)type - 1];

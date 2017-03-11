@@ -6,7 +6,7 @@ namespace Stadsspel.Districts
 	{
 		private new void Start()
 		{
-			mDistrictType = DistrictType.GrandMarket;
+			m_DistrictType = DistrictType.GrandMarket;
 			base.Start();
 		}
 	}

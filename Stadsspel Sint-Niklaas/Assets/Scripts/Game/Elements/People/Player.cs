@@ -10,20 +10,19 @@ namespace Stadsspel.Elements
 {
 	public class Player : MonoBehaviour
 	{
-		private int mDetectionRadius;
-		private List<GameObject> enemiesInRadius = new List<GameObject>();
+		private List<GameObject> m_EnemiesInRadius = new List<GameObject>();
 
 		[SerializeField]
-		private List<GameObject> allGameObjectsInRadius = new List<GameObject>();
+		private List<GameObject> m_AllGameObjectsInRadius = new List<GameObject>();
 
-		private Person mPerson;
+		private Person m_Person;
 
-		private Button[] buttons;
-		private int[] currentButtons;
-		private int highestPriority;
+		private Button[] m_Buttons;
+		private int[] m_CurrentButtons;
+		private int m_HighestPriority;
 
 		//order of strings is important
-		private string[] buttonNames = new string[] {
+		private string[] m_ButtonNames = new string[] {
 			"Ruil",
 			"Bank",
 			"Koop",
@@ -33,32 +32,38 @@ namespace Stadsspel.Elements
 			"Stelen"
 		};
 
-		private RectTransform[] panels;
+		private RectTransform[] m_Panels;
 
 		[SerializeField]
-		private RectTransform MainPanel;
+		private RectTransform m_MainPanel;
 
 		[SerializeField]
-		private RectTransform ListPanel;
+		private RectTransform m_ListPanel;
 
 		[SerializeField]
-		private RectTransform Switch;
+		private RectTransform m_Switch;
 
-		public int mNumberOfButtonsInlistPanel = 0;
+		private int m_NumberOfButtonsInlistPanel = 0;
 
 		public Person Person {
 			get {
-				return mPerson;
+				return m_Person;
 			}
 
 			set {
-				mPerson = value;
+				m_Person = value;
 			}
 		}
 
 		public List<GameObject> AllGameObjectsInRadius {
 			get {
-				return allGameObjectsInRadius;
+				return m_AllGameObjectsInRadius;
+			}
+		}
+
+		public int NumberOfButtonsInlistPanel {
+			get {
+				return m_NumberOfButtonsInlistPanel;
 			}
 		}
 
@@ -72,7 +77,7 @@ namespace Stadsspel.Elements
 		//Enemy
 		private void Start()
 		{
-			mPerson = GetComponent<Person>();
+			m_Person = GetComponent<Person>();
 			InitializeUI();
 
 			tag = "Player";
@@ -83,10 +88,9 @@ namespace Stadsspel.Elements
 			Camera.main.GetComponent<AudioListener>().enabled = true;
 
 
-			MoveAvatar moveAvatar = gameObject.AddComponent<MoveAvatar>();
+			gameObject.AddComponent<MoveAvatar>();
 
 			//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
-			moveAvatar.mLocationManager = GameObject.FindWithTag("LocationManager").GetComponent<LocationManager>();
 		}
 
 		private void InitializeUI()
@@ -94,31 +98,31 @@ namespace Stadsspel.Elements
 			RectTransform priorityButtons = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("PriorityButtons");
 			RectTransform panelsInCanvas = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels");
 			int numberOfPanels = panelsInCanvas.transform.childCount;
-			panels = new RectTransform[numberOfPanels];
+			m_Panels = new RectTransform[numberOfPanels];
 			for(int i = 0; i < numberOfPanels; i++) {
-				panels[i] = (RectTransform)panelsInCanvas.GetChild(i);
+				m_Panels[i] = (RectTransform)panelsInCanvas.GetChild(i);
 			}
-			MainPanel = (RectTransform)priorityButtons.GetChild(1);
-			ListPanel = (RectTransform)priorityButtons.GetChild(0).GetChild(0);
-			Switch = (RectTransform)priorityButtons.GetChild(2);
-			MainPanel.gameObject.SetActive(false);
-			ListPanel.gameObject.SetActive(false);
-			Switch.gameObject.SetActive(false);
+			m_MainPanel = (RectTransform)priorityButtons.GetChild(1);
+			m_ListPanel = (RectTransform)priorityButtons.GetChild(0).GetChild(0);
+			m_Switch = (RectTransform)priorityButtons.GetChild(2);
+			m_MainPanel.gameObject.SetActive(false);
+			m_ListPanel.gameObject.SetActive(false);
+			m_Switch.gameObject.SetActive(false);
 			int lengthPriorities = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
-			buttons = new Button[lengthPriorities];
-			currentButtons = new int[lengthPriorities];
+			m_Buttons = new Button[lengthPriorities];
+			m_CurrentButtons = new int[lengthPriorities];
 			for(int i = 0; i < lengthPriorities; i++) {
 				Button tempButton = Resources.Load("PriorityButton", typeof(Button)) as Button;
 
-				buttons[i] = tempButton;
-				currentButtons[i] = 0;
+				m_Buttons[i] = tempButton;
+				m_CurrentButtons[i] = 0;
 			}
 		}
 
 		public void Rob()
 		{
-			foreach(GameObject enemy in enemiesInRadius) {
-				mPerson.AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
+			foreach(GameObject enemy in m_EnemiesInRadius) {
+				m_Person.AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
 				enemy.GetComponent<Person>().GetRobbed();
 			}
 		}
@@ -128,10 +132,10 @@ namespace Stadsspel.Elements
 			if(allGameObjectsInRadius.Count > 0) {
 
 				// In case there were no collidings before.
-				MainPanel.gameObject.SetActive(true);
-				ListPanel.gameObject.SetActive(true);
+				m_MainPanel.gameObject.SetActive(true);
+				m_ListPanel.gameObject.SetActive(true);
 				if(allGameObjectsInRadius.Count != 1) {
-					Switch.gameObject.SetActive(true);
+					m_Switch.gameObject.SetActive(true);
 				}
 
 				int lengthEnum = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
@@ -151,7 +155,7 @@ namespace Stadsspel.Elements
 					Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
 					Priority tempP;
 					if(tag == "Treasure") { /*Square */
-						if(allGameObjectsInRadius[i].GetComponent<Square>().TeamID == mPerson.Team) {
+						if(allGameObjectsInRadius[i].GetComponent<Square>().TeamID == m_Person.Team) {
 							tempP = Priority.Treasure;
 						} else {
 							tempP = Priority.TreasureEnemy;
@@ -168,24 +172,24 @@ namespace Stadsspel.Elements
 				}
 
 				// if there is a new highestpriority, do next lines
-				if(tempPriority != highestPriority) {
-					highestPriority = tempPriority;
+				if(tempPriority != m_HighestPriority) {
+					m_HighestPriority = tempPriority;
 
 					//Make room for new mainbutton
-					if(MainPanel.childCount > 0) {
-						GameObject tempB = MainPanel.GetChild(0).gameObject;
+					if(m_MainPanel.childCount > 0) {
+						GameObject tempB = m_MainPanel.GetChild(0).gameObject;
 						Destroy(tempB);
 					}
 
-					Button mainButton = (Button)Instantiate(buttons[highestPriority], transform.position, transform.rotation, MainPanel);
-					mainButton.transform.FindChild("Text").GetComponent<Text>().text = buttonNames[highestPriority];
+					Button mainButton = (Button)Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+					mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
 					RectTransform tempPanel = null;
 
 					//names of the panels need to be the same as the priorities & layernames
-					for(int j = 0; j < panels.Length; j++) {
-						if(panels[j].name == ((Priority)highestPriority).ToString()) {
-							if("Enemy" != ((Priority)highestPriority).ToString()) {
-								tempPanel = panels[j];
+					for(int j = 0; j < m_Panels.Length; j++) {
+						if(m_Panels[j].name == ((Priority)m_HighestPriority).ToString()) {
+							if("Enemy" != ((Priority)m_HighestPriority).ToString()) {
+								tempPanel = m_Panels[j];
 								mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
 							} else {
 								mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
@@ -198,16 +202,16 @@ namespace Stadsspel.Elements
 				for(int i = priorityPresence.Length - 1; i >= 0; i--) {
 
 					//we dont want mainbutton in the listpanel
-					if(i != highestPriority) {
+					if(i != m_HighestPriority) {
 
 						//Spawn specific priority button
-						if(currentButtons[i] == 0 && priorityPresence[i] == 1) {
-							Button tempB = (Button)Instantiate(buttons[i], transform.position, transform.rotation, ListPanel);
-							tempB.transform.FindChild("Text").GetComponent<Text>().text = buttonNames[i];
+						if(m_CurrentButtons[i] == 0 && priorityPresence[i] == 1) {
+							Button tempB = (Button)Instantiate(m_Buttons[i], transform.position, transform.rotation, m_ListPanel);
+							tempB.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[i];
 							RectTransform tempPanel = null;
-							for(int j = 0; j < panels.Length; j++) {
-								if(panels[j].name == ((Priority)i).ToString()) {
-									tempPanel = panels[j];
+							for(int j = 0; j < m_Panels.Length; j++) {
+								if(m_Panels[j].name == ((Priority)i).ToString()) {
+									tempPanel = m_Panels[j];
 								}
 							}
 							if(tempPanel != null) {
@@ -215,10 +219,10 @@ namespace Stadsspel.Elements
 							}
 
 							// 1 indicates that the button of the specific priority is present in the listpanel
-							currentButtons[i] = 1;
-							mNumberOfButtonsInlistPanel++;
+							m_CurrentButtons[i] = 1;
+							m_NumberOfButtonsInlistPanel++;
 						}
-						if((currentButtons[i] == 1 && priorityPresence[i] == 0)) {
+						if((m_CurrentButtons[i] == 1 && priorityPresence[i] == 0)) {
 							TryToDestroyIndexOfListPanel(i);
 						}
 					} else {
@@ -228,20 +232,20 @@ namespace Stadsspel.Elements
 					//Debug.Log("For: " + i + " is currentButtons" + currentButtons[i] + " and priorityPresence " + priorityPresence[i]);
 				}
 			} else {
-				MainPanel.gameObject.SetActive(false);
-				ListPanel.gameObject.SetActive(false);
-				Switch.gameObject.SetActive(false);
+				m_MainPanel.gameObject.SetActive(false);
+				m_ListPanel.gameObject.SetActive(false);
+				m_Switch.gameObject.SetActive(false);
 			}
 		}
 
 		private void TryToDestroyIndexOfListPanel(int index)
 		{
-			for(int j = 0; j < ListPanel.childCount; j++) {
-				if(ListPanel.GetChild(j).GetChild(0).GetComponent<Text>().text == buttonNames[index]) {
-					ListPanel.GetChild(j).GetComponent<Button>().onClick.RemoveListener(() => buttonClicked(null));
-					Destroy(ListPanel.GetChild(j).gameObject);
-					currentButtons[index] = 0;
-					mNumberOfButtonsInlistPanel--;
+			for(int j = 0; j < m_ListPanel.childCount; j++) {
+				if(m_ListPanel.GetChild(j).GetChild(0).GetComponent<Text>().text == m_ButtonNames[index]) {
+					m_ListPanel.GetChild(j).GetComponent<Button>().onClick.RemoveListener(() => buttonClicked(null));
+					Destroy(m_ListPanel.GetChild(j).gameObject);
+					m_CurrentButtons[index] = 0;
+					m_NumberOfButtonsInlistPanel--;
 				}
 			}
 		}
@@ -264,26 +268,26 @@ namespace Stadsspel.Elements
 		{
 			//Debug.Log(other.tag);
 			if(other.tag != "Untagged") {
-				allGameObjectsInRadius.Add(other.gameObject);
+				m_AllGameObjectsInRadius.Add(other.gameObject);
 				if(other.tag == "Enemy") {
-					enemiesInRadius.Add(other.gameObject);
+					m_EnemiesInRadius.Add(other.gameObject);
 				}
 
-				PriorityUpdate(allGameObjectsInRadius, other);
+				PriorityUpdate(m_AllGameObjectsInRadius, other);
 			}
 		}
 
 		public void OnTriggerExit2D(Collider2D other)
 		{
-			enemiesInRadius.Remove(other.gameObject);
-			allGameObjectsInRadius.Remove(other.gameObject);
-			PriorityUpdate(allGameObjectsInRadius, other);
+			m_EnemiesInRadius.Remove(other.gameObject);
+			m_AllGameObjectsInRadius.Remove(other.gameObject);
+			PriorityUpdate(m_AllGameObjectsInRadius, other);
 		}
 
 		public GameObject GetGameObjectInRadius(string tag)
 		{
 			GameObject obj = null;
-			foreach(GameObject GO in allGameObjectsInRadius) {
+			foreach(GameObject GO in m_AllGameObjectsInRadius) {
 				if(GO.tag == tag) {
 					obj = GO.transform.gameObject;
 				}

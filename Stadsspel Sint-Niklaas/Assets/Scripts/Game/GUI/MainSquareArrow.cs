@@ -3,15 +3,15 @@ using Stadsspel.Districts;
 
 public class MainSquareArrow : MonoBehaviour
 {
-	HeadDistrict headDistrict;
+	HeadDistrict m_HeadDistrict;
 
-	void Start()
+	private void Start()
 	{
-		headDistrict = FindObjectOfType<HeadDistrict>();
+		m_HeadDistrict = FindObjectOfType<HeadDistrict>();
 	}
 
 
-	void Update()
+	private void Update()
 	{
 		//transform.LookAt(headDistrict.transform);
 	}

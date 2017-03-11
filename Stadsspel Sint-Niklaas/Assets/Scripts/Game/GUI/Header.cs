@@ -5,34 +5,30 @@ using Stadsspel.Elements;
 public class Header : MonoBehaviour
 {
 	[SerializeField]
-	private RectTransform mProfilePanel;
+	private RectTransform m_ProfilePanel;
 	[SerializeField]
-	private RectTransform mGoodsPanel;
+	private RectTransform m_GoodsPanel;
 	[SerializeField]
-	private Image mTeamColor;
+	private Image m_TeamColor;
 	[SerializeField]
-	private Text mTeamMoney;
+	private Text m_TeamMoney;
 	[SerializeField]
-	private Text mPlayerMoney;
+	private Text m_PlayerMoney;
 
+	private float m_UpdateTimer = 0;
+	private float m_UpdateTime = 1;
 
-	private Person mPerson;
-	private bool mPersonIsSet = false;
-
-	private float mUpdateTimer = 0;
-	private float mUpdateTime = 1;
-
-	public void Update()
+	private void Start()
 	{
-		mUpdateTimer += Time.deltaTime;
-		if(mUpdateTimer > mUpdateTime) {
-			mUpdateTimer = 0;
+		m_TeamColor.color = TeamData.GetColor(GameManager.s_Singleton.Player.Person.Team);
+	}
+
+	private void Update()
+	{
+		m_UpdateTimer += Time.deltaTime;
+		if(m_UpdateTimer > m_UpdateTime) {
+			m_UpdateTimer = 0;
 			if(GameManager.s_Singleton.Player.Person) {
-				if(!mPersonIsSet) {
-					mPersonIsSet = true;
-					// Start: initial setup
-					mTeamColor.color = TeamData.GetColor(GameManager.s_Singleton.Player.Person.Team);
-				}
 
 				// Header Update 
 				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
@@ -43,22 +39,22 @@ public class Header : MonoBehaviour
 
 	public void OpenProfilePanelOnClick()
 	{
-		mProfilePanel.gameObject.SetActive(true);
+		m_ProfilePanel.gameObject.SetActive(true);
 	}
 
 	public void OpenInventoryOnClick()
 	{
-		mGoodsPanel.gameObject.SetActive(true);
+		m_GoodsPanel.gameObject.SetActive(true);
 	}
 
 	private void UpdatePlayerMoney(int pPlayerMoney)
 	{
-		mPlayerMoney.text = pPlayerMoney.ToString();
+		m_PlayerMoney.text = pPlayerMoney.ToString();
 		Debug.Log("Update player money");
 	}
 
 	private void UpdateTeamMoney(int pTeamMoney)
 	{
-		mTeamMoney.text = pTeamMoney.ToString();
+		m_TeamMoney.text = pTeamMoney.ToString();
 	}
 }
