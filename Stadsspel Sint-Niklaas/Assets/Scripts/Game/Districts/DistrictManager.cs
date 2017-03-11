@@ -20,7 +20,6 @@ namespace Stadsspel.Districts
 
 		public void StartGame(int amountOfTeams)
 		{
-			Debug.Log("There are " + amountOfTeams + " teams");
 			m_DistrictColliders = new PolygonCollider2D[gameObject.transform.childCount];
 			for(int i = 0; i < gameObject.transform.childCount; i++) {
 				m_DistrictColliders[i] = gameObject.transform.GetChild(i).gameObject.GetComponent<PolygonCollider2D>();
@@ -29,11 +28,13 @@ namespace Stadsspel.Districts
 			for(int i = 1; i <= 6; i++) {
 				if(amountOfTeams >= i) {
 					HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
-					district.enabled = true;
 					district.TeamID = (TeamID)(i);
+					district.enabled = true;
+					Destroy(district.GetComponent<CapturableDistrict>());
 					Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
-					square.enabled = true;
 					square.TeamID = (TeamID)(i);
+					square.enabled = true;
+					Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
 					try {
 						GameManager.s_Singleton.AddTreasure(square);
 						Debug.Log("Treasure" + i + " added");
@@ -43,11 +44,13 @@ namespace Stadsspel.Districts
                 
 				} else {
 					CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
-					district.enabled = true;
 					district.TeamID = TeamID.NoTeam;
+					district.enabled = true;
+					Destroy(district.GetComponent<HeadDistrict>());
 					CapturePoint square = district.transform.GetChild(0).gameObject.GetComponent<CapturePoint>();
-					square.enabled = true;
 					square.TeamID = TeamID.NoTeam;
+					square.enabled = true;
+					Destroy(district.transform.GetChild(0).GetComponent<Treasure>());
 				}
 			}
 		}

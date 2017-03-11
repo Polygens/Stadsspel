@@ -27,12 +27,13 @@ public class TeamData
 	};
 
 	private static Color[] mDistrictColors = new Color[] {
-		new Color(0, 0, 0, 128 / 255f),						//HeadDistrict
 		new Color(0, 0, 0, 128 / 255f),						//Neutral
-		new Color(245 / 255f, 132 / 255f, 42 / 255f, 128 / 255f),	//GrandMarket
-		new Color(0, 0, 0, 20 / 255f),						//Capturable
-		new Color(125 / 255f, 0, 0, 255 / 255f),					//Outside
-		new Color(255 / 255f, 128 / 255f, 0, 255 / 255f)				//Square
+		new Color(245 / 255f, 132 / 255f, 42 / 255f, 200 / 255f),	//GrandMarket
+		new Color(0, 0, 0, 128 / 255f),						//HeadDistrict
+		new Color(128 / 255f, 128 / 255f, 128 / 255f, 50 / 255f),						//Capturable
+		new Color(128 / 255f, 128 / 255f, 128 / 255f, 255 / 255f),			//Square
+		new Color(200 / 255f, 0, 0, 255 / 255f)					//Outside
+
 	};
 
 	private static Color[] mBuildingColors = new Color[] {

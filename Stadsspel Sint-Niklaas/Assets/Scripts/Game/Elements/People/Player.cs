@@ -86,7 +86,7 @@ namespace Stadsspel.Elements
 			//rigidbody.isKinematic = true;
 
 			Camera.main.GetComponent<AudioListener>().enabled = true;
-
+			GetComponent<MeshRenderer>().material.color = TeamData.GetColor(m_Person.Team);
 
 			gameObject.AddComponent<MoveAvatar>();
 

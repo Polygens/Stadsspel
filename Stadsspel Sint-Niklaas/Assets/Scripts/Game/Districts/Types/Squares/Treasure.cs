@@ -22,6 +22,7 @@ namespace Stadsspel.Districts
 			m_DistrictType = DistrictType.square;
 			base.Start();
 			tag = "Treasure";
+			OnTeamChanged();
 		}
 
 		public int GetRobAmount()
@@ -59,6 +60,12 @@ namespace Stadsspel.Districts
 				GameManager.s_Singleton.Player.Person.MoneyTransaction(amount);
 				Debug.Log("ChestMoney: " + m_AmountOfMoney);
 			}
+		}
+
+		protected override void OnTeamChanged()
+		{
+			Color newColor = TeamData.GetColor(m_TeamID);
+			gameObject.GetComponent<Renderer>().material.color = newColor;
 		}
 	}
 }
