@@ -14,7 +14,7 @@ namespace Stadsspel.Elements
 		[SerializeField]
 		private int m_AmountOfMoney = 0;
 
-		protected new void Start()
+		private void Awake()
 		{
 			m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
 			if(PhotonNetwork.player == photonView.owner) {
@@ -24,7 +24,10 @@ namespace Stadsspel.Elements
 			} else {
 				gameObject.AddComponent<Enemy>();
 			}
+		}
 
+		protected new void Start()
+		{
 			transform.SetParent(GameManager.s_Singleton.Teams[(byte)m_Team - 1].transform, false);
 
 			ActionRadius = 40;

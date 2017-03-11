@@ -4,6 +4,7 @@ using Photon;
 using Stadsspel.Districts;
 using Stadsspel.Elements;
 using GoMap;
+using UnityEngine.WSA;
 
 public class GameManager : PunBehaviour
 {
@@ -33,6 +34,11 @@ public class GameManager : PunBehaviour
 	public Player Player {
 		get {
 			return m_Player;
+		}
+		set {
+			if(m_Player == null) {
+				m_Player = value;
+			}
 		}
 	}
 
@@ -113,9 +119,8 @@ public class GameManager : PunBehaviour
 		}
 
 		GameObject temp = PhotonNetwork.Instantiate(m_PlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
-		m_Player = temp.GetComponent<Player>();
-		temp.transform.SetParent(transform.GetChild((int)m_Player.Person.Team - 1));
-		Debug.Log(m_Player);
+		m_DistrictManager.SetPlayerTransform(temp.transform);
+		temp.transform.position += new Vector3(0, 0, -10);
 	}
 
 	public void UpdateGameDuration(float duration)

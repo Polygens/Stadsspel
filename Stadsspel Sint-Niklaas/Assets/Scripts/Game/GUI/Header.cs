@@ -20,7 +20,7 @@ public class Header : MonoBehaviour
 
 	private void Start()
 	{
-		m_TeamColor.color = TeamData.GetColor(GameManager.s_Singleton.Player.Person.Team);
+		m_TeamColor.color = TeamData.GetColor(Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player));
 	}
 
 	private void Update()

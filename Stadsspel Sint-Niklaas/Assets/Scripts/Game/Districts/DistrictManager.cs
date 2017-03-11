@@ -13,7 +13,6 @@ namespace Stadsspel.Districts
 
 	public class DistrictManager : MonoBehaviour
 	{
-		[SerializeField]
 		private Transform m_PlayerTrans;
 
 		[SerializeField]
@@ -39,7 +38,7 @@ namespace Stadsspel.Districts
 						GameManager.s_Singleton.AddTreasure(square);
 						Debug.Log("Treasure" + i + " added");
 					} catch {
-						Debug.Log("hhhhhhhhhhh");
+						Debug.Log("ERROR: Adding chest failed");
 					}
                 
 				} else {
@@ -51,6 +50,11 @@ namespace Stadsspel.Districts
 					square.TeamID = TeamID.NoTeam;
 				}
 			}
+		}
+
+		public void SetPlayerTransform(Transform player)
+		{
+			m_PlayerTrans = player;
 		}
 
 		public DistrictStates CheckDisctrictState()

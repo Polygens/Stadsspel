@@ -4243,6 +4243,7 @@ GameObject:
   - component: {fileID: 223000011284243408}
   - component: {fileID: 114000012842061958}
   - component: {fileID: 114000010136152076}
+  - component: {fileID: 114722700192310044}
   m_Layer: 5
   m_Name: UI_InGame
   m_TagString: Canvas
@@ -5435,6 +5436,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224584561452598366}
+  - component: {fileID: 114358242569393684}
   m_Layer: 5
   m_Name: Instructions
   m_TagString: Untagged
@@ -6172,9 +6174,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46ec82a677de28341be7dfe4a522039b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountField: {fileID: 114000011702150362}
-  amountOwnMoney: {fileID: 114000011560221926}
-  amountBankMoney: {fileID: 114000010710474646}
+  m_AmountField: {fileID: 0}
+  m_AmountOwnMoney: {fileID: 114000011560221926}
+  m_AmountBankMoney: {fileID: 114000010710474646}
 --- !u!114 &114000010058942378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6273,7 +6275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b035aa547f576a64f93874d901c88a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotalUI: {fileID: 114000012624336154}
+  m_TotalUI: {fileID: 114000012624336154}
 --- !u!114 &114000010105277144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9813,9 +9815,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302709e60f30c244d969613e5b38a28e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfOwnMoney: {fileID: 114000013996872234}
-  amountOfChestMoney: {fileID: 114000012860026430}
-  input: {fileID: 114000014269885454}
+  m_AmountOfOwnMoney: {fileID: 114000013996872234}
+  m_AmountOfChestMoney: {fileID: 114000012860026430}
+  m_Input: {fileID: 114000014269885454}
 --- !u!114 &114000011417879668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11691,11 +11693,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2161eadd7ebee4ca9d2560ca9d9b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mProfilePanel: {fileID: 224000010796810876}
-  mGoodsPanel: {fileID: 224000013118765264}
-  mTeamColor: {fileID: 114000010607691228}
-  mTeamMoney: {fileID: 114000011022236862}
-  mPlayerMoney: {fileID: 114000013364109362}
+  m_ProfilePanel: {fileID: 224000010796810876}
+  m_GoodsPanel: {fileID: 224000013118765264}
+  m_TeamColor: {fileID: 114000010607691228}
+  m_TeamMoney: {fileID: 114000011022236862}
+  m_PlayerMoney: {fileID: 114000013364109362}
 --- !u!114 &114000012213841938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14594,9 +14596,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665559de4a78a7b4ab494c45012e37e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listPanel: {fileID: 224000011769716806}
-  switchUpArrow: {fileID: 21300000, guid: 09bfe2c32b7998744a456080f3324e33, type: 3}
-  switchDownArrow: {fileID: 21300000, guid: 4abd93037f2cb5e4a82c2f05c0697ba6, type: 3}
+  m_ListPanel: {fileID: 224000011769716806}
+  m_SwitchUpArrow: {fileID: 21300000, guid: 09bfe2c32b7998744a456080f3324e33, type: 3}
+  m_SwitchDownArrow: {fileID: 21300000, guid: 4abd93037f2cb5e4a82c2f05c0697ba6, type: 3}
 --- !u!114 &114000013404780416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17481,6 +17483,17 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &114358242569393684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1355038868062064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2249367001911154e9bbe43f6fa9cb0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114378576824025826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18035,9 +18048,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec8f00f2aebdcb41ba1482bc22fc03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfOwnMoney: {fileID: 114175583652296388}
-  amountOfChestMoney: {fileID: 114602676635185876}
-  label: {fileID: 114126005729183028}
+  m_AmountOfOwnMoney: {fileID: 114175583652296388}
+  m_AmountOfChestMoney: {fileID: 114602676635185876}
+  m_Label: {fileID: 114126005729183028}
 --- !u!114 &114666552844297270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18160,6 +18173,26 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114722700192310044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013684111852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20690fa77ccdfa44b32b9109746b761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PriorityButtons: {fileID: 224000012819001530}
+  m_UserPanelUI: {fileID: 114000013744810828}
+  m_TradingPostUI: {fileID: 114000012354947066}
+  m_TreasureUI: {fileID: 114000011393651600}
+  m_TreasureEnemyUI: {fileID: 114664033774550908}
+  m_GrandMarketUI: {fileID: 114000010101420456}
+  m_GoodsUI: {fileID: 114000011984397728}
+  m_BankUI: {fileID: 114000010018929678}
+  m_InstructionsUI: {fileID: 114358242569393684}
 --- !u!114 &114725534001277752
 MonoBehaviour:
   m_ObjectHideFlags: 1

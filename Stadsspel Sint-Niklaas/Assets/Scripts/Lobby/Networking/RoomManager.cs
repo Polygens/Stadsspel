@@ -60,11 +60,12 @@ namespace Stadsspel.Networking
 				if(newFloorTime != floorTime) {//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
 					floorTime = newFloorTime; 
 
-					photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime);
+					if(floorTime != 0) {
+						photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime);
+					}
 				} 
 				yield return null; 
 			} 
-			photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, false);
 			SceneManager.LoadScene("Game");	
 		}
 

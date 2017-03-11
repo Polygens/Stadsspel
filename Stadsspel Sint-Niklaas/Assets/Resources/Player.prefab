@@ -486,9 +486,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade537fc62d5c974cb84efe75fbc9f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraBounds: {fileID: 61000012880638502}
-  margin: {x: 0, y: 0}
-  smoothing: {x: 0, y: 0}
+  m_CameraBounds: {fileID: 61000012880638502}
+  m_Margin: {x: 5, y: 5}
+  m_Smoothing: {x: 1, y: 1}
 --- !u!114 &114000012375810858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -500,9 +500,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d62c4c94f913aa46bc0e07d383bf3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTeam: 0
-  mName: Not set
-  mAmountOfMoney: 0
+  m_Team: 0
+  m_GameName: Not set
+  m_AmountOfMoney: 0
 --- !u!114 &114045973104345044
 MonoBehaviour:
   m_ObjectHideFlags: 1

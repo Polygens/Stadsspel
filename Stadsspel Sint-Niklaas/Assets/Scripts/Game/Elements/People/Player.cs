@@ -34,13 +34,8 @@ namespace Stadsspel.Elements
 
 		private RectTransform[] m_Panels;
 
-		[SerializeField]
 		private RectTransform m_MainPanel;
-
-		[SerializeField]
 		private RectTransform m_ListPanel;
-
-		[SerializeField]
 		private RectTransform m_Switch;
 
 		private int m_NumberOfButtonsInlistPanel = 0;
@@ -67,6 +62,12 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		private void Awake()
+		{
+			m_Person = GetComponent<Person>();
+			GameManager.s_Singleton.Player = this;
+		}
+
 		// Team,
 		//Bank,
 		//TradingPost,
@@ -77,7 +78,6 @@ namespace Stadsspel.Elements
 		//Enemy
 		private void Start()
 		{
-			m_Person = GetComponent<Person>();
 			InitializeUI();
 
 			tag = "Player";
@@ -95,7 +95,7 @@ namespace Stadsspel.Elements
 
 		private void InitializeUI()
 		{
-			RectTransform priorityButtons = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("PriorityButtons");
+			RectTransform priorityButtons = InGameUIManager.s_Singleton.PriorityButtons;
 			RectTransform panelsInCanvas = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels");
 			int numberOfPanels = panelsInCanvas.transform.childCount;
 			m_Panels = new RectTransform[numberOfPanels];
