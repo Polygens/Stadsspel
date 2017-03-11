@@ -51,6 +51,7 @@ public class Team : PunBehaviour
 		name = TeamID.ToString();
 	}
 
+  [PunRPC]
 	public void AddOrRemoveMoney(int amount)
 	{
 		m_TotalMoney += amount;
@@ -66,13 +67,13 @@ public class Team : PunBehaviour
 		m_BankAccount = GetComponent<BankAccount>();
 	}
 
-	//[Command]
+	[PunRPC]
 	public void CmdPlayerTransaction(int amount)
 	{
 		m_BankAccount.PlayerTransaction(amount);
 	}
 
-	//[Command]
+	[PunRPC]
 	public void CmdTransaction(int amount)
 	{
 		m_BankAccount.Transaction(amount);

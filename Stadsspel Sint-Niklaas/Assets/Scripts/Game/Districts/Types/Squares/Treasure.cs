@@ -27,6 +27,7 @@ namespace Stadsspel.Districts
 			tag = "Treasure";
 			GameManager.s_Singleton.Teams[(int)m_TeamID - 1].AddOrRemoveMoney(m_AmountOfMoney);//Update total team money
 			OnTeamChanged();
+      GameManager.s_Singleton.AddTreasure(this);
 		}
 
 		public int GetRobAmount()
@@ -37,6 +38,13 @@ namespace Stadsspel.Districts
 			return 0;
 		}
 
+    [PunRPC]
+    public void EmptyChest(int amount)
+    {
+      m_AmountOfMoney -= amount;
+    }
+
+    [PunRPC]
 		public int RobChest()
 		{
 			int robbedMoney = m_AmountOfMoney * (m_RobThreshold / 100);

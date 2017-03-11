@@ -128,6 +128,7 @@ public class GameManager : PunBehaviour
 		m_GameLength = duration;
 	}
 
+  [PunRPC]
 	public void AddTreasure(Treasure t)
 	{
 		m_Treasures.Add(t);
@@ -135,6 +136,13 @@ public class GameManager : PunBehaviour
 
 	public Treasure GetTreasureFrom(TeamID id)
 	{
-		return m_Treasures[(int)id];
+    for (int i = 0; i < m_Treasures.Count; i++)
+    {
+      if (m_Treasures[i].TeamID == id)
+      {
+        return m_Treasures[i];
+      }
+    }
+    return null;
 	}
 }

@@ -52,7 +52,7 @@ public class TreasureUI : MonoBehaviour
 		int.TryParse(m_Input.text, out amount);
 		if(m_CurrentTreasure.IsMoneyTranferValid(amount)) {
 			Debug.Log("Valid Transaction");
-			GameManager.s_Singleton.Player.Person.CmdTreasureTransaction(amount);
+			GameManager.s_Singleton.Player.Person.CmdTreasureTransaction(amount, false);
 		}
 		UpdateUI();
 	}

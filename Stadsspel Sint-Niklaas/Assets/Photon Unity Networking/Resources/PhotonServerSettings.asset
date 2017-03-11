@@ -49,4 +49,12 @@ MonoBehaviour:
   - StartCountDown
   - UpdateCountDown
   - ClientsStart
+  - CmdTreasureTransaction
+  - RobChest
+  - AddOrRemoveMoney
+  - CmdPlayerTransaction
+  - CmdTransaction
+  - AddTreasure
+  - MoneyTransaction
+  - EmptyChest
   DisableAutoOpenWizard: 1

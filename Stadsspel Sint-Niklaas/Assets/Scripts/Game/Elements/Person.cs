@@ -92,18 +92,29 @@ namespace Stadsspel.Elements
 			}
 		}
 
+
+    [PunRPC]
 		public void MoneyTransaction(int money)
 		{
 			m_AmountOfMoney += money;
-			GameManager.s_Singleton.Teams[(int)m_Team].AddOrRemoveMoney(money);
+			GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(money);
 		}
 
-		//[Command]
-		public void CmdTreasureTransaction(int amount)
+		[PunRPC]
+		public void CmdTreasureTransaction(int amount, bool isEnemyTreasure)
 		{
-			GameManager.s_Singleton.GetTreasureFrom(Team).AmountOfMoney -= amount;
-			MoneyTransaction(amount);
-		}
+      TeamID id = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Districts.Treasure>().TeamID;
+
+      //GameManager.s_Singleton.GetTreasureFrom(id).EmptyChest(amount);
+      GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("EmptyChest", PhotonTargets.All, amount);
+      m_AmountOfMoney += amount;
+      if (isEnemyTreasure)
+      {
+        GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(amount);
+        GameManager.s_Singleton.Teams[(int)id - 1].AddOrRemoveMoney(-amount);
+      }
+
+    }
 
 		public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)
 		{
