@@ -12,11 +12,24 @@ public class BankUI : MonoBehaviour
 	[SerializeField]
 	private Text m_AmountBankMoney;
 
+  private float m_Timer;
+
 	private void OnEnable()
 	{
 		UpdateUI();
 	}
 
+  private void Update()
+  {
+    m_Timer += Time.deltaTime;
+    if (m_Timer >= 1)
+    { //Refreshing for better feedback, can be adjusted if necessary
+      UpdateUI();
+      m_Timer = 0;
+    }
+  }
+
+  [PunRPC]
 	public void UpdateUI()
 	{
 		m_AmountOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
@@ -34,11 +47,13 @@ public class BankUI : MonoBehaviour
 	{
 		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(int.Parse(m_AmountField.text));
 		UpdateUI();
+    //GetComponent<PhotonView>().RPC("UpdateUI", PhotonTargets.All);
 	}
 
 	public void RetractMoney()
 	{
 		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(-int.Parse(m_AmountField.text));
-		UpdateUI();
-	}
+    UpdateUI();
+    //GetComponent<PhotonView>().RPC("UpdateUI", PhotonTargets.All);
+  }
 }

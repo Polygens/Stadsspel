@@ -71,11 +71,6 @@ public class Team : PunBehaviour
 	public void PlayerTransaction(int amount)
 	{
 		m_BankAccount.PlayerTransaction(amount);
-	}
-
-	[PunRPC]
-	public void Transaction(int amount)
-	{
-		m_BankAccount.Transaction(amount);
-	}
+    m_BankAccount.GetComponent<PhotonView>().RPC("Transaction", PhotonTargets.All, amount);
+  }
 }

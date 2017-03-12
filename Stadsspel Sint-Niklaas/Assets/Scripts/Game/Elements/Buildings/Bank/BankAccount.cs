@@ -20,6 +20,7 @@ namespace Stadsspel.Elements
 			//mBalance += Mathf.RoundToInt(mBalance * interestMultiplier);//Add 2% from current balance to the total balance
 		}
 
+    [PunRPC]
 		public void Transaction(int amount)
 		{
 			m_Balance += amount;
@@ -29,14 +30,14 @@ namespace Stadsspel.Elements
 		{
 			if(amount > 0) { //Add money to bank, subtract from player
 				if(amount <= GameManager.s_Singleton.Player.Person.AmountOfMoney) {
-					GameManager.s_Singleton.Player.Person.MoneyTransaction(-amount);
-					m_Balance += amount;
+          GameManager.s_Singleton.Player.Person.BankTransaction(-amount);
+					//m_Balance += amount;
 					return true;
 				}
 			} else { //Subtract money from bank, add to player
 				if(-amount <= m_Balance) {
-					GameManager.s_Singleton.Player.Person.MoneyTransaction(-amount);
-					m_Balance += amount;
+					GameManager.s_Singleton.Player.Person.BankTransaction(-amount);
+					//m_Balance += amount;
 					return true;
 				}
 			}

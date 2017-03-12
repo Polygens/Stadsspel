@@ -97,8 +97,8 @@ namespace Stadsspel.Elements
 		public void MoneyTransaction(int money)
 		{
 			m_AmountOfMoney += money;
-			GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(money);
-		}
+			GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, money);
+    }
 
 		[PunRPC]
 		public void TreasureTransaction(int amount, bool isEnemyTreasure)
@@ -129,7 +129,7 @@ namespace Stadsspel.Elements
 			get { return m_AmountOfMoney; }
 		}
 
-		public void AddGoods(int money)
+		public void BankTransaction(int money)
 		{ 
 			m_AmountOfMoney += money; 
 		}

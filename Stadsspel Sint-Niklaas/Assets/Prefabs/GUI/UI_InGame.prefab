@@ -937,7 +937,7 @@ GameObject:
   - component: {fileID: 222000013281953320}
   - component: {fileID: 114000011702150362}
   m_Layer: 5
-  m_Name: Text
+  m_Name: MoneyAmountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6157,7 +6157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46ec82a677de28341be7dfe4a522039b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AmountField: {fileID: 0}
+  m_AmountField: {fileID: 114000011702150362}
   m_AmountOwnMoney: {fileID: 114000011560221926}
   m_AmountBankMoney: {fileID: 114000010710474646}
 --- !u!114 &114000010058942378
