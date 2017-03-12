@@ -93,7 +93,7 @@ namespace Stadsspel.Elements
 		}
 
 
-    [PunRPC]
+		[PunRPC]
 		public void MoneyTransaction(int money)
 		{
 			m_AmountOfMoney += money;
@@ -101,20 +101,19 @@ namespace Stadsspel.Elements
 		}
 
 		[PunRPC]
-		public void CmdTreasureTransaction(int amount, bool isEnemyTreasure)
+		public void TreasureTransaction(int amount, bool isEnemyTreasure)
 		{
-      TeamID id = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Districts.Treasure>().TeamID;
+			TeamID id = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Districts.Treasure>().TeamID;
 
-      //GameManager.s_Singleton.GetTreasureFrom(id).EmptyChest(amount);
-      GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("EmptyChest", PhotonTargets.All, amount);
-      m_AmountOfMoney += amount;
-      if (isEnemyTreasure)
-      {
-        GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(amount);
-        GameManager.s_Singleton.Teams[(int)id - 1].AddOrRemoveMoney(-amount);
-      }
+			//GameManager.s_Singleton.GetTreasureFrom(id).EmptyChest(amount);
+			GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("EmptyChest", PhotonTargets.All, amount);
+			m_AmountOfMoney += amount;
+			if(isEnemyTreasure) {
+				GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(amount);
+				GameManager.s_Singleton.Teams[(int)id - 1].AddOrRemoveMoney(-amount);
+			}
 
-    }
+		}
 
 		public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)
 		{

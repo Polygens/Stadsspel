@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Stadsspel.Districts;
 
 public class MainSquareArrow : MonoBehaviour
 {

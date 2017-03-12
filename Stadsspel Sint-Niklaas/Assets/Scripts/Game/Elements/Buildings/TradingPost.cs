@@ -9,7 +9,7 @@ namespace Stadsspel.Elements
 		private List<int> m_visitedTeams = new List<int>();
 
 		//[Command]
-		public void CmdAddTeamToList()
+		public void AddTeamToList()
 		{
 			m_visitedTeams.Add((int)GameObject.FindWithTag("Player").GetComponent<Person>().Team);
 		}

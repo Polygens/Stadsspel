@@ -123,7 +123,7 @@ public class TradingPostUI : MonoBehaviour
 		}
 		GameManager.s_Singleton.Player.Person.AddLegalItems(legalItems);
 		GameManager.s_Singleton.Player.Person.AddIllegalItems(illegalItems);
-		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().CmdAddTeamToList();
+		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().AddTeamToList();
 		GameManager.s_Singleton.Player.Person.MoneyTransaction(-m_TotalPriceAmount);
 
 		for(int i = 0; i < m_Inputfields.Count; i++) {

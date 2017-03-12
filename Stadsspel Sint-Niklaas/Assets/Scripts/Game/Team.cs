@@ -51,7 +51,7 @@ public class Team : PunBehaviour
 		name = TeamID.ToString();
 	}
 
-  [PunRPC]
+	[PunRPC]
 	public void AddOrRemoveMoney(int amount)
 	{
 		m_TotalMoney += amount;
@@ -68,13 +68,13 @@ public class Team : PunBehaviour
 	}
 
 	[PunRPC]
-	public void CmdPlayerTransaction(int amount)
+	public void PlayerTransaction(int amount)
 	{
 		m_BankAccount.PlayerTransaction(amount);
 	}
 
 	[PunRPC]
-	public void CmdTransaction(int amount)
+	public void Transaction(int amount)
 	{
 		m_BankAccount.Transaction(amount);
 	}

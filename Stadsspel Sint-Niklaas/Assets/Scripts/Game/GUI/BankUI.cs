@@ -32,13 +32,13 @@ public class BankUI : MonoBehaviour
 
 	public void TransferMoney()
 	{
-		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].CmdPlayerTransaction(int.Parse(m_AmountField.text));
+		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(int.Parse(m_AmountField.text));
 		UpdateUI();
 	}
 
 	public void RetractMoney()
 	{
-		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].CmdPlayerTransaction(-int.Parse(m_AmountField.text));
+		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(-int.Parse(m_AmountField.text));
 		UpdateUI();
 	}
 }
