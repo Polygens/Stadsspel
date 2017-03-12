@@ -19,7 +19,8 @@ namespace Stadsspel.Elements
 			m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
 			if(PhotonNetwork.player == photonView.owner) {
 				gameObject.AddComponent<Player>();
-			} else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
+        transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
+      } else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
 				gameObject.AddComponent<Friend>();
 			} else {
 				gameObject.AddComponent<Enemy>();

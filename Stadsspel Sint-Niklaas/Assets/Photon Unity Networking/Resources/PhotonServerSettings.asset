@@ -52,4 +52,6 @@ MonoBehaviour:
   - UpdateCountDown
   - GainMoneyOverTime
   - UpdateUI
+  - AddTeamToList
+  - RemoveTeamFromList
   DisableAutoOpenWizard: 1

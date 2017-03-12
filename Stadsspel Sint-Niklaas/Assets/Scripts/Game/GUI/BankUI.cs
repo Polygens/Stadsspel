@@ -45,14 +45,22 @@ public class BankUI : MonoBehaviour
 
 	public void TransferMoney()
 	{
-		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(int.Parse(m_AmountField.text));
-		UpdateUI();
+    if (GameManager.s_Singleton.Player.Person.AmountOfMoney >= int.Parse(m_AmountField.text))
+    {
+      GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(int.Parse(m_AmountField.text));
+      UpdateUI();
+    }
+
     //GetComponent<PhotonView>().RPC("UpdateUI", PhotonTargets.All);
 	}
 
 	public void RetractMoney()
 	{
-		GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(-int.Parse(m_AmountField.text));
+    if (GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].BankAccount.Balance >= int.Parse(m_AmountField.text))
+    {
+      GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(-int.Parse(m_AmountField.text));
+    }
+
     UpdateUI();
     //GetComponent<PhotonView>().RPC("UpdateUI", PhotonTargets.All);
   }
