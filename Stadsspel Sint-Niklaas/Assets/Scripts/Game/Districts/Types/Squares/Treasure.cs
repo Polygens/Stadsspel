@@ -52,6 +52,7 @@ namespace Stadsspel.Districts
 			return robbedMoney;
 		}
 
+    [PunRPC]
 		public void GainMoneyOverTime()
 		{
 			int moneyGain = m_MoneyGainPerDistrict * CheckAmountOfCapturedDistricts();

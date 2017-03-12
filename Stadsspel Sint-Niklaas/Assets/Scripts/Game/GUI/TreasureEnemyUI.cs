@@ -12,16 +12,17 @@ public class TreasureEnemyUI : MonoBehaviour
 	private InputField m_Label;
 
 	private Treasure m_CurrentTreasure;
-
-	private void Start()
-	{
-	
-	}
+  private float m_Timer;
 
 	private void Update()
 	{
-	
-	}
+    m_Timer += Time.deltaTime;
+    if (m_Timer >= 1)
+    { //Refreshing for better feedback, can be adjusted if necessary
+      UpdateUI();
+      m_Timer = 0;
+    }
+  }
 
 	private void OnEnable()
 	{

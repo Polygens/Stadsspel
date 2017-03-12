@@ -85,13 +85,17 @@ public class GameManager : PunBehaviour
 			//Debug.Log("The game has ended");
 		}
 		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime) {
-			
-			// Call GainMoneyOverTime() from each financial object
-			for(int i = 0; i < m_Treasures.Count; i++) {
-				m_Treasures[i].GainMoneyOverTime();
-			}
-			m_NextMoneyUpdateTime = Time.timeSinceLevelLoad + m_MoneyUpdateTimeInterval;
-		}
+      if (PhotonNetwork.isMasterClient)
+      {
+        // Call GainMoneyOverTime() from each financial object
+        for (int i = 0; i < m_Treasures.Count; i++)
+        {
+          m_Treasures[i].GetComponent<PhotonView>().RPC("GainMoneyOverTime", PhotonTargets.All);
+        }
+        
+      }
+      m_NextMoneyUpdateTime = Time.timeSinceLevelLoad + m_MoneyUpdateTimeInterval;
+    }
 	}
 
 	private void MasterClientStart()

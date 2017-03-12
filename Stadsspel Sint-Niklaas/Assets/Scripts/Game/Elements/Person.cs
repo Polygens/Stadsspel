@@ -109,8 +109,11 @@ namespace Stadsspel.Elements
 			GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("EmptyChest", PhotonTargets.All, amount);
 			m_AmountOfMoney += amount;
 			if(isEnemyTreasure) {
-				GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(amount);
-				GameManager.s_Singleton.Teams[(int)id - 1].AddOrRemoveMoney(-amount);
+        GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, amount);
+        GameManager.s_Singleton.Teams[(int)id - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, -amount);
+
+        //GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(amount);
+				//GameManager.s_Singleton.Teams[(int)id - 1].AddOrRemoveMoney(-amount);
 			}
 
 		}

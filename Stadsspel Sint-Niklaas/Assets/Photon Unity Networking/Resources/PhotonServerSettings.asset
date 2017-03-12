@@ -50,4 +50,5 @@ MonoBehaviour:
   - Transaction
   - TreasureTransaction
   - UpdateCountDown
+  - GainMoneyOverTime
   DisableAutoOpenWizard: 1
