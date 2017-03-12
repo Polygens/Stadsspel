@@ -27,34 +27,27 @@ MonoBehaviour:
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
+  - AddOrRemoveMoney
+  - AddTreasure
   - Chat
-  - ColorRpc
+  - ClientsStart
   - DestroyRpc
-  - DoJump
-  - Flash
+  - EmptyChest
   - InstantiateRpc
-  - Marco
+  - MoneyTransaction
+  - NameChanged
   - OnAwakeRPC
   - PickupItemInit
-  - Polo
+  - PlayerTransaction
   - PunPickup
   - PunPickupSimple
   - PunRespawn
+  - ReadyChanged
   - RequestForPickupItems
   - RequestForPickupTimes
-  - TaggedPlayer
-  - NameChanged
-  - ReadyChanged
-  - TeamChanged
-  - StartCountDown
-  - UpdateCountDown
-  - ClientsStart
-  - CmdTreasureTransaction
   - RobChest
-  - AddOrRemoveMoney
-  - CmdPlayerTransaction
-  - CmdTransaction
-  - AddTreasure
-  - MoneyTransaction
-  - EmptyChest
+  - StartCountDown
+  - Transaction
+  - TreasureTransaction
+  - UpdateCountDown
   DisableAutoOpenWizard: 1
