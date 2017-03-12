@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Stadsspel.Districts
 {
@@ -18,6 +19,8 @@ namespace Stadsspel.Districts
 		[SerializeField]
 		private PolygonCollider2D[] m_DistrictColliders;
 
+		private List<HeadDistrict> m_HeadDistricts = new List<HeadDistrict>();
+
 		public void StartGame(int amountOfTeams)
 		{
 			m_DistrictColliders = new PolygonCollider2D[gameObject.transform.childCount];
@@ -30,6 +33,7 @@ namespace Stadsspel.Districts
 					HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
 					district.TeamID = (TeamID)(i);
 					district.enabled = true;
+					m_HeadDistricts.Add(district);
 					Destroy(district.GetComponent<CapturableDistrict>());
 					Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
 					square.TeamID = (TeamID)(i);
@@ -79,6 +83,16 @@ namespace Stadsspel.Districts
 				}
 			}
 			return DistrictStates.NoTerritory;
+		}
+
+		public HeadDistrict GetHeadDistrict(TeamID team)
+		{
+			return m_HeadDistricts[(int)team - 1];
+		}
+
+		public Treasure GetHeadSquare(TeamID team)
+		{
+			return GetHeadDistrict(team).transform.GetChild(0).GetComponent<Treasure>();
 		}
 	}
 }

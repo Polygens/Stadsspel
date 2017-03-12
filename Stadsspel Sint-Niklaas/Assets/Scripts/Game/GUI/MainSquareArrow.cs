@@ -3,16 +3,16 @@ using Stadsspel.Districts;
 
 public class MainSquareArrow : MonoBehaviour
 {
-	HeadDistrict m_HeadDistrict;
+	Vector3 m_HeadSquarePos;
 
 	private void Start()
 	{
-		m_HeadDistrict = FindObjectOfType<HeadDistrict>();
+		m_HeadSquarePos = GameManager.s_Singleton.DistrictManager.GetHeadSquare(GameManager.s_Singleton.Player.Person.Team).transform.position;
 	}
-
 
 	private void Update()
 	{
-		//transform.LookAt(headDistrict.transform);
+		Vector3 dir = m_HeadSquarePos - transform.position;
+		transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90, Vector3.forward);
 	}
 }
