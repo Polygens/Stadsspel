@@ -85,17 +85,15 @@ public class GameManager : PunBehaviour
 			//Debug.Log("The game has ended");
 		}
 		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime) {
-      if (PhotonNetwork.isMasterClient)
-      {
-        // Call GainMoneyOverTime() from each financial object
-        for (int i = 0; i < m_Treasures.Count; i++)
-        {
-          m_Treasures[i].GetComponent<PhotonView>().RPC("GainMoneyOverTime", PhotonTargets.All);
-        }
+			if(PhotonNetwork.isMasterClient) {
+				// Call GainMoneyOverTime() from each financial object
+				for(int i = 0; i < m_Treasures.Count; i++) {
+					m_Treasures[i].GetComponent<PhotonView>().RPC("GainMoneyOverTime", PhotonTargets.All);
+				}
         
-      }
-      m_NextMoneyUpdateTime = Time.timeSinceLevelLoad + m_MoneyUpdateTimeInterval;
-    }
+			}
+			m_NextMoneyUpdateTime = Time.timeSinceLevelLoad + m_MoneyUpdateTimeInterval;
+		}
 	}
 
 	private void MasterClientStart()
@@ -103,7 +101,7 @@ public class GameManager : PunBehaviour
 		if(PhotonNetwork.player.IsMasterClient) {
 			Debug.Log("Master client started");
 			for(int i = 0; i < m_AmountOfTeams; i++) {
-				PhotonNetwork.Instantiate(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0);
+				PhotonNetwork.InstantiateSceneObject(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0, null);
 			}
 
 			photonView.RPC("ClientsStart", PhotonTargets.All);
@@ -132,7 +130,7 @@ public class GameManager : PunBehaviour
 		m_GameLength = duration;
 	}
 
-  [PunRPC]
+	[PunRPC]
 	public void AddTreasure(Treasure t)
 	{
 		m_Treasures.Add(t);
@@ -140,13 +138,11 @@ public class GameManager : PunBehaviour
 
 	public Treasure GetTreasureFrom(TeamID id)
 	{
-    for (int i = 0; i < m_Treasures.Count; i++)
-    {
-      if (m_Treasures[i].TeamID == id)
-      {
-        return m_Treasures[i];
-      }
-    }
-    return null;
+		for(int i = 0; i < m_Treasures.Count; i++) {
+			if(m_Treasures[i].TeamID == id) {
+				return m_Treasures[i];
+			}
+		}
+		return null;
 	}
 }
