@@ -134,10 +134,13 @@ namespace Stadsspel.Elements
 
 				// In case there were no collidings before.
 				m_MainPanel.gameObject.SetActive(true);
-				m_ListPanel.gameObject.SetActive(true);
-				if(allGameObjectsInRadius.Count != 1) {
-					m_Switch.gameObject.SetActive(true);
-				}
+
+        if (allGameObjectsInRadius.Count > 1)
+        {
+          m_ListPanel.gameObject.SetActive(true);
+          m_Switch.gameObject.SetActive(true);
+          
+        }
 
 				int lengthEnum = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
 				int[] priorityPresence = new int[lengthEnum];
@@ -175,32 +178,58 @@ namespace Stadsspel.Elements
 					}
 				}
 
-				// if there is a new highestpriority, do next lines
-				if(tempPriority != m_HighestPriority) {
-					m_HighestPriority = tempPriority;
 
-					//Make room for new mainbutton
-					if(m_MainPanel.childCount > 0) {
-						GameObject tempB = m_MainPanel.GetChild(0).gameObject;
-						Destroy(tempB);
-					}
 
-					Button mainButton = (Button)Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-					mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
-					RectTransform tempPanel = null;
+        // if there is a new highestpriority, do next lines
+        if (tempPriority != m_HighestPriority)
+        {
+          m_HighestPriority = tempPriority;
+          Debug.Log("New Highest priority is: " + ((Priority)m_HighestPriority).ToString());
 
-					//names of the panels need to be the same as the priorities & layernames
-					for(int j = 0; j < m_Panels.Length; j++) {
-						if(m_Panels[j].name == ((Priority)m_HighestPriority).ToString()) {
-							if("Enemy" != ((Priority)m_HighestPriority).ToString()) {
-								tempPanel = m_Panels[j];
-								mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
-							} else {
-								mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
-							}
-						}
-					}
-				}
+          //Make room for new mainbutton
+          if (m_MainPanel.childCount > 0)
+          {
+            GameObject tempB = m_MainPanel.GetChild(0).gameObject;
+            Destroy(tempB);
+          }
+
+          Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+          mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+          RectTransform tempPanel = null;
+
+          //names of the panels need to be the same as the priorities & layernames
+          for (int j = 0; j < m_Panels.Length; j++)
+          {
+            if (m_Panels[j].name == ((Priority)m_HighestPriority).ToString())
+            {
+
+              if ("Enemy" != ((Priority)m_HighestPriority).ToString())
+              {
+                tempPanel = m_Panels[j];
+                mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
+              }
+              else
+              {
+                mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
+              }
+            }
+          }
+        }
+        else 
+        {
+          if (((Priority)m_HighestPriority).ToString() == "Enemy")
+          {
+            if (m_MainPanel.childCount > 0)
+            {
+              GameObject tempB = m_MainPanel.GetChild(0).gameObject;
+              Destroy(tempB);
+            }
+
+            Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+            mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+            mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
+          }
+        }
 
 				// For all priorities, check if more buttons are needed in listpanel
 				for(int i = priorityPresence.Length - 1; i >= 0; i--) {
@@ -270,12 +299,12 @@ namespace Stadsspel.Elements
 
 		public void OnTriggerEnter2D(Collider2D other)
 		{
-			//Debug.Log(other.tag);
 			if(other.tag != "Untagged") {
 				m_AllGameObjectsInRadius.Add(other.gameObject);
-				if(other.tag == "Enemy") {
-					m_EnemiesInRadius.Add(other.gameObject);
-				}
+        if (other.tag == "Enemy")
+        {
+          m_EnemiesInRadius.Add(other.gameObject);
+        }
 
 				PriorityUpdate(m_AllGameObjectsInRadius, other);
 			}
