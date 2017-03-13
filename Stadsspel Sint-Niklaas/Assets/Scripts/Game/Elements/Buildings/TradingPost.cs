@@ -13,7 +13,7 @@ namespace Stadsspel.Elements
     private List<float> m_TeamTimers = new List<float>();
 
     [SerializeField]
-    private int m_CountdownDuration = 1200; // 20 minuten * 60
+    private int m_CountdownDuration = 12; // 20 minuten * 60 = 1200
 
     private float m_UpdateTimer = 0;
     private float m_UpdateTime = 1;
@@ -22,10 +22,11 @@ namespace Stadsspel.Elements
 
 
     [PunRPC]
-		public void AddTeamToList()
-		{
-			m_visitedTeams.Add((int)GameManager.s_Singleton.Player.Person.Team);
-      m_TeamTimers.Add(m_CountdownDuration); 
+    public void AddTeamToList(int teamID)
+	{
+		m_visitedTeams.Add(teamID);
+        Debug.Log("Team: " + teamID + " added to visited list");
+        m_TeamTimers.Add(m_CountdownDuration); 
     }
 
     private void Update()
@@ -38,7 +39,7 @@ namespace Stadsspel.Elements
           if (m_TeamTimers[i] <= 0)
           {
             photonView.RPC("RemoveTeamFromList",PhotonTargets.AllViaServer, i);
-            return;
+            break;
           }
           else
           {
@@ -52,7 +53,6 @@ namespace Stadsspel.Elements
                   photonView.RPC("UpdateUI", PhotonTargets.AllViaServer, Mathf.RoundToInt(m_TeamTimers[i]));
               }
             }
-
           }
         }
       }
@@ -64,7 +64,8 @@ namespace Stadsspel.Elements
       m_visitedTeams.RemoveAt(index);
       m_TeamTimers.RemoveAt(index);
       messagePanel.SetActive(false);
-    }
+            Debug.Log("Team: " + (int)GameManager.s_Singleton.Player.Person.Team + " removed from visited list");
+        }
 
     [PunRPC]
     private void UpdateUI(int time)
@@ -85,22 +86,25 @@ namespace Stadsspel.Elements
      
     }
 
-    private new void Start()
-		{
-			m_BuildingType = BuildingType.Tradingpost;
-			base.Start();
-      tradingPostUI = (TradingPostUI)GameObject.Find("Panels").GetComponentInChildren(typeof(TradingPostUI), true);
-      messagePanel = GameObject.Find("Panels").transform.FindChild("TradingPost").transform.FindChild("MessagePanel").gameObject;
-    }
+        private new void Start()
+        {
+            m_BuildingType = BuildingType.Tradingpost;
+            base.Start();
+            tradingPostUI = (TradingPostUI)GameObject.Find("Panels").GetComponentInChildren(typeof(TradingPostUI), true);
+            messagePanel = GameObject.Find("Panels").transform.FindChild("TradingPost").transform.FindChild("MessagePanel").gameObject;
+        }
 
-		public List<int> VisitedTeams {
-			get {
-				List<int> teams = new List<int>();
-				foreach(int team in m_visitedTeams) {
-					teams.Add(team);
-				}
-				return teams;
-			}
-		}
+        public List<int> VisitedTeams
+        {
+            get
+            {
+                //List<int> teams = new List<int>();
+                //foreach (int team in m_visitedTeams)
+                //{
+                //    teams.Add(team);
+                //}
+                return m_visitedTeams;
+            }
+        }
 	}
 }

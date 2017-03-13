@@ -81,12 +81,17 @@ public class TradingPostUI : MonoBehaviour
 	{
 		bool teamAlreadyVisited = false;
 		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
+
 		Debug.Log(tempTradePost.name);
 		Debug.Log(tempTradePost.GetComponent<TradingPost>().VisitedTeams.Count);
+
 		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
-		for(int i = 0; i < visitedTeams.Count; i++) {
-			if(visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team) {
+		for(int i = 0; i < visitedTeams.Count; i++)
+        {
+			if(visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team)
+            {
 				teamAlreadyVisited = true;
+                break;
 			}
 		}
 		return teamAlreadyVisited;
@@ -94,18 +99,21 @@ public class TradingPostUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		if(CheckIfTeamAlreadyVisited()) {
-
-      //Start, + property
-      messagePanel.SetActive(true);
-		} else {
-			if(messagePanel.activeSelf)
-        messagePanel.SetActive(false);
-		}
-		if(m_EverythingIsInstantiated) {
-			m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-		}
-	}
+        if (CheckIfTeamAlreadyVisited())
+        {
+            //Start, + property
+            messagePanel.SetActive(true);
+        }
+        else
+        {
+            if (messagePanel.activeSelf)
+                messagePanel.SetActive(false);
+        }
+        if (m_EverythingIsInstantiated)
+        {
+            m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+        }
+    }
 
 	public void Purchase()
 	{
@@ -140,7 +148,7 @@ public class TradingPostUI : MonoBehaviour
 		}
 		GameManager.s_Singleton.Player.Person.AddLegalItems(legalItems);
 		GameManager.s_Singleton.Player.Person.AddIllegalItems(illegalItems);
-    GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().GetComponent<PhotonView>().RPC("AddTeamToList", PhotonTargets.All);
+        GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().GetComponent<PhotonView>().RPC("AddTeamToList", PhotonTargets.All, (int)GameManager.s_Singleton.Player.Person.Team);
 		GameManager.s_Singleton.Player.Person.MoneyTransaction(-m_TotalPriceAmount);
 
 		for(int i = 0; i < m_Inputfields.Count; i++) {

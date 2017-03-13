@@ -54,4 +54,5 @@ MonoBehaviour:
   - UpdateUI
   - AddTeamToList
   - RemoveTeamFromList
+  - AddTeamToVisitedList
   DisableAutoOpenWizard: 1
