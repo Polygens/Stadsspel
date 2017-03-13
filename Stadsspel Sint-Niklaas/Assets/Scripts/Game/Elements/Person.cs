@@ -17,7 +17,6 @@ namespace Stadsspel.Elements
 		private void Awake()
 		{
 			m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
-			photonView.group = (int)m_Team;
 			if(PhotonNetwork.player == photonView.owner) {
 				gameObject.AddComponent<Player>();
 				transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
