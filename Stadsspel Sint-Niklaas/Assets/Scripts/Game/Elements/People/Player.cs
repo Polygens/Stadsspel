@@ -97,7 +97,7 @@ namespace Stadsspel.Elements
 		private void InitializeUI()
 		{
 			RectTransform priorityButtons = InGameUIManager.s_Singleton.PriorityButtons;
-			RectTransform panelsInCanvas = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels");
+			RectTransform panelsInCanvas = InGameUIManager.s_Singleton.Panels;
 			int numberOfPanels = panelsInCanvas.transform.childCount;
 			m_Panels = new RectTransform[numberOfPanels];
 			for(int i = 0; i < numberOfPanels; i++) {

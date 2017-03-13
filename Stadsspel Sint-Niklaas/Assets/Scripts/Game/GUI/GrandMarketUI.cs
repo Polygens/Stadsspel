@@ -24,7 +24,7 @@ public class GrandMarketUI : MonoBehaviour
 		m_LegalItems = GameManager.s_Singleton.Player.Person.LookUpLegalItems;
 		m_IllegalItems = GameManager.s_Singleton.Player.Person.LookUpIllegalItems;
 
-		m_MarktPanel = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels").transform.FindChild("GrandMarket");
+		m_MarktPanel = (RectTransform)InGameUIManager.s_Singleton.GrandMarketUI.transform;
 		RectTransform Grid = (RectTransform)m_MarktPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
 		int index = 0;
 		//int indexLegal = 0;  
@@ -69,9 +69,6 @@ public class GrandMarketUI : MonoBehaviour
 		GameManager.s_Singleton.Player.Person.MoneyTransaction(m_Total);
 		GameManager.s_Singleton.Player.Person.ResetIllegalItems();
 		GameManager.s_Singleton.Player.Person.ResetLegalItems();
-		//GameObject.FindWithTag("Player").GetComponent<Player>().Person.MoneyTransaction(total); 
-		//GameObject.FindWithTag("Player").GetComponent<Player>().Person.ResetIllegalItems(); 
-		//GameObject.FindWithTag("Player").GetComponent<Player>().Person.ResetLegalItems(); 
 		m_Total = 0;
 		UpdateUI();
 		ResetUI();

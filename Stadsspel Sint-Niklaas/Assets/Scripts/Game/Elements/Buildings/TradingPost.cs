@@ -7,104 +7,86 @@ namespace Stadsspel.Elements
 {
 	public class TradingPost : Building
 	{
-    TradingPostUI tradingPostUI;
 		//	private SyncListInt visitedTeams = new SyncListInt();
 		private List<int> m_visitedTeams = new List<int>();
-    private List<float> m_TeamTimers = new List<float>();
+		private List<float> m_TeamTimers = new List<float>();
 
-    [SerializeField]
-    private int m_CountdownDuration = 12; // 20 minuten * 60 = 1200
+		[SerializeField]
+		private int m_CountdownDuration = 12;
+		// 20 minuten * 60 = 1200
 
-    private float m_UpdateTimer = 0;
-    private float m_UpdateTime = 1;
+		private float m_UpdateTimer = 0;
+		private float m_UpdateTime = 1;
 
-    GameObject messagePanel;
+		[PunRPC]
+		public void AddTeamToList(int teamID)
+		{
+			m_visitedTeams.Add(teamID);
+			Debug.Log("Team: " + teamID + " added to visited list");
+			m_TeamTimers.Add(m_CountdownDuration); 
+		}
 
+		private void Update()
+		{
+			if(m_TeamTimers.Count > 0) {
+				for(int i = 0; i < m_TeamTimers.Count; i++) {
+					m_TeamTimers[i] -= Time.deltaTime;
+					if(m_TeamTimers[i] <= 0) {
+						photonView.RPC("RemoveTeamFromList", PhotonTargets.AllViaServer, i);
+						break;
+					} else {
+						if(InGameUIManager.s_Singleton.TradingPostUI.gameObject.activeSelf) {
+							m_UpdateTimer += Time.deltaTime;
+							if(m_UpdateTimer > m_UpdateTime) {
+								m_UpdateTimer = 0;
+								if(m_visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team)
+									photonView.RPC("UpdateUI", PhotonTargets.AllViaServer, Mathf.RoundToInt(m_TeamTimers[i]));
+							}
+						}
+					}
+				}
+			}
+		}
 
-    [PunRPC]
-    public void AddTeamToList(int teamID)
-	{
-		m_visitedTeams.Add(teamID);
-        Debug.Log("Team: " + teamID + " added to visited list");
-        m_TeamTimers.Add(m_CountdownDuration); 
-    }
+		[PunRPC]
+		public void RemoveTeamFromList(int index)
+		{
+			m_visitedTeams.RemoveAt(index);
+			m_TeamTimers.RemoveAt(index);
+			InGameUIManager.s_Singleton.TradingPostUI.MessagePanel.SetActive(false);
+			Debug.Log("Team: " + (int)GameManager.s_Singleton.Player.Person.Team + " removed from visited list");
+		}
 
-    private void Update()
-    {
-      if (m_TeamTimers.Count > 0)
-      {
-        for (int i = 0; i < m_TeamTimers.Count; i++)
-        {
-          m_TeamTimers[i] -= Time.deltaTime;
-          if (m_TeamTimers[i] <= 0)
-          {
-            photonView.RPC("RemoveTeamFromList",PhotonTargets.AllViaServer, i);
-            break;
-          }
-          else
-          {
-            if (messagePanel.activeSelf)
-            {
-              m_UpdateTimer += Time.deltaTime;
-              if (m_UpdateTimer > m_UpdateTime)
-              {
-                m_UpdateTimer = 0;
-                if (m_visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team)
-                  photonView.RPC("UpdateUI", PhotonTargets.AllViaServer, Mathf.RoundToInt(m_TeamTimers[i]));
-              }
-            }
-          }
-        }
-      }
-    }
-
-    [PunRPC]
-    public void RemoveTeamFromList(int index)
-    {
-      m_visitedTeams.RemoveAt(index);
-      m_TeamTimers.RemoveAt(index);
-      messagePanel.SetActive(false);
-            Debug.Log("Team: " + (int)GameManager.s_Singleton.Player.Person.Team + " removed from visited list");
-        }
-
-    [PunRPC]
-    private void UpdateUI(int time)
-    {
-      if (time > 60)
-      {
-        int seconds = time % 60;
-        if (seconds < 10)
-        {
-          messagePanel.GetComponentInChildren<Text>().text = "Je moet nog " + (time / 60).ToString() + " : 0" + seconds.ToString() + " minuten wachten om bij deze winkel goederen te kopen.";
-        }
-        messagePanel.GetComponentInChildren<Text>().text = "Je moet nog " + (time / 60).ToString() + " : " + seconds.ToString() + " minuten wachten om bij deze winkel goederen te kopen.";
-      }
-      else
-      {
-        messagePanel.GetComponentInChildren<Text>().text = "Je moet nog " + time + " seconden wachten om bij deze winkel goederen te kopen.";
-      }
+		[PunRPC]
+		private void UpdateUI(int time)
+		{
+			if(time > 60) {
+				int seconds = time % 60;
+				if(seconds < 10) {
+					InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + (time / 60).ToString() + " : 0" + seconds.ToString() + " minuten wachten om bij deze winkel goederen te kopen.";
+				}
+				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + (time / 60).ToString() + " : " + seconds.ToString() + " minuten wachten om bij deze winkel goederen te kopen.";
+			} else {
+				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + time + " seconden wachten om bij deze winkel goederen te kopen.";
+			}
      
-    }
+		}
 
-        private new void Start()
-        {
-            m_BuildingType = BuildingType.Tradingpost;
-            base.Start();
-            tradingPostUI = (TradingPostUI)GameObject.Find("Panels").GetComponentInChildren(typeof(TradingPostUI), true);
-            messagePanel = GameObject.Find("Panels").transform.FindChild("TradingPost").transform.FindChild("MessagePanel").gameObject;
-        }
+		private new void Start()
+		{
+			m_BuildingType = BuildingType.Tradingpost;
+			base.Start();
+		}
 
-        public List<int> VisitedTeams
-        {
-            get
-            {
-                //List<int> teams = new List<int>();
-                //foreach (int team in m_visitedTeams)
-                //{
-                //    teams.Add(team);
-                //}
-                return m_visitedTeams;
-            }
-        }
+		public List<int> VisitedTeams {
+			get {
+				//List<int> teams = new List<int>();
+				//foreach (int team in m_visitedTeams)
+				//{
+				//    teams.Add(team);
+				//}
+				return m_visitedTeams;
+			}
+		}
 	}
 }

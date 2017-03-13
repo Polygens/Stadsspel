@@ -5,12 +5,11 @@ using Stadsspel.Elements;
 
 public class TradingPostUI : MonoBehaviour
 {
-	private RectTransform m_TradingPostPanel;
 	private Text m_TotalPriceText;
 	private int m_TotalPriceAmount;
 	private List<InputField> m_Inputfields = new List<InputField>();
 	private List<Text> m_TotalTextFields = new List<Text>();
-  private GameObject messagePanel;
+	private GameObject m_MessagePanel;
 
 	//SyncListInt visitedTeams = new SyncListInt();
 	private List<Item> m_ShopItems = new List<Item>();
@@ -27,40 +26,34 @@ public class TradingPostUI : MonoBehaviour
 		}
 	}
 
-  public GameObject MessagePanel
-  {
-    get
-    {
-      return messagePanel;
-    }
-  }
+	public GameObject MessagePanel {
+		get {
+			return m_MessagePanel;
+		}
+	}
 
-  public Text MessagePanelText
-  {
-    get
-    {
-      return (Text)messagePanel.GetComponentInChildren(typeof(Text),true);
-    }
-  }
+	public Text MessagePanelText {
+		get {
+			return (Text)m_MessagePanel.GetComponentInChildren(typeof(Text), true);
+		}
+	}
 
-  private void Start()
+	private void Start()
 	{
-		m_TradingPostPanel = (RectTransform)GameObject.FindWithTag("Canvas").transform.FindChild("Panels").transform.FindChild("TradingPost");
+		//if (!isLocalPlayer)
+		//{
+		//  TradingPostPanel.gameObject.SetActive(false);
+		//  return;
+		//}
 
-    //if (!isLocalPlayer)
-    //{
-    //  TradingPostPanel.gameObject.SetActive(false);
-    //  return;
-    //}
-
-    messagePanel = transform.FindChild("MessagePanel").gameObject;
+		m_MessagePanel = transform.FindChild("MessagePanel").gameObject;
     
 
-    m_ShopItems = Item.ShopItems;
+		m_ShopItems = Item.ShopItems;
 
-		RectTransform Grid = (RectTransform)m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
-		m_TotalPriceText = m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
-		m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		RectTransform Grid = (RectTransform)transform.FindChild("MainPanel").transform.FindChild("Grid");
+		m_TotalPriceText = transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
+		transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 		int childsInGrid = Grid.childCount;
 		int index = 0;
 		for(int i = 1; i < childsInGrid; i++) {
@@ -86,12 +79,10 @@ public class TradingPostUI : MonoBehaviour
 		Debug.Log(tempTradePost.GetComponent<TradingPost>().VisitedTeams.Count);
 
 		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
-		for(int i = 0; i < visitedTeams.Count; i++)
-        {
-			if(visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team)
-            {
+		for(int i = 0; i < visitedTeams.Count; i++) {
+			if(visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team) {
 				teamAlreadyVisited = true;
-                break;
+				break;
 			}
 		}
 		return teamAlreadyVisited;
@@ -99,21 +90,17 @@ public class TradingPostUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-        if (CheckIfTeamAlreadyVisited())
-        {
-            //Start, + property
-            messagePanel.SetActive(true);
-        }
-        else
-        {
-            if (messagePanel.activeSelf)
-                messagePanel.SetActive(false);
-        }
-        if (m_EverythingIsInstantiated)
-        {
-            m_TradingPostPanel.transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-        }
-    }
+		if(CheckIfTeamAlreadyVisited()) {
+			//Start, + property
+			m_MessagePanel.SetActive(true);
+		} else {
+			if(m_MessagePanel.activeSelf)
+				m_MessagePanel.SetActive(false);
+		}
+		if(m_EverythingIsInstantiated) {
+			transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		}
+	}
 
 	public void Purchase()
 	{
@@ -124,12 +111,12 @@ public class TradingPostUI : MonoBehaviour
 		if(!CheckIfTeamAlreadyVisited()) {
 			if(GameManager.s_Singleton.Player.Person.AmountOfMoney >= m_TotalPriceAmount) {
 				AddGoodsToPlayer();
-				m_TradingPostPanel.gameObject.SetActive(false);
+				gameObject.SetActive(false);
 			} else {
 				Debug.Log("Not enough money");
 			}
 		} else {
-			m_TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(true);
+			transform.FindChild("MessagePanel").gameObject.SetActive(true);
 		}
 	}
 
@@ -148,7 +135,7 @@ public class TradingPostUI : MonoBehaviour
 		}
 		GameManager.s_Singleton.Player.Person.AddLegalItems(legalItems);
 		GameManager.s_Singleton.Player.Person.AddIllegalItems(illegalItems);
-        GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().GetComponent<PhotonView>().RPC("AddTeamToList", PhotonTargets.All, (int)GameManager.s_Singleton.Player.Person.Team);
+		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().GetComponent<PhotonView>().RPC("AddTeamToList", PhotonTargets.All, (int)GameManager.s_Singleton.Player.Person.Team);
 		GameManager.s_Singleton.Player.Person.MoneyTransaction(-m_TotalPriceAmount);
 
 		for(int i = 0; i < m_Inputfields.Count; i++) {
@@ -161,7 +148,7 @@ public class TradingPostUI : MonoBehaviour
 
 	public void OnClose()
 	{
-		m_TradingPostPanel.transform.FindChild("MessagePanel").gameObject.SetActive(false);
+		transform.FindChild("MessagePanel").gameObject.SetActive(false);
 	}
 
 	//For drop down or inputField

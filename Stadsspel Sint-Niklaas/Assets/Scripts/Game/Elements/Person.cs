@@ -17,10 +17,11 @@ namespace Stadsspel.Elements
 		private void Awake()
 		{
 			m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
+			photonView.group = (int)m_Team;
 			if(PhotonNetwork.player == photonView.owner) {
 				gameObject.AddComponent<Player>();
-        transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
-      } else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
+				transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
+			} else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
 				gameObject.AddComponent<Friend>();
 			} else {
 				gameObject.AddComponent<Enemy>();
@@ -99,7 +100,7 @@ namespace Stadsspel.Elements
 		{
 			m_AmountOfMoney += money;
 			GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, money);
-    }
+		}
 
 		[PunRPC]
 		public void TreasureTransaction(int amount, bool isEnemyTreasure)
@@ -110,10 +111,10 @@ namespace Stadsspel.Elements
 			GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("EmptyChest", PhotonTargets.All, amount);
 			m_AmountOfMoney += amount;
 			if(isEnemyTreasure) {
-        GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, amount);
-        GameManager.s_Singleton.Teams[(int)id - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, -amount);
+				GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, amount);
+				GameManager.s_Singleton.Teams[(int)id - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, -amount);
 
-        //GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(amount);
+				//GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(amount);
 				//GameManager.s_Singleton.Teams[(int)id - 1].AddOrRemoveMoney(-amount);
 			}
 

@@ -29,6 +29,9 @@ public class InGameUIManager : MonoBehaviour
 	private BankUI m_BankUI;
 
 	[SerializeField]
+	private RectTransform m_Panels;
+
+	[SerializeField]
 	private InstructionsUI m_InstructionsUI;
 
 	public RectTransform PriorityButtons {
@@ -76,6 +79,12 @@ public class InGameUIManager : MonoBehaviour
 	public BankUI BankUI {
 		get {
 			return m_BankUI;
+		}
+	}
+
+	public RectTransform Panels {
+		get {
+			return m_Panels;
 		}
 	}
 
