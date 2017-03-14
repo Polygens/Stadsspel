@@ -55,4 +55,11 @@ MonoBehaviour:
   - AddTeamToList
   - RemoveTeamFromList
   - AddTeamToVisitedList
+  - AddIllegalItems
+  - AddLegalItems
+  - GetRobbed
+  - ResetIllegalItems
+  - ResetLegalItems
+  - AddIllegalItem
+  - AddLegalItem
   DisableAutoOpenWizard: 1
