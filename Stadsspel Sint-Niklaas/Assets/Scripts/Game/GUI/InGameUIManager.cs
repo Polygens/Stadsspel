@@ -34,6 +34,12 @@ public class InGameUIManager : MonoBehaviour
 	[SerializeField]
 	private InstructionsUI m_InstructionsUI;
 
+	[SerializeField]
+	private RectTransform m_LogNotifications;
+
+	[SerializeField]
+	private LogUI m_LogUI;
+
 	public RectTransform PriorityButtons {
 		get {
 			return m_PriorityButtons;
