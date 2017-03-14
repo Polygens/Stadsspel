@@ -74,10 +74,10 @@ public class TradingPostUI : MonoBehaviour
 	{
 		bool teamAlreadyVisited = false;
 		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
-
+		#if (UNITY_EDITOR)
 		Debug.Log(tempTradePost.name);
 		Debug.Log(tempTradePost.GetComponent<TradingPost>().VisitedTeams.Count);
-
+		#endif
 		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
 		for(int i = 0; i < visitedTeams.Count; i++) {
 			if(visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team) {
@@ -113,7 +113,9 @@ public class TradingPostUI : MonoBehaviour
 				AddGoodsToPlayer();
 				gameObject.SetActive(false);
 			} else {
+				#if (UNITY_EDITOR)
 				Debug.Log("Not enough money");
+				#endif
 			}
 		} else {
 			transform.FindChild("MessagePanel").gameObject.SetActive(true);

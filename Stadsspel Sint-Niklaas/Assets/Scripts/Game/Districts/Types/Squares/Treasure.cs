@@ -58,7 +58,9 @@ namespace Stadsspel.Districts
 			int moneyGain = m_MoneyGainPerDistrict * CheckAmountOfCapturedDistricts();
 			m_AmountOfMoney += moneyGain;
 			GameManager.s_Singleton.Teams[(int)m_TeamID - 1].AddOrRemoveMoney(moneyGain);//Update total team money
+			#if (UNITY_EDITOR)
 			Debug.Log("Treasure" + (int)m_TeamID + " has " + m_AmountOfMoney);
+			#endif
 		}
 
 		private int CheckAmountOfCapturedDistricts()

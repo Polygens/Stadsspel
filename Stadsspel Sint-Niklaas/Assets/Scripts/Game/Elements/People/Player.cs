@@ -156,7 +156,9 @@ namespace Stadsspel.Elements
 				// If the priority is higher then the current, update the priority
 				for(int i = 0; i < allGameObjectsInRadius.Count; i++) {
 					string tag = allGameObjectsInRadius[i].tag;
+					#if (UNITY_EDITOR)
 					Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
+					#endif
 					Priority tempP;
 					if(tag == "Treasure") { /*Square */
 						if(allGameObjectsInRadius[i].GetComponent<Square>().TeamID == m_Person.Team) {
@@ -285,7 +287,9 @@ namespace Stadsspel.Elements
 
 		private void buttonClicked(RectTransform panel)
 		{
+			#if (UNITY_EDITOR)
 			Debug.Log("Set " + panel.name + " active");
+			#endif
 
 			//for (int i = 0; i < panels.Length; i++)
 			//{

@@ -37,7 +37,9 @@ namespace Stadsspel.Networking
 				RoomInfo[] rooms = PhotonNetwork.GetRoomList();
 				foreach(RoomInfo room in rooms) {
 					if(room.Name == m_RoomNameInp.text) {
+						#if (UNITY_EDITOR)
 						Debug.Log("Room creation failed");
+						#endif
 						NetworkManager.Singleton.RoomExistsManager.EnableDisableMenu(true);
 						return;
 					}
@@ -47,7 +49,9 @@ namespace Stadsspel.Networking
 				NetworkManager.Singleton.RoomManager.InitializeRoom(m_RoomNameInp.text, m_RoomPasswordInp.text, gameDuration, (byte)Mathf.Round(m_RoomAmountOfPlayersSli.value));
 				gameObject.SetActive(false);
 			} else {
+				#if (UNITY_EDITOR)
 				Debug.Log("ERROR: No name given for the room!");
+				#endif
 			}
 		}
 

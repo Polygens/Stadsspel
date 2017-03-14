@@ -41,9 +41,13 @@ namespace Stadsspel.Districts
 					Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
 					try {
 						GameManager.s_Singleton.AddTreasure(square);
+						#if (UNITY_EDITOR)
 						Debug.Log("Treasure" + i + " added");
+						#endif
 					} catch {
+						#if (UNITY_EDITOR)
 						Debug.Log("ERROR: Adding chest failed");
+						#endif
 					}
                 
 				} else {
@@ -71,12 +75,18 @@ namespace Stadsspel.Districts
 					if(m_DistrictColliders[i].transform.childCount > 0) {
 						BoxCollider2D square = m_DistrictColliders[i].transform.GetChild(0).GetComponent<BoxCollider2D>();
 						if(square.OverlapPoint(m_PlayerTrans.position)) {
+							#if (UNITY_EDITOR)
 							Debug.Log(square.gameObject.name);
+							#endif
 						} else {
+							#if (UNITY_EDITOR)
 							Debug.Log(m_DistrictColliders[i].gameObject.name);
+							#endif
 						}
 					} else {
+						#if (UNITY_EDITOR)
 						Debug.Log(m_DistrictColliders[i].gameObject.name);
+						#endif
 					}
 
 					break;

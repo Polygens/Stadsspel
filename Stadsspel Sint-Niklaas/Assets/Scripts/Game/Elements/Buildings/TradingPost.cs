@@ -22,7 +22,9 @@ namespace Stadsspel.Elements
 		public void AddTeamToList(int teamID)
 		{
 			m_visitedTeams.Add(teamID);
+			#if (UNITY_EDITOR)
 			Debug.Log("Team: " + teamID + " added to visited list");
+			#endif
 			m_TeamTimers.Add(m_CountdownDuration); 
 		}
 
@@ -54,7 +56,9 @@ namespace Stadsspel.Elements
 			m_visitedTeams.RemoveAt(index);
 			m_TeamTimers.RemoveAt(index);
 			InGameUIManager.s_Singleton.TradingPostUI.MessagePanel.SetActive(false);
+			#if (UNITY_EDITOR)
 			Debug.Log("Team: " + (int)GameManager.s_Singleton.Player.Person.Team + " removed from visited list");
+			#endif
 		}
 
 		[PunRPC]

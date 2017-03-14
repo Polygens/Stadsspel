@@ -50,7 +50,9 @@ public class Header : MonoBehaviour
 	private void UpdatePlayerMoney(int pPlayerMoney)
 	{
 		m_PlayerMoney.text = pPlayerMoney.ToString();
+		#if (UNITY_EDITOR)
 		Debug.Log("Update player money");
+		#endif
 	}
 
 	private void UpdateTeamMoney(int pTeamMoney)

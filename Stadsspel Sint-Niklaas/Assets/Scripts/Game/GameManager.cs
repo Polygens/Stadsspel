@@ -88,7 +88,7 @@ public class GameManager : PunBehaviour
 			if(PhotonNetwork.isMasterClient) {
 				// Call GainMoneyOverTime() from each financial object
 				for(int i = 0; i < m_Treasures.Count; i++) {
-					m_Treasures[i].GetComponent<PhotonView>().RPC("GainMoneyOverTime", PhotonTargets.All);
+					m_Treasures[i].photonView.RPC("GainMoneyOverTime", PhotonTargets.All);
 				}
         
 			}
@@ -99,7 +99,9 @@ public class GameManager : PunBehaviour
 	private void MasterClientStart()
 	{
 		if(PhotonNetwork.player.IsMasterClient) {
+			#if (UNITY_EDITOR)
 			Debug.Log("Master client started");
+			#endif
 			for(int i = 0; i < m_AmountOfTeams; i++) {
 				PhotonNetwork.InstantiateSceneObject(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0, null);
 			}
@@ -111,7 +113,9 @@ public class GameManager : PunBehaviour
 	[PunRPC]
 	private void ClientsStart()
 	{
+		#if (UNITY_EDITOR)
 		Debug.Log("Clients start");
+		#endif
 		m_DistrictManager.StartGame(m_AmountOfTeams);
 
 		m_Teams = new Team[m_AmountOfTeams];
@@ -126,7 +130,9 @@ public class GameManager : PunBehaviour
 
 	public void UpdateGameDuration(float duration)
 	{
+		#if (UNITY_EDITOR)
 		Debug.Log(duration);
+		#endif
 		m_GameLength = duration;
 	}
 
