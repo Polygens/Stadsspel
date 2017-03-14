@@ -66,6 +66,7 @@ namespace Stadsspel.Networking
 				} 
 				yield return null; 
 			} 
+			PhotonNetwork.room.IsVisible = false;
 			SceneManager.LoadScene("Game");	
 		}
 
