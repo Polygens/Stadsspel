@@ -63,15 +63,7 @@ namespace Stadsspel.Elements
 			}
 		}
 
-        public List<GameObject> EnemiesInRadius
-        {
-            get
-            {
-                return m_EnemiesInRadius;
-            }
-        }
-
-        private void Awake()
+		private void Awake()
 		{
 			m_Person = GetComponent<Person>();
 			GameManager.s_Singleton.Player = this;
@@ -128,9 +120,16 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		public void Rob()
+		{
+			foreach(GameObject enemy in m_EnemiesInRadius) {
+				m_Person.AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
+				enemy.GetComponent<Person>().GetRobbed();
+			}
+		}
+
 		public void PriorityUpdate(List<GameObject> allGameObjectsInRadius, Collider2D other)
 		{
-<<<<<<< Updated upstream
 			if(allGameObjectsInRadius.Count > 0) {
 
 				// In case there were no collidings before.
@@ -204,171 +203,75 @@ namespace Stadsspel.Elements
           for (int j = 0; j < m_Panels.Length; j++)
           {
             if (m_Panels[j].name == ((Priority)m_HighestPriority).ToString())
-=======
-            if (allGameObjectsInRadius.Count > 0)
->>>>>>> Stashed changes
             {
 
-                // In case there were no collidings before.
-                m_MainPanel.gameObject.SetActive(true);
-
-                if (allGameObjectsInRadius.Count > 1)
-                {
-                    m_ListPanel.gameObject.SetActive(true);
-                    m_Switch.gameObject.SetActive(true);
-
-                }
-
-                int lengthEnum = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
-                int[] priorityPresence = new int[lengthEnum];
-                for (int i = 0; i < priorityPresence.Length; i++)
-                {
-                    priorityPresence[i] = 0;
-                }
-
-                // Set temp priority to lowest
-                int tempPriority = 0;
-                int priorityNbr = 0;
-
-                //Check with the tag of the gameObject, which priority it has in the enum,
-                // If the priority is higher then the current, update the priority
-                for (int i = 0; i < allGameObjectsInRadius.Count; i++)
-                {
-                    string tag = allGameObjectsInRadius[i].tag;
-                    Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
-                    Priority tempP;
-                    if (tag == "Treasure")
-                    { /*Square */
-                        if (allGameObjectsInRadius[i].GetComponent<Square>().TeamID == m_Person.Team)
-                        {
-                            tempP = Priority.Treasure;
-                        }
-                        else
-                        {
-                            tempP = Priority.TreasureEnemy;
-                        }
-
-                    }
-                    else if (tag == "Square")
-                    {
-                        tempP = Priority.EnemyDistrict;
-                    }
-                    else
-                    {
-                        tempP = (Priority)Enum.Parse(typeof(Priority), tag);
-                    }
-
-                    priorityNbr = (int)tempP;
-                    priorityPresence[priorityNbr] = 1;
-                    if (priorityNbr > tempPriority)
-                    {
-                        tempPriority = priorityNbr;
-                    }
-                }
-
-
-
-                // if there is a new highestpriority, do next lines
-                if (tempPriority != m_HighestPriority)
-                {
-                    m_HighestPriority = tempPriority;
-                    Debug.Log("New Highest priority is: " + ((Priority)m_HighestPriority).ToString());
-
-                    //Make room for new mainbutton
-                    if (m_MainPanel.childCount > 0)
-                    {
-                        GameObject tempB = m_MainPanel.GetChild(0).gameObject;
-                        Destroy(tempB);
-                    }
-
-                    Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-                    mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
-                    RectTransform tempPanel = null;
-
-                    //names of the panels need to be the same as the priorities & layernames
-                    for (int j = 0; j < m_Panels.Length; j++)
-                    {
-                        if (m_Panels[j].name == ((Priority)m_HighestPriority).ToString())
-                        {
-
-                            if ("Enemy" != ((Priority)m_HighestPriority).ToString())
-                            {
-                                tempPanel = m_Panels[j];
-                                mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
-                            }
-                            else
-                            {
-                                mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (((Priority)m_HighestPriority).ToString() == "Enemy")
-                    {
-                        if (m_MainPanel.childCount > 0)
-                        {
-                            GameObject tempB = m_MainPanel.GetChild(0).gameObject;
-                            Destroy(tempB);
-                        }
-
-                        Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-                        mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
-                        mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
-                    }
-                }
-
-                // For all priorities, check if more buttons are needed in listpanel
-                for (int i = priorityPresence.Length - 1; i >= 0; i--)
-                {
-
-                    //we dont want mainbutton in the listpanel
-                    if (i != m_HighestPriority)
-                    {
-
-                        //Spawn specific priority button
-                        if (m_CurrentButtons[i] == 0 && priorityPresence[i] == 1)
-                        {
-                            Button tempB = (Button)Instantiate(m_Buttons[i], transform.position, transform.rotation, m_ListPanel);
-                            tempB.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[i];
-                            RectTransform tempPanel = null;
-                            for (int j = 0; j < m_Panels.Length; j++)
-                            {
-                                if (m_Panels[j].name == ((Priority)i).ToString())
-                                {
-                                    tempPanel = m_Panels[j];
-                                }
-                            }
-                            if (tempPanel != null)
-                            {
-                                tempB.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
-                            }
-
-                            // 1 indicates that the button of the specific priority is present in the listpanel
-                            m_CurrentButtons[i] = 1;
-                            m_NumberOfButtonsInlistPanel++;
-                        }
-                        if ((m_CurrentButtons[i] == 1 && priorityPresence[i] == 0))
-                        {
-                            TryToDestroyIndexOfListPanel(i);
-                        }
-                    }
-                    else
-                    {
-                        TryToDestroyIndexOfListPanel(i);
-                    }
-
-                    //Debug.Log("For: " + i + " is currentButtons" + currentButtons[i] + " and priorityPresence " + priorityPresence[i]);
-                }
+              if ("Enemy" != ((Priority)m_HighestPriority).ToString())
+              {
+                tempPanel = m_Panels[j];
+                mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
+              }
+              else
+              {
+                mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
+              }
             }
-            else
-            {
-                m_MainPanel.gameObject.SetActive(false);
-                m_ListPanel.gameObject.SetActive(false);
-                m_Switch.gameObject.SetActive(false);
-            }
+          }
         }
+        else 
+        {
+          if (((Priority)m_HighestPriority).ToString() == "Enemy")
+          {
+            if (m_MainPanel.childCount > 0)
+            {
+              GameObject tempB = m_MainPanel.GetChild(0).gameObject;
+              Destroy(tempB);
+            }
+
+            Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+            mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+            mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
+          }
+        }
+
+				// For all priorities, check if more buttons are needed in listpanel
+				for(int i = priorityPresence.Length - 1; i >= 0; i--) {
+
+					//we dont want mainbutton in the listpanel
+					if(i != m_HighestPriority) {
+
+						//Spawn specific priority button
+						if(m_CurrentButtons[i] == 0 && priorityPresence[i] == 1) {
+							Button tempB = (Button)Instantiate(m_Buttons[i], transform.position, transform.rotation, m_ListPanel);
+							tempB.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[i];
+							RectTransform tempPanel = null;
+							for(int j = 0; j < m_Panels.Length; j++) {
+								if(m_Panels[j].name == ((Priority)i).ToString()) {
+									tempPanel = m_Panels[j];
+								}
+							}
+							if(tempPanel != null) {
+								tempB.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
+							}
+
+							// 1 indicates that the button of the specific priority is present in the listpanel
+							m_CurrentButtons[i] = 1;
+							m_NumberOfButtonsInlistPanel++;
+						}
+						if((m_CurrentButtons[i] == 1 && priorityPresence[i] == 0)) {
+							TryToDestroyIndexOfListPanel(i);
+						}
+					} else {
+						TryToDestroyIndexOfListPanel(i);
+					}
+
+					//Debug.Log("For: " + i + " is currentButtons" + currentButtons[i] + " and priorityPresence " + priorityPresence[i]);
+				}
+			} else {
+				m_MainPanel.gameObject.SetActive(false);
+				m_ListPanel.gameObject.SetActive(false);
+				m_Switch.gameObject.SetActive(false);
+			}
+		}
 
 		private void TryToDestroyIndexOfListPanel(int index)
 		{

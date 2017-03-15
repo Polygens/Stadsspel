@@ -5,12 +5,10 @@ namespace Stadsspel.Elements
 {
 	public class Person : Element
 	{
-        [SerializeField]
 		private List<int> m_IllegalItems = new List<int>();
 
-        //legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
-        [SerializeField]
-        private List<int> m_LegalItems = new List<int>();
+		//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
+		private List<int> m_LegalItems = new List<int>();
 
 		//[SyncVar]
 		[SerializeField]
@@ -18,21 +16,16 @@ namespace Stadsspel.Elements
 
 		private void Awake()
 		{
-            m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
-            if (PhotonNetwork.player == photonView.owner)
-            {
-                gameObject.AddComponent<Player>();
-                transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
-            }
-            else if (m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player))
-            {
-                gameObject.AddComponent<Friend>();
-            }
-            else
-            {
-                gameObject.AddComponent<Enemy>();
-            }
-        }
+			m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
+			if(PhotonNetwork.player == photonView.owner) {
+				gameObject.AddComponent<Player>();
+				transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
+			} else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
+				gameObject.AddComponent<Friend>();
+			} else {
+				gameObject.AddComponent<Enemy>();
+			}
+		}
 
 		protected new void Start()
 		{
@@ -40,35 +33,29 @@ namespace Stadsspel.Elements
 			transform.SetParent(GameManager.s_Singleton.Teams[(byte)m_Team - 1].transform, false);
 			transform.GetChild(0).GetComponent<TextMesh>().text = photonView.owner.NickName;
 			ActionRadius = 40;
+	
+			//instantiate list with 3 numbers for each list.
+			for(int i = 0; i < 3; i++) {
+				m_LegalItems.Add(0);
+				m_IllegalItems.Add(0);
+			}
+		}
 
-            //instantiate list with 3 numbers for each list.
+		//public void Rob()
+		//{
+		//	foreach (GameObject enemy in enemiesInRadius) {
+		//		AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
+		//		enemy.GetComponent<Person>().GetRobbed();
+		//	}
+		//}
 
-            for (int i = 0; i < 3; i++)
-            {
-                m_LegalItems.Add(0);
-                m_IllegalItems.Add(0);
-            }
-        }
-
-        public void Rob()
-        {
-            foreach (GameObject enemy in GameManager.s_Singleton.Player.EnemiesInRadius)
-            {
-                GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, enemy.GetComponent<Person>().AmountOfMoney);
-                AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
-                enemy.GetComponent<Person>().GetComponent<PhotonView>().RPC("GetRobbed", PhotonTargets.All, (int)enemy.GetComponent<Person>().Team);      
-            }
-        }
-
-        [PunRPC]
-        public void ResetLegalItems()
+		public void ResetLegalItems()
 		{
 			for(int i = 0; i < m_LegalItems.Count; i++) {
 				m_LegalItems[i] = 0;
 			}
 		}
 
-        [PunRPC]
 		public void ResetIllegalItems()
 		{
 			for(int i = 0; i < m_IllegalItems.Count; i++) {
@@ -76,39 +63,38 @@ namespace Stadsspel.Elements
 			}
 		}
 
-        [PunRPC]
-        public void GetRobbed(int teamId)
+		public void GetRobbed()
 		{
-			GameManager.s_Singleton.Teams[teamId - 1].AddOrRemoveMoney(-m_AmountOfMoney);
+			GameManager.s_Singleton.Teams[(int)m_Team].AddOrRemoveMoney(-m_AmountOfMoney);
 			m_AmountOfMoney = 0;
 			ResetLegalItems();
 			ResetIllegalItems();
 		}
 
-		public List<int> LookUpLegalItems
-        {
+		public List<int> LookUpLegalItems {
 			get { return m_LegalItems; }
 		}
 
-		public List<int> LookUpIllegalItems
-        {
+		public List<int> LookUpIllegalItems {
 			get { return m_IllegalItems; }
 		}
 
-        [PunRPC]
-		public void AddLegalItem(int index, int item)
+		public void AddLegalItems(List<int> items)
 		{
-            m_LegalItems[index] += item;
+			for(int i = 0; i < items.Count; i++) {
+				m_LegalItems[i] += items[i];
+			}
 		}
 
-        [PunRPC]
-        public void AddIllegalItem(int index, int item)
+		public void AddIllegalItems(List<int> items)
 		{
-            m_IllegalItems[index] += item;
-        }
+			for(int i = 0; i < items.Count; i++) {
+				m_IllegalItems[i] += items[i];
+			}
+		}
 
 
-        [PunRPC]
+		[PunRPC]
 		public void MoneyTransaction(int money)
 		{
 			m_AmountOfMoney += money;
@@ -133,24 +119,14 @@ namespace Stadsspel.Elements
 
 		}
 
-        public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)// Used when stealing from someone
-        {
-            PhotonView pView = GetComponent<PhotonView>();
+		public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)
+		{
+			MoneyTransaction(money);
+			AddLegalItems(legalItems);
+			AddIllegalItems(illegalItems);
+		}
 
-            pView.RPC("MoneyTransaction", PhotonTargets.All, money);
-
-            for (int i = 0; i < legalItems.Count; i++)
-            {
-                pView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
-            }
-            for (int i = 0; i < illegalItems.Count; i++)
-            {
-                pView.RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
-            }
-            
-        }
-
-        public int AmountOfMoney {
+		public int AmountOfMoney {
 			get { return m_AmountOfMoney; }
 		}
 
