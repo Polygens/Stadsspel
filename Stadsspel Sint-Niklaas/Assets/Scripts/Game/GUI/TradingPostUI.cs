@@ -128,25 +128,44 @@ public class TradingPostUI : MonoBehaviour
 	{
 		List<int> legalItems = new List<int>();
 		List<int> illegalItems = new List<int>();
-		for(int i = 0; i < m_NumberOfEachItem.Length; i++) {
-			if(m_ShopItems[i].IsLegal) {
+
+		for(int i = 0; i < m_NumberOfEachItem.Length; i++)
+        {
+			if(m_ShopItems[i].IsLegal)
+            {
 				legalItems.Add(m_NumberOfEachItem[i]);
-			} else {
+                
+            }
+            else
+            {
 				illegalItems.Add(m_NumberOfEachItem[i]);
-			}
+                
+            }
 		}
-		GameManager.s_Singleton.Player.Person.AddLegalItems(legalItems);
-		GameManager.s_Singleton.Player.Person.AddIllegalItems(illegalItems);
+
+        for (int i = 0; i < legalItems.Count; i++)
+        {
+            GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
+            Debug.Log("Add legal item at index: " + i);
+        }
+        for (int i = 0; i < illegalItems.Count; i++)
+        {
+            GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
+            Debug.Log("Add illegal item at index: " + i);
+        }
+
 		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().GetComponent<PhotonView>().RPC("AddTeamToList", PhotonTargets.All, (int)GameManager.s_Singleton.Player.Person.Team);
 		GameManager.s_Singleton.Player.Person.MoneyTransaction(-m_TotalPriceAmount);
 
-		for(int i = 0; i < m_Inputfields.Count; i++) {
-			m_Inputfields[i].text = "";
-			m_TotalTextFields[i].text = "Totaal: 0";
-		}
-		m_TotalPriceText.text = "0";
-		m_TotalPriceAmount = 0;
-	}
+        for (int i = 0; i < m_Inputfields.Count; i++)
+        {
+            m_Inputfields[i].text = "";
+            m_TotalTextFields[i].text = "Totaal: 0";
+        }
+
+        m_TotalPriceText.text = "0";
+        m_TotalPriceAmount = 0;
+    }
 
 	public void OnClose()
 	{

@@ -63,7 +63,15 @@ namespace Stadsspel.Elements
 			}
 		}
 
-		private void Awake()
+        public List<GameObject> EnemiesInRadius
+        {
+            get
+            {
+                return m_EnemiesInRadius;
+            }
+        }
+
+        private void Awake()
 		{
 			m_Person = GetComponent<Person>();
 			GameManager.s_Singleton.Player = this;
@@ -120,13 +128,6 @@ namespace Stadsspel.Elements
 			}
 		}
 
-		public void Rob()
-		{
-			foreach(GameObject enemy in m_EnemiesInRadius) {
-				m_Person.AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
-				enemy.GetComponent<Person>().GetRobbed();
-			}
-		}
 
 		public void PriorityUpdate(List<GameObject> allGameObjectsInRadius, Collider2D other)
 		{
@@ -212,7 +213,7 @@ namespace Stadsspel.Elements
               }
               else
               {
-                mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
+                mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
               }
             }
           }
@@ -229,7 +230,7 @@ namespace Stadsspel.Elements
 
             Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
             mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
-            mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
+            mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
           }
         }
 
