@@ -54,8 +54,8 @@ namespace Stadsspel.Elements
         {
             foreach (GameObject enemy in GameManager.s_Singleton.Player.EnemiesInRadius)
             {
-                GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, enemy.GetComponent<Person>().AmountOfMoney);
-                AddGoods(enemy.GetComponent<Person>().AmountOfMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
+                int enemyMoney = enemy.GetComponent<Person>().AmountOfMoney;
+                AddGoods(enemyMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
                 enemy.GetComponent<Person>().GetComponent<PhotonView>().RPC("GetRobbed", PhotonTargets.All, (int)enemy.GetComponent<Person>().Team);      
             }
         }
@@ -115,14 +115,14 @@ namespace Stadsspel.Elements
 			GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, money);
 		}
 
-		[PunRPC]
+		//[PunRPC]
 		public void TreasureTransaction(int amount, bool isEnemyTreasure)
 		{
 			TeamID id = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Districts.Treasure>().TeamID;
 
 			//GameManager.s_Singleton.GetTreasureFrom(id).EmptyChest(amount);
 			GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("EmptyChest", PhotonTargets.All, amount);
-			m_AmountOfMoney += amount;
+      GameManager.s_Singleton.Player.Person.photonView.RPC("TransactionMoney", PhotonTargets.AllViaServer, amount);
 			if(isEnemyTreasure) {
 				GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, amount);
 				GameManager.s_Singleton.Teams[(int)id - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, -amount);
@@ -134,18 +134,16 @@ namespace Stadsspel.Elements
 		}
 
         public void AddGoods(int money, List<int> legalItems, List<int> illegalItems)// Used when stealing from someone
-        {
-            PhotonView pView = GetComponent<PhotonView>();
-
-            pView.RPC("MoneyTransaction", PhotonTargets.All, money);
+        {     
+            photonView.RPC("MoneyTransaction", PhotonTargets.All, money);
 
             for (int i = 0; i < legalItems.Count; i++)
             {
-                pView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
+                photonView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
             }
             for (int i = 0; i < illegalItems.Count; i++)
             {
-                pView.RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
+                photonView.RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
             }
             
         }
@@ -154,7 +152,9 @@ namespace Stadsspel.Elements
 			get { return m_AmountOfMoney; }
 		}
 
-		public void BankTransaction(int money)
+
+    [PunRPC]
+		public void TransactionMoney(int money)
 		{ 
 			m_AmountOfMoney += money; 
 		}

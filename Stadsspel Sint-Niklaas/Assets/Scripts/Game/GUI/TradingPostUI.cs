@@ -155,7 +155,7 @@ public class TradingPostUI : MonoBehaviour
         }
 
 		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().GetComponent<PhotonView>().RPC("AddTeamToList", PhotonTargets.All, (int)GameManager.s_Singleton.Player.Person.Team);
-		GameManager.s_Singleton.Player.Person.MoneyTransaction(-m_TotalPriceAmount);
+		GameManager.s_Singleton.Player.Person.photonView.RPC("MoneyTransaction",PhotonTargets.AllViaServer,-m_TotalPriceAmount);
 
         for (int i = 0; i < m_Inputfields.Count; i++)
         {

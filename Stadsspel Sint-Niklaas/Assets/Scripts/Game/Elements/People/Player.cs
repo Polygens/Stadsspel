@@ -128,8 +128,7 @@ namespace Stadsspel.Elements
 			}
 		}
 
-
-		public void PriorityUpdate(List<GameObject> allGameObjectsInRadius, Collider2D other)
+    public void PriorityUpdate(List<GameObject> allGameObjectsInRadius, Collider2D other)
 		{
 			if(allGameObjectsInRadius.Count > 0) {
 
@@ -181,11 +180,8 @@ namespace Stadsspel.Elements
 					}
 				}
 
-
-
         // if there is a new highestpriority, do next lines
-        if (tempPriority != m_HighestPriority)
-        {
+        
           m_HighestPriority = tempPriority;
           Debug.Log("New Highest priority is: " + ((Priority)m_HighestPriority).ToString());
 
@@ -200,39 +196,43 @@ namespace Stadsspel.Elements
           mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
           RectTransform tempPanel = null;
 
+        if (((Priority)m_HighestPriority).ToString() == "Enemy")
+        {
+          mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
+        }
+        else
+        {
           //names of the panels need to be the same as the priorities & layernames
           for (int j = 0; j < m_Panels.Length; j++)
           {
             if (m_Panels[j].name == ((Priority)m_HighestPriority).ToString())
             {
-
               if ("Enemy" != ((Priority)m_HighestPriority).ToString())
               {
                 tempPanel = m_Panels[j];
                 mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
               }
-              else
-              {
-                mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
-              }
             }
           }
         }
-        else 
-        {
-          if (((Priority)m_HighestPriority).ToString() == "Enemy")
-          {
-            if (m_MainPanel.childCount > 0)
-            {
-              GameObject tempB = m_MainPanel.GetChild(0).gameObject;
-              Destroy(tempB);
-            }
 
-            Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-            mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
-            mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
-          }
-        }
+
+        
+        //else 
+        //{
+        //  if (((Priority)m_HighestPriority).ToString() == "Enemy")
+        //  {
+        //    if (m_MainPanel.childCount > 0)
+        //    {
+        //      GameObject tempB = m_MainPanel.GetChild(0).gameObject;
+        //      Destroy(tempB);
+        //    }
+
+        //    Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+        //    mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+        //    mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
+        //  }
+        //}
 
 				// For all priorities, check if more buttons are needed in listpanel
 				for(int i = priorityPresence.Length - 1; i >= 0; i--) {
@@ -244,7 +244,7 @@ namespace Stadsspel.Elements
 						if(m_CurrentButtons[i] == 0 && priorityPresence[i] == 1) {
 							Button tempB = (Button)Instantiate(m_Buttons[i], transform.position, transform.rotation, m_ListPanel);
 							tempB.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[i];
-							RectTransform tempPanel = null;
+							tempPanel = null;
 							for(int j = 0; j < m_Panels.Length; j++) {
 								if(m_Panels[j].name == ((Priority)i).ToString()) {
 									tempPanel = m_Panels[j];

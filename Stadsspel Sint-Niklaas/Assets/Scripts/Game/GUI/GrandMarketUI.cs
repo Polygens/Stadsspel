@@ -73,7 +73,7 @@ public class GrandMarketUI : MonoBehaviour
 	public void Sell()
 	{
 
-		GameManager.s_Singleton.Player.Person.MoneyTransaction(m_Total);
+		GameManager.s_Singleton.Player.Person.photonView.RPC("MoneyTransaction",PhotonTargets.AllViaServer,m_Total);
 		GameManager.s_Singleton.Player.Person.ResetIllegalItems();
 		GameManager.s_Singleton.Player.Person.ResetLegalItems();
 		m_Total = 0;

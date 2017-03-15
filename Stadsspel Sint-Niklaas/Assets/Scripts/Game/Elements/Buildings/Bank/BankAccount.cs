@@ -30,15 +30,15 @@ namespace Stadsspel.Elements
 		{
 			if(amount > 0) { //Add money to bank, subtract from player
 				if(amount <= GameManager.s_Singleton.Player.Person.AmountOfMoney) {
-          GameManager.s_Singleton.Player.Person.BankTransaction(-amount);
-					//m_Balance += amount;
-					return true;
+          GameManager.s_Singleton.Player.Person.photonView.RPC("TransactionMoney", PhotonTargets.AllViaServer, -amount);
+          //m_Balance += amount;
+          return true;
 				}
 			} else { //Subtract money from bank, add to player
 				if(-amount <= m_Balance) {
-					GameManager.s_Singleton.Player.Person.BankTransaction(-amount);
-					//m_Balance += amount;
-					return true;
+          GameManager.s_Singleton.Player.Person.photonView.RPC("TransactionMoney", PhotonTargets.AllViaServer, -amount);
+          //m_Balance += amount;
+          return true;
 				}
 			}
 			return false;
