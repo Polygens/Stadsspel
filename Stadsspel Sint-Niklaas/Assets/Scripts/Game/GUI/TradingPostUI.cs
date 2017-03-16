@@ -94,8 +94,12 @@ public class TradingPostUI : MonoBehaviour
 			//Start, + property
 			m_MessagePanel.SetActive(true);
 		} else {
-			if(m_MessagePanel.activeSelf)
-				m_MessagePanel.SetActive(false);
+      if (m_MessagePanel != null)
+      {
+        if (m_MessagePanel.activeSelf)
+          m_MessagePanel.SetActive(false);
+      }
+
 		}
 		if(m_EverythingIsInstantiated) {
 			transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();

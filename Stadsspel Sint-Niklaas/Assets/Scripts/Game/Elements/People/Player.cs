@@ -39,6 +39,7 @@ namespace Stadsspel.Elements
 		private RectTransform m_ListPanel;
 		private RectTransform m_Switch;
 
+    private bool UIisInitialized = false;
 		private int m_NumberOfButtonsInlistPanel = 0;
 
 		public Person Person {
@@ -126,14 +127,15 @@ namespace Stadsspel.Elements
 				m_Buttons[i] = tempButton;
 				m_CurrentButtons[i] = 0;
 			}
+      UIisInitialized = true;
 		}
 
-    public void PriorityUpdate(List<GameObject> allGameObjectsInRadius, Collider2D other)
+    public void PriorityUpdate(List<GameObject> allGameObjectsInRadius)
 		{
 			if(allGameObjectsInRadius.Count > 0) {
 
-				// In case there were no collidings before.
-				m_MainPanel.gameObject.SetActive(true);
+        // In case there were no collidings before.
+        m_MainPanel.gameObject.SetActive(true);
 
         if (allGameObjectsInRadius.Count > 1)
         {
@@ -183,18 +185,20 @@ namespace Stadsspel.Elements
         // if there is a new highestpriority, do next lines
         
           m_HighestPriority = tempPriority;
-          Debug.Log("New Highest priority is: " + ((Priority)m_HighestPriority).ToString());
+          Button mainButton = null;
+        RectTransform tempPanel = null;
 
-          //Make room for new mainbutton
-          if (m_MainPanel.childCount > 0)
+        //Make room for new mainbutton
+        if (m_MainPanel.childCount > 0)
+        {
+          for (int i = 0; i < m_MainPanel.childCount; i++)
           {
-            GameObject tempB = m_MainPanel.GetChild(0).gameObject;
-            Destroy(tempB);
+            Destroy(m_MainPanel.GetChild(i).gameObject);
           }
+        }
 
-          Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+          mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
           mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
-          RectTransform tempPanel = null;
 
         if (((Priority)m_HighestPriority).ToString() == "Enemy")
         {
@@ -215,24 +219,6 @@ namespace Stadsspel.Elements
             }
           }
         }
-
-
-        
-        //else 
-        //{
-        //  if (((Priority)m_HighestPriority).ToString() == "Enemy")
-        //  {
-        //    if (m_MainPanel.childCount > 0)
-        //    {
-        //      GameObject tempB = m_MainPanel.GetChild(0).gameObject;
-        //      Destroy(tempB);
-        //    }
-
-        //    Button mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-        //    mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
-        //    mainButton.GetComponent<Button>().onClick.AddListener(() => Rob());
-        //  }
-        //}
 
 				// For all priorities, check if more buttons are needed in listpanel
 				for(int i = priorityPresence.Length - 1; i >= 0; i--) {
@@ -264,8 +250,6 @@ namespace Stadsspel.Elements
 					} else {
 						TryToDestroyIndexOfListPanel(i);
 					}
-
-					//Debug.Log("For: " + i + " is currentButtons" + currentButtons[i] + " and priorityPresence " + priorityPresence[i]);
 				}
 			} else {
 				m_MainPanel.gameObject.SetActive(false);
@@ -292,13 +276,6 @@ namespace Stadsspel.Elements
 			Debug.Log("Set " + panel.name + " active");
 			#endif
 
-			//for (int i = 0; i < panels.Length; i++)
-			//{
-			//  if (panels[i].gameObject.activeSelf)
-			//  {
-			//    panels[i].gameObject.SetActive(false);
-			//  }
-			//
 			panel.gameObject.SetActive(true);
 		}
 
@@ -311,7 +288,8 @@ namespace Stadsspel.Elements
           m_EnemiesInRadius.Add(other.gameObject);
         }
 
-				PriorityUpdate(m_AllGameObjectsInRadius, other);
+        if(UIisInitialized)
+				PriorityUpdate(m_AllGameObjectsInRadius);
 			}
 		}
 
@@ -319,7 +297,7 @@ namespace Stadsspel.Elements
 		{
 			m_EnemiesInRadius.Remove(other.gameObject);
 			m_AllGameObjectsInRadius.Remove(other.gameObject);
-			PriorityUpdate(m_AllGameObjectsInRadius, other);
+			PriorityUpdate(m_AllGameObjectsInRadius);
 		}
 
 		public GameObject GetGameObjectInRadius(string tag)

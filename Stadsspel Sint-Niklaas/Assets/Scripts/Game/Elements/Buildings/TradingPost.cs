@@ -12,7 +12,7 @@ namespace Stadsspel.Elements
 		private List<float> m_TeamTimers = new List<float>();
 
 		[SerializeField]
-		private int m_CountdownDuration = 12;
+		private int m_CountdownDuration = 1200;
 		// 20 minuten * 60 = 1200
 
 		private float m_UpdateTimer = 0;
@@ -30,7 +30,7 @@ namespace Stadsspel.Elements
 
 		private void Update()
 		{
-			if(m_TeamTimers.Count > 0) {
+			if(m_TeamTimers.Count > 0 && m_visitedTeams.Count > 0) {
 				for(int i = 0; i < m_TeamTimers.Count; i++) {
 					m_TeamTimers[i] -= Time.deltaTime;
 					if(m_TeamTimers[i] <= 0) {
@@ -52,9 +52,17 @@ namespace Stadsspel.Elements
 
 		[PunRPC]
 		public void RemoveTeamFromList(int index)
-		{
-			m_visitedTeams.RemoveAt(index);
-			m_TeamTimers.RemoveAt(index);
+    {
+      if (m_visitedTeams.Count > 0) 
+      {
+        if (m_visitedTeams[index] == (int)GameManager.s_Singleton.Player.Person.Team)
+        {
+          m_visitedTeams.RemoveAt(index);
+          m_TeamTimers.RemoveAt(index);
+        }
+
+      }
+
 			InGameUIManager.s_Singleton.TradingPostUI.MessagePanel.SetActive(false);
 			#if (UNITY_EDITOR)
 			Debug.Log("Team: " + (int)GameManager.s_Singleton.Player.Person.Team + " removed from visited list");
