@@ -16,7 +16,7 @@ namespace Stadsspel.Elements
 		[SerializeField]
 		private int m_AmountOfMoney = 0;
 
-		private void Awake()
+    private void Awake()
 		{
             m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
             if (PhotonNetwork.player == photonView.owner)
@@ -56,7 +56,8 @@ namespace Stadsspel.Elements
             {
                 int enemyMoney = enemy.GetComponent<Person>().AmountOfMoney;
                 AddGoods(enemyMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems);
-                enemy.GetComponent<Person>().GetComponent<PhotonView>().RPC("GetRobbed", PhotonTargets.All, (int)enemy.GetComponent<Person>().Team);      
+                enemy.GetComponent<Person>().GetComponent<PhotonView>().RPC("GetRobbed", PhotonTargets.All, (int)enemy.GetComponent<Person>().Team);
+                
             }
         }
 
@@ -83,7 +84,10 @@ namespace Stadsspel.Elements
 			m_AmountOfMoney = 0;
 			ResetLegalItems();
 			ResetIllegalItems();
-		}
+      gameObject.GetComponent<RobStatus>().RecentlyGotRobbed = true;
+    }
+
+
 
 		public List<int> LookUpLegalItems
         {
@@ -162,33 +166,33 @@ namespace Stadsspel.Elements
 		}
 
 
-		private void Update()
-		{
-			/*int amountOfTeams; //= LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
-		if(!mIsReady && GameManager.s_Singleton.transform.childCount == amountOfTeams && Name != "Not set" && Team != TeamID.NotSet) {
-			mIsReady = true;
-			Debug.Log("Starting game");
+		//private void Update()
+		//{
+		//	/*int amountOfTeams; //= LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
+		//if(!mIsReady && GameManager.s_Singleton.transform.childCount == amountOfTeams && Name != "Not set" && Team != TeamID.NotSet) {
+		//	mIsReady = true;
+		//	Debug.Log("Starting game");
 
-			transform.GetChild(0).GetComponent<TextMesh>().text = Name;
-			GetComponent<Renderer>().material.color = TeamData.GetColor(mTeam);
-			transform.SetParent(GameManager.s_Singleton.transform.GetChild(((int)Team) - 1));
+		//	transform.GetChild(0).GetComponent<TextMesh>().text = Name;
+		//	GetComponent<Renderer>().material.color = TeamData.GetColor(mTeam);
+		//	transform.SetParent(GameManager.s_Singleton.transform.GetChild(((int)Team) - 1));
 
-			NetworkIdentity networkIdentity = GetComponent<NetworkIdentity>();
-			if(networkIdentity.isLocalPlayer) {
-				Player player = gameObject.AddComponent<Player>();
-				Debug.Log("GameManager Player has been set");
-				GameManager.s_Singleton.Player = player;
-				GameManager.s_Singleton.DistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
-				GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
-				name = "Player ID:" + networkIdentity.netId + " (" + Name + ")";
-			} else if(LobbyPlayer.mLocalPlayerTeam == mTeam) {
-				Friend friend = gameObject.AddComponent<Friend>();
-				name = "Friend ID:" + networkIdentity.netId + " (" + Name + ")";
-			} else {
-				Enemy enemy = gameObject.AddComponent<Enemy>();
-				name = "Enemy ID:" + networkIdentity.netId + " (" + Name + ")";
-			}
-		}*/
-		}
+		//	NetworkIdentity networkIdentity = GetComponent<NetworkIdentity>();
+		//	if(networkIdentity.isLocalPlayer) {
+		//		Player player = gameObject.AddComponent<Player>();
+		//		Debug.Log("GameManager Player has been set");
+		//		GameManager.s_Singleton.Player = player;
+		//		GameManager.s_Singleton.DistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
+		//		GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
+		//		name = "Player ID:" + networkIdentity.netId + " (" + Name + ")";
+		//	} else if(LobbyPlayer.mLocalPlayerTeam == mTeam) {
+		//		Friend friend = gameObject.AddComponent<Friend>();
+		//		name = "Friend ID:" + networkIdentity.netId + " (" + Name + ")";
+		//	} else {
+		//		Enemy enemy = gameObject.AddComponent<Enemy>();
+		//		name = "Enemy ID:" + networkIdentity.netId + " (" + Name + ")";
+		//	}
+		//}*/
+		//}
 	}
 }

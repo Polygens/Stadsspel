@@ -64,4 +64,5 @@ MonoBehaviour:
   - AddLegalItem
   - TransactionMoney
   - UpdateTeamMoneyFromServer
+  - SetRobBool
   DisableAutoOpenWizard: 1

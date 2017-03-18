@@ -20,9 +20,12 @@ namespace Stadsspel.Elements
 		private Button[] m_Buttons;
 		private int[] m_CurrentButtons;
 		private int m_HighestPriority;
+    private float m_UpdateTimer = 0;
+    private float m_UpdateTime = 1;
+    private float m_RobTimer = 30;
 
-		//order of strings is important
-		private string[] m_ButtonNames = new string[] {
+    //order of strings is important
+    private string[] m_ButtonNames = new string[] {
 			"Ruil",
 			"Bank",
 			"Koop",
@@ -40,7 +43,10 @@ namespace Stadsspel.Elements
 		private RectTransform m_Switch;
 
     private bool UIisInitialized = false;
+
 		private int m_NumberOfButtonsInlistPanel = 0;
+
+    RobStatus robStatus;
 
 		public Person Person {
 			get {
@@ -64,7 +70,7 @@ namespace Stadsspel.Elements
 			}
 		}
 
-        public List<GameObject> EnemiesInRadius
+    public List<GameObject> EnemiesInRadius
         {
             get
             {
@@ -103,9 +109,43 @@ namespace Stadsspel.Elements
 			//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		}
 
-		private void InitializeUI()
+    private void Update()
+    {
+      if (robStatus.RecentlyGotRobbed)
+      {
+        if (m_MainPanel.GetChild(0).GetComponent<Button>().interactable && ((Priority)m_HighestPriority).ToString() == "Enemy")
+        {
+          m_MainPanel.GetChild(0).GetComponent<Button>().interactable = false;
+        }
+        m_RobTimer -= Time.deltaTime;
+        if (m_RobTimer <= 0)
+        {
+          robStatus.RecentlyGotRobbed = false;
+          m_RobTimer = 30;
+          if (m_MainPanel.childCount > 0 && ((Priority)m_HighestPriority).ToString() == "Enemy")
+          {
+            m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Stelen";
+            m_MainPanel.GetChild(0).GetComponent<Button>().interactable = true;
+          }
+ 
+        }
+        else
+        {
+            m_UpdateTimer += Time.deltaTime;
+            if (m_UpdateTimer > m_UpdateTime)
+            {
+              m_UpdateTimer = 0;
+              if (m_MainPanel.childCount > 0 && ((Priority)m_HighestPriority).ToString() == "Enemy")
+                m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Wacht " + Mathf.RoundToInt(m_RobTimer) + "s";
+            }
+        }
+      }
+    }
+
+    private void InitializeUI()
 		{
-			RectTransform priorityButtons = InGameUIManager.s_Singleton.PriorityButtons;
+      robStatus = gameObject.GetComponent<RobStatus>();
+      RectTransform priorityButtons = InGameUIManager.s_Singleton.PriorityButtons;
 			RectTransform panelsInCanvas = InGameUIManager.s_Singleton.Panels;
 			int numberOfPanels = panelsInCanvas.transform.childCount;
 			m_Panels = new RectTransform[numberOfPanels];
@@ -202,7 +242,10 @@ namespace Stadsspel.Elements
 
         if (((Priority)m_HighestPriority).ToString() == "Enemy")
         {
-          mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
+          if (!robStatus.RecentlyGotRobbed)
+          {
+            mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
+          }
         }
         else
         {
