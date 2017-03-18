@@ -4,16 +4,19 @@ namespace Stadsspel.Districts
 {
 	public class CapturableDistrict : District
 	{
-		private new void Start()
+		private new void Awake()
 		{
 			m_DistrictType = DistrictType.CapturableDistrict;
-			base.Start();
+			Team = TeamID.NoTeam;
+			base.Awake();
 		}
 
 		protected override void OnTeamChanged()
 		{
-			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(m_TeamID);
-			gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = TeamData.GetColor(m_TeamID);
+			base.OnTeamChanged();
+			Color newColor = gameObject.GetComponent<Renderer>().material.color;
+			newColor.a = 0.2f;
+			gameObject.GetComponent<Renderer>().material.color = newColor;
 		}
 	}
 }

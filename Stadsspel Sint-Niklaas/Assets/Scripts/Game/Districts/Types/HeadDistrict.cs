@@ -4,16 +4,16 @@ namespace Stadsspel.Districts
 {
 	public class HeadDistrict : District
 	{
-		private new void Start()
+		private new void Awake()
 		{
 			m_DistrictType = DistrictType.HeadDistrict;
-			base.Start();
-			OnTeamChanged();
+			base.Awake();
 		}
 
 		protected override void OnTeamChanged()
 		{
-			Color newColor = TeamData.GetColor(m_TeamID);
+			base.OnTeamChanged();
+			Color newColor = gameObject.GetComponent<Renderer>().material.color;
 			newColor.a = 0.2f;
 			gameObject.GetComponent<Renderer>().material.color = newColor;
 		}

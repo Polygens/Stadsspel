@@ -4,10 +4,10 @@ namespace Stadsspel.Districts
 {
 	public class Neutral : District
 	{
-		private new void Start()
+		private new void Awake()
 		{
 			m_DistrictType = DistrictType.Neutral;
-			base.Start();
+			base.Awake();
 		}
 	}
 }

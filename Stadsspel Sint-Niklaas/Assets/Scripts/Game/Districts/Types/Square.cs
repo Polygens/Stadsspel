@@ -6,11 +6,12 @@ namespace Stadsspel.Districts
 	[RequireComponent(typeof(BoxCollider2D))]
 	public class Square : District
 	{
-		protected new void Start()
+		protected new void Awake()
 		{
 			m_DistrictType = DistrictType.square;
-			base.Start();
+			base.Awake();
 			tag = "Square";
 		}
+
 	}
 }

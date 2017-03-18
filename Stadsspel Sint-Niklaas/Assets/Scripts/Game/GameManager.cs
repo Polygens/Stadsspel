@@ -145,7 +145,7 @@ public class GameManager : PunBehaviour
 	public Treasure GetTreasureFrom(TeamID id)
 	{
 		for(int i = 0; i < m_Treasures.Count; i++) {
-			if(m_Treasures[i].TeamID == id) {
+			if(m_Treasures[i].Team == id) {
 				return m_Treasures[i];
 			}
 		}

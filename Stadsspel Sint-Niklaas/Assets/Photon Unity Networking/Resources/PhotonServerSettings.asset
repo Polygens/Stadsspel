@@ -65,4 +65,7 @@ MonoBehaviour:
   - TransactionMoney
   - UpdateTeamMoneyFromServer
   - SetRobBool
+  - AddPlayerOnPoint
+  - removePlayerOnPoint
+  - RemovePlayerOnPoint
   DisableAutoOpenWizard: 1

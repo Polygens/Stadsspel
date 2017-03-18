@@ -4,10 +4,10 @@ namespace Stadsspel.Districts
 {
 	internal class Outside : District
 	{
-		private new void Start()
+		private new void Awake()
 		{
 			m_DistrictType = DistrictType.Outside;
-			base.Start();
+			base.Awake();
 		}
 	}
 }

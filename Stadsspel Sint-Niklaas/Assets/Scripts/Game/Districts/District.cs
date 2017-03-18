@@ -17,28 +17,29 @@ namespace Stadsspel.Districts
 	public class District : PunBehaviour
 	{
 		[SerializeField]
-		//[SyncVar]
-		protected TeamID m_TeamID = 0;
+		protected TeamID m_Team = 0;
 
 		[SerializeField]
 		protected DistrictType m_DistrictType = 0;
 
-		public TeamID TeamID {
+		public TeamID Team {
 			get {
-				return m_TeamID;
+				return m_Team;
 			}
 
 			set {
-				m_TeamID = value;
+				m_Team = value;
 				OnTeamChanged();
 			}
 		}
 
 		protected virtual void OnTeamChanged()
 		{
+			Color newColor = TeamData.GetColor(m_Team);
+			gameObject.GetComponent<Renderer>().material.color = newColor;
 		}
 
-		protected void Start()
+		protected void Awake()
 		{
 			gameObject.GetComponent<Renderer>().material.color = TeamData.GetColor(m_DistrictType);
 		}

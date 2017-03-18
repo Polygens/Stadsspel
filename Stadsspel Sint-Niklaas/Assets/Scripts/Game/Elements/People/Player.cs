@@ -78,7 +78,7 @@ namespace Stadsspel.Elements
             }
         }
 
-        private void Awake()
+		private void Awake()
 		{
 			m_Person = GetComponent<Person>();
 			GameManager.s_Singleton.Player = this;
@@ -167,22 +167,21 @@ namespace Stadsspel.Elements
 				m_Buttons[i] = tempButton;
 				m_CurrentButtons[i] = 0;
 			}
-      UIisInitialized = true;
+			UIisInitialized = true;
 		}
 
-    public void PriorityUpdate(List<GameObject> allGameObjectsInRadius)
+		public void PriorityUpdate(List<GameObject> allGameObjectsInRadius)
 		{
 			if(allGameObjectsInRadius.Count > 0) {
 
-        // In case there were no collidings before.
-        m_MainPanel.gameObject.SetActive(true);
+				// In case there were no collidings before.
+				m_MainPanel.gameObject.SetActive(true);
 
-        if (allGameObjectsInRadius.Count > 1)
-        {
-          m_ListPanel.gameObject.SetActive(true);
-          m_Switch.gameObject.SetActive(true);
+				if(allGameObjectsInRadius.Count > 1) {
+					m_ListPanel.gameObject.SetActive(true);
+					m_Switch.gameObject.SetActive(true);
           
-        }
+				}
 
 				int lengthEnum = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
 				int[] priorityPresence = new int[lengthEnum];
@@ -203,7 +202,7 @@ namespace Stadsspel.Elements
 					#endif
 					Priority tempP;
 					if(tag == "Treasure") { /*Square */
-						if(allGameObjectsInRadius[i].GetComponent<Square>().TeamID == m_Person.Team) {
+						if(allGameObjectsInRadius[i].GetComponent<Square>().Team == m_Person.Team) {
 							tempP = Priority.Treasure;
 						} else {
 							tempP = Priority.TreasureEnemy;
@@ -222,23 +221,21 @@ namespace Stadsspel.Elements
 					}
 				}
 
-        // if there is a new highestpriority, do next lines
+				// if there is a new highestpriority, do next lines
         
-          m_HighestPriority = tempPriority;
-          Button mainButton = null;
-        RectTransform tempPanel = null;
+				m_HighestPriority = tempPriority;
+				Button mainButton = null;
+				RectTransform tempPanel = null;
 
-        //Make room for new mainbutton
-        if (m_MainPanel.childCount > 0)
-        {
-          for (int i = 0; i < m_MainPanel.childCount; i++)
-          {
-            Destroy(m_MainPanel.GetChild(i).gameObject);
-          }
-        }
+				//Make room for new mainbutton
+				if(m_MainPanel.childCount > 0) {
+					for(int i = 0; i < m_MainPanel.childCount; i++) {
+						Destroy(m_MainPanel.GetChild(i).gameObject);
+					}
+				}
 
-          mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-          mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+				mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+				mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
 
         if (((Priority)m_HighestPriority).ToString() == "Enemy")
         {
@@ -326,13 +323,12 @@ namespace Stadsspel.Elements
 		{
 			if(other.tag != "Untagged") {
 				m_AllGameObjectsInRadius.Add(other.gameObject);
-        if (other.tag == "Enemy")
-        {
-          m_EnemiesInRadius.Add(other.gameObject);
-        }
+				if(other.tag == "Enemy") {
+					m_EnemiesInRadius.Add(other.gameObject);
+				}
 
-        if(UIisInitialized)
-				PriorityUpdate(m_AllGameObjectsInRadius);
+				if(UIisInitialized)
+					PriorityUpdate(m_AllGameObjectsInRadius);
 			}
 		}
 
