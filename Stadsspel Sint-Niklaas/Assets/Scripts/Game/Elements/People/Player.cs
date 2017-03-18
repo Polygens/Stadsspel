@@ -176,6 +176,7 @@ namespace Stadsspel.Elements
 
 				// In case there were no collidings before.
 				m_MainPanel.gameObject.SetActive(true);
+                m_Switch.gameObject.SetActive(false);
 
 				if(allGameObjectsInRadius.Count > 1) {
 					m_ListPanel.gameObject.SetActive(true);
