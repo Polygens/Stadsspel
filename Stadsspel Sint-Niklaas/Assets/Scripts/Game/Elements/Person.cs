@@ -112,8 +112,10 @@ namespace Stadsspel.Elements
 		public void MoneyTransaction(int money)
 		{
 			m_AmountOfMoney += money;
-			GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, money);
-		}
+            //photonView.RPC("UpdateTeamMoneyFromServer", PhotonTargets.MasterClient, money, (int)m_Team);
+            GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(money);
+
+        }
 
 		//[PunRPC]
 		public void TreasureTransaction(int amount, bool isEnemyTreasure)

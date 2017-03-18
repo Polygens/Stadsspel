@@ -63,4 +63,5 @@ MonoBehaviour:
   - AddIllegalItem
   - AddLegalItem
   - TransactionMoney
+  - UpdateTeamMoneyFromServer
   DisableAutoOpenWizard: 1
