@@ -40,7 +40,10 @@ public class InGameUIManager : MonoBehaviour
 	[SerializeField]
 	private LogUI m_LogUI;
 
-	public RectTransform PriorityButtons {
+    [SerializeField]
+    private FinalScoreUI m_FinalScoreUI;
+
+    public RectTransform PriorityButtons {
 		get {
 			return m_PriorityButtons;
 		}
@@ -112,7 +115,12 @@ public class InGameUIManager : MonoBehaviour
 		}
 	}
 
-	private void Start()
+    public FinalScoreUI FinalScoreUI
+    {
+        get { return m_FinalScoreUI; }
+    }
+
+    private void Start()
 	{
 		if(s_Singleton != null) {
 			Destroy(this);

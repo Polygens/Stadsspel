@@ -30,6 +30,9 @@ public class GameManager : PunBehaviour
 
 	private List<Treasure> m_Treasures;
 
+    private bool isGameOver = false;
+    private bool hasGameDuration = false;
+
 	public Player Player {
 		get {
 			return m_Player;
@@ -59,6 +62,11 @@ public class GameManager : PunBehaviour
 		}
 	}
 
+    public float GameLength
+    {
+        get { return m_GameLength; }
+    }
+
 	//public GameObject lobbyServerEntry;
 
 	// Use this for initialization
@@ -75,16 +83,23 @@ public class GameManager : PunBehaviour
 
 		m_Treasures = new List<Treasure>();
 		m_NextMoneyUpdateTime = m_MoneyUpdateTimeInterval;
+
+        m_GameLength = GameDurationManager.instance.GameDuration;
+        hasGameDuration = true;
 	}
 
 	// Update is called once per frame
 	private void Update()
 	{
-		if(Time.timeSinceLevelLoad > m_GameLength) {
-
+		if(Time.timeSinceLevelLoad > m_GameLength && isGameOver == false && hasGameDuration)
+        {
+            isGameOver = true;
+            //Debug.Log("GameLength: " + m_GameLength);
+            //Debug.Log("Time since load: " + Time.timeSinceLevelLoad);
+            InGameUIManager.s_Singleton.FinalScoreUI.gameObject.SetActive(true);
 			//Debug.Log("The game has ended");
 		}
-		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime) {
+		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime && !isGameOver) {
 			if(PhotonNetwork.isMasterClient) {
 				// Call GainMoneyOverTime() from each financial object
 				for(int i = 0; i < m_Treasures.Count; i++) {

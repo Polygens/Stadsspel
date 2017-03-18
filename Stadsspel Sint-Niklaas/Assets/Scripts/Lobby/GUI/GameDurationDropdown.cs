@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class GameDurationDropdown : MonoBehaviour
 {
 
-	private TimeSpan[] m_Durations = new TimeSpan[] {
+    private TimeSpan[] m_Durations = new TimeSpan[] {
+        new TimeSpan(0, 0, 30),
 		new TimeSpan(0, 30, 0),
 		new TimeSpan(1, 0, 0),
 		new TimeSpan(1, 30, 0),
@@ -24,7 +25,8 @@ public class GameDurationDropdown : MonoBehaviour
 
 		m_DropdownDro.AddOptions(m_DropDownOptions);
 
-	}
+        GameDurationManager.instance.GameDuration = (float)m_Durations[0].TotalSeconds;
+    }
 
 	private void GenerateDropdownOptions()
 	{
@@ -49,6 +51,9 @@ public class GameDurationDropdown : MonoBehaviour
 
 	public void UpdatedSelectedDuration(int selected)
 	{
-		GameManager.s_Singleton.UpdateGameDuration((float)m_Durations[selected].TotalSeconds);
-	}
+		//GameManager.s_Singleton.UpdateGameDuration((float)m_Durations[selected].TotalSeconds);
+        GameDurationManager.instance.GameDuration = (float)m_Durations[selected].TotalSeconds;
+    }
+
+    
 }
