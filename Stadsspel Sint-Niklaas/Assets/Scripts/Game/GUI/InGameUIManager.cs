@@ -94,6 +94,18 @@ public class InGameUIManager : MonoBehaviour
 		}
 	}
 
+	public RectTransform LogNotifications {
+		get {
+			return m_LogNotifications;
+		}
+	}
+
+	public LogUI LogUI {
+		get {
+			return m_LogUI;
+		}
+	}
+
 	public InstructionsUI InstructionsUI {
 		get {
 			return m_InstructionsUI;
