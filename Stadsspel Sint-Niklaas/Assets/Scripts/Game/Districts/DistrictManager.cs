@@ -39,16 +39,6 @@ namespace Stadsspel.Districts
 					square.TeamID = (TeamID)(i);
 					square.enabled = true;
 					Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
-					try {
-						GameManager.s_Singleton.AddTreasure(square);
-						#if (UNITY_EDITOR)
-						Debug.Log("Treasure" + i + " added");
-						#endif
-					} catch {
-						#if (UNITY_EDITOR)
-						Debug.Log("ERROR: Adding chest failed");
-						#endif
-					}
                 
 				} else {
 					CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();

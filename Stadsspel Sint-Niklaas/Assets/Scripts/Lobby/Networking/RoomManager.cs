@@ -135,9 +135,17 @@ namespace Stadsspel.Networking
 				m_StartGameBtn.gameObject.SetActive(false);
 			}
 
+
 			#if (UNITY_EDITOR)
 			m_StartGameBtn.gameObject.SetActive(true);
 			m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
+			#endif
+
+			#if (UNITY_STANDALONE)
+			if(Debug.isDebugBuild) {
+				m_StartGameBtn.gameObject.SetActive(true);
+				m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
+			}
 			#endif
 		}
 
