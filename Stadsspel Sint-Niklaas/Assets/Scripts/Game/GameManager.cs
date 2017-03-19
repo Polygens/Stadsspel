@@ -4,6 +4,7 @@ using Photon;
 using Stadsspel.Districts;
 using Stadsspel.Elements;
 using GoMap;
+using Stadsspel.Networking;
 
 public class GameManager : PunBehaviour
 {
@@ -30,8 +31,7 @@ public class GameManager : PunBehaviour
 
 	private List<Treasure> m_Treasures;
 
-    private bool isGameOver = false;
-    private bool hasGameDuration = false;
+	private bool isGameOver = false;
 
 	public Player Player {
 		get {
@@ -62,10 +62,9 @@ public class GameManager : PunBehaviour
 		}
 	}
 
-    public float GameLength
-    {
-        get { return m_GameLength; }
-    }
+	public float GameLength {
+		get { return m_GameLength; }
+	}
 
 	//public GameObject lobbyServerEntry;
 
@@ -84,19 +83,20 @@ public class GameManager : PunBehaviour
 		m_Treasures = new List<Treasure>();
 		m_NextMoneyUpdateTime = m_MoneyUpdateTimeInterval;
 
-        m_GameLength = GameDurationManager.instance.GameDuration;
-        hasGameDuration = true;
+		m_GameLength = (int)PhotonNetwork.room.CustomProperties[RoomManager.RoomGameDurationProp];
+		#if (UNITY_EDITOR)
+		Debug.Log("Game will take: " + m_GameLength + "seconds");
+		#endif
 	}
 
 	// Update is called once per frame
 	private void Update()
 	{
-		if(Time.timeSinceLevelLoad > m_GameLength && isGameOver == false && hasGameDuration)
-        {
-            isGameOver = true;
-            //Debug.Log("GameLength: " + m_GameLength);
-            //Debug.Log("Time since load: " + Time.timeSinceLevelLoad);
-            InGameUIManager.s_Singleton.FinalScoreUI.gameObject.SetActive(true);
+		if(Time.timeSinceLevelLoad > m_GameLength && isGameOver == false) {
+			isGameOver = true;
+			//Debug.Log("GameLength: " + m_GameLength);
+			//Debug.Log("Time since load: " + Time.timeSinceLevelLoad);
+			InGameUIManager.s_Singleton.FinalScoreUI.gameObject.SetActive(true);
 			//Debug.Log("The game has ended");
 		}
 		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime && !isGameOver) {

@@ -20,12 +20,12 @@ namespace Stadsspel.Elements
 		private Button[] m_Buttons;
 		private int[] m_CurrentButtons;
 		private int m_HighestPriority;
-    private float m_UpdateTimer = 0;
-    private float m_UpdateTime = 1;
-    private float m_RobTimer = 30;
+		private float m_UpdateTimer = 0;
+		private float m_UpdateTime = 1;
+		private float m_RobTimer = 30;
 
-    //order of strings is important
-    private string[] m_ButtonNames = new string[] {
+		//order of strings is important
+		private string[] m_ButtonNames = new string[] {
 			"Ruil",
 			"Bank",
 			"Koop",
@@ -42,11 +42,11 @@ namespace Stadsspel.Elements
 		private RectTransform m_ListPanel;
 		private RectTransform m_Switch;
 
-    private bool UIisInitialized = false;
+		private bool m_UIisInitialized = false;
 
 		private int m_NumberOfButtonsInlistPanel = 0;
 
-    RobStatus robStatus;
+		RobStatus robStatus;
 
 		public Person Person {
 			get {
@@ -70,13 +70,11 @@ namespace Stadsspel.Elements
 			}
 		}
 
-    public List<GameObject> EnemiesInRadius
-        {
-            get
-            {
-                return m_EnemiesInRadius;
-            }
-        }
+		public List<GameObject> EnemiesInRadius {
+			get {
+				return m_EnemiesInRadius;
+			}
+		}
 
 		private void Awake()
 		{
@@ -109,43 +107,36 @@ namespace Stadsspel.Elements
 			//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		}
 
-    private void Update()
-    {
-      if (robStatus.RecentlyGotRobbed)
-      {
-        if (m_MainPanel.GetChild(0).GetComponent<Button>().interactable && ((Priority)m_HighestPriority).ToString() == "Enemy")
-        {
-          m_MainPanel.GetChild(0).GetComponent<Button>().interactable = false;
-        }
-        m_RobTimer -= Time.deltaTime;
-        if (m_RobTimer <= 0)
-        {
-          robStatus.RecentlyGotRobbed = false;
-          m_RobTimer = 30;
-          if (m_MainPanel.childCount > 0 && ((Priority)m_HighestPriority).ToString() == "Enemy")
-          {
-            m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Stelen";
-            m_MainPanel.GetChild(0).GetComponent<Button>().interactable = true;
-          }
- 
-        }
-        else
-        {
-            m_UpdateTimer += Time.deltaTime;
-            if (m_UpdateTimer > m_UpdateTime)
-            {
-              m_UpdateTimer = 0;
-              if (m_MainPanel.childCount > 0 && ((Priority)m_HighestPriority).ToString() == "Enemy")
-                m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Wacht " + Mathf.RoundToInt(m_RobTimer) + "s";
-            }
-        }
-      }
-    }
-
-    private void InitializeUI()
+		private void Update()
 		{
-      robStatus = gameObject.GetComponent<RobStatus>();
-      RectTransform priorityButtons = InGameUIManager.s_Singleton.PriorityButtons;
+			if(robStatus.RecentlyGotRobbed) {
+				if(m_MainPanel.GetChild(0).GetComponent<Button>().interactable && ((Priority)m_HighestPriority).ToString() == "Enemy") {
+					m_MainPanel.GetChild(0).GetComponent<Button>().interactable = false;
+				}
+				m_RobTimer -= Time.deltaTime;
+				if(m_RobTimer <= 0) {
+					robStatus.RecentlyGotRobbed = false;
+					m_RobTimer = 30;
+					if(m_MainPanel.childCount > 0 && ((Priority)m_HighestPriority).ToString() == "Enemy") {
+						m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Stelen";
+						m_MainPanel.GetChild(0).GetComponent<Button>().interactable = true;
+					}
+ 
+				} else {
+					m_UpdateTimer += Time.deltaTime;
+					if(m_UpdateTimer > m_UpdateTime) {
+						m_UpdateTimer = 0;
+						if(m_MainPanel.childCount > 0 && ((Priority)m_HighestPriority).ToString() == "Enemy")
+							m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Wacht " + Mathf.RoundToInt(m_RobTimer) + "s";
+					}
+				}
+			}
+		}
+
+		private void InitializeUI()
+		{
+			robStatus = gameObject.GetComponent<RobStatus>();
+			RectTransform priorityButtons = InGameUIManager.s_Singleton.PriorityButtons;
 			RectTransform panelsInCanvas = InGameUIManager.s_Singleton.Panels;
 			int numberOfPanels = panelsInCanvas.transform.childCount;
 			m_Panels = new RectTransform[numberOfPanels];
@@ -167,7 +158,7 @@ namespace Stadsspel.Elements
 				m_Buttons[i] = tempButton;
 				m_CurrentButtons[i] = 0;
 			}
-			UIisInitialized = true;
+			m_UIisInitialized = true;
 		}
 
 		public void PriorityUpdate(List<GameObject> allGameObjectsInRadius)
@@ -176,7 +167,7 @@ namespace Stadsspel.Elements
 
 				// In case there were no collidings before.
 				m_MainPanel.gameObject.SetActive(true);
-                m_Switch.gameObject.SetActive(false);
+				m_Switch.gameObject.SetActive(false);
 
 				if(allGameObjectsInRadius.Count > 1) {
 					m_ListPanel.gameObject.SetActive(true);
@@ -238,28 +229,21 @@ namespace Stadsspel.Elements
 				mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
 				mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
 
-        if (((Priority)m_HighestPriority).ToString() == "Enemy")
-        {
-          if (!robStatus.RecentlyGotRobbed)
-          {
-            mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
-          }
-        }
-        else
-        {
-          //names of the panels need to be the same as the priorities & layernames
-          for (int j = 0; j < m_Panels.Length; j++)
-          {
-            if (m_Panels[j].name == ((Priority)m_HighestPriority).ToString())
-            {
-              if ("Enemy" != ((Priority)m_HighestPriority).ToString())
-              {
-                tempPanel = m_Panels[j];
-                mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
-              }
-            }
-          }
-        }
+				if(((Priority)m_HighestPriority).ToString() == "Enemy") {
+					if(!robStatus.RecentlyGotRobbed) {
+						mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
+					}
+				} else {
+					//names of the panels need to be the same as the priorities & layernames
+					for(int j = 0; j < m_Panels.Length; j++) {
+						if(m_Panels[j].name == ((Priority)m_HighestPriority).ToString()) {
+							if("Enemy" != ((Priority)m_HighestPriority).ToString()) {
+								tempPanel = m_Panels[j];
+								mainButton.GetComponent<Button>().onClick.AddListener(() => buttonClicked(tempPanel));
+							}
+						}
+					}
+				}
 
 				// For all priorities, check if more buttons are needed in listpanel
 				for(int i = priorityPresence.Length - 1; i >= 0; i--) {
@@ -328,7 +312,7 @@ namespace Stadsspel.Elements
 					m_EnemiesInRadius.Add(other.gameObject);
 				}
 
-				if(UIisInitialized)
+				if(m_UIisInitialized)
 					PriorityUpdate(m_AllGameObjectsInRadius);
 			}
 		}

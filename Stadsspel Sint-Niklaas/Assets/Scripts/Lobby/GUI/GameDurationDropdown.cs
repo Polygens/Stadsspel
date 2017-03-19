@@ -2,12 +2,14 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Stadsspel.Networking;
 
 public class GameDurationDropdown : MonoBehaviour
 {
-
-    private TimeSpan[] m_Durations = new TimeSpan[] {
-        new TimeSpan(0, 0, 30),
+	public static TimeSpan[] m_Durations = new TimeSpan[] {
+		#if (UNITY_EDITOR)
+		new TimeSpan(0, 0, 30),
+		#endif
 		new TimeSpan(0, 30, 0),
 		new TimeSpan(1, 0, 0),
 		new TimeSpan(1, 30, 0),
@@ -16,6 +18,7 @@ public class GameDurationDropdown : MonoBehaviour
 	};
 	private Dropdown m_DropdownDro;
 	private List<String> m_DropDownOptions = new List<String>();
+
 	// Use this for initialization
 	void Start()
 	{
@@ -24,9 +27,7 @@ public class GameDurationDropdown : MonoBehaviour
 		m_DropdownDro.ClearOptions();
 
 		m_DropdownDro.AddOptions(m_DropDownOptions);
-
-        GameDurationManager.instance.GameDuration = (float)m_Durations[0].TotalSeconds;
-    }
+	}
 
 	private void GenerateDropdownOptions()
 	{
@@ -48,12 +49,4 @@ public class GameDurationDropdown : MonoBehaviour
 			m_DropDownOptions.Add(option);
 		}
 	}
-
-	public void UpdatedSelectedDuration(int selected)
-	{
-		//GameManager.s_Singleton.UpdateGameDuration((float)m_Durations[selected].TotalSeconds);
-        GameDurationManager.instance.GameDuration = (float)m_Durations[selected].TotalSeconds;
-    }
-
-    
 }

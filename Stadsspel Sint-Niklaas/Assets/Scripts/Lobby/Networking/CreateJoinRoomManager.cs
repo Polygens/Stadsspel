@@ -16,7 +16,6 @@ namespace Stadsspel.Networking
 		[SerializeField]
 		private Text m_AmountOfPlayersTxt;
 
-
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
@@ -44,9 +43,8 @@ namespace Stadsspel.Networking
 						return;
 					}
 				}
-				int gameDuration = 50;
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
-				NetworkManager.Singleton.RoomManager.InitializeRoom(m_RoomNameInp.text, m_RoomPasswordInp.text, gameDuration, (byte)Mathf.Round(m_RoomAmountOfPlayersSli.value));
+				NetworkManager.Singleton.RoomManager.InitializeRoom(m_RoomNameInp.text, m_RoomPasswordInp.text, (int)GameDurationDropdown.m_Durations[m_RoomGameDurationDro.value].TotalSeconds, (byte)Mathf.Round(m_RoomAmountOfPlayersSli.value));
 				gameObject.SetActive(false);
 			} else {
 				#if (UNITY_EDITOR)
