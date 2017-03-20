@@ -33,6 +33,11 @@ namespace Stadsspel.Districts
 			}
 		}
 
+        public DistrictType DistrictType
+        {
+            get { return m_DistrictType; }
+        }
+
 		protected virtual void OnTeamChanged()
 		{
 			Color newColor = TeamData.GetColor(m_Team);

@@ -32,6 +32,11 @@ namespace Stadsspel.Districts
 			}
 		}
 
+        public GameObject CurrentDistrict
+        {
+            get { return m_CurrentDistrict; }
+        }
+
 		[SerializeField]
 		private PolygonCollider2D[] m_DistrictColliders;
 
