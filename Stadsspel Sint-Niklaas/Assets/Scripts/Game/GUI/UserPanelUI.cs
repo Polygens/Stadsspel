@@ -1,18 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class UserPanelUI : MonoBehaviour
 {
 
-	// Use this for initialization
-	private void Start()
-	{
-	
-	}
-	
-	// Update is called once per frame
-	private void Update()
-	{
-	
-	}
+	public void LeaveGame()
+    {
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene("Lobby");
+    }
 }

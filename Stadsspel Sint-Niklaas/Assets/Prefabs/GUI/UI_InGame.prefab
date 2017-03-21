@@ -18479,7 +18479,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114391465047366704}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114158757702901140}
+        m_MethodName: LeaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114826275713964798
@@ -26096,8 +26107,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 323.7903, y: -51.7}
-  m_SizeDelta: {x: 647.5806, y: 103.4}
+  m_AnchoredPosition: {x: 841.8467, y: -51.7}
+  m_SizeDelta: {x: 1683.6934, y: 103.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224196334764977912
 RectTransform:
@@ -26574,8 +26585,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 323.7903, y: -205.09999}
-  m_SizeDelta: {x: 647.5806, y: 103.4}
+  m_AnchoredPosition: {x: 841.8467, y: -205.09999}
+  m_SizeDelta: {x: 1683.6934, y: 103.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224568732796842502
 RectTransform:
@@ -27013,8 +27024,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 323.7903, y: -358.5}
-  m_SizeDelta: {x: 647.5806, y: 103.4}
+  m_AnchoredPosition: {x: 841.8467, y: -358.5}
+  m_SizeDelta: {x: 1683.6934, y: 103.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224770287180739060
 RectTransform:
@@ -27330,8 +27341,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 323.7903, y: -511.9}
-  m_SizeDelta: {x: 647.5806, y: 103.4}
+  m_AnchoredPosition: {x: 841.8467, y: -511.9}
+  m_SizeDelta: {x: 1683.6934, y: 103.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224929395480582060
 RectTransform:
