@@ -12,7 +12,7 @@ public class Team : PunBehaviour
 	private int m_TotalMoney = 0;
 
 	//[SyncVar]
-	private int m_AmountOfDistricts = 1;
+	private int m_AmountOfDistricts = 0;
 
 	private BankAccount m_BankAccount;
 
@@ -70,7 +70,14 @@ public class Team : PunBehaviour
 	[PunRPC]
 	public void PlayerTransaction(int amount)
 	{
+		if(GameManager.s_Singleton.Player.Person.Team == m_TeamID) {
+			InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_HasDepositedMoneyInBank, new object[] {
+				PhotonNetwork.player.NickName,
+				amount
+			});
+
+		}
 		m_BankAccount.PlayerTransaction(amount);
-    m_BankAccount.GetComponent<PhotonView>().RPC("Transaction", PhotonTargets.All, amount);
-  }
+		m_BankAccount.GetComponent<PhotonView>().RPC("Transaction", PhotonTargets.All, amount);
+	}
 }

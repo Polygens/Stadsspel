@@ -102,6 +102,7 @@ public class GameManager : PunBehaviour
 		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime && !isGameOver) {
 			if(PhotonNetwork.isMasterClient) {
 				// Call GainMoneyOverTime() from each financial object
+			
 				for(int i = 0; i < m_Treasures.Count; i++) {
 					m_Treasures[i].photonView.RPC("GainMoneyOverTime", PhotonTargets.All);
 				}

@@ -58,17 +58,17 @@ namespace Stadsspel.Districts
 		[PunRPC]
 		public void GainMoneyOverTime()
 		{
-			m_AmountOfMoney += moneyGain;
-			GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(moneyGain);//Update total team money
-			#if (UNITY_EDITOR)
-			Debug.Log("Treasure" + (int)m_Team + " has " + m_AmountOfMoney);
-			#endif
-		}
-
-		private int CheckAmountOfCapturedDistricts()
-		{
-			return GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts;
+			if(GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts > 0) {
 				int moneyGain = m_MoneyGainPerDistrict * GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts;
+				m_AmountOfMoney += moneyGain;
+				GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(moneyGain);//Update total team money
+				#if (UNITY_EDITOR)
+				Debug.Log("Treasure" + (int)m_Team + " has " + m_AmountOfMoney);
+				#endif
+				if(m_Team == GameManager.s_Singleton.Player.Person.Team) {
+					InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_TaxesIncome, new object[]{ moneyGain });
+				}
+			}
 		}
 
 		public bool IsMoneyTranferValid(int amount)

@@ -7,9 +7,10 @@ public class LogUI : MonoBehaviour
 	[SerializeField]
 	private RectTransform m_LogScrollViewContent;
 
-	public const string m_HasDepositedMoneyInBank = "";
-	public const string m_Capturing = "CAPTURING";
+	public const string m_HasDepositedMoneyInBank = "{0} heeft {1} in de bank gestort";
+	public const string m_Capturing = "AAN HET VEROVEREN";
 	public const string m_WasCaptured = "{0} is nu van {1}";
+	public const string m_TaxesIncome = "Belastingsresultaat: {0}";
 
 
 	public GameObject AddToLog(string text, object[] variables = null, bool permanent = false)
