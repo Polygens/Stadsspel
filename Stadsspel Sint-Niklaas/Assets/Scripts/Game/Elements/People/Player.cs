@@ -185,37 +185,53 @@ namespace Stadsspel.Elements
 				int tempPriority = 0;
 				int priorityNbr = 0;
 
-				//Check with the tag of the gameObject, which priority it has in the enum,
-				// If the priority is higher then the current, update the priority
-				for(int i = 0; i < allGameObjectsInRadius.Count; i++) {
-					string tag = allGameObjectsInRadius[i].tag;
-					#if (UNITY_EDITOR)
-					Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
-					#endif
-					Priority tempP;
-					if(tag == "Treasure") { /*Square */
-						if(allGameObjectsInRadius[i].GetComponent<Square>().Team == m_Person.Team) {
-							tempP = Priority.Treasure;
-						} else {
-							tempP = Priority.TreasureEnemy;
-						}
+                //Check with the tag of the gameObject, which priority it has in the enum,
+                // If the priority is higher then the current, update the priority
+                for (int i = 0; i < allGameObjectsInRadius.Count; i++)
+                {
+                    string tag = allGameObjectsInRadius[i].tag;
+                    #if (UNITY_EDITOR)
+                    Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
+                    #endif
+                    Priority tempP;
+                    if (tag == "Treasure")
+                    { /*Square */
+                        Debug.Log("tag == Treasure");
+                        if (allGameObjectsInRadius[i].GetComponent<Square>().Team == m_Person.Team)
+                        {
+                            tempP = Priority.Treasure;
+                        }
+                        else
+                        {
+                            tempP = Priority.TreasureEnemy;
+                        }
 
-					} else if(tag == "Square") {
-						tempP = Priority.EnemyDistrict;
-					} else {
-						tempP = (Priority)Enum.Parse(typeof(Priority), tag);
-					}
+                    }
+                    else if (tag == "Square")
+                    {
+                        tempP = Priority.EnemyDistrict;
+                    }
+                    else
+                    {
+                        tempP = (Priority)Enum.Parse(typeof(Priority), tag);
+                    }
 
-					priorityNbr = (int)tempP;
-					priorityPresence[priorityNbr] = 1;
-					if(priorityNbr > tempPriority) {
-						tempPriority = priorityNbr;
-					}
-				}
+                    if (allGameObjectsInRadius[i].GetComponentInParent<CapturableDistrict>() == null)
+                    {
+                        priorityNbr = (int)tempP;
+                        priorityPresence[priorityNbr] = 1;
+                    }
+                        
+                    if (priorityNbr > tempPriority)
+                    {
+                        if (allGameObjectsInRadius[i].GetComponentInParent<CapturableDistrict>() == null)
+                            tempPriority = priorityNbr;
+                    }
+                }
 
-				// if there is a new highestpriority, do next lines
-        
-				m_HighestPriority = tempPriority;
+                // if there is a new highestpriority, do next lines
+
+                m_HighestPriority = tempPriority;
 				Button mainButton = null;
 				RectTransform tempPanel = null;
 
@@ -226,8 +242,11 @@ namespace Stadsspel.Elements
 					}
 				}
 
-				mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-				mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+                if(m_HighestPriority != 0)
+                {
+                    mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+                    mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+                }				
 
 				if(((Priority)m_HighestPriority).ToString() == "Enemy") {
 					if(!robStatus.RecentlyGotRobbed) {
@@ -307,7 +326,11 @@ namespace Stadsspel.Elements
 		public void OnTriggerEnter2D(Collider2D other)
 		{
 			if(other.tag != "Untagged") {
-				m_AllGameObjectsInRadius.Add(other.gameObject);
+                if(other.GetComponentInParent<CapturableDistrict>() == null)
+                {
+                    m_AllGameObjectsInRadius.Add(other.gameObject);
+                }
+				
 				if(other.tag == "Enemy") {
 					m_EnemiesInRadius.Add(other.gameObject);
 				}

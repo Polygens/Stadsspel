@@ -15,7 +15,7 @@ namespace Stadsspel.Districts
 		{
 			base.OnTeamChanged();
 			Color newColor = gameObject.GetComponent<Renderer>().material.color;
-			newColor.a = 0.2f;
+			newColor.a = 0.4f;
 			gameObject.GetComponent<Renderer>().material.color = newColor;
 		}
 	}
