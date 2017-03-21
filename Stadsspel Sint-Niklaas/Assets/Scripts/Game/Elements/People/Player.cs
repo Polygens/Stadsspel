@@ -326,7 +326,7 @@ namespace Stadsspel.Elements
 		public void OnTriggerEnter2D(Collider2D other)
 		{
 			if(other.tag != "Untagged") {
-                if(other.GetComponentInParent<CapturableDistrict>() == null)
+                if(other.GetComponentInParent<CapturableDistrict>() == null && other.tag != "Team")
                 {
                     m_AllGameObjectsInRadius.Add(other.gameObject);
                 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a0d78187b43c5c6469b02bec1e9721e7
-timeCreated: 1482772711
+guid: 171c42a0649dce64d9254da2ef8ac5b2
+timeCreated: 1490125801
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -24,11 +24,11 @@ TextureImporter:
   generateCubemap: 6
   cubemapConvolution: 0
   seamlessCubemap: 0
-  textureFormat: -1
+  textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: 16
+    aniso: -1
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -66,7 +66,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Android
+  - buildTarget: iPhone
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
@@ -74,7 +74,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: iPhone
+  - buildTarget: Android
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
@@ -94,7 +94,7 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
-  spritePackingTag: GameElements
+  spritePackingTag: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 
