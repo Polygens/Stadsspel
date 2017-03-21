@@ -44,17 +44,21 @@ namespace Stadsspel.Districts
 						if(m_CapturingAmount <= 0) {
 							m_CapturingTeam = mostPlayersTeam;
 						}
-					} else if(Team != GameManager.s_Singleton.Player.Person.Team) { // Progress capturing of capturing team
+					} else if(Team != mostPlayersTeam) { // Progress capturing of capturing team
 						m_CapturingAmount += Time.deltaTime * mostPlayersTeamDiff * m_CaptureMultiplier;
 						m_CapturingTeam = mostPlayersTeam;
 					}
 
 					if(m_CapturingAmount >= 100) {
-						Team = mostPlayersTeam;
-						transform.parent.GetComponent<CapturableDistrict>().Team = mostPlayersTeam;
+						if(Team != TeamID.NoTeam) {
+							GameManager.s_Singleton.Teams[(int)Team - 1].AddOrRemoveDistrict(-1);
+						}
+						Team = m_CapturingTeam;
+						transform.parent.GetComponent<CapturableDistrict>().Team = m_CapturingTeam;
 						GameManager.s_Singleton.DistrictManager.DestroyCapturingNotification();
 						InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_WasCaptured, new object[]{ this.name, Team });
 						m_CapturingAmount = 0;
+						GameManager.s_Singleton.Teams[(int)Team - 1].AddOrRemoveDistrict(1);
 					}
 				}
 					
