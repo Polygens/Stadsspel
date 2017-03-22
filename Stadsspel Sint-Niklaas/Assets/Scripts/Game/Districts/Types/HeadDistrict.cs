@@ -17,6 +17,7 @@ namespace Stadsspel.Districts
         private void Start()
         {
             icon.sprite = chestIcon;
+            transform.GetChild(0).tag = "Treasure";
         }
 
         protected override void OnTeamChanged()
