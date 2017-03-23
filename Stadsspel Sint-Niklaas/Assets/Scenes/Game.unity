@@ -1426,6 +1426,36 @@ Prefab:
       propertyPath: m_AmountField
       value: 
       objectReference: {fileID: 1551548686}
+    - target: {fileID: 114000014269885454, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_ContentType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000014269885454, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_KeyboardType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000014269885454, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_CharacterValidation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013541327232, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_ContentType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013541327232, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_KeyboardType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013541327232, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: m_CharacterValidation
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc3c651953d2f034a917167c04489f68, type: 2}
   m_IsPrefabParent: 0
