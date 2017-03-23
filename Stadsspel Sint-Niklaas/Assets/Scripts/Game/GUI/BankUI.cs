@@ -5,8 +5,8 @@ using System;
 public class BankUI : MonoBehaviour
 {
 	//BankAccountManager manager = new BankAccountManager();
-	[SerializeField]
-	private Text m_AmountField;
+    [SerializeField]
+	private InputField m_AmountField;
 	[SerializeField]
 	private Text m_AmountOwnMoney;
 	[SerializeField]
@@ -16,7 +16,9 @@ public class BankUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateUI();
+        m_AmountField.text = "";
+        UpdateUI();
+        
 	}
 
 	private void Update()
