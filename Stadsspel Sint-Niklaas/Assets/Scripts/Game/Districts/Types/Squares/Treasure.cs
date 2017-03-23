@@ -9,7 +9,7 @@ namespace Stadsspel.Districts
 		private const int m_MoneyGainPerDistrict = 50;
 
 		//[SyncVar]
-		private int m_AmountOfMoney = 500;
+		private int m_AmountOfMoney = 2000;
 
 		public int AmountOfMoney {
 			get {

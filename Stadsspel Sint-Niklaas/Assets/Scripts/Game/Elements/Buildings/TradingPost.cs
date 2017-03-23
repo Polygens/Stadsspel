@@ -12,8 +12,8 @@ namespace Stadsspel.Elements
 		private List<float> m_TeamTimers = new List<float>();
 
 		[SerializeField]
-		private int m_CountdownDuration = 1200;
-		// 20 minuten * 60 = 1200
+		private int m_CountdownDuration = 300;
+		// 5 minuten * 60 = 300
 
 		private float m_UpdateTimer = 0;
 		private float m_UpdateTime = 1;
@@ -73,11 +73,10 @@ namespace Stadsspel.Elements
 		private void UpdateUI(int time)
 		{
 			if(time > 60) {
-				int seconds = time % 60;
-				if(seconds < 10) {
-					InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + (time / 60).ToString() + " : 0" + seconds.ToString() + " minuten wachten om bij deze winkel goederen te kopen.";
-				}
-				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + (time / 60).ToString() + " : " + seconds.ToString() + " minuten wachten om bij deze winkel goederen te kopen.";
+        int minutes = Mathf.FloorToInt(time / 60F);
+        int seconds = Mathf.FloorToInt(time - minutes * 60);
+        string message = string.Format("{0:0}:{1:00}", minutes, seconds);
+				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + message + " minuten wachten om bij deze winkel goederen te kopen. Jou team is hier al reeds geweest.";
 			} else {
 				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + time + " seconden wachten om bij deze winkel goederen te kopen.";
 			}
