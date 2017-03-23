@@ -4,12 +4,12 @@ namespace Stadsspel.Districts
 {
 	public class Treasure : Square
 	{
-		private const int m_RobThreshold = 2000;
+		private const int m_RobThreshold = 500;
 		// Above this amount can be stolen
-		private const int m_MoneyGainPerDistrict = 1000;
+		private const int m_MoneyGainPerDistrict = 100;
 
 		//[SyncVar]
-		private int m_AmountOfMoney = 5000;
+		private int m_AmountOfMoney = 1000;
 
 		public int AmountOfMoney {
 			get {
@@ -58,18 +58,19 @@ namespace Stadsspel.Districts
 		[PunRPC]
 		public void GainMoneyOverTime()
 		{
-			if(GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts > 0) {
-				int moneyGain = m_MoneyGainPerDistrict * GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts;
-				m_AmountOfMoney += moneyGain;
-				GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(moneyGain);//Update total team money
-				#if (UNITY_EDITOR)
-				Debug.Log("Treasure" + (int)m_Team + " has " + m_AmountOfMoney);
-				#endif
-				if(m_Team == GameManager.s_Singleton.Player.Person.Team) {
-					InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_TaxesIncome, new object[]{ moneyGain });
-				}
-			}
-		}
+            int moneyGain = m_MoneyGainPerDistrict * (GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts + 1);
+            m_AmountOfMoney += moneyGain;
+            GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(moneyGain);//Update total team money
+
+            #if (UNITY_EDITOR)
+            Debug.Log("Treasure" + (int)m_Team + " has " + m_AmountOfMoney);
+            #endif
+
+            if (m_Team == GameManager.s_Singleton.Player.Person.Team) // GameLog
+            {
+                InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_TaxesIncome, new object[] { moneyGain });
+            }
+        }
 
 		public bool IsMoneyTranferValid(int amount)
 		{

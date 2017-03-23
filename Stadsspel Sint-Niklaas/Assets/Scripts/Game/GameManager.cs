@@ -23,7 +23,7 @@ public class GameManager : PunBehaviour
 
 	private float m_GameLength;
 	private float m_NextMoneyUpdateTime;
-	private const float m_MoneyUpdateTimeInterval = 5;
+	private const float m_MoneyUpdateTimeInterval = 30;
 
 	private Team[] m_Teams;
 
