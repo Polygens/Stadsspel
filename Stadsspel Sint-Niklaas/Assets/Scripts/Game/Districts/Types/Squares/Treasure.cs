@@ -4,12 +4,12 @@ namespace Stadsspel.Districts
 {
 	public class Treasure : Square
 	{
-		private const int m_RobThreshold = 500;
+		private const int m_RobThreshold = 200;
 		// Above this amount can be stolen
-		private const int m_MoneyGainPerDistrict = 100;
+		private const int m_MoneyGainPerDistrict = 50;
 
 		//[SyncVar]
-		private int m_AmountOfMoney = 1000;
+		private int m_AmountOfMoney = 500;
 
 		public int AmountOfMoney {
 			get {
