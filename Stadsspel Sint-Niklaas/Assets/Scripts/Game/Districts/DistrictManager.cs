@@ -41,6 +41,9 @@ namespace Stadsspel.Districts
 
 		private List<HeadDistrict> m_HeadDistricts = new List<HeadDistrict>();
 
+		/// <summary>
+		/// Starts the game for the DistrictManager for a given amount of teams.
+		/// </summary>
 		public void StartGame(int amountOfTeams)
 		{
 			m_DistrictColliders = new PolygonCollider2D[gameObject.transform.childCount];
@@ -48,6 +51,7 @@ namespace Stadsspel.Districts
 				m_DistrictColliders[i] = gameObject.transform.GetChild(i).gameObject.GetComponent<PolygonCollider2D>();
 			}
 
+			// Loops trough all district groups and allocates the teams and types.
 			for(int i = 1; i <= 6; i++) {
 				if(amountOfTeams >= i) {
 					HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
@@ -74,11 +78,17 @@ namespace Stadsspel.Districts
 			}
 		}
 
+		/// <summary>
+		/// Initialises the Player Transform.
+		/// </summary>
 		public void SetPlayerTransform(Transform player)
 		{
 			m_PlayerTrans = player;
 		}
 
+		/// <summary>
+		/// Check on which district the player is positioned.
+		/// </summary>
 		public void CheckDisctrictState()
 		{
 			GameObject newDistrict = null;
@@ -111,6 +121,9 @@ namespace Stadsspel.Districts
 			}
 		}
 
+		/// <summary>
+		/// Handles the transitioning between the districts.
+		/// </summary>
 		private void HandleDistrictChange(GameObject oldDistrict, GameObject newDistrict)
 		{
 			m_CurrentCapturePoint = null;
@@ -129,6 +142,9 @@ namespace Stadsspel.Districts
 		}
 
 
+		/// <summary>
+		/// Safely instantiates the capturing notification.
+		/// </summary>
 		public void GenerateCapturingNotification()
 		{
 			if(!m_CapturingNotification) {
@@ -136,6 +152,9 @@ namespace Stadsspel.Districts
 			}
 		}
 
+		/// <summary>
+		/// Safely destroys the capturing notification.
+		/// </summary>
 		public void DestroyCapturingNotification()
 		{
 			if(m_CapturingNotification) {
@@ -144,11 +163,17 @@ namespace Stadsspel.Districts
 		}
 
 
+		/// <summary>
+		/// Returns the HeadDistrict class of the passed TeamID.
+		/// </summary>
 		public HeadDistrict GetHeadDistrict(TeamID team)
 		{
 			return m_HeadDistricts[(int)team - 1];
 		}
 
+		/// <summary>
+		/// Returns the Treasure of the passed TeamID.
+		/// </summary>
 		public Treasure GetHeadSquare(TeamID team)
 		{
 			return GetHeadDistrict(team).transform.GetChild(0).GetComponent<Treasure>();

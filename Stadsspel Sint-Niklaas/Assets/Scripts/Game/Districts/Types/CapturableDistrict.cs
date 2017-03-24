@@ -4,6 +4,9 @@ namespace Stadsspel.Districts
 {
 	public class CapturableDistrict : District
 	{
+		/// <summary>
+		/// Initialises the class before Start.
+		/// </summary>
 		private new void Awake()
 		{
 			m_DistrictType = DistrictType.CapturableDistrict;
@@ -11,6 +14,9 @@ namespace Stadsspel.Districts
 			base.Awake();
 		}
 
+		/// <summary>
+		/// Handles the change of team.
+		/// </summary>
 		protected override void OnTeamChanged()
 		{
 			base.OnTeamChanged();

@@ -12,7 +12,6 @@ namespace Stadsspel.Elements
 		[SerializeField]
 		private List<int> m_LegalItems = new List<int>();
 
-		//[SyncVar]
 		[SerializeField]
 		private int m_AmountOfMoney = 0;
 

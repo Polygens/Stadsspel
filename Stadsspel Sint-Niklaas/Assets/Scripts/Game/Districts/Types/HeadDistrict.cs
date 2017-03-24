@@ -10,6 +10,9 @@ namespace Stadsspel.Districts
 		[SerializeField]
 		private Sprite m_ChestIcon;
 
+		/// <summary>
+		/// Initialises the class before Start.
+		/// </summary>
 		private new void Awake()
 		{
 			m_DistrictType = DistrictType.HeadDistrict;
@@ -17,12 +20,18 @@ namespace Stadsspel.Districts
 
 		}
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		private void Start()
 		{
 			m_Icon.sprite = m_ChestIcon;
 			transform.GetChild(0).tag = "Treasure";
 		}
 
+		/// <summary>
+		/// Handles the change of team.
+		/// </summary>
 		protected override void OnTeamChanged()
 		{
 			base.OnTeamChanged();

@@ -8,7 +8,6 @@ namespace Stadsspel.Districts
 		// Above this amount can be stolen
 		private const int m_MoneyGainPerDistrict = 50;
 
-		//[SyncVar]
 		private int m_AmountOfMoney = 2000;
 
 		public int AmountOfMoney {
@@ -20,6 +19,9 @@ namespace Stadsspel.Districts
 			}
 		}
 
+		/// <summary>
+		/// Initialises the class before Start.
+		/// </summary>
 		private new void Awake()
 		{
 			m_DistrictType = DistrictType.square;
@@ -27,12 +29,18 @@ namespace Stadsspel.Districts
 			tag = "Treasure";
 		}
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		private void Start()
 		{
 			GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(m_AmountOfMoney);//Update total team money
 			GameManager.s_Singleton.AddTreasure(this);
 		}
 
+		/// <summary>
+		/// Returns the allowed amount of money that can be robbed of this treasure.
+		/// </summary>
 		public int GetRobAmount()
 		{
 			if(m_AmountOfMoney > m_RobThreshold) {
@@ -41,12 +49,18 @@ namespace Stadsspel.Districts
 			return 0;
 		}
 
+		/// <summary>
+		/// [PunRPC] Performs a transaction of the passed amount of money on the treasure money.
+		/// </summary>
 		[PunRPC]
-		public void EmptyChest(int amount)
+		public void ChestTransaction(int amount)
 		{
 			m_AmountOfMoney -= amount;
 		}
 
+		/// <summary>
+		/// [PunRPC] Reduces the amount of money of the treasure caused by rob.
+		/// </summary>
 		[PunRPC]
 		public int RobChest()
 		{
@@ -55,8 +69,11 @@ namespace Stadsspel.Districts
 			return robbedMoney;
 		}
 
+		/// <summary>
+		/// [PunRPC] Calculates and adds the tax money of the owned districts to the treasure.
+		/// </summary>
 		[PunRPC]
-		public void GainMoneyOverTime()
+		public void RetreiveTaxes()
 		{
 			int moneyGain = m_MoneyGainPerDistrict * (GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts + 1);
 			m_AmountOfMoney += moneyGain;
@@ -72,6 +89,9 @@ namespace Stadsspel.Districts
 			}
 		}
 
+		/// <summary>
+		/// Verifies if the transaction is valid.
+		/// </summary>
 		public bool IsMoneyTranferValid(int amount)
 		{
 			return amount <= m_AmountOfMoney;

@@ -6,7 +6,6 @@ namespace Stadsspel.Elements
 	public class BankAccount : PunBehaviour
 	{
 		[SerializeField]
-		//[SyncVar]
 		private int m_Balance;
 
 		private TeamID m_Team;

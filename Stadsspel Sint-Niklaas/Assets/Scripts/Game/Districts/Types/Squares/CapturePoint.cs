@@ -11,6 +11,9 @@ namespace Stadsspel.Districts
 
 		private const float m_CaptureMultiplier = 10;
 
+		/// <summary>
+		/// Initialises the class before Start.
+		/// </summary>
 		private new void Awake()
 		{
 			Team = TeamID.NoTeam;
@@ -20,12 +23,16 @@ namespace Stadsspel.Districts
 			m_PlayersOnPoint = new byte[TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers)];
 		}
 
+		/// <summary>
+		/// Gets called every frame. Handles the capturing of the square.
+		/// </summary>
 		private void Update()
 		{
 			int totalPlayers = 0;
 			int mostPlayers = 0;
 			TeamID mostPlayersTeam = TeamID.NotSet;
 
+			// Check which team has the most players
 			for(int i = 0; i < m_PlayersOnPoint.Length; i++) {
 				totalPlayers += m_PlayersOnPoint[i];
 				if(m_PlayersOnPoint[i] > mostPlayers) {
@@ -34,9 +41,12 @@ namespace Stadsspel.Districts
 				}
 			}
 
+			// If there are players calculate the difference between the next team with the most players.
 			if(mostPlayers > 0) {
 				int competingPlayers = totalPlayers - mostPlayers;
 				int mostPlayersTeamDiff = mostPlayers - competingPlayers;
+
+				// If the capturing team has a majority capturing begins
 				if(mostPlayersTeamDiff > 0) {
 					// Reverse capturing progress competing team
 					if(mostPlayersTeam != m_CapturingTeam) {
@@ -45,11 +55,13 @@ namespace Stadsspel.Districts
 							m_CapturingTeam = mostPlayersTeam;
 						}
 					}
-					else if(Team != mostPlayersTeam) { // Progress capturing of capturing team
+					// Progress capturing of capturing team
+					else if(Team != mostPlayersTeam) {
 						m_CapturingAmount += Time.deltaTime * mostPlayersTeamDiff * m_CaptureMultiplier;
 						m_CapturingTeam = mostPlayersTeam;
 					}
 
+					// If fully captured update team, team data and show notification.
 					if(m_CapturingAmount >= 100) {
 						if(Team != TeamID.NoTeam) {
 							GameManager.s_Singleton.Teams[(int)Team - 1].AddOrRemoveDistrict(-1);
@@ -63,17 +75,23 @@ namespace Stadsspel.Districts
 					}
 				}
 
+				// Update the capturing notification progress.
 				if(GameManager.s_Singleton.DistrictManager.CurrentCapturePoint == this && (int)Mathf.Round(m_CapturingAmount) != 0) {
 					GameManager.s_Singleton.DistrictManager.GenerateCapturingNotification();
 					GameManager.s_Singleton.DistrictManager.CapturingNotification.SetColor(TeamData.GetColor(Team), TeamData.GetColor(m_CapturingTeam));
 					GameManager.s_Singleton.DistrictManager.CapturingNotification.SetProgress(m_CapturingAmount / 100);
 				}
 			}
+
+			// Destroy the capturing notification when no longer on capture point.
 			if(GameManager.s_Singleton.DistrictManager.CurrentCapturePoint == null) {
 				GameManager.s_Singleton.DistrictManager.DestroyCapturingNotification();
 			}
 		}
 
+		/// <summary>
+		/// Adds a player of the specified team to the player list of m_PlayersOnPoint.
+		/// </summary>
 		[PunRPC]
 		private void AddPlayerOnPoint(TeamID team)
 		{
@@ -85,6 +103,9 @@ namespace Stadsspel.Districts
 #endif
 		}
 
+		/// <summary>
+		/// Removes a player of the specified team from the player list of m_PlayersOnPoint.
+		/// </summary>
 		[PunRPC]
 		private void RemovePlayerOnPoint(TeamID team)
 		{

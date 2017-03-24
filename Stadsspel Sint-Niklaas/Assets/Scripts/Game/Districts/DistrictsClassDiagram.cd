@@ -59,7 +59,7 @@
   <Class Name="Stadsspel.Districts.Treasure">
     <Position X="10" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAACAAQAAAgAAAAAAQBQAAAAAAAAIgAAEAAEA=</HashCode>
+      <HashCode>gAAAAEAAACAAQAAAgAAAAAAABQAAAAAAAAAgAAEAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\Squares\Treasure.cs</FileName>
     </TypeIdentifier>
   </Class>
