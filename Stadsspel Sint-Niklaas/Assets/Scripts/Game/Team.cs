@@ -1,6 +1,6 @@
-using UnityEngine;
 using Photon;
 using Stadsspel.Elements;
+using UnityEngine;
 
 public class Team : PunBehaviour
 {
@@ -65,18 +65,11 @@ public class Team : PunBehaviour
 	private void Start()
 	{
 		m_BankAccount = GetComponent<BankAccount>();
+		m_BankAccount.Team = m_TeamID;
 	}
 
-	[PunRPC]
 	public void PlayerTransaction(int amount)
 	{
-		if(GameManager.s_Singleton.Player.Person.Team == m_TeamID) {
-			InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_HasDepositedMoneyInBank, new object[] {
-				PhotonNetwork.player.NickName,
-				amount
-			});
-
-		}
 		m_BankAccount.PlayerTransaction(amount);
 		m_BankAccount.GetComponent<PhotonView>().RPC("Transaction", PhotonTargets.All, amount);
 	}
