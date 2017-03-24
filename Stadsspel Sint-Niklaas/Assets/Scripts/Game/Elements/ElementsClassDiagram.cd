@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="Enemy">
     <Position X="1.5" Y="11" Width="1.5" />
     <TypeIdentifier>
@@ -22,70 +22,70 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.Person">
-    <Position X="10" Y="0.5" Width="1.5" />
+    <Position X="11.25" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAEAAgAIAGACAAAAEAEIAICABQAAAoAAAAAgAAAAgMA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\Person.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.Element">
-    <Position X="7.25" Y="0.5" Width="1.5" />
+    <Position X="8.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAACAAAEAAAAAAAAQAEAAAAAAAEAAAAAAAAQA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\Element.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.Building">
-    <Position X="5" Y="0.5" Width="1.5" />
+    <Position X="4.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\Building.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RobStatus">
-    <Position X="15.25" Y="0.5" Width="1.5" />
+    <Position X="16.25" Y="5.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\People\RobStatus.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.Player">
-    <Position X="11.75" Y="0.5" Width="1.5" />
+    <Position X="13.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>BKQEAACAACAAAABACEAAACADQELCQAAFIQACgAEgAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\People\Player.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.Friend">
-    <Position X="13.5" Y="3.5" Width="1.5" />
+    <Position X="16.25" Y="3.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\People\Friend.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.Enemy">
-    <Position X="13.5" Y="0.5" Width="1.5" />
+    <Position X="16.25" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAQAABAAACAgAAAAAAAAAAAIAAAAAAAAAAAAAAUAAAQ=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\People\Enemy.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.TradingPost">
-    <Position X="3.5" Y="3" Width="1.5" />
+    <Position X="3.5" Y="2.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>ACQQAAAAADAAAAAQAEAAACQAAAACAAAAAAAAQAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\Buildings\TradingPost.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.BankAccount">
-    <Position X="5.5" Y="4.5" Width="1.5" />
+    <Position X="6" Y="4.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AASAAAAAAAAAIAAAAAgAAAAIEAAAAAAAEAABAAAAAAA=</HashCode>
+      <HashCode>AACAAAAAAAAAIAAAAAgAAAAIEAAAAAAAEAABAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\Buildings\Bank\BankAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Elements.Bank">
-    <Position X="5.5" Y="3" Width="1.5" />
+    <Position X="6" Y="2.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\Buildings\Bank\Bank.cs</FileName>
@@ -106,7 +106,7 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="Stadsspel.Elements.Priority">
-    <Position X="13.5" Y="5.5" Width="1.5" />
+    <Position X="12.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gQIAAgAAAAAAAAAAAAACAAAAACAAAAAAEAAAAAAAQAA=</HashCode>
       <FileName>Assets\Scripts\Game\Elements\People\Player.cs</FileName>

@@ -14,11 +14,17 @@ public class TreasureUI : MonoBehaviour
 
 	private Treasure m_CurrentTreasure;
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public Treasure CurrentTreasure()
 	{
 		return m_CurrentTreasure;
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void Update()
 	{
 		m_Timer += Time.deltaTime;
@@ -28,6 +34,9 @@ public class TreasureUI : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void OnEnable()
 	{
 		m_Input.text = "";
@@ -35,17 +44,26 @@ public class TreasureUI : MonoBehaviour
 		UpdateUI();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void UpdateUI()
 	{
 		m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 		m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void FindCurrentTreasure()
 	{
 		m_CurrentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void TransferMoney()
 	{
 		int amount;

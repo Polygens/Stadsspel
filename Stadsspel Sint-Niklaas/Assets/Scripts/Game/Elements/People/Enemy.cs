@@ -12,6 +12,9 @@ namespace Stadsspel.Elements
 		private MeshRenderer m_CircleMesh;
 		private MeshRenderer m_TextMesh;
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		private void Start()
 		{
 			m_Person = GetComponent<Person>();
@@ -26,6 +29,9 @@ namespace Stadsspel.Elements
 			m_TextMesh = transform.GetChild(0).GetComponent<MeshRenderer>();
 		}
 
+		/// <summary>
+		/// Gets called every frame.
+		/// </summary>
 		private void Update()
 		{
 			m_Timer -= Time.deltaTime;

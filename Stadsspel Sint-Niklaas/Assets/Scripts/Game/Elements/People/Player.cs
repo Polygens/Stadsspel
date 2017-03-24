@@ -75,6 +75,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// Initialises the class before Start.
+		/// </summary>
 		private void Awake()
 		{
 			m_Person = GetComponent<Person>();
@@ -89,6 +92,9 @@ namespace Stadsspel.Elements
 		//SchatkistEnemy
 		// EnemyPlein,
 		//Enemy
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		private void Start()
 		{
 			InitializeUI();
@@ -106,6 +112,9 @@ namespace Stadsspel.Elements
 			//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
 		}
 
+		/// <summary>
+		/// Gets called every frame.
+		/// </summary>
 		private void Update()
 		{
 			if(robStatus.RecentlyGotRobbed) {
@@ -133,6 +142,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// Initialises all the UI variables and sets up the required panels.
+		/// </summary>
 		private void InitializeUI()
 		{
 			robStatus = gameObject.GetComponent<RobStatus>();
@@ -161,6 +173,9 @@ namespace Stadsspel.Elements
 			m_UIisInitialized = true;
 		}
 
+		/// <summary>
+		/// Handles all logic for adding and removing buttons from the action button list. TODO: Split up in more managable functions
+		/// </summary>
 		public void PriorityUpdate(List<GameObject> allGameObjectsInRadius)
 		{
 			if(allGameObjectsInRadius.Count > 0) {
@@ -296,6 +311,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// Tries to remove the button with passed index from the action button list.
+		/// </summary>
 		private void TryToDestroyIndexOfListPanel(int index)
 		{
 			for(int j = 0; j < m_ListPanel.childCount; j++) {
@@ -308,6 +326,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// Event function for action button clicked.
+		/// </summary>
 		private void buttonClicked(RectTransform panel)
 		{
 #if(UNITY_EDITOR)
@@ -317,6 +338,9 @@ namespace Stadsspel.Elements
 			panel.gameObject.SetActive(true);
 		}
 
+		/// <summary>
+		/// Gets called when a collider enters the player's collider. Adds the other collider gameobject to the list of objects in radius.
+		/// </summary>
 		public void OnTriggerEnter2D(Collider2D other)
 		{
 			if(other.tag != "Untagged") {
@@ -333,6 +357,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// Gets called when a collider leaves the player's collider. Removes the other collider gameobject from the list of objects in radius.
+		/// </summary>
 		public void OnTriggerExit2D(Collider2D other)
 		{
 			m_EnemiesInRadius.Remove(other.gameObject);
@@ -340,6 +367,9 @@ namespace Stadsspel.Elements
 			PriorityUpdate(m_AllGameObjectsInRadius);
 		}
 
+		/// <summary>
+		/// Returns a GameObject with the passed name in the list of GameObjects in radius if found.
+		/// </summary>
 		public GameObject GetGameObjectInRadius(string tag)
 		{
 			GameObject obj = null;

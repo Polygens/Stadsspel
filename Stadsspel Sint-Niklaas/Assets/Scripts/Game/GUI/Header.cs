@@ -19,11 +19,17 @@ public class Header : MonoBehaviour
 	private float m_UpdateTimer = 0;
 	private float m_UpdateTime = 1;
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void Start()
 	{
 		m_TeamColor.color = TeamData.GetColor(Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player));
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void Update()
 	{
 		m_UpdateTimer += Time.deltaTime;
@@ -39,16 +45,25 @@ public class Header : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void OpenProfilePanelOnClick()
 	{
 		m_ProfilePanel.gameObject.SetActive(true);
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void OpenInventoryOnClick()
 	{
 		m_GoodsPanel.gameObject.SetActive(true);
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void UpdatePlayerMoney(int pPlayerMoney)
 	{
 		m_PlayerMoney.text = pPlayerMoney.ToString();
@@ -57,11 +72,17 @@ public class Header : MonoBehaviour
 #endif
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void UpdateTeamMoney(int pTeamMoney)
 	{
 		m_TeamMoney.text = pTeamMoney.ToString();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void UpdateGameTimer()
 	{
 		float timer = GameManager.s_Singleton.GameLength - Time.timeSinceLevelLoad;

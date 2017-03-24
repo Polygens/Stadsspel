@@ -6,6 +6,9 @@ public class MainSquareBtn : MonoBehaviour
 
 	// Use this for initialization
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void ToggleMainSquareArrow(bool turnOn)
 	{
 		if(!m_Arrow) {

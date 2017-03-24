@@ -7,6 +7,9 @@ public class GoodsUI : MonoBehaviour
 	private List<int> m_LegalItems = new List<int>();
 	private List<int> m_IllegalItems = new List<int>();
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void OnEnable()
 	{
 		m_LegalItems = GameManager.s_Singleton.Player.Person.LookUpLegalItems;

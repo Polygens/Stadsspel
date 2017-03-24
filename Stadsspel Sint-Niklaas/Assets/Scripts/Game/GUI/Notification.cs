@@ -22,11 +22,17 @@ public class Notification : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void SetText(string text)
 	{
 		m_Text.text = text;
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void SetColor(Color color, Color colorEnd = default(Color))
 	{
 		if(!m_NotificationLocalMat) {
@@ -37,6 +43,9 @@ public class Notification : MonoBehaviour
 		m_NotificationLocalMat.SetColor("_ProgressColor", colorEnd);
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void SetProgress(float progress)
 	{
 		if(!m_NotificationLocalMat) {
@@ -46,6 +55,9 @@ public class Notification : MonoBehaviour
 		m_NotificationLocalMat.SetFloat("_Progress", progress);
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void SetPermanent(bool isPermanent)
 	{
 		m_Permanent = isPermanent;

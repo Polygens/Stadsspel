@@ -119,6 +119,9 @@ public class InGameUIManager : MonoBehaviour
 		get { return m_FinalScoreUI; }
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void Start()
 	{
 		if(s_Singleton != null) {

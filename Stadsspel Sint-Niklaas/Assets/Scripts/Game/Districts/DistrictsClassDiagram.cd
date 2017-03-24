@@ -1,70 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="Stadsspel.Districts.DistrictManager">
-    <Position X="12.5" Y="0.5" Width="1.5" />
+    <Position X="11.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAEAAACQAgAAQACgBAAAAQARAFAIQAAAgAA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\DistrictManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.District">
-    <Position X="6" Y="0.5" Width="1.5" />
+    <Position X="6" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>ABAAAAIAAAAAgAAAAAAAAAAAEAAAAAAAEAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\District.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.Square">
-    <Position X="10.75" Y="4" Width="1.5" />
+    <Position X="9" Y="4" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\Square.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.Outside">
-    <Position X="5.5" Y="4" Width="1.5" />
+    <Position X="3.5" Y="4" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\Outside.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.Neutral">
-    <Position X="9" Y="4" Width="1.5" />
+    <Position X="5" Y="5.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\Neutral.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.HeadDistrict">
-    <Position X="3.75" Y="4" Width="1.5" />
+    <Position X="2" Y="5.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAACAAAAAAAAAAAAAAAAAAAAAAABAAAAAACEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\HeadDistrict.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.GrandMarket">
-    <Position X="7.25" Y="4" Width="1.5" />
+    <Position X="6.5" Y="4" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\GrandMarket.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.CapturableDistrict">
-    <Position X="2" Y="4" Width="1.5" />
+    <Position X="0.5" Y="4" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\CapturableDistrict.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.Treasure">
-    <Position X="10" Y="5.75" Width="1.5" />
+    <Position X="7.75" Y="5.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>gAAAAEAAACAAQAAAgAAAAAAABQAAAAAAAAAgAAEAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\Squares\Treasure.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Districts.CapturePoint">
-    <Position X="11.75" Y="5.75" Width="1.5" />
+    <Position X="10.25" Y="5.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAQAAAAACAAAAAAgAAAAAAAAAAAgAAAQAAAACAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Game\Districts\Types\Squares\CapturePoint.cs</FileName>

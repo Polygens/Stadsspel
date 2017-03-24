@@ -14,6 +14,9 @@ namespace Stadsspel.Elements
 		[SerializeField]
 		private string m_GameName = "Not set";
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		protected void Start()
 		{
 		}

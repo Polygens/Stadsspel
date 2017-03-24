@@ -15,11 +15,17 @@ public class SwitchButton : MonoBehaviour
 	private float m_LerpDuration = 0.2f;
 	private float m_ListPanelStartY = 0;
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void Start()
 	{
 		gameObject.SetActive(false);
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void Update()
 	{
 		LerpPanel();
@@ -30,6 +36,9 @@ public class SwitchButton : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void OnEnable()
 	{
 		m_PanelNeeded = false;
@@ -37,6 +46,9 @@ public class SwitchButton : MonoBehaviour
 		m_LerpTimer = 0;
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void ButtonListSwitch()
 	{
 		if(GameManager.s_Singleton.Player.NumberOfButtonsInlistPanel != 0) {
@@ -53,6 +65,9 @@ public class SwitchButton : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void LerpPanel()
 	{
 		if(m_LerpTimer >= 0 && m_LerpTimer < m_LerpDuration) {

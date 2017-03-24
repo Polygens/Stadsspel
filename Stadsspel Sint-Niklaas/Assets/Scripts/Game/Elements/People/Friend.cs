@@ -6,6 +6,9 @@ namespace Stadsspel.Elements
 	{
 		private Person m_Person;
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		private void Start()
 		{
 			m_Person = GetComponent<Person>();

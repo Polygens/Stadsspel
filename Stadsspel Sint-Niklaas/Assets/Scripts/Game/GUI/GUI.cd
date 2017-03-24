@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="BankUI">
+    <Position X="0.75" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAAAAAABAAQAAAACAAAAAAAAAAEAAKAAIACAQ=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\BankUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FinalScoreUI">
+    <Position X="0.75" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAIAAAAAAAAAAAAAAAAAAABAAAQQBAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\FinalScoreUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GoodsUI">
+    <Position X="10.75" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAiAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\GoodsUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GrandMarketUI">
+    <Position X="3.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAACAAAAQAAAgBAAAAAAAAIAAAAEAAAAiAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\GrandMarketUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Header">
+    <Position X="0.75" Y="7.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ACQgAEAAACAABAAAAgAIACAAQABAAAAEAAAACAAAAEQ=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\Header.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InGameUIManager">
+    <Position X="8.25" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABBAAAACCCIAJAAABEAAAAIhIIQJBAABIgkAAAQQAQA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\InGameUIManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InstructionsUI">
+    <Position X="10.75" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\InstructionsUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LogUI">
+    <Position X="10.75" Y="10.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAACAAAAAGAAAAQAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\LogUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainSquareBtn">
+    <Position X="10.75" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\MainSquareBtn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainSquareArrow">
+    <Position X="3.25" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAQAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\MainSquareArrow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MarketUI">
+    <Position X="10.75" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\MarketUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Notification">
+    <Position X="5.75" Y="8" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQYAAAAAAAAAAgAQAIACAAAAAAAAAAAAAAgAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\Notification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SquareIcon">
+    <Position X="10.75" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\SquareIcon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SwitchButton">
+    <Position X="5.75" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAAAACAAAAAAAQAAACIAAAAABAABQQAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\SwitchButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TradingPostUI">
+    <Position X="8.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AARAAAAQEmAAAEABAAQAAEAAABAAAACAAAMABCAACAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\TradingPostUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TreasureEnemyUI">
+    <Position X="5.75" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQQABAIAAAAAAAgAAAAAAAAAAAAAAAAEAIAAAAACCQ=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\TreasureEnemyUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TreasureUI">
+    <Position X="3.25" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQQABAIAAAAAAAAAAAAAAAAAAAAAEAQEAIAAAAACCQ=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\TreasureUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UserPanelUI">
+    <Position X="10.75" Y="9" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\GUI\UserPanelUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

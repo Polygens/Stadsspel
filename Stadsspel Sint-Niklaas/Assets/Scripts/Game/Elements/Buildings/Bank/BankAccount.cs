@@ -21,11 +21,9 @@ namespace Stadsspel.Elements
 			set { m_Team = value; }
 		}
 
-		private void Update()
-		{
-			//mBalance += Mathf.RoundToInt(mBalance * interestMultiplier);//Add 2% from current balance to the total balance
-		}
-
+		/// <summary>
+		/// [PunRPC] Performs a bank transaction of the passed amount on the account money.
+		/// </summary>
 		[PunRPC]
 		public void Transaction(int amount, PhotonMessageInfo info)
 		{
@@ -38,6 +36,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// [PunRPC] Performs a bank transaction of the passed amount on the account money.
+		/// </summary>
 		[PunRPC]
 		public bool PlayerTransaction(int amount)
 		{

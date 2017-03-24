@@ -1,49 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="Stadsspel.Networking.RoomTeams">
-    <Position X="6.75" Y="0.5" Width="1.5" />
+    <Position X="8" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAIAAAAAAAAAAAAAAAAgAAAAECACAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Lobby\Networking\RoomTeams.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Networking.TeamExtensions" Collapsed="true">
-    <Position X="6.75" Y="3.25" Width="1.5" />
+    <Position X="8" Y="3.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEQIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Lobby\Networking\RoomTeams.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Networking.RoomManager">
-    <Position X="3.25" Y="0.5" Width="1.5" />
+    <Position X="0.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAASAAACAAACEAAAAAEAACAEAMEABAAAAUAEA=</HashCode>
       <FileName>Assets\Scripts\Lobby\Networking\RoomManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Networking.NetworkManager">
-    <Position X="5" Y="0.5" Width="1.5" />
+    <Position X="5.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAABUQAAIDBEAQAIAAABQBABAIAAACkAAAQAIAAAACg=</HashCode>
       <FileName>Assets\Scripts\Lobby\Networking\NetworkManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Networking.LobbyManager">
-    <Position X="1.5" Y="0.5" Width="1.5" />
+    <Position X="3" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAUAAAAAAAAAACAIAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Assets\Scripts\Lobby\Networking\LobbyManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Networking.CreateJoinRoomManager">
-    <Position X="1.5" Y="3.25" Width="1.5" />
+    <Position X="3" Y="3.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAgAAAAgAwAABAQAAIAAAAAAAAAAAAAAAAAAAAAQgAA=</HashCode>
       <FileName>Assets\Scripts\Lobby\Networking\CreateJoinRoomManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Stadsspel.Networking.LobbyPlayer">
-    <Position X="8.5" Y="0.5" Width="1.5" />
+    <Position X="10.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AQkIAABAACJAAACACQ4AAAAIAAQAAAAADAQCQpAOIAA=</HashCode>
       <FileName>Assets\Scripts\Lobby\LobbyPlayer.cs</FileName>

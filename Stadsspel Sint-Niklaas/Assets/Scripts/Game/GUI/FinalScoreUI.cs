@@ -10,6 +10,9 @@ public class FinalScoreUI : MonoBehaviour
 
 	private List<Team> m_TeamOrder = new List<Team>();
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void OnEnable()
 	{
 		SortTeams();
@@ -23,6 +26,9 @@ public class FinalScoreUI : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void SortTeams()
 	{
 		for(int i = 0; i < GameManager.s_Singleton.Teams.Length; i++) {
@@ -33,11 +39,17 @@ public class FinalScoreUI : MonoBehaviour
 		m_TeamOrder.Reverse();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	static int SortByTotalMoney(Team t1, Team t2)
 	{
 		return t1.TotalMoney.CompareTo(t2.TotalMoney);
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void LeaveGame()
 	{
 		PhotonNetwork.Disconnect();

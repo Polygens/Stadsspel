@@ -12,11 +12,17 @@ public class GrandMarketUI : MonoBehaviour
 	private List<int> m_LegalItems = new List<int>();
 	private int m_Total;
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void OnEnable()
 	{
 		UpdateUI();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void UpdateUI()
 	{
 		m_Total = 0;
@@ -57,6 +63,9 @@ public class GrandMarketUI : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private int CalculateSubtotal(int Listindex, int index, List<int> items)
 	{
 		int sellPrice = Item.ShopItems[index].SellPrice;
@@ -64,6 +73,9 @@ public class GrandMarketUI : MonoBehaviour
 		return subTotal;
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void Sell()
 	{
 
@@ -75,6 +87,9 @@ public class GrandMarketUI : MonoBehaviour
 		ResetUI();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void ResetUI()
 	{
 		RectTransform Grid = (RectTransform)m_MarktPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");

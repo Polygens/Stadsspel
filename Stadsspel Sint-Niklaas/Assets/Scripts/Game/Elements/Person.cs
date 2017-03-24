@@ -17,6 +17,9 @@ namespace Stadsspel.Elements
 
 		private Districts.DistrictManager districtManager;
 
+		/// <summary>
+		/// Initialises the class before Start.
+		/// </summary>
 		private void Awake()
 		{
 			m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
@@ -33,6 +36,9 @@ namespace Stadsspel.Elements
 			districtManager = GameObject.FindWithTag("Districts").GetComponent<Districts.DistrictManager>();
 		}
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		protected new void Start()
 		{
 			GetComponent<MeshRenderer>().material.color = TeamData.GetColor(m_Team);
@@ -48,6 +54,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// Robs every player in the player radius.
+		/// </summary>
 		public void Rob()
 		{
 			foreach(GameObject enemy in GameManager.s_Singleton.Player.EnemiesInRadius) {
@@ -58,6 +67,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// [PunRPC] TODO
+		/// </summary>
 		[PunRPC]
 		public void ResetLegalItems()
 		{
@@ -66,6 +78,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// [PunRPC] TODO
+		/// </summary>
 		[PunRPC]
 		public void ResetIllegalItems()
 		{
@@ -74,6 +89,9 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// [PunRPC] TODO
+		/// </summary>
 		[PunRPC]
 		public void GetRobbed(int teamId)
 		{
@@ -101,12 +119,18 @@ namespace Stadsspel.Elements
 			get { return m_IllegalItems; }
 		}
 
+		/// <summary>
+		/// [PunRPC] TODO
+		/// </summary>
 		[PunRPC]
 		public void AddLegalItem(int index, int item)
 		{
 			m_LegalItems[index] += item;
 		}
 
+		/// <summary>
+		/// [PunRPC] TODO
+		/// </summary>
 		[PunRPC]
 		public void AddIllegalItem(int index, int item)
 		{
@@ -114,6 +138,9 @@ namespace Stadsspel.Elements
 		}
 
 
+		/// <summary>
+		/// [PunRPC] TODO
+		/// </summary>
 		[PunRPC]
 		public void MoneyTransaction(int money)
 		{
@@ -123,7 +150,9 @@ namespace Stadsspel.Elements
 
 		}
 
-		//[PunRPC]
+		/// <summary>
+		/// Performs a transaction of the passed amount on the treasure in the radius.
+		/// </summary>
 		public void TreasureTransaction(int amount, bool isEnemyTreasure)
 		{
 			TeamID id = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Districts.Treasure>().Team;
@@ -141,6 +170,9 @@ namespace Stadsspel.Elements
 
 		}
 
+		/// <summary>
+		/// TODO
+		/// </summary>
 		public void AddGoods(int money, List<int> legalItems, List<int> illegalItems, int enemyTeamId)// Used when stealing from someone
 		{
 			photonView.RPC("MoneyTransaction", PhotonTargets.All, money);
@@ -165,40 +197,13 @@ namespace Stadsspel.Elements
 		}
 
 
+		/// <summary>
+		/// [PunRPC] Performs a transaction of the passed amount on the player money.
+		/// </summary>
 		[PunRPC]
 		public void TransactionMoney(int money)
 		{
 			m_AmountOfMoney += money;
 		}
-
-
-		//private void Update()
-		//{
-		//	/*int amountOfTeams; //= LobbyPlayerList._instance.LobbyPlayerMatrix.GetLength(0);
-		//if(!mIsReady && GameManager.s_Singleton.transform.childCount == amountOfTeams && Name != "Not set" && Team != TeamID.NotSet) {
-		//	mIsReady = true;
-		//	Debug.Log("Starting game");
-
-		//	transform.GetChild(0).GetComponent<TextMesh>().text = Name;
-		//	GetComponent<Renderer>().material.color = TeamData.GetColor(mTeam);
-		//	transform.SetParent(GameManager.s_Singleton.transform.GetChild(((int)Team) - 1));
-
-		//	NetworkIdentity networkIdentity = GetComponent<NetworkIdentity>();
-		//	if(networkIdentity.isLocalPlayer) {
-		//		Player player = gameObject.AddComponent<Player>();
-		//		Debug.Log("GameManager Player has been set");
-		//		GameManager.s_Singleton.Player = player;
-		//		GameManager.s_Singleton.DistrictManager = GameObject.FindWithTag("Districts").GetComponent<DistrictManager>();
-		//		GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
-		//		name = "Player ID:" + networkIdentity.netId + " (" + Name + ")";
-		//	} else if(LobbyPlayer.mLocalPlayerTeam == mTeam) {
-		//		Friend friend = gameObject.AddComponent<Friend>();
-		//		name = "Friend ID:" + networkIdentity.netId + " (" + Name + ")";
-		//	} else {
-		//		Enemy enemy = gameObject.AddComponent<Enemy>();
-		//		name = "Enemy ID:" + networkIdentity.netId + " (" + Name + ")";
-		//	}
-		//}*/
-		//}
 	}
 }

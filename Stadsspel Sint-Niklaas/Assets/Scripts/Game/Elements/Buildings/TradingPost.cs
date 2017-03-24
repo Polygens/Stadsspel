@@ -16,16 +16,25 @@ namespace Stadsspel.Elements
 		private float m_UpdateTimer = 0;
 		private float m_UpdateTime = 1;
 
-		[PunRPC]
-		public void AddTeamToList(int teamID)
-		{
-			m_visitedTeams.Add(teamID);
-#if(UNITY_EDITOR)
-			Debug.Log("Team: " + teamID + " added to visited list");
-#endif
-			m_TeamTimers.Add(m_CountdownDuration);
+
+		public List<int> VisitedTeams {
+			get {
+				return m_visitedTeams;
+			}
 		}
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
+		private new void Start()
+		{
+			m_BuildingType = BuildingType.Tradingpost;
+			base.Start();
+		}
+
+		/// <summary>
+		/// Gets called every frame.
+		/// </summary>
 		private void Update()
 		{
 			if(m_TeamTimers.Count > 0 && m_visitedTeams.Count > 0) {
@@ -49,6 +58,22 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		/// <summary>
+		/// [PunRPC] Adds the passed TeamID to the list of teams that have visited this TradingPost.
+		/// </summary>
+		[PunRPC]
+		public void AddTeamToList(int teamID)
+		{
+			m_visitedTeams.Add(teamID);
+#if(UNITY_EDITOR)
+			Debug.Log("Team: " + teamID + " added to visited list");
+#endif
+			m_TeamTimers.Add(m_CountdownDuration);
+		}
+
+		/// <summary>
+		/// [PunRPC] Removes the passed TeamID index from the list of teams that have visited this TradingPost.
+		/// </summary>
 		[PunRPC]
 		public void RemoveTeamFromList(int index)
 		{
@@ -66,6 +91,9 @@ namespace Stadsspel.Elements
 #endif
 		}
 
+		/// <summary>
+		/// [PunRPC] Updates the remaining time till the team can trade at this TradingPost again.
+		/// </summary>
 		[PunRPC]
 		private void UpdateUI(int time)
 		{
@@ -79,23 +107,6 @@ namespace Stadsspel.Elements
 				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + time + " seconden wachten om bij deze winkel goederen te kopen.";
 			}
 
-		}
-
-		private new void Start()
-		{
-			m_BuildingType = BuildingType.Tradingpost;
-			base.Start();
-		}
-
-		public List<int> VisitedTeams {
-			get {
-				//List<int> teams = new List<int>();
-				//foreach (int team in m_visitedTeams)
-				//{
-				//    teams.Add(team);
-				//}
-				return m_visitedTeams;
-			}
 		}
 	}
 }

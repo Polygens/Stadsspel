@@ -14,6 +14,9 @@ public class TreasureEnemyUI : MonoBehaviour
 	private Treasure m_CurrentTreasure;
 	private float m_Timer;
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void Update()
 	{
 		m_Timer += Time.deltaTime;
@@ -23,12 +26,18 @@ public class TreasureEnemyUI : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void OnEnable()
 	{
 		FindCurrentTreasure();
 		UpdateUI();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void UpdateUI()
 	{
 		m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
@@ -36,11 +45,17 @@ public class TreasureEnemyUI : MonoBehaviour
 		m_Label.text = m_CurrentTreasure.GetRobAmount().ToString();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void FindCurrentTreasure()
 	{
 		m_CurrentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void TransferMoney()
 	{
 		int amount = int.Parse(m_CurrentTreasure.GetRobAmount().ToString());

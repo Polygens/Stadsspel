@@ -38,6 +38,9 @@ public class TradingPostUI : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void Start()
 	{
 		//if (!isLocalPlayer)
@@ -70,6 +73,9 @@ public class TradingPostUI : MonoBehaviour
 		//TradingPostPanel.gameObject.SetActive(false);
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private bool CheckIfTeamAlreadyVisited()
 	{
 		bool teamAlreadyVisited = false;
@@ -88,6 +94,9 @@ public class TradingPostUI : MonoBehaviour
 		return teamAlreadyVisited;
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	private void OnEnable()
 	{
 		if(CheckIfTeamAlreadyVisited()) {
@@ -106,6 +115,9 @@ public class TradingPostUI : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void Purchase()
 	{
 		//if (!isLocalPlayer)
@@ -130,6 +142,9 @@ public class TradingPostUI : MonoBehaviour
 
 	//Execute when items are purchased (button holds this method)
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void AddGoodsToPlayer()
 	{
 		List<int> legalItems = new List<int>();
@@ -167,12 +182,18 @@ public class TradingPostUI : MonoBehaviour
 		m_TotalPriceAmount = 0;
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void OnClose()
 	{
 		transform.FindChild("MessagePanel").gameObject.SetActive(false);
 	}
 
 	//For drop down or inputField
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public void UpdateNumberOfGoods(string number)
 	{
 		int focusedIndex = 0;
