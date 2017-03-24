@@ -4,8 +4,11 @@ namespace Stadsspel.Districts
 {
 	public class HeadDistrict : District
 	{
-        public SpriteRenderer icon;
-        public Sprite chestIcon;
+		[SerializeField]
+		private SpriteRenderer m_Icon;
+
+		[SerializeField]
+		private Sprite m_ChestIcon;
 
 		private new void Awake()
 		{
@@ -14,11 +17,11 @@ namespace Stadsspel.Districts
             
 		}
 
-        private void Start()
-        {
-            icon.sprite = chestIcon;
-            transform.GetChild(0).tag = "Treasure";
-        }
+		private void Start()
+		{
+			m_Icon.sprite = m_ChestIcon;
+			transform.GetChild(0).tag = "Treasure";
+		}
 
         protected override void OnTeamChanged()
 		{
