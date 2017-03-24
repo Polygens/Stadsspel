@@ -1,26 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="Enemy">
-    <Position X="1.5" Y="11" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Elements\People\Enemy.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Friend">
-    <Position X="3.5" Y="11" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Elements\People\Friend.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Player">
-    <Position X="5.5" Y="11" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AgAAAAGgACAAAIAAIAQCAAAAAEqAAgEEIAACAQAAAEA=</HashCode>
-      <FileName>Assets\Scripts\Elements\People\Player.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Stadsspel.Elements.Person">
     <Position X="11.25" Y="0.5" Width="2.25" />
     <TypeIdentifier>
@@ -91,13 +70,6 @@
       <FileName>Assets\Scripts\Game\Elements\Buildings\Bank\Bank.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="Priority">
-    <Position X="3.75" Y="13" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gQIAAgAAAAAAAAAAAAACAAAAACAAAAAAEAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Elements\People\Player.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Enum Name="Stadsspel.Elements.BuildingType">
     <Position X="3.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>

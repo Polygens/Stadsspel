@@ -27,12 +27,17 @@ MonoBehaviour:
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
+  - AddIllegalItem
+  - AddLegalItem
   - AddOrRemoveMoney
+  - AddPlayerOnPoint
+  - AddTeamToList
   - AddTreasure
   - Chat
+  - ChestTransaction
   - ClientsStart
   - DestroyRpc
-  - EmptyChest
+  - GetRobbed
   - InstantiateRpc
   - MoneyTransaction
   - NameChanged
@@ -43,29 +48,17 @@ MonoBehaviour:
   - PunPickupSimple
   - PunRespawn
   - ReadyChanged
+  - RemovePlayerOnPoint
+  - RemoveTeamFromList
   - RequestForPickupItems
   - RequestForPickupTimes
+  - ResetIllegalItems
+  - ResetLegalItems
+  - RetreiveTaxes
   - RobChest
   - StartCountDown
   - Transaction
-  - TreasureTransaction
-  - UpdateCountDown
-  - GainMoneyOverTime
-  - UpdateUI
-  - AddTeamToList
-  - RemoveTeamFromList
-  - AddTeamToVisitedList
-  - AddIllegalItems
-  - AddLegalItems
-  - GetRobbed
-  - ResetIllegalItems
-  - ResetLegalItems
-  - AddIllegalItem
-  - AddLegalItem
   - TransactionMoney
-  - UpdateTeamMoneyFromServer
-  - SetRobBool
-  - AddPlayerOnPoint
-  - removePlayerOnPoint
-  - RemovePlayerOnPoint
+  - UpdateCountDown
+  - UpdateUI
   DisableAutoOpenWizard: 1

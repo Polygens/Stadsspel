@@ -3247,6 +3247,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_DistrictType: 0
+  m_Icon: {fileID: 212696307664065562}
+  m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
 --- !u!114 &114000010294487544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3312,6 +3314,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_DistrictType: 0
+  m_Icon: {fileID: 0}
+  m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
 --- !u!114 &114000010544653980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3454,6 +3458,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_DistrictType: 0
+  m_Icon: {fileID: 212422088737574488}
+  m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
 --- !u!114 &114000011695749042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3467,6 +3473,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_DistrictType: 0
+  m_Icon: {fileID: 212549359915713920}
+  m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
 --- !u!114 &114000011840536680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3688,6 +3696,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_DistrictType: 0
+  m_Icon: {fileID: 212816827273527014}
+  m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
 --- !u!114 &114000014003180992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3701,6 +3711,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_DistrictType: 0
+  m_Icon: {fileID: 212408808914904216}
+  m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
 --- !u!114 &114000014212127806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4064,7 +4076,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -4089,7 +4102,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -4191,7 +4205,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -4242,7 +4257,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -4292,7 +4308,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
