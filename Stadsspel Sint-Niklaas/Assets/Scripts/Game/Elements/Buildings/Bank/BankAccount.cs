@@ -31,7 +31,7 @@ namespace Stadsspel.Elements
 		public void Transaction(int amount, PhotonMessageInfo info)
 		{
 			m_Balance += amount;
-			if (GameManager.s_Singleton.Player.Person.Team == m_Team) {
+			if(GameManager.s_Singleton.Player.Person.Team == m_Team) {
 				InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_HasDepositedMoneyInBank, new object[] {
 						info.sender.NickName,
 						amount
@@ -43,15 +43,15 @@ namespace Stadsspel.Elements
 		public bool PlayerTransaction(int amount)
 		{
 
-			if (amount > 0) { //Add money to bank, subtract from player
-				if (amount <= GameManager.s_Singleton.Player.Person.AmountOfMoney) {
+			if(amount > 0) { //Add money to bank, subtract from player
+				if(amount <= GameManager.s_Singleton.Player.Person.AmountOfMoney) {
 					GameManager.s_Singleton.Player.Person.photonView.RPC("TransactionMoney", PhotonTargets.AllViaServer, -amount);
 					//m_Balance += amount;
 					return true;
 				}
 			}
 			else { //Subtract money from bank, add to player
-				if (-amount <= m_Balance) {
+				if(-amount <= m_Balance) {
 					GameManager.s_Singleton.Player.Person.photonView.RPC("TransactionMoney", PhotonTargets.AllViaServer, -amount);
 					//m_Balance += amount;
 					return true;

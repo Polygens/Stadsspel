@@ -44,7 +44,8 @@ namespace Stadsspel.Districts
 						if(m_CapturingAmount <= 0) {
 							m_CapturingTeam = mostPlayersTeam;
 						}
-					} else if(Team != mostPlayersTeam) { // Progress capturing of capturing team
+					}
+					else if(Team != mostPlayersTeam) { // Progress capturing of capturing team
 						m_CapturingAmount += Time.deltaTime * mostPlayersTeamDiff * m_CaptureMultiplier;
 						m_CapturingTeam = mostPlayersTeam;
 					}
@@ -56,17 +57,17 @@ namespace Stadsspel.Districts
 						Team = m_CapturingTeam;
 						transform.parent.GetComponent<CapturableDistrict>().Team = m_CapturingTeam;
 						GameManager.s_Singleton.DistrictManager.DestroyCapturingNotification();
-						InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_WasCaptured, new object[]{ this.name, Team });
+						InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_WasCaptured, new object[] { this.name, Team });
 						m_CapturingAmount = 0;
 						GameManager.s_Singleton.Teams[(int)Team - 1].AddOrRemoveDistrict(1);
 					}
 				}
-					
+
 				if(GameManager.s_Singleton.DistrictManager.CurrentCapturePoint == this && (int)Mathf.Round(m_CapturingAmount) != 0) {
 					GameManager.s_Singleton.DistrictManager.GenerateCapturingNotification();
 					GameManager.s_Singleton.DistrictManager.CapturingNotification.SetColor(TeamData.GetColor(Team), TeamData.GetColor(m_CapturingTeam));
 					GameManager.s_Singleton.DistrictManager.CapturingNotification.SetProgress(m_CapturingAmount / 100);
-				} 
+				}
 			}
 			if(GameManager.s_Singleton.DistrictManager.CurrentCapturePoint == null) {
 				GameManager.s_Singleton.DistrictManager.DestroyCapturingNotification();
@@ -77,22 +78,22 @@ namespace Stadsspel.Districts
 		private void AddPlayerOnPoint(TeamID team)
 		{
 			m_PlayersOnPoint[(int)team - 1]++;
-			#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 			for(int i = 0; i < m_PlayersOnPoint.Length; i++) {
 				Debug.Log("TeamID " + i + ": " + m_PlayersOnPoint[i]);
 			}
-			#endif
+#endif
 		}
 
 		[PunRPC]
 		private void RemovePlayerOnPoint(TeamID team)
 		{
 			m_PlayersOnPoint[(int)team - 1]--;
-			#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 			for(int i = 0; i < m_PlayersOnPoint.Length; i++) {
 				Debug.Log("TeamID " + i + ": " + m_PlayersOnPoint[i]);
 			}
-			#endif
+#endif
 		}
 	}
 }

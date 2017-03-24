@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Stadsspel.Elements;
 
 public class Header : MonoBehaviour
 {
@@ -14,10 +13,10 @@ public class Header : MonoBehaviour
 	private Text m_TeamMoney;
 	[SerializeField]
 	private Text m_PlayerMoney;
-    [SerializeField]
-    private Text m_GameDuration;
+	[SerializeField]
+	private Text m_GameDuration;
 
-    private float m_UpdateTimer = 0;
+	private float m_UpdateTimer = 0;
 	private float m_UpdateTime = 1;
 
 	private void Start()
@@ -35,7 +34,7 @@ public class Header : MonoBehaviour
 				// Header Update 
 				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
 				UpdateTeamMoney(GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].TotalMoney);
-                UpdateGameTimer();
+				UpdateGameTimer();
 			}
 		}
 	}
@@ -53,9 +52,9 @@ public class Header : MonoBehaviour
 	private void UpdatePlayerMoney(int pPlayerMoney)
 	{
 		m_PlayerMoney.text = pPlayerMoney.ToString();
-		#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 		Debug.Log("Update player money");
-		#endif
+#endif
 	}
 
 	private void UpdateTeamMoney(int pTeamMoney)
@@ -63,16 +62,16 @@ public class Header : MonoBehaviour
 		m_TeamMoney.text = pTeamMoney.ToString();
 	}
 
-    private void UpdateGameTimer()
-    {
-        float timer = GameManager.s_Singleton.GameLength - Time.timeSinceLevelLoad;
+	private void UpdateGameTimer()
+	{
+		float timer = GameManager.s_Singleton.GameLength - Time.timeSinceLevelLoad;
 
-        int hours = Mathf.FloorToInt(timer / 3600);
-        int minutes = Mathf.FloorToInt(timer / 60);
-        int seconds = Mathf.FloorToInt(timer - minutes * 60);
+		int hours = Mathf.FloorToInt(timer / 3600);
+		int minutes = Mathf.FloorToInt(timer / 60);
+		int seconds = Mathf.FloorToInt(timer - minutes * 60);
 
-        string time = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+		string time = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
 
-        m_GameDuration.text = time;
-    }
+		m_GameDuration.text = time;
+	}
 }

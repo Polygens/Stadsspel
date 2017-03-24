@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class SwitchButton : MonoBehaviour
@@ -47,7 +46,8 @@ public class SwitchButton : MonoBehaviour
 
 			if(m_PanelNeeded) { // SpriteSwap
 				GetComponent<Image>().sprite = m_SwitchDownArrow;
-			} else {
+			}
+			else {
 				GetComponent<Image>().sprite = m_SwitchUpArrow;
 			}
 		}
@@ -61,7 +61,8 @@ public class SwitchButton : MonoBehaviour
 
 		if(m_PanelNeeded) {
 			m_ListPanel.localPosition = new Vector2(m_ListPanel.localPosition.x, Mathf.Lerp(m_ListPanelStartY, 65 + 55 * (GameManager.s_Singleton.Player.NumberOfButtonsInlistPanel - 1), m_LerpTimer / m_LerpDuration));
-		} else { // !panelNeeded
+		}
+		else { // !panelNeeded
 			m_ListPanel.localPosition = new Vector2(m_ListPanel.localPosition.x, Mathf.Lerp(m_ListPanelStartY, -70 - 55 * (GameManager.s_Singleton.Player.NumberOfButtonsInlistPanel - 1), m_LerpTimer / m_LerpDuration));
 		}
 	}

@@ -1,37 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Element">
-    <Position X="7.5" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAIAAACAAAEggACgAAAAAAAAAAAAAEAgAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Elements\Element.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Person">
-    <Position X="1.5" Y="5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAEGAgAAACAAAAgAEAEIAICABAAAAIAAAAAAEAgAAAA=</HashCode>
-      <FileName>Assets\Scripts\Elements\Person.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="TradingPost">
-    <Position X="10.5" Y="8" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAADAAAAAQAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Elements\Buildings\TradingPost.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UnityEngine.MonoBehaviour" Collapsed="true">
-    <Position X="7.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier />
-  </Class>
-  <Class Name="Bank">
-    <Position X="8.5" Y="7.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Elements\Buildings\Bank\Bank.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Enemy">
     <Position X="1.5" Y="11" Width="1.5" />
     <TypeIdentifier>
@@ -46,20 +14,6 @@
       <FileName>Assets\Scripts\Elements\People\Friend.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Building">
-    <Position X="9.75" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
-      <FileName>Assets\Scripts\Elements\Building.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="BankAccount">
-    <Position X="6.75" Y="7.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AASAAAAgAAAAIAAAAAgAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Elements\Buildings\Bank\BankAccount.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Player">
     <Position X="5.5" Y="11" Width="1.5" />
     <TypeIdentifier>
@@ -67,11 +21,95 @@
       <FileName>Assets\Scripts\Elements\People\Player.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Stadsspel.Elements.Person">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAgAIAGACAAAAEAEIAICABQAAAoAAAAAgAAAAgMA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stadsspel.Elements.Element">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAACAAAEAAAAAAAAQAEAAAAAAAEAAAAAAAAQA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\Element.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stadsspel.Elements.Building">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\Building.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobStatus">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\People\RobStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stadsspel.Elements.Player">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BKQEAACAACAAAABACEAAACADQELCQAAFIQACgAEgAEA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\People\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stadsspel.Elements.Friend">
+    <Position X="13.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\People\Friend.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stadsspel.Elements.Enemy">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAABAAACAgAAAAAAAAAAAIAAAAAAAAAAAAAAUAAAQ=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\People\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stadsspel.Elements.TradingPost">
+    <Position X="3.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQQAAAAADAAAAAQAEAAACQAAAACAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\Buildings\TradingPost.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stadsspel.Elements.BankAccount">
+    <Position X="5.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAAAAAAAIAAAAAgAAAAIEAAAAAAAEAABAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\Buildings\Bank\BankAccount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stadsspel.Elements.Bank">
+    <Position X="5.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\Buildings\Bank\Bank.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="Priority">
     <Position X="3.75" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gQIAAgAAAAAAAAAAAAACAAAAACAAAAAAEAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Elements\People\Player.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Stadsspel.Elements.BuildingType">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\Building.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Stadsspel.Elements.Priority">
+    <Position X="13.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQIAAgAAAAAAAAAAAAACAAAAACAAAAAAEAAAAAAAQAA=</HashCode>
+      <FileName>Assets\Scripts\Game\Elements\People\Player.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

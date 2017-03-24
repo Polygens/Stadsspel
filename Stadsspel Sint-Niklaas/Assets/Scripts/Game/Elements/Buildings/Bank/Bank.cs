@@ -1,6 +1,3 @@
-using UnityEngine;
-using System;
-
 namespace Stadsspel.Elements
 {
 	public class Bank : Building

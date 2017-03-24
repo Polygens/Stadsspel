@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using UnityEngine;
+using GoMap;
 using Photon;
 using Stadsspel.Districts;
 using Stadsspel.Elements;
-using GoMap;
 using Stadsspel.Networking;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : PunBehaviour
 {
@@ -66,9 +66,10 @@ public class GameManager : PunBehaviour
 		get { return m_GameLength; }
 	}
 
-	//public GameObject lobbyServerEntry;
 
-	// Use this for initialization
+	/// <summary>
+	/// Initialises the class.
+	/// </summary>
 	private void Start()
 	{
 		if(s_Singleton != null) {
@@ -84,40 +85,42 @@ public class GameManager : PunBehaviour
 		m_NextMoneyUpdateTime = m_MoneyUpdateTimeInterval;
 
 		m_GameLength = (int)PhotonNetwork.room.CustomProperties[RoomManager.RoomGameDurationProp];
-		#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 		Debug.Log("Game will take: " + m_GameLength + "seconds");
-		#endif
+#endif
 	}
 
-	// Update is called once per frame
+	/// <summary>
+	/// Gets called every frame.
+	/// </summary>
 	private void Update()
 	{
 		if(Time.timeSinceLevelLoad > m_GameLength && isGameOver == false) {
 			isGameOver = true;
-			//Debug.Log("GameLength: " + m_GameLength);
-			//Debug.Log("Time since load: " + Time.timeSinceLevelLoad);
 			InGameUIManager.s_Singleton.FinalScoreUI.gameObject.SetActive(true);
-			//Debug.Log("The game has ended");
 		}
 		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime && !isGameOver) {
 			if(PhotonNetwork.isMasterClient) {
 				// Call GainMoneyOverTime() from each financial object
-			
+
 				for(int i = 0; i < m_Treasures.Count; i++) {
 					m_Treasures[i].photonView.RPC("GainMoneyOverTime", PhotonTargets.All);
 				}
-        
+
 			}
 			m_NextMoneyUpdateTime = Time.timeSinceLevelLoad + m_MoneyUpdateTimeInterval;
 		}
 	}
 
+	/// <summary>
+	/// Starts the game for the masterclient. Calls starts for the other clients and sets up networked dynamic objects.
+	/// </summary>
 	private void MasterClientStart()
 	{
 		if(PhotonNetwork.player.IsMasterClient) {
-			#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 			Debug.Log("Master client started");
-			#endif
+#endif
 			for(int i = 0; i < m_AmountOfTeams; i++) {
 				PhotonNetwork.InstantiateSceneObject(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0, null);
 			}
@@ -126,12 +129,15 @@ public class GameManager : PunBehaviour
 		}
 	}
 
+	/// <summary>
+	/// [PunRPC] Starts the game for the clients, including the master client.
+	/// </summary>
 	[PunRPC]
 	private void ClientsStart()
 	{
-		#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 		Debug.Log("Clients start");
-		#endif
+#endif
 		m_DistrictManager.StartGame(m_AmountOfTeams);
 
 		m_Teams = new Team[m_AmountOfTeams];
@@ -144,20 +150,18 @@ public class GameManager : PunBehaviour
 		temp.transform.position += new Vector3(0, 0, -10);
 	}
 
-	public void UpdateGameDuration(float duration)
-	{
-		#if (UNITY_EDITOR)
-		Debug.Log(duration);
-		#endif
-		m_GameLength = duration;
-	}
-
+	/// <summary>
+	/// [PunRPC] Adds the passed Treasure to the global list.
+	/// </summary>
 	[PunRPC]
 	public void AddTreasure(Treasure t)
 	{
 		m_Treasures.Add(t);
 	}
 
+	/// <summary>
+	/// Returns the treasure of the given TeamID.
+	/// </summary>
 	public Treasure GetTreasureFrom(TeamID id)
 	{
 		for(int i = 0; i < m_Treasures.Count; i++) {

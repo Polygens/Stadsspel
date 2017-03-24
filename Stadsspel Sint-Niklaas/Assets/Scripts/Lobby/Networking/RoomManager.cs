@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
-using Photon;
+﻿using Photon;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Stadsspel.Networking
 {
@@ -27,6 +27,9 @@ namespace Stadsspel.Networking
 			}
 		}
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		private void Start()
 		{
 			m_StartGameBtn.onClick.AddListener(() => {
@@ -34,42 +37,54 @@ namespace Stadsspel.Networking
 			});
 		}
 
+		/// <summary>
+		/// [PunRPC] Updates the countdown popup with a given time in seconds.
+		/// </summary>
 		[PunRPC]
 		private void UpdateCountDown(byte time)
 		{
 			NetworkManager.Singleton.CountdownManager.SetText("Het spel start in...\n" + time);
 		}
 
+		/// <summary>
+		/// [PunRPC] Shows the countdown popup.
+		/// </summary>
 		[PunRPC]
 		private void StartCountDown(bool state)
 		{
 			NetworkManager.Singleton.CountdownManager.EnableDisableMenu(state);
 		}
 
+		/// <summary>
+		/// Coroutine for starting and updating the countdown when the game is about to begin. Hides the room from the lobby lists and loads the new scene on completion.
+		/// </summary>
 		public IEnumerator ServerCountdownCoroutine(int time)
-		{ 
+		{
 			photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, true);
 
-			float remainingTime = time; 
-			int floorTime = Mathf.FloorToInt(remainingTime); 
+			float remainingTime = time;
+			int floorTime = Mathf.FloorToInt(remainingTime);
 
-			while(floorTime > 0) { 
-				remainingTime -= Time.deltaTime; 
-				int newFloorTime = Mathf.FloorToInt(remainingTime); 
+			while(floorTime > 0) {
+				remainingTime -= Time.deltaTime;
+				int newFloorTime = Mathf.FloorToInt(remainingTime);
 
 				if(newFloorTime != floorTime) {//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
-					floorTime = newFloorTime; 
+					floorTime = newFloorTime;
 
 					if(floorTime != 0) {
 						photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime);
 					}
-				} 
-				yield return null; 
-			} 
+				}
+				yield return null;
+			}
 			PhotonNetwork.room.IsVisible = false;
-			SceneManager.LoadScene("Game");	
+			SceneManager.LoadScene("Game");
 		}
 
+		/// <summary>
+		/// Sets up a new room in the lobby with the parameters passed by CreateJoinRoomManager. And the player will automatically join this new room.
+		/// </summary>
 		public void InitializeRoom(string roomName, string roomPassword, int gameDuration, byte amountPlayers)
 		{
 			EnableDisableMenu(true);
@@ -88,10 +103,13 @@ namespace Stadsspel.Networking
 				CustomRoomPropertiesForLobby = lobbyOptions,
 				CustomRoomProperties = ht
 			};
-					
+
 			PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
 		}
 
+		/// <summary>
+		/// Generic function for handling switching between the different menus.
+		/// </summary>
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
@@ -100,11 +118,15 @@ namespace Stadsspel.Networking
 					EnableDisableMenu(false);
 					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 				}));
-			} else {
+			}
+			else {
 				PhotonNetwork.LeaveRoom();
 			}
 		}
 
+		/// <summary>
+		/// [PunBehaviour] Gets called when a player joins the room.
+		/// </summary>
 		public override void OnJoinedRoom()
 		{
 			base.OnJoinedRoom();
@@ -113,6 +135,9 @@ namespace Stadsspel.Networking
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
 		}
 
+		/// <summary>
+		/// [PunBehaviour] Gets called when a player leaves the room. [PunBehaviour]
+		/// </summary>
 		public override void OnLeftRoom()
 		{
 			base.OnLeftRoom();
@@ -121,6 +146,13 @@ namespace Stadsspel.Networking
 			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 		}
 
+		/// <summary>
+		/// Iterates trough every player in the room and checks if every player has pressed check. If everyone is ready the start button gets shown.
+		/// </summary>
+		/// 
+		/// <remarks>
+		/// Editor and desktop debug builds are overridden and always show the start button for testing purposes.
+		/// </remarks>
 		public void CheckIfReadyToStart()
 		{
 			int playersReady = 0;
@@ -131,24 +163,28 @@ namespace Stadsspel.Networking
 			}
 			if(playersReady == PhotonNetwork.room.MaxPlayers) {
 				m_StartGameBtn.gameObject.SetActive(true);
-			} else {
+			}
+			else {
 				m_StartGameBtn.gameObject.SetActive(false);
 			}
 
 
-			#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 			m_StartGameBtn.gameObject.SetActive(true);
 			m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
-			#endif
+#endif
 
-			#if (UNITY_STANDALONE)
+#if(UNITY_STANDALONE)
 			if(Debug.isDebugBuild) {
 				m_StartGameBtn.gameObject.SetActive(true);
 				m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
 			}
-			#endif
+#endif
 		}
 
+		/// <summary>
+		/// Allows public acces to disable the start button.
+		/// </summary>
 		public void DisableStartButton()
 		{
 			m_StartGameBtn.gameObject.SetActive(false);

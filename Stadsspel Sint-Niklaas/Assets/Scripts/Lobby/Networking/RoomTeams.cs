@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ExitGames.Client.Photon;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -101,12 +100,12 @@ namespace Stadsspel.Networking
 		/// <param name="team"></param>
 		public static void SetTeam(this PhotonPlayer player, TeamID team)
 		{
-			#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 			if(!PhotonNetwork.connectedAndReady) {
 				Debug.LogWarning("JoinTeam was called in state: " + PhotonNetwork.connectionStateDetailed + ". Not connectedAndReady.");
 				return;
 			}
-			#endif
+#endif
 
 			TeamID currentTeam = player.GetTeam();
 			if(currentTeam != team) {
@@ -116,12 +115,12 @@ namespace Stadsspel.Networking
 
 		public static void RequestTeam(this PhotonPlayer player)
 		{
-			#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 			if(!PhotonNetwork.connectedAndReady) {
 				Debug.LogWarning("JoinTeam was called in state: " + PhotonNetwork.connectionStateDetailed + ". Not connectedAndReady.");
 				return;
 			}
-			#endif
+#endif
 
 			TeamID newTeam = player.GetTeam();
 			int maxIterations = TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);
@@ -134,16 +133,17 @@ namespace Stadsspel.Networking
 				maxIterations--;
 
 				newTeam = TeamData.GetNextTeam(newTeam);
-				#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 				Debug.Log(newTeam);
-				#endif
-			} while (RoomTeams.PlayersPerTeam[newTeam].Count >= TeamData.GetMaxPlayersPerTeam(PhotonNetwork.room.MaxPlayers));
+#endif
+			} while(RoomTeams.PlayersPerTeam[newTeam].Count >= TeamData.GetMaxPlayersPerTeam(PhotonNetwork.room.MaxPlayers));
 
 			if(newTeam == TeamID.NotSet) {
-				#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 				Debug.Log("ERROR: No empty team found!");
-				#endif
-			} else {
+#endif
+			}
+			else {
 				player.SetCustomProperties(new Hashtable() { { RoomTeams.TeamPlayerProp, (byte)newTeam } });
 			}
 		}

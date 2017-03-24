@@ -46,12 +46,14 @@ public class TouchCamera : MonoBehaviour
 		if(Input.touchCount == 0) {
 			m_OldTouchPositions[0] = null;
 			m_OldTouchPositions[1] = null;
-		} else if(Input.touchCount == 1) {
+		}
+		else if(Input.touchCount == 1) {
 			if(m_OldTouchPositions[0] == null || m_OldTouchPositions[1] != null) {
 				m_OldTouchPositions[0] = Input.GetTouch(0).position;
 				m_OldTouchPositions[1] = null;
-			} else {
-				Vector2 newTouchPosition = Input.GetTouch(0).position;    
+			}
+			else {
+				Vector2 newTouchPosition = Input.GetTouch(0).position;
 				Vector3 positionOfCamera = transform.position;
 
 				positionOfCamera += transform.TransformDirection((Vector3)((m_OldTouchPositions[0] - newTouchPosition) * m_Camera.orthographicSize / m_Camera.pixelHeight * 2f));
@@ -64,16 +66,18 @@ public class TouchCamera : MonoBehaviour
 				y = Mathf.Clamp(y, m_Min.y + GetComponent<Camera>().orthographicSize, m_Max.y - GetComponent<Camera>().orthographicSize);
 
 				transform.position = new Vector3(x, y, transform.position.z);
-				
+
 				m_OldTouchPositions[0] = newTouchPosition;
 			}
-		} else {
+		}
+		else {
 			if(m_OldTouchPositions[1] == null) {
 				m_OldTouchPositions[0] = Input.GetTouch(0).position;
 				m_OldTouchPositions[1] = Input.GetTouch(1).position;
 				m_OldTouchVector = (Vector2)(m_OldTouchPositions[0] - m_OldTouchPositions[1]);
 				m_OldTouchDistance = m_OldTouchVector.magnitude;
-			} else {
+			}
+			else {
 				gameObject.transform.parent = null;
 				m_OrientationState = OrientationStates.FreeCam;
 				//Vector2 screen = new Vector2(mCamera.pixelWidth, mCamera.pixelHeight);
@@ -89,7 +93,7 @@ public class TouchCamera : MonoBehaviour
 				transform.localRotation *= Quaternion.Euler(new Vector3(0, 0, Mathf.Asin(Mathf.Clamp((m_OldTouchVector.y * newTouchVector.x - m_OldTouchVector.x * newTouchVector.y) / m_OldTouchDistance / newTouchDistance, -1f, 1f)) / 0.0174532924f));
 				m_Camera.orthographicSize *= m_OldTouchDistance / newTouchDistance;
 				m_Camera.orthographicSize = Mathf.Clamp(m_Camera.orthographicSize, 50, 400);
-				
+
 				//transform.position -= transform.TransformDirection((newTouchPositions[0] + newTouchPositions[1] - screen) * mCamera.orthographicSize / screen.y);
 
 				m_OldTouchPositions[0] = newTouchPositions[0];
@@ -112,19 +116,19 @@ public class TouchCamera : MonoBehaviour
 	public void ResetCameraRotation()
 	{
 		switch(m_OrientationState) {
-		case OrientationStates.AlignNorth:
-			m_OrientationState = OrientationStates.Compass;
-			break;
-		case OrientationStates.Compass:
-			m_OrientationState = OrientationStates.AlignNorth;
-			AlignNorth();
-			break;
-		case OrientationStates.FreeCam:
-			m_OrientationState = OrientationStates.AlignNorth;
-			AlignNorth();
-			break;
-		default:
-			break;
+			case OrientationStates.AlignNorth:
+				m_OrientationState = OrientationStates.Compass;
+				break;
+			case OrientationStates.Compass:
+				m_OrientationState = OrientationStates.AlignNorth;
+				AlignNorth();
+				break;
+			case OrientationStates.FreeCam:
+				m_OrientationState = OrientationStates.AlignNorth;
+				AlignNorth();
+				break;
+			default:
+				break;
 		}
 	}
 

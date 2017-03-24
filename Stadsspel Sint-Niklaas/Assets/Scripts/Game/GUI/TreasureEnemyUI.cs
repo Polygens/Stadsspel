@@ -1,6 +1,6 @@
+using Stadsspel.Districts;
 using UnityEngine;
 using UnityEngine.UI;
-using Stadsspel.Districts;
 
 public class TreasureEnemyUI : MonoBehaviour
 {
@@ -12,17 +12,16 @@ public class TreasureEnemyUI : MonoBehaviour
 	private InputField m_Label;
 
 	private Treasure m_CurrentTreasure;
-  private float m_Timer;
+	private float m_Timer;
 
 	private void Update()
 	{
-    m_Timer += Time.deltaTime;
-    if (m_Timer >= 1)
-    { //Refreshing for better feedback, can be adjusted if necessary
-      UpdateUI();
-      m_Timer = 0;
-    }
-  }
+		m_Timer += Time.deltaTime;
+		if(m_Timer >= 1) { //Refreshing for better feedback, can be adjusted if necessary
+			UpdateUI();
+			m_Timer = 0;
+		}
+	}
 
 	private void OnEnable()
 	{

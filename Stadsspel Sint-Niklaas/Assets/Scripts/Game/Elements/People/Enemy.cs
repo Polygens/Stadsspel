@@ -34,7 +34,8 @@ namespace Stadsspel.Elements
 				if(Vector2.Distance(transform.position, GameManager.s_Singleton.Player.transform.position) > m_DetectionRadius) {
 					m_CircleMesh.enabled = false;
 					m_TextMesh.enabled = false;
-				} else {
+				}
+				else {
 					m_CircleMesh.enabled = true;
 					m_TextMesh.enabled = true;
 				}

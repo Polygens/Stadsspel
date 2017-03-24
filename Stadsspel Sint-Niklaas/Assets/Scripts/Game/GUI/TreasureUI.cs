@@ -1,6 +1,6 @@
+using Stadsspel.Districts;
 using UnityEngine;
 using UnityEngine.UI;
-using Stadsspel.Districts;
 
 public class TreasureUI : MonoBehaviour
 {
@@ -51,9 +51,9 @@ public class TreasureUI : MonoBehaviour
 		int amount;
 		int.TryParse(m_Input.text, out amount);
 		if(m_CurrentTreasure.IsMoneyTranferValid(amount)) {
-			#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 			Debug.Log("Valid Transaction");
-			#endif
+#endif
 			GameManager.s_Singleton.Player.Person.TreasureTransaction(amount, false);
 		}
 		UpdateUI();

@@ -108,6 +108,9 @@ public class TeamData
 		6
 	};
 
+	/// <summary>
+	/// Returns the color of the TeamID passed.
+	/// </summary>
 	public static Color GetColor(TeamID team)
 	{
 		if(team == TeamID.NotSet) {
@@ -117,6 +120,9 @@ public class TeamData
 		return m_TeamColors[(int)team - 1];
 	}
 
+	/// <summary>
+	/// Returns the color of the DistrictType passed.
+	/// </summary>
 	public static Color GetColor(Stadsspel.Districts.DistrictType type)
 	{
 		if(type == Stadsspel.Districts.DistrictType.NotSet) {
@@ -126,6 +132,9 @@ public class TeamData
 		return mDistrictColors[(int)type - 1];
 	}
 
+	/// <summary>
+	/// Returns the color of the BuildingType passed.
+	/// </summary>
 	public static Color GetColor(Stadsspel.Elements.BuildingType type)
 	{
 		if(type == Stadsspel.Elements.BuildingType.NotSet) {
@@ -135,6 +144,9 @@ public class TeamData
 		return mBuildingColors[(int)type - 1];
 	}
 
+	/// <summary>
+	/// Returns the next possible TeamID.
+	/// </summary>
 	public static TeamID GetNextTeam(TeamID team)
 	{
 		int newTeamID = (int)team;
@@ -143,6 +155,9 @@ public class TeamData
 		return (TeamID)newTeamID;
 	}
 
+	/// <summary>
+	/// Returns the previous possible TeamID.
+	/// </summary>
 	public static TeamID GetPreviousTeam(TeamID team)
 	{
 		int newTeamID = (int)team - 2;
@@ -152,11 +167,17 @@ public class TeamData
 		return (TeamID)newTeamID;
 	}
 
+	/// <summary>
+	/// Returns the max amount of players per team, based of the max players of the room.
+	/// </summary>
 	public static int GetMaxPlayersPerTeam(int totalPlayers)
 	{
 		return mMaxPlayers[totalPlayers - 6];
 	}
 
+	/// <summary>
+	/// Returns the max amount of teams, based of the max players of the room.
+	/// </summary>
 	public static int GetMaxTeams(int totalPlayers)
 	{
 		return mMaxTeams[totalPlayers - 6];

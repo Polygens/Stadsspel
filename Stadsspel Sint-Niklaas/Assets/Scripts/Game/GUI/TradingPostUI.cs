@@ -1,7 +1,7 @@
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.UI;
 using Stadsspel.Elements;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class TradingPostUI : MonoBehaviour
 {
@@ -47,7 +47,7 @@ public class TradingPostUI : MonoBehaviour
 		//}
 
 		m_MessagePanel = transform.FindChild("MessagePanel").gameObject;
-    
+
 
 		m_ShopItems = Item.ShopItems;
 
@@ -74,10 +74,10 @@ public class TradingPostUI : MonoBehaviour
 	{
 		bool teamAlreadyVisited = false;
 		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
-		#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 		Debug.Log(tempTradePost.name);
 		Debug.Log(tempTradePost.GetComponent<TradingPost>().VisitedTeams.Count);
-		#endif
+#endif
 		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
 		for(int i = 0; i < visitedTeams.Count; i++) {
 			if(visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team) {
@@ -93,12 +93,12 @@ public class TradingPostUI : MonoBehaviour
 		if(CheckIfTeamAlreadyVisited()) {
 			//Start, + property
 			m_MessagePanel.SetActive(true);
-		} else {
-      if (m_MessagePanel != null)
-      {
-        if (m_MessagePanel.activeSelf)
-          m_MessagePanel.SetActive(false);
-      }
+		}
+		else {
+			if(m_MessagePanel != null) {
+				if(m_MessagePanel.activeSelf)
+					m_MessagePanel.SetActive(false);
+			}
 
 		}
 		if(m_EverythingIsInstantiated) {
@@ -116,12 +116,14 @@ public class TradingPostUI : MonoBehaviour
 			if(GameManager.s_Singleton.Player.Person.AmountOfMoney >= m_TotalPriceAmount) {
 				AddGoodsToPlayer();
 				gameObject.SetActive(false);
-			} else {
-				#if (UNITY_EDITOR)
-				Debug.Log("Not enough money");
-				#endif
 			}
-		} else {
+			else {
+#if(UNITY_EDITOR)
+				Debug.Log("Not enough money");
+#endif
+			}
+		}
+		else {
 			transform.FindChild("MessagePanel").gameObject.SetActive(true);
 		}
 	}
@@ -133,43 +135,37 @@ public class TradingPostUI : MonoBehaviour
 		List<int> legalItems = new List<int>();
 		List<int> illegalItems = new List<int>();
 
-		for(int i = 0; i < m_NumberOfEachItem.Length; i++)
-        {
-			if(m_ShopItems[i].IsLegal)
-            {
+		for(int i = 0; i < m_NumberOfEachItem.Length; i++) {
+			if(m_ShopItems[i].IsLegal) {
 				legalItems.Add(m_NumberOfEachItem[i]);
-                
-            }
-            else
-            {
+
+			}
+			else {
 				illegalItems.Add(m_NumberOfEachItem[i]);
-                
-            }
+
+			}
 		}
 
-        for (int i = 0; i < legalItems.Count; i++)
-        {
-            GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
-            Debug.Log("Add legal item at index: " + i);
-        }
-        for (int i = 0; i < illegalItems.Count; i++)
-        {
-            GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
-            Debug.Log("Add illegal item at index: " + i);
-        }
+		for(int i = 0; i < legalItems.Count; i++) {
+			GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
+			Debug.Log("Add legal item at index: " + i);
+		}
+		for(int i = 0; i < illegalItems.Count; i++) {
+			GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
+			Debug.Log("Add illegal item at index: " + i);
+		}
 
 		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().GetComponent<PhotonView>().RPC("AddTeamToList", PhotonTargets.All, (int)GameManager.s_Singleton.Player.Person.Team);
-		GameManager.s_Singleton.Player.Person.photonView.RPC("MoneyTransaction",PhotonTargets.AllViaServer,-m_TotalPriceAmount);
+		GameManager.s_Singleton.Player.Person.photonView.RPC("MoneyTransaction", PhotonTargets.AllViaServer, -m_TotalPriceAmount);
 
-        for (int i = 0; i < m_Inputfields.Count; i++)
-        {
-            m_Inputfields[i].text = "";
-            m_TotalTextFields[i].text = "Totaal: 0";
-        }
+		for(int i = 0; i < m_Inputfields.Count; i++) {
+			m_Inputfields[i].text = "";
+			m_TotalTextFields[i].text = "Totaal: 0";
+		}
 
-        m_TotalPriceText.text = "0";
-        m_TotalPriceAmount = 0;
-    }
+		m_TotalPriceText.text = "0";
+		m_TotalPriceAmount = 0;
+	}
 
 	public void OnClose()
 	{

@@ -26,7 +26,8 @@ public class LogUI : MonoBehaviour
 		textLog.text = System.DateTime.Now.Hour + ":" + System.DateTime.Now.Minute + ": " + string.Format(text, variables);
 		if(logItem.transform.GetSiblingIndex() % 2 == 0) {
 			logItem.GetComponent<Image>().color = new Color(.95f, .95f, .95f);
-		} else {
+		}
+		else {
 			logItem.GetComponent<Image>().color = new Color(.9f, .9f, .9f);
 		}
 

@@ -1,10 +1,9 @@
-﻿using GoMap;
+﻿using Stadsspel.Districts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Stadsspel.Districts;
 
 namespace Stadsspel.Elements
 {
@@ -121,8 +120,9 @@ namespace Stadsspel.Elements
 						m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Stelen";
 						m_MainPanel.GetChild(0).GetComponent<Button>().interactable = true;
 					}
- 
-				} else {
+
+				}
+				else {
 					m_UpdateTimer += Time.deltaTime;
 					if(m_UpdateTimer > m_UpdateTime) {
 						m_UpdateTimer = 0;
@@ -172,7 +172,7 @@ namespace Stadsspel.Elements
 				if(allGameObjectsInRadius.Count > 1) {
 					m_ListPanel.gameObject.SetActive(true);
 					m_Switch.gameObject.SetActive(true);
-          
+
 				}
 
 				int lengthEnum = Enum.GetValues(typeof(Priority)).Cast<Priority>().Count();
@@ -185,53 +185,45 @@ namespace Stadsspel.Elements
 				int tempPriority = 0;
 				int priorityNbr = 0;
 
-                //Check with the tag of the gameObject, which priority it has in the enum,
-                // If the priority is higher then the current, update the priority
-                for (int i = 0; i < allGameObjectsInRadius.Count; i++)
-                {
-                    string tag = allGameObjectsInRadius[i].tag;
-                    #if (UNITY_EDITOR)
-                    Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
-                    #endif
-                    Priority tempP;
-                    if (tag == "Treasure")
-                    { /*Square */
-                        Debug.Log("tag == Treasure");
-                        if (allGameObjectsInRadius[i].GetComponent<Square>().Team == m_Person.Team)
-                        {
-                            tempP = Priority.Treasure;
-                        }
-                        else
-                        {
-                            tempP = Priority.TreasureEnemy;
-                        }
+				//Check with the tag of the gameObject, which priority it has in the enum,
+				// If the priority is higher then the current, update the priority
+				for(int i = 0; i < allGameObjectsInRadius.Count; i++) {
+					string tag = allGameObjectsInRadius[i].tag;
+#if(UNITY_EDITOR)
+					Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
+#endif
+					Priority tempP;
+					if(tag == "Treasure") { /*Square */
+						Debug.Log("tag == Treasure");
+						if(allGameObjectsInRadius[i].GetComponent<Square>().Team == m_Person.Team) {
+							tempP = Priority.Treasure;
+						}
+						else {
+							tempP = Priority.TreasureEnemy;
+						}
 
-                    }
-                    else if (tag == "Square")
-                    {
-                        tempP = Priority.EnemyDistrict;
-                    }
-                    else
-                    {
-                        tempP = (Priority)Enum.Parse(typeof(Priority), tag);
-                    }
+					}
+					else if(tag == "Square") {
+						tempP = Priority.EnemyDistrict;
+					}
+					else {
+						tempP = (Priority)Enum.Parse(typeof(Priority), tag);
+					}
 
-                    if (allGameObjectsInRadius[i].GetComponentInParent<CapturableDistrict>() == null)
-                    {
-                        priorityNbr = (int)tempP;
-                        priorityPresence[priorityNbr] = 1;
-                    }
-                        
-                    if (priorityNbr > tempPriority)
-                    {
-                        if (allGameObjectsInRadius[i].GetComponentInParent<CapturableDistrict>() == null)
-                            tempPriority = priorityNbr;
-                    }
-                }
+					if(allGameObjectsInRadius[i].GetComponentInParent<CapturableDistrict>() == null) {
+						priorityNbr = (int)tempP;
+						priorityPresence[priorityNbr] = 1;
+					}
 
-                // if there is a new highestpriority, do next lines
+					if(priorityNbr > tempPriority) {
+						if(allGameObjectsInRadius[i].GetComponentInParent<CapturableDistrict>() == null)
+							tempPriority = priorityNbr;
+					}
+				}
 
-                m_HighestPriority = tempPriority;
+				// if there is a new highestpriority, do next lines
+
+				m_HighestPriority = tempPriority;
 				Button mainButton = null;
 				RectTransform tempPanel = null;
 
@@ -242,17 +234,17 @@ namespace Stadsspel.Elements
 					}
 				}
 
-                if(m_HighestPriority != 0)
-                {
-                    mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-                    mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
-                }				
+				if(m_HighestPriority != 0) {
+					mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
+					mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+				}
 
 				if(((Priority)m_HighestPriority).ToString() == "Enemy") {
 					if(!robStatus.RecentlyGotRobbed) {
 						mainButton.GetComponent<Button>().onClick.AddListener(() => m_Person.Rob());
 					}
-				} else {
+				}
+				else {
 					//names of the panels need to be the same as the priorities & layernames
 					for(int j = 0; j < m_Panels.Length; j++) {
 						if(m_Panels[j].name == ((Priority)m_HighestPriority).ToString()) {
@@ -291,11 +283,13 @@ namespace Stadsspel.Elements
 						if((m_CurrentButtons[i] == 1 && priorityPresence[i] == 0)) {
 							TryToDestroyIndexOfListPanel(i);
 						}
-					} else {
+					}
+					else {
 						TryToDestroyIndexOfListPanel(i);
 					}
 				}
-			} else {
+			}
+			else {
 				m_MainPanel.gameObject.SetActive(false);
 				m_ListPanel.gameObject.SetActive(false);
 				m_Switch.gameObject.SetActive(false);
@@ -316,9 +310,9 @@ namespace Stadsspel.Elements
 
 		private void buttonClicked(RectTransform panel)
 		{
-			#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 			Debug.Log("Set " + panel.name + " active");
-			#endif
+#endif
 
 			panel.gameObject.SetActive(true);
 		}
@@ -326,11 +320,10 @@ namespace Stadsspel.Elements
 		public void OnTriggerEnter2D(Collider2D other)
 		{
 			if(other.tag != "Untagged") {
-                if(other.GetComponentInParent<CapturableDistrict>() == null && other.tag != "Team")
-                {
-                    m_AllGameObjectsInRadius.Add(other.gameObject);
-                }
-				
+				if(other.GetComponentInParent<CapturableDistrict>() == null && other.tag != "Team") {
+					m_AllGameObjectsInRadius.Add(other.gameObject);
+				}
+
 				if(other.tag == "Enemy") {
 					m_EnemiesInRadius.Add(other.gameObject);
 				}

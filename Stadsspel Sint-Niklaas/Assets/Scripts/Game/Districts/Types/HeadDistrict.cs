@@ -14,7 +14,7 @@ namespace Stadsspel.Districts
 		{
 			m_DistrictType = DistrictType.HeadDistrict;
 			base.Awake();
-            
+
 		}
 
 		private void Start()
@@ -23,7 +23,7 @@ namespace Stadsspel.Districts
 			transform.GetChild(0).tag = "Treasure";
 		}
 
-        protected override void OnTeamChanged()
+		protected override void OnTeamChanged()
 		{
 			base.OnTeamChanged();
 			Color newColor = gameObject.GetComponent<Renderer>().material.color;

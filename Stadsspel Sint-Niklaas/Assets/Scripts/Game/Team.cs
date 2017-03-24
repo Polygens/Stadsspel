@@ -8,10 +8,8 @@ public class Team : PunBehaviour
 	private TeamID m_TeamID;
 
 	[SerializeField]
-	//[SyncVar]
 	private int m_TotalMoney = 0;
 
-	//[SyncVar]
 	private int m_AmountOfDistricts = 0;
 
 	private BankAccount m_BankAccount;
@@ -44,6 +42,9 @@ public class Team : PunBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Initialises the class before Start.
+	/// </summary>
 	private void Awake()
 	{
 		transform.SetParent(GameManager.s_Singleton.transform);
@@ -51,23 +52,35 @@ public class Team : PunBehaviour
 		name = TeamID.ToString();
 	}
 
+	/// <summary>
+	/// [PunRPC] Adds or removes the passed amount of money to the team's money.
+	/// </summary>
 	[PunRPC]
 	public void AddOrRemoveMoney(int amount)
 	{
 		m_TotalMoney += amount;
 	}
 
+	/// <summary>
+	/// Adds or removes the amount of districts passed.
+	/// </summary>
 	public void AddOrRemoveDistrict(int amount)
 	{
 		m_AmountOfDistricts += amount;
 	}
 
+	/// <summary>
+	/// Initialises the class.
+	/// </summary>
 	private void Start()
 	{
 		m_BankAccount = GetComponent<BankAccount>();
 		m_BankAccount.Team = m_TeamID;
 	}
 
+	/// <summary>
+	/// Starts a money transaction over RPC.
+	/// </summary>
 	public void PlayerTransaction(int amount)
 	{
 		m_BankAccount.PlayerTransaction(amount);

@@ -94,12 +94,15 @@ namespace Stadsspel.Networking
 			}
 		}
 
-		// Use this for initialization
+		/// <summary>
+		/// Initialises the class. Connects to the server and joins the default lobby.
+		/// </summary>
 		void Start()
 		{
 			if(Singleton) {
 				Destroy(this);
-			} else {
+			}
+			else {
 				Singleton = this;
 			}
 			PhotonNetwork.ConnectUsingSettings(NetworkManager.Singleton.VERSION);

@@ -1,8 +1,7 @@
-using UnityEngine;
 using System;
-using UnityEngine.UI;
 using System.Collections.Generic;
-using Stadsspel.Networking;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class GameDurationDropdown : MonoBehaviour
 {
@@ -19,7 +18,9 @@ public class GameDurationDropdown : MonoBehaviour
 	private Dropdown m_DropdownDro;
 	private List<String> m_DropDownOptions = new List<String>();
 
-	// Use this for initialization
+	/// <summary>
+	/// Initialises the class.
+	/// </summary>
 	void Start()
 	{
 		GenerateDropdownOptions();
@@ -29,6 +30,9 @@ public class GameDurationDropdown : MonoBehaviour
 		m_DropdownDro.AddOptions(m_DropDownOptions);
 	}
 
+	/// <summary>
+	/// Creates the dropdown options automatically based on an TimeSpan array (m_Durations).
+	/// </summary>
 	private void GenerateDropdownOptions()
 	{
 		for(int i = 0; i < m_Durations.Length; i++) {
@@ -36,7 +40,8 @@ public class GameDurationDropdown : MonoBehaviour
 			if(m_Durations[i].Hours > 0) {
 				if(m_Durations[i].Hours > 1) {
 					option += m_Durations[i].Hours + " uren ";
-				} else {
+				}
+				else {
 					option += m_Durations[i].Hours + " uur ";
 				}
 			}

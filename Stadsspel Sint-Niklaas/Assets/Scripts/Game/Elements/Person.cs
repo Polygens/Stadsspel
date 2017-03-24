@@ -16,20 +16,22 @@ namespace Stadsspel.Elements
 		[SerializeField]
 		private int m_AmountOfMoney = 0;
 
-        private Districts.DistrictManager districtManager;
+		private Districts.DistrictManager districtManager;
 
-    private void Awake()
+		private void Awake()
 		{
 			m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
 			if(PhotonNetwork.player == photonView.owner) {
 				gameObject.AddComponent<Player>();
 				transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
-			} else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
+			}
+			else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
 				gameObject.AddComponent<Friend>();
-			} else {
+			}
+			else {
 				gameObject.AddComponent<Enemy>();
 			}
-            districtManager = GameObject.FindWithTag("Districts").GetComponent<Districts.DistrictManager>();
+			districtManager = GameObject.FindWithTag("Districts").GetComponent<Districts.DistrictManager>();
 		}
 
 		protected new void Start()
@@ -47,16 +49,15 @@ namespace Stadsspel.Elements
 			}
 		}
 
-        public void Rob()
-        {
-            foreach (GameObject enemy in GameManager.s_Singleton.Player.EnemiesInRadius)
-            {
-                int enemyMoney = enemy.GetComponent<Person>().AmountOfMoney;
-                AddGoods(enemyMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems, (int)enemy.GetComponent<Person>().Team);
-                enemy.GetComponent<Person>().GetComponent<PhotonView>().RPC("GetRobbed", PhotonTargets.All, (int)enemy.GetComponent<Person>().Team);
-                
-            }
-        }
+		public void Rob()
+		{
+			foreach(GameObject enemy in GameManager.s_Singleton.Player.EnemiesInRadius) {
+				int enemyMoney = enemy.GetComponent<Person>().AmountOfMoney;
+				AddGoods(enemyMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems, (int)enemy.GetComponent<Person>().Team);
+				enemy.GetComponent<Person>().GetComponent<PhotonView>().RPC("GetRobbed", PhotonTargets.All, (int)enemy.GetComponent<Person>().Team);
+
+			}
+		}
 
 		[PunRPC]
 		public void ResetLegalItems()
@@ -80,23 +81,20 @@ namespace Stadsspel.Elements
 			GameManager.s_Singleton.Teams[teamId - 1].AddOrRemoveMoney(-m_AmountOfMoney);
 			m_AmountOfMoney = 0;
 
-            Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
-            if(currentDistrict.DistrictType != Districts.DistrictType.GrandMarket && currentDistrict.DistrictType != Districts.DistrictType.Neutral 
-                && currentDistrict.DistrictType != Districts.DistrictType.Outside && currentDistrict.DistrictType != Districts.DistrictType.NotSet)
-            {
-                if ((int)currentDistrict.Team != teamId)
-                {
-                    ResetLegalItems();
-                }
-            }        	
+			Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
+			if(currentDistrict.DistrictType != Districts.DistrictType.GrandMarket && currentDistrict.DistrictType != Districts.DistrictType.Neutral
+				&& currentDistrict.DistrictType != Districts.DistrictType.Outside && currentDistrict.DistrictType != Districts.DistrictType.NotSet) {
+				if((int)currentDistrict.Team != teamId) {
+					ResetLegalItems();
+				}
+			}
 			ResetIllegalItems();
-      gameObject.GetComponent<RobStatus>().RecentlyGotRobbed = true;
-    }
+			gameObject.GetComponent<RobStatus>().RecentlyGotRobbed = true;
+		}
 
 
 
-		public List<int> LookUpLegalItems
-        {
+		public List<int> LookUpLegalItems {
 			get { return m_LegalItems; }
 		}
 
@@ -145,25 +143,22 @@ namespace Stadsspel.Elements
 		}
 
 		public void AddGoods(int money, List<int> legalItems, List<int> illegalItems, int enemyTeamId)// Used when stealing from someone
-		{     
+		{
 			photonView.RPC("MoneyTransaction", PhotonTargets.All, money);
 
-            Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
-            if (currentDistrict.DistrictType != Districts.DistrictType.GrandMarket && currentDistrict.DistrictType != Districts.DistrictType.Neutral
-                && currentDistrict.DistrictType != Districts.DistrictType.Outside && currentDistrict.DistrictType != Districts.DistrictType.NotSet)
-            {
-                if ((int)currentDistrict.Team != enemyTeamId)
-                {
-                    for (int i = 0; i < legalItems.Count; i++)
-                    {
-                        photonView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
-                    }
-                }
-            }     
+			Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
+			if(currentDistrict.DistrictType != Districts.DistrictType.GrandMarket && currentDistrict.DistrictType != Districts.DistrictType.Neutral
+				&& currentDistrict.DistrictType != Districts.DistrictType.Outside && currentDistrict.DistrictType != Districts.DistrictType.NotSet) {
+				if((int)currentDistrict.Team != enemyTeamId) {
+					for(int i = 0; i < legalItems.Count; i++) {
+						photonView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
+					}
+				}
+			}
 			for(int i = 0; i < illegalItems.Count; i++) {
 				photonView.RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
 			}
-            
+
 		}
 
 		public int AmountOfMoney {
@@ -173,8 +168,8 @@ namespace Stadsspel.Elements
 
 		[PunRPC]
 		public void TransactionMoney(int money)
-		{ 
-			m_AmountOfMoney += money; 
+		{
+			m_AmountOfMoney += money;
 		}
 
 

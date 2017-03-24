@@ -1,7 +1,5 @@
-using GoMap;
 using System.Collections;
 using UnityEngine;
-using Stadsspel.Districts;
 
 public class MoveAvatar : MonoBehaviour
 {

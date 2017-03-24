@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Photon;
+﻿using Photon;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Stadsspel.Networking
@@ -11,6 +11,9 @@ namespace Stadsspel.Networking
 		[SerializeField]
 		RectTransform m_NoServerFound;
 
+		/// <summary>
+		/// Generic function for handling switching between the different menus.
+		/// </summary>
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
@@ -22,6 +25,9 @@ namespace Stadsspel.Networking
 			}
 		}
 
+		/// <summary>
+		/// Gets called every frame.
+		/// </summary>
 		public void Update()
 		{
 			if(m_RoomList.childCount != PhotonNetwork.GetRoomList().Length) {
@@ -29,12 +35,18 @@ namespace Stadsspel.Networking
 			}
 		}
 
+		/// <summary>
+		/// [PunBehaviour] Gets called when the room list has changed.
+		/// </summary>
 		public override void OnReceivedRoomListUpdate()
 		{
 			base.OnReceivedRoomListUpdate();
 			UpdateRooms();
 		}
 
+		/// <summary>
+		/// Updates the rooms in the rooms list UI. Removes all rooms first and then adds all existing rooms again. If no rooms are found a message is shown.
+		/// </summary>
 		public void UpdateRooms()
 		{
 			int children = m_RoomList.childCount;
@@ -44,7 +56,8 @@ namespace Stadsspel.Networking
 			RoomInfo[] rooms = PhotonNetwork.GetRoomList();
 			if(rooms.Length == 0) {
 				m_NoServerFound.gameObject.SetActive(true);
-			} else {
+			}
+			else {
 				m_NoServerFound.gameObject.SetActive(false);
 			}
 			for(int i = 0; i < rooms.Length; i++) {

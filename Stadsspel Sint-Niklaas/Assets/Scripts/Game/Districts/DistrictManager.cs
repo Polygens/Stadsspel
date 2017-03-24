@@ -1,6 +1,6 @@
-using UnityEngine;
-using System.Collections.Generic;
 using Stadsspel.Elements;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Stadsspel.Districts
 {
@@ -32,10 +32,9 @@ namespace Stadsspel.Districts
 			}
 		}
 
-        public GameObject CurrentDistrict
-        {
-            get { return m_CurrentDistrict; }
-        }
+		public GameObject CurrentDistrict {
+			get { return m_CurrentDistrict; }
+		}
 
 		[SerializeField]
 		private PolygonCollider2D[] m_DistrictColliders;
@@ -60,8 +59,9 @@ namespace Stadsspel.Districts
 					square.Team = (TeamID)(i);
 					square.enabled = true;
 					Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
-                
-				} else {
+
+				}
+				else {
 					CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
 					district.Team = TeamID.NoTeam;
 					district.enabled = true;
@@ -88,10 +88,12 @@ namespace Stadsspel.Districts
 						BoxCollider2D square = m_DistrictColliders[i].transform.GetChild(0).GetComponent<BoxCollider2D>();
 						if(square.OverlapPoint(m_PlayerTrans.position)) {
 							newDistrict = square.gameObject;
-						} else {
+						}
+						else {
 							newDistrict = m_DistrictColliders[i].gameObject;
 						}
-					} else {
+					}
+					else {
 						newDistrict = m_DistrictColliders[i].gameObject;
 					}
 					break;
@@ -100,9 +102,9 @@ namespace Stadsspel.Districts
 			if(newDistrict != m_CurrentDistrict) {
 				if(newDistrict) {
 					HandleDistrictChange(m_CurrentDistrict, newDistrict);
-					#if (UNITY_EDITOR)
+#if(UNITY_EDITOR)
 					Debug.Log(newDistrict.name);
-					#endif
+#endif
 				}
 				m_CurrentDistrict = newDistrict;
 
@@ -130,7 +132,7 @@ namespace Stadsspel.Districts
 		public void GenerateCapturingNotification()
 		{
 			if(!m_CapturingNotification) {
-				m_CapturingNotification = InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_Capturing, new object[]{ }, true).GetComponent<Notification>();
+				m_CapturingNotification = InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_Capturing, new object[] { }, true).GetComponent<Notification>();
 			}
 		}
 

@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class BankUI : MonoBehaviour
 {
 	//BankAccountManager manager = new BankAccountManager();
-    [SerializeField]
+	[SerializeField]
 	private InputField m_AmountField;
 	[SerializeField]
 	private Text m_AmountOwnMoney;
@@ -16,9 +15,9 @@ public class BankUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-        m_AmountField.text = "";
-        UpdateUI();
-        
+		m_AmountField.text = "";
+		UpdateUI();
+
 	}
 
 	private void Update()
@@ -39,15 +38,15 @@ public class BankUI : MonoBehaviour
 
 	public void SelectAllOwnMoney()
 	{
-    m_AmountField.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-    TransferMoney();
+		m_AmountField.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		TransferMoney();
 	}
 
-  public void SelectAllBankMoney()
-  {
-    m_AmountField.text = GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].BankAccount.Balance.ToString();
-    RetractMoney();
-  }
+	public void SelectAllBankMoney()
+	{
+		m_AmountField.text = GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].BankAccount.Balance.ToString();
+		RetractMoney();
+	}
 
 	public void TransferMoney()
 	{

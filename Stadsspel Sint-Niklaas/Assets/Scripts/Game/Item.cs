@@ -17,6 +17,9 @@ public class Item
 	private bool m_IsLegal;
 	private string m_ItemName;
 
+	/// <summary>
+	/// Constructor, initialises the item.
+	/// </summary>
 	public Item(string ItemName, int BuyPrice, int SellPrice, bool IsLegal)
 	{
 		m_ItemName = ItemName;
@@ -35,7 +38,7 @@ public class Item
 			shopItems.Add(new Item("Diploma", 100, 120, false));
 			shopItems.Add(new Item("Pizza", 10, 15, true));
 			shopItems.Add(new Item("Orgaan", 50, 70, false));
-			return shopItems;  
+			return shopItems;
 		}
 	}
 

@@ -1,7 +1,7 @@
-using UnityEngine;
-using Photon;
-using UnityEngine.UI;
 using ExitGames.Client.Photon;
+using Photon;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Stadsspel.Networking
 {
@@ -45,12 +45,18 @@ namespace Stadsspel.Networking
 			}
 		}
 
+		/// <summary>
+		/// [PunRPC] Updates the lobbyplayer name text field.
+		/// </summary>
 		[PunRPC]
 		private void NameChanged()
 		{
 			m_NameInp.text = photonView.owner.NickName;
 		}
 
+		/// <summary>
+		/// [PunRPC] Updates the player's ready state, ready button and checks if the game can start.
+		/// </summary>
 		[PunRPC]
 		private void ReadyChanged(bool newReadyState)
 		{
@@ -61,6 +67,9 @@ namespace Stadsspel.Networking
 			}
 		}
 
+		/// <summary>
+		/// Initialises the class.
+		/// </summary>
 		void Start()
 		{
 			m_IsLocalPlayer = photonView.owner.IsLocal;
@@ -69,32 +78,40 @@ namespace Stadsspel.Networking
 
 			if(m_IsLocalPlayer) {
 				SetupLocalPlayer();
-			} else {
+			}
+			else {
 				SetupOtherPlayer();
 			}
-				
+
 			transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList, false);
 			if(m_IsMasterClient) {
 				transform.SetAsFirstSibling();
-			} else if(m_IsLocalPlayer) {
+			}
+			else if(m_IsLocalPlayer) {
 				transform.SetSiblingIndex(1);
 			}
 
 			SetupStyling();
 		}
 
+		/// <summary>
+		/// Sets up the ui of the lobbyplayer depending on the type.
+		/// </summary>
 		private void SetupStyling()
 		{
 			if(m_IsMasterClient) {
 				m_IconTxt.text = m_HostIcon;
-			} else if(m_IsLocalPlayer) {
+			}
+			else if(m_IsLocalPlayer) {
 				m_IconTxt.text = m_LocalPlayerIcon;
-			} else {
+			}
+			else {
 				m_IconTxt.text = m_OtherPlayerIcon;
 			}
 			if(transform.GetSiblingIndex() % 2 == 0) {
 				GetComponent<Image>().color = m_EvenRowColor;
-			} else {
+			}
+			else {
 				GetComponent<Image>().color = m_OddRowColor;
 			}
 
@@ -103,6 +120,9 @@ namespace Stadsspel.Networking
 			}
 		}
 
+		/// <summary>
+		/// Gets called when the player is the local player. Sets up the lobbyplayer behaviour.
+		/// </summary>
 		private void SetupLocalPlayer()
 		{
 			photonView.owner.RequestTeam();
@@ -127,7 +147,8 @@ namespace Stadsspel.Networking
 			});
 			if(m_IsMasterClient) {
 				photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, true);
-			} else {
+			}
+			else {
 				m_ReadyBtn.interactable = true;
 				SetReadyButton(false);
 				m_ReadyTxt.gameObject.SetActive(true);
@@ -137,6 +158,9 @@ namespace Stadsspel.Networking
 			}
 		}
 
+		/// <summary>
+		/// Gets called when the player is not a local player. Sets up the lobbyplayer behaviour.
+		/// </summary>
 		private void SetupOtherPlayer()
 		{
 			m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(photonView.owner.GetTeam());
@@ -152,6 +176,9 @@ namespace Stadsspel.Networking
 			}
 		}
 
+		/// <summary>
+		/// Handles the styling of the ready button when toggled on or off based on passed parameter.
+		/// </summary>
 		private void SetReadyButton(bool isReady)
 		{
 			Color btn, textColor;
@@ -161,7 +188,8 @@ namespace Stadsspel.Networking
 				textColor = m_NotReadyColor;
 				text = "GEREED";
 				m_ReadyTxt.text = m_ReadyIcon;
-			} else {
+			}
+			else {
 				btn = m_NotReadyColor;
 				textColor = m_ReadyColor;
 				text = "...";
@@ -176,6 +204,9 @@ namespace Stadsspel.Networking
 			textComponent.color = textColor;
 		}
 
+		/// <summary>
+		/// [PunBehaviour] Gets called when the masterclient has changed. If this lobby player is the new master. UI gets updated.
+		/// </summary>
 		private void OnMasterClientSwitched()
 		{
 			if(photonView.owner.IsMasterClient) {
@@ -187,7 +218,10 @@ namespace Stadsspel.Networking
 			}
 		}
 
-		public override void  OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+		/// <summary>
+		/// [PunBehaviour] Gets called when a player leaves the room. Disables the start button.
+		/// </summary>
+		public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 		{
 			base.OnPhotonPlayerDisconnected(otherPlayer);
 			if(PhotonNetwork.player.IsMasterClient) {
@@ -195,7 +229,10 @@ namespace Stadsspel.Networking
 			}
 		}
 
-		public override void  OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
+		/// <summary>
+		/// [PunBehaviour] Gets called when player properties are modified. Updates the ui corresponding to the new properties.
+		/// </summary>
+		public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
 		{
 			base.OnPhotonPlayerPropertiesChanged(playerAndUpdatedProps);
 			PhotonPlayer player = playerAndUpdatedProps[0] as PhotonPlayer;

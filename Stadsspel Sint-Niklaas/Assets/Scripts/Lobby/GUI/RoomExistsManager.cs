@@ -6,12 +6,17 @@ public class RoomExistsManager : MonoBehaviour
 	[SerializeField]
 	private Button m_QuitBtn;
 
+	/// <summary>
+	/// Generic function for handling switching between the different menus.
+	/// </summary>
 	public void EnableDisableMenu(bool newState)
 	{
 		gameObject.SetActive(newState);
 	}
 
-	// Use this for initialization
+	/// <summary>
+	/// Initialises the class.
+	/// </summary>
 	void Start()
 	{
 		m_QuitBtn.onClick.AddListener(() => {

@@ -1,6 +1,6 @@
+using Photon;
 using System.Linq;
 using UnityEngine;
-using Photon;
 
 namespace Stadsspel.Elements
 {

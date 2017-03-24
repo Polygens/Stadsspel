@@ -1,5 +1,5 @@
-using UnityEngine;
 using Photon;
+using UnityEngine;
 
 namespace Stadsspel.Districts
 {
@@ -33,10 +33,9 @@ namespace Stadsspel.Districts
 			}
 		}
 
-        public DistrictType DistrictType
-        {
-            get { return m_DistrictType; }
-        }
+		public DistrictType DistrictType {
+			get { return m_DistrictType; }
+		}
 
 		protected virtual void OnTeamChanged()
 		{
