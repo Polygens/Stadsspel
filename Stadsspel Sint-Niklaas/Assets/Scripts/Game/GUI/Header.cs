@@ -20,7 +20,7 @@ public class Header : MonoBehaviour
 	private float m_UpdateTime = 1;
 
 	/// <summary>
-	/// TODO
+	/// Initialises the class.
 	/// </summary>
 	private void Start()
 	{
@@ -28,7 +28,7 @@ public class Header : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called every frame. Performs a forced refresh in a regular interval of the in game header.
 	/// </summary>
 	private void Update()
 	{
@@ -46,7 +46,7 @@ public class Header : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Event for profile panel button. Enables the in game menu.
 	/// </summary>
 	public void OpenProfilePanelOnClick()
 	{
@@ -54,7 +54,7 @@ public class Header : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Event for inventory panel button. Enables the goods/inventory panel.
 	/// </summary>
 	public void OpenInventoryOnClick()
 	{
@@ -62,7 +62,7 @@ public class Header : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Updates the textfield of the amount of money the player has.
 	/// </summary>
 	private void UpdatePlayerMoney(int pPlayerMoney)
 	{
@@ -73,7 +73,7 @@ public class Header : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Updates the textfield of the amount of money the team has.
 	/// </summary>
 	private void UpdateTeamMoney(int pTeamMoney)
 	{
@@ -81,7 +81,7 @@ public class Header : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Updates the remaining time.
 	/// </summary>
 	private void UpdateGameTimer()
 	{

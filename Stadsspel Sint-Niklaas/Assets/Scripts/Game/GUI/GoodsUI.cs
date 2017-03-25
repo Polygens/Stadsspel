@@ -8,7 +8,7 @@ public class GoodsUI : MonoBehaviour
 	private List<int> m_IllegalItems = new List<int>();
 
 	/// <summary>
-	/// TODO
+	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{

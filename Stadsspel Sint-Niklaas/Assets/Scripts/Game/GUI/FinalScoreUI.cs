@@ -11,7 +11,7 @@ public class FinalScoreUI : MonoBehaviour
 	private List<Team> m_TeamOrder = new List<Team>();
 
 	/// <summary>
-	/// TODO
+	/// Gets called when the GameObject becomes active. Creates the scoreboard and calls sorting of teams.
 	/// </summary>
 	private void OnEnable()
 	{
@@ -27,7 +27,7 @@ public class FinalScoreUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Sorts the teams based on the amount of money gained in game.
 	/// </summary>
 	private void SortTeams()
 	{
@@ -40,7 +40,7 @@ public class FinalScoreUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Returns an int, if smaller then 0 t1 has less money, if 0 they have equal money and if more then 0 t1 has more money then t2.
 	/// </summary>
 	static int SortByTotalMoney(Team t1, Team t2)
 	{
@@ -48,7 +48,7 @@ public class FinalScoreUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Event for clicking the leave game button. Leaves the current game.
 	/// </summary>
 	public void LeaveGame()
 	{

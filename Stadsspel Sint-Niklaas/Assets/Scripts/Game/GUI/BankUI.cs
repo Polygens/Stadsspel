@@ -14,7 +14,7 @@ public class BankUI : MonoBehaviour
 	private float m_Timer;
 
 	/// <summary>
-	/// TODO
+	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{
@@ -24,7 +24,7 @@ public class BankUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called every frame. Performs a forced refresh in a regular interval of the bank UI.
 	/// </summary>
 	private void Update()
 	{
@@ -36,7 +36,7 @@ public class BankUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// [PunRPC] TODO
+	/// [PunRPC] Updates the value fields of the UI.
 	/// </summary>
 	[PunRPC]
 	public void UpdateUI()
@@ -46,7 +46,7 @@ public class BankUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Transfers all the player's money to the bank.
 	/// </summary>
 	public void SelectAllOwnMoney()
 	{
@@ -55,7 +55,7 @@ public class BankUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Transfers all the bank's money to the player.
 	/// </summary>
 	public void SelectAllBankMoney()
 	{
@@ -64,7 +64,7 @@ public class BankUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Verifies if transaction is valid and performs deposition transaction.
 	/// </summary>
 	public void TransferMoney()
 	{
@@ -78,7 +78,7 @@ public class BankUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Verifies if transaction is valid and performs retraction transaction.
 	/// </summary>
 	public void RetractMoney()
 	{

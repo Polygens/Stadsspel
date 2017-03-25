@@ -39,7 +39,7 @@ public class TradingPostUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Initialises the class.
 	/// </summary>
 	private void Start()
 	{
@@ -74,7 +74,7 @@ public class TradingPostUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Checks and returns if the player's team has already visited.
 	/// </summary>
 	private bool CheckIfTeamAlreadyVisited()
 	{
@@ -95,7 +95,7 @@ public class TradingPostUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{

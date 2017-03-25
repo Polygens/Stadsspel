@@ -12,6 +12,9 @@ public class Notification : MonoBehaviour
 
 	private Material m_NotificationLocalMat;
 
+	/// <summary>
+	/// Gets called every frame. If not sticky a timer runs and when finished destroys itself.
+	/// </summary>
 	private void Update()
 	{
 		if(!m_Permanent) {
@@ -23,7 +26,7 @@ public class Notification : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Sets the text of the notification.
 	/// </summary>
 	public void SetText(string text)
 	{
@@ -31,7 +34,7 @@ public class Notification : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Sets the default color of the notification and an optional end color if it is used a progressbar.
 	/// </summary>
 	public void SetColor(Color color, Color colorEnd = default(Color))
 	{
@@ -44,7 +47,7 @@ public class Notification : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Set current progress of the progress bar notification.
 	/// </summary>
 	public void SetProgress(float progress)
 	{
@@ -56,7 +59,7 @@ public class Notification : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Set the notification as a sticky permanent notification. Needs to be destroyed manually.
 	/// </summary>
 	public void SetPermanent(bool isPermanent)
 	{

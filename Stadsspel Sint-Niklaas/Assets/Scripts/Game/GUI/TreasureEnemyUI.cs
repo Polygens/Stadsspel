@@ -15,7 +15,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	private float m_Timer;
 
 	/// <summary>
-	/// TODO
+	/// Gets called every frame. Performs a forced refresh in a regular interval of the Enemy Treasure UI.
 	/// </summary>
 	private void Update()
 	{
@@ -27,7 +27,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{
@@ -36,7 +36,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Updates the value fields of the Enemy Treasure UI.
 	/// </summary>
 	private void UpdateUI()
 	{
@@ -46,7 +46,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Searches the treasure the player is on.
 	/// </summary>
 	private void FindCurrentTreasure()
 	{
@@ -54,7 +54,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Transfers the maximum rob amount from the treasure to the player.
 	/// </summary>
 	public void TransferMoney()
 	{

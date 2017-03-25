@@ -13,7 +13,7 @@ public class GrandMarketUI : MonoBehaviour
 	private int m_Total;
 
 	/// <summary>
-	/// TODO
+	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{
@@ -21,7 +21,7 @@ public class GrandMarketUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Updates the grand market UI. Fills in all the player's goods.
 	/// </summary>
 	private void UpdateUI()
 	{
@@ -64,7 +64,7 @@ public class GrandMarketUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Returns and calculates the sum of all the goods passed.
 	/// </summary>
 	private int CalculateSubtotal(int Listindex, int index, List<int> items)
 	{
@@ -74,7 +74,7 @@ public class GrandMarketUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Performs the operations to sell all the player's goods. Perform transaction, reset inventory and update UI.
 	/// </summary>
 	public void Sell()
 	{
@@ -88,7 +88,7 @@ public class GrandMarketUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Resets the UI to the default values.
 	/// </summary>
 	private void ResetUI()
 	{

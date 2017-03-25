@@ -16,7 +16,7 @@ public class SwitchButton : MonoBehaviour
 	private float m_ListPanelStartY = 0;
 
 	/// <summary>
-	/// TODO
+	/// Initialises the class.
 	/// </summary>
 	private void Start()
 	{
@@ -24,20 +24,20 @@ public class SwitchButton : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called every frame.
 	/// </summary>
 	private void Update()
 	{
 		LerpPanel();
 
-		if(GameManager.s_Singleton.Player.NumberOfButtonsInlistPanel == 0) {
+		if (GameManager.s_Singleton.Player.NumberOfButtonsInlistPanel == 0) {
 			m_PanelNeeded = false;
 			GetComponent<Image>().sprite = m_SwitchUpArrow;
 		}
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{
@@ -47,7 +47,7 @@ public class SwitchButton : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Event for pressing the more actions button. Shows the additional panel and updates the button's sprites.
 	/// </summary>
 	public void ButtonListSwitch()
 	{
@@ -66,7 +66,7 @@ public class SwitchButton : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Animates the more actions panel.
 	/// </summary>
 	private void LerpPanel()
 	{

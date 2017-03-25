@@ -5,7 +5,7 @@ public class MainSquareArrow : MonoBehaviour
 	Vector3 m_HeadSquarePos;
 
 	/// <summary>
-	/// TODO
+	/// Initialises the class.
 	/// </summary>
 	private void Start()
 	{
@@ -13,7 +13,7 @@ public class MainSquareArrow : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called every frame. Points the home arrow to the head disctrict of the player.
 	/// </summary>
 	private void Update()
 	{

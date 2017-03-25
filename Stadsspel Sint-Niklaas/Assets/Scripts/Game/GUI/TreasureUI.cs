@@ -15,7 +15,7 @@ public class TreasureUI : MonoBehaviour
 	private Treasure m_CurrentTreasure;
 
 	/// <summary>
-	/// TODO
+	/// Returns the treasure the player is currently on.
 	/// </summary>
 	public Treasure CurrentTreasure()
 	{
@@ -23,7 +23,7 @@ public class TreasureUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called every frame. Performs a forced refresh in a regular interval of the Treasure UI.
 	/// </summary>
 	private void Update()
 	{
@@ -35,7 +35,7 @@ public class TreasureUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{
@@ -45,7 +45,7 @@ public class TreasureUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Updates the value fields of the UI.
 	/// </summary>
 	private void UpdateUI()
 	{
@@ -54,7 +54,7 @@ public class TreasureUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Searches the treasure the player is on.
 	/// </summary>
 	private void FindCurrentTreasure()
 	{
@@ -62,7 +62,7 @@ public class TreasureUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Transfers the amount in the textfield from the treasure to the player.
 	/// </summary>
 	public void TransferMoney()
 	{

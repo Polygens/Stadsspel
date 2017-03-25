@@ -13,12 +13,16 @@ public class LogUI : MonoBehaviour
 	public const string m_TaxesIncome = "Belastingsresultaat: {0}";
 
 
+	/// <summary>
+	/// Creates a notification and puts data in the log panel. Text(presets are above) is passed along with optional variables and a boolean if the notification should be permanent.
+	/// </summary>
 	public GameObject AddToLog(string text, object[] variables = null, bool permanent = false)
 	{
 		GameObject notification = Instantiate(Resources.Load("Notification") as GameObject, InGameUIManager.s_Singleton.LogNotifications, false);
 		notification.GetComponent<Notification>().SetText(string.Format(text, variables));
 		notification.GetComponent<Notification>().SetPermanent(permanent);
 
+		// Forces the VerticalLayoutGroup to update with the new notification.
 		LayoutRebuilder.ForceRebuildLayoutImmediate(InGameUIManager.s_Singleton.LogNotifications);
 
 		GameObject logItem = Instantiate(Resources.Load("LogItem") as GameObject, m_LogScrollViewContent, false);
@@ -34,6 +38,9 @@ public class LogUI : MonoBehaviour
 		return notification;
 	}
 
+	/// <summary>
+	/// Event for pressing the logs button. Show the log of the game.
+	/// </summary>
 	public void ToggleLogsPanel(bool newState)
 	{
 		for(int i = 0; i < transform.childCount; i++) {

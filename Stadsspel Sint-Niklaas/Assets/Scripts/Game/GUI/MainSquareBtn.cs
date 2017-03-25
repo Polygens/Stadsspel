@@ -7,7 +7,7 @@ public class MainSquareBtn : MonoBehaviour
 	// Use this for initialization
 
 	/// <summary>
-	/// TODO
+	/// Event for the show home button. Toggles the visibility state of the home arrow.
 	/// </summary>
 	public void ToggleMainSquareArrow(bool turnOn)
 	{

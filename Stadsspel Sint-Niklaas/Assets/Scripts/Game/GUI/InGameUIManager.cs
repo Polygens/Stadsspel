@@ -120,7 +120,7 @@ public class InGameUIManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// Initialises the class. Sets the singleton object of InGameUIManager.
 	/// </summary>
 	private void Start()
 	{
