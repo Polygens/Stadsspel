@@ -27,13 +27,24 @@ namespace Stadsspel.Elements
 		[PunRPC]
 		public void Transaction(int amount, PhotonMessageInfo info)
 		{
-			m_Balance += amount;
-			if(GameManager.s_Singleton.Player.Person.Team == m_Team) {
-				InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_HasDepositedMoneyInBank, new object[] {
+			if(amount != 0) {
+				m_Balance += amount;
+				if(GameManager.s_Singleton.Player.Person.Team == m_Team) {
+					if(amount < 0) {
+						InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_HasWithdrawnMoneyInBank, new object[] {
+						info.sender.NickName,
+						Mathf.Abs(amount)
+						});
+					}
+					else {
+						InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_HasDepositedMoneyInBank, new object[] {
 						info.sender.NickName,
 						amount
 						});
+					}
+				}
 			}
+
 		}
 
 		/// <summary>

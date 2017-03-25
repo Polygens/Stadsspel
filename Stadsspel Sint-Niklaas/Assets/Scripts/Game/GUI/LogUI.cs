@@ -8,6 +8,7 @@ public class LogUI : MonoBehaviour
 	private RectTransform m_LogScrollViewContent;
 
 	public const string m_HasDepositedMoneyInBank = "{0} heeft {1} in de bank gestort";
+	public const string m_HasWithdrawnMoneyInBank = "{0} heeft {1} in de bank opgehaald";
 	public const string m_Capturing = "AAN HET VEROVEREN";
 	public const string m_WasCaptured = "{0} is nu van {1}";
 	public const string m_TaxesIncome = "Belastingsresultaat: {0}";
