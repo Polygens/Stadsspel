@@ -179,6 +179,7 @@ namespace Stadsspel.Elements
 		{
 			photonView.RPC("MoneyTransaction", PhotonTargets.All, money);
 
+            GameManager.s_Singleton.DistrictManager.CheckDisctrictState();
 			Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
 			if(currentDistrict.DistrictType != Districts.DistrictType.GrandMarket && currentDistrict.DistrictType != Districts.DistrictType.Neutral
 				&& currentDistrict.DistrictType != Districts.DistrictType.Outside && currentDistrict.DistrictType != Districts.DistrictType.NotSet) {
