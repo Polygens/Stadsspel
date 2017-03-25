@@ -50,10 +50,10 @@ namespace Stadsspel.Districts
 		}
 
 		/// <summary>
-		/// [PunRPC] Performs a transaction of the passed amount of money on the treasure money.
+		/// [PunRPC] Reduces the money in the chest with a given amount.
 		/// </summary>
 		[PunRPC]
-		public void ChestTransaction(int amount)
+		public void ReduceChestMoney(int amount)
 		{
 			m_AmountOfMoney -= amount;
 		}

@@ -138,10 +138,10 @@ namespace Stadsspel.Elements
 		}
 
 
-		/// <summary>
-		/// [PunRPC] TODO
-		/// </summary>
-		[PunRPC]
+        /// <summary>
+        /// [PunRPC] Performs a money transaction from outside the team to the player.
+        /// </summary>
+        [PunRPC]
 		public void MoneyTransaction(int money)
 		{
 			m_AmountOfMoney += money;
@@ -158,9 +158,11 @@ namespace Stadsspel.Elements
 			TeamID id = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Districts.Treasure>().Team;
 
 			//GameManager.s_Singleton.GetTreasureFrom(id).EmptyChest(amount);
-			GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("EmptyChest", PhotonTargets.All, amount);
+			GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("ReduceChestMoney", PhotonTargets.All, amount);
 			GameManager.s_Singleton.Player.Person.photonView.RPC("TransactionMoney", PhotonTargets.AllViaServer, amount);
-			if(isEnemyTreasure) {
+
+			if(isEnemyTreasure)
+            {
 				GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, amount);
 				GameManager.s_Singleton.Teams[(int)id - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, -amount);
 
@@ -198,7 +200,7 @@ namespace Stadsspel.Elements
 
 
 		/// <summary>
-		/// [PunRPC] Performs a transaction of the passed amount on the player money.
+		/// [PunRPC] Performs a money transaction from within the team to the player.
 		/// </summary>
 		[PunRPC]
 		public void TransactionMoney(int money)
