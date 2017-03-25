@@ -98,13 +98,18 @@ namespace Stadsspel.Elements
 			GameManager.s_Singleton.Teams[teamId - 1].AddOrRemoveMoney(-m_AmountOfMoney);
 			m_AmountOfMoney = 0;
 
-			Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
-			if(currentDistrict.DistrictType != Districts.DistrictType.GrandMarket && currentDistrict.DistrictType != Districts.DistrictType.Neutral
-				&& currentDistrict.DistrictType != Districts.DistrictType.Outside && currentDistrict.DistrictType != Districts.DistrictType.NotSet) {
-				if((int)currentDistrict.Team != teamId) {
-					ResetLegalItems();
-				}
-			}
+            if (districtManager.CurrentDistrict.GetComponent<Districts.District>() != null)
+            {
+                Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
+                if (currentDistrict.DistrictType == Districts.DistrictType.square || currentDistrict.DistrictType == Districts.DistrictType.CapturableDistrict || currentDistrict.DistrictType == Districts.DistrictType.HeadDistrict)
+                {
+                    if ((int)currentDistrict.Team != teamId && currentDistrict.Team != TeamID.NoTeam && currentDistrict.Team != TeamID.NotSet)
+                    {
+                        ResetLegalItems();
+                    }
+                }
+            }
+                
 			ResetIllegalItems();
 			gameObject.GetComponent<RobStatus>().RecentlyGotRobbed = true;
 		}
@@ -180,15 +185,22 @@ namespace Stadsspel.Elements
 			photonView.RPC("MoneyTransaction", PhotonTargets.All, money);
 
             GameManager.s_Singleton.DistrictManager.CheckDisctrictState();
-			Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
-			if(currentDistrict.DistrictType != Districts.DistrictType.GrandMarket && currentDistrict.DistrictType != Districts.DistrictType.Neutral
-				&& currentDistrict.DistrictType != Districts.DistrictType.Outside && currentDistrict.DistrictType != Districts.DistrictType.NotSet) {
-				if((int)currentDistrict.Team != enemyTeamId) {
-					for(int i = 0; i < legalItems.Count; i++) {
-						photonView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
-					}
-				}
-			}
+			
+            if(districtManager.CurrentDistrict.GetComponent<Districts.District>() != null)
+            {
+                Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
+                if (currentDistrict.DistrictType == Districts.DistrictType.square || currentDistrict.DistrictType == Districts.DistrictType.CapturableDistrict || currentDistrict.DistrictType == Districts.DistrictType.HeadDistrict)
+                {
+                    if ((int)currentDistrict.Team != enemyTeamId && currentDistrict.Team != TeamID.NoTeam && currentDistrict.Team != TeamID.NotSet)
+                    {
+                        for (int i = 0; i < legalItems.Count; i++)
+                        {
+                            photonView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
+                        }
+                    }
+                }
+            }
+			
 			for(int i = 0; i < illegalItems.Count; i++) {
 				photonView.RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
 			}

@@ -61,4 +61,6 @@ MonoBehaviour:
   - TransactionMoney
   - UpdateCountDown
   - UpdateUI
+  - ReduceChestMoney
+  - RetrieveTaxes
   DisableAutoOpenWizard: 1

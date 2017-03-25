@@ -165,7 +165,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010784362752}
-  m_Text: Tradingpost
+  m_Text: Handelspost
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -191,7 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Team: 0
-  m_Name: 
+  m_GameName: Not set
+  m_CountdownDuration: 300
 --- !u!114 &114040348477062750
 MonoBehaviour:
   m_ObjectHideFlags: 1
