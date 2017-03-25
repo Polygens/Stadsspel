@@ -73,7 +73,7 @@ namespace Stadsspel.Districts
 		/// [PunRPC] Calculates and adds the tax money of the owned districts to the treasure.
 		/// </summary>
 		[PunRPC]
-		public void RetreiveTaxes()
+		public void RetrieveTaxes()
 		{
 			int moneyGain = m_MoneyGainPerDistrict * (GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts + 1);
 			m_AmountOfMoney += moneyGain;

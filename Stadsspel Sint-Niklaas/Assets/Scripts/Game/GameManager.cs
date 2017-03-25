@@ -104,7 +104,7 @@ public class GameManager : PunBehaviour
 				// Call GainMoneyOverTime() from each financial object
 
 				for(int i = 0; i < m_Treasures.Count; i++) {
-					m_Treasures[i].photonView.RPC("GainMoneyOverTime", PhotonTargets.All);
+					m_Treasures[i].photonView.RPC("RetrieveTaxes", PhotonTargets.All);
 				}
 
 			}
