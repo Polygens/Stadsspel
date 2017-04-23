@@ -17,6 +17,8 @@ namespace Stadsspel.Elements
 
 		private Districts.DistrictManager districtManager;
 
+        public float colliderRadius = 23f;
+
 		/// <summary>
 		/// Initialises the class before Start.
 		/// </summary>
@@ -44,7 +46,7 @@ namespace Stadsspel.Elements
 			GetComponent<MeshRenderer>().material.color = TeamData.GetColor(m_Team);
 			transform.SetParent(GameManager.s_Singleton.Teams[(byte)m_Team - 1].transform, false);
 			transform.GetChild(0).GetComponent<TextMesh>().text = photonView.owner.NickName;
-			ActionRadius = 40;
+			ActionRadius = colliderRadius;
 
 			//instantiate list with 3 numbers for each list.
 
@@ -52,7 +54,7 @@ namespace Stadsspel.Elements
 				m_LegalItems.Add(0);
 				m_IllegalItems.Add(0);
 			}
-		}
+        }
 
 		/// <summary>
 		/// Robs every player in the player radius.

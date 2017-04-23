@@ -109,8 +109,8 @@ namespace Stadsspel.Elements
 
 			gameObject.AddComponent<MoveAvatar>();
 
-			//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
-		}
+            //GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
+        }
 
 		/// <summary>
 		/// Gets called every frame.
