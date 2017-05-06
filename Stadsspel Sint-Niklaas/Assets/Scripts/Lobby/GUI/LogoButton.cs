@@ -13,8 +13,8 @@ public class LogoButton : MonoBehaviour
 	/// <summary>
 	/// Opens the website of "KBC" in the browser.
 	/// </summary>
-	public void OpenKBCWebsite()
+	public void OpenJOSWebsite()
 	{
-		Application.OpenURL("https://www.kbc.be/");
+		Application.OpenURL("http://www.jos.be/");
 	}
 }

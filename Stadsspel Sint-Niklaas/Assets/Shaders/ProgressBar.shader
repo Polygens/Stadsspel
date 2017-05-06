@@ -1,4 +1,6 @@
-﻿Shader "Custom/ProgressBar" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/ProgressBar" {
 
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
@@ -31,7 +33,7 @@
 			v2f vert (appdata_base v)
 			{
 				v2f o;
-				o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+				o.pos = UnityObjectToClipPos (v.vertex);
 				o.uv = TRANSFORM_UV(0);
 				 
 				return o;

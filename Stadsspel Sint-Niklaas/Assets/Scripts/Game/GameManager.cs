@@ -66,7 +66,6 @@ public class GameManager : PunBehaviour
 		get { return m_GameLength; }
 	}
 
-
 	/// <summary>
 	/// Initialises the class.
 	/// </summary>
