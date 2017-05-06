@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -87,11 +88,13 @@ public class Header : MonoBehaviour
 	{
 		float timer = GameManager.s_Singleton.GameLength - Time.timeSinceLevelLoad;
 
-		int hours = Mathf.FloorToInt(timer / 3600);
+		//int hours = Mathf.FloorToInt(timer / 3600);
 		int minutes = Mathf.FloorToInt(timer / 60);
+		int defMinutes;
+		int hours = Math.DivRem(minutes, 60, out defMinutes);
 		int seconds = Mathf.FloorToInt(timer - minutes * 60);
 
-		string time = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+		string time = string.Format("{0:00}:{1:00}:{2:00}", hours, defMinutes, seconds);
 
 		m_GameDuration.text = time;
 	}

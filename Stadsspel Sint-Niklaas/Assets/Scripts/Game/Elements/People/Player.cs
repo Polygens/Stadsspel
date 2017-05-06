@@ -344,17 +344,46 @@ namespace Stadsspel.Elements
 		public void OnTriggerEnter2D(Collider2D other)
 		{
 			if(other.tag != "Untagged") {
-				if(other.GetComponentInParent<CapturableDistrict>() == null && other.tag != "Team") {
+				if(other.GetComponentInParent<CapturableDistrict>() == null && other.tag != "Team" && other.tag != "Enemy") {
 					m_AllGameObjectsInRadius.Add(other.gameObject);
 				}
 
 				if(other.tag == "Enemy") {
-					m_EnemiesInRadius.Add(other.gameObject);
+					if (CheckAbleToSteal())
+					{
+						m_AllGameObjectsInRadius.Add(other.gameObject);
+						m_EnemiesInRadius.Add(other.gameObject);
+					}
 				}
 
 				if(m_UIisInitialized)
 					PriorityUpdate(m_AllGameObjectsInRadius);
 			}
+		}
+
+		private bool CheckAbleToSteal()
+		{
+			string gameDuration = GameObject.Find("GameDuration").GetComponent<Text>().text;
+			string[] durations = gameDuration.Split(':');
+			float maxTime = GameManager.s_Singleton.GameLength;
+
+			int minutes = Mathf.FloorToInt(maxTime / 60);
+			int defMinutes;
+			int hours = Math.DivRem(minutes, 60, out defMinutes);
+			if (defMinutes == 0)
+			{
+				defMinutes = 60;
+			}
+
+			if (int.Parse(durations[1]) < (defMinutes - 5))
+			{ 
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+
 		}
 
 		/// <summary>
