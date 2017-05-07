@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013852722062}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 741, y: -263.7, z: -10}
+  m_LocalPosition: {x: 123.9, y: -419.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011805476680}
@@ -195,6 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_GameName: Not set
+  tradingpostType: 1
   m_CountdownDuration: 300
 --- !u!114 &114040348477062750
 MonoBehaviour:

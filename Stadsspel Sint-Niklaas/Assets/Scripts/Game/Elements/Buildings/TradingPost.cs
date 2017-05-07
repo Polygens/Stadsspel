@@ -5,6 +5,8 @@ namespace Stadsspel.Elements
 {
 	public class TradingPost : Building
 	{
+		public TradingpostType tradingpostType;
+
 		//	private SyncListInt visitedTeams = new SyncListInt();
 		private List<int> m_visitedTeams = new List<int>();
 		private List<float> m_TeamTimers = new List<float>();
@@ -109,4 +111,14 @@ namespace Stadsspel.Elements
 
 		}
 	}
+
+	public enum TradingpostType
+	{
+		Bloemen,
+		Bier,
+		Ijs,
+		Textiel,
+		Bakstenen,
+		Kunst
+	} 
 }

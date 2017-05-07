@@ -12,10 +12,12 @@ public class TradingPostUI : MonoBehaviour
 	private GameObject m_MessagePanel;
 
 	//SyncListInt visitedTeams = new SyncListInt();
-	private List<Item> m_ShopItems = new List<Item>();
+	private Item m_LegalShopItem;
+	private Item m_IllegalShopItem;
 
 	private int[] m_NumberOfEachItem;
 	private bool m_EverythingIsInstantiated = false;
+	private int type, legalNumberOfItems, illegalNumberOfItems;
 
 	public bool IsVisited {
 		get {
@@ -52,25 +54,38 @@ public class TradingPostUI : MonoBehaviour
 		m_MessagePanel = transform.FindChild("MessagePanel").gameObject;
 
 
-		m_ShopItems = Item.ShopItems;
+		InitializeUI();
+		
+		m_EverythingIsInstantiated = true;
+
+		//TradingPostPanel.gameObject.SetActive(false);
+	}
+
+	private void InitializeUI()
+	{
+		type = (int)GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().tradingpostType;
+
+		m_LegalShopItem = Item.LegalShopItems[type];
+		m_IllegalShopItem = Item.IllegalShopItems[type];
 
 		RectTransform Grid = (RectTransform)transform.FindChild("MainPanel").transform.FindChild("Grid");
 		m_TotalPriceText = transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
 		transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-		int childsInGrid = Grid.childCount;
-		int index = 0;
-		for(int i = 1; i < childsInGrid; i++) {
-			for(int j = 0; j < 2; j++) {
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = m_ShopItems[index].BuyPrice.ToString();
-				m_Inputfields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
-				m_TotalTextFields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Totaal").GetComponent<Text>());
-				index++;
-			}
-		}
-		m_NumberOfEachItem = new int[m_ShopItems.Count];
-		m_EverythingIsInstantiated = true;
 
-		//TradingPostPanel.gameObject.SetActive(false);
+		for (int j = 0; j < 2; j++)
+		{
+			if (j == 0)
+			{
+				Grid.GetChild(0).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = m_LegalShopItem.BuyPrice.ToString();
+			}
+			else
+			{
+				Grid.GetChild(0).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = m_IllegalShopItem.BuyPrice.ToString();
+			}
+
+			m_Inputfields.Add(Grid.GetChild(0).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
+			m_TotalTextFields.Add(Grid.GetChild(0).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Totaal").GetComponent<Text>());
+		}
 	}
 
 	/// <summary>
@@ -111,8 +126,10 @@ public class TradingPostUI : MonoBehaviour
 
 		}
 		if(m_EverythingIsInstantiated) {
+			InitializeUI();
 			transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 		}
+		
 	}
 
 	/// <summary>
@@ -147,28 +164,8 @@ public class TradingPostUI : MonoBehaviour
 	/// </summary>
 	public void AddGoodsToPlayer()
 	{
-		List<int> legalItems = new List<int>();
-		List<int> illegalItems = new List<int>();
-
-		for(int i = 0; i < m_NumberOfEachItem.Length; i++) {
-			if(m_ShopItems[i].IsLegal) {
-				legalItems.Add(m_NumberOfEachItem[i]);
-
-			}
-			else {
-				illegalItems.Add(m_NumberOfEachItem[i]);
-
-			}
-		}
-
-		for(int i = 0; i < legalItems.Count; i++) {
-			GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
-			Debug.Log("Add legal item at index: " + i);
-		}
-		for(int i = 0; i < illegalItems.Count; i++) {
-			GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
-			Debug.Log("Add illegal item at index: " + i);
-		}
+		GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddLegalItem", PhotonTargets.All, type, legalNumberOfItems);
+		GameManager.s_Singleton.Player.Person.GetComponent<PhotonView>().RPC("AddIllegalItem", PhotonTargets.All, type, illegalNumberOfItems);
 
 		GameManager.s_Singleton.Player.GetGameObjectInRadius("TradingPost").GetComponent<TradingPost>().GetComponent<PhotonView>().RPC("AddTeamToList", PhotonTargets.All, (int)GameManager.s_Singleton.Player.Person.Team);
 		GameManager.s_Singleton.Player.Person.photonView.RPC("MoneyTransaction", PhotonTargets.AllViaServer, -m_TotalPriceAmount);
@@ -198,26 +195,36 @@ public class TradingPostUI : MonoBehaviour
 	{
 		int focusedIndex = 0;
 		int result = 0;
-		if(number == "") {
+		int itemTotal = 0;
+		if (number == "") {
 			number = "0";
 		}
 		for(int i = 0; i < m_Inputfields.Count; i++) {
 			if(m_Inputfields[i].isFocused) {
 				bool isNumber = int.TryParse(number, out result);
 				if(isNumber) {
-					m_NumberOfEachItem[i] = result;
+					if (i == 0)
+					{
+						legalNumberOfItems = result;
+						itemTotal = (result * m_LegalShopItem.BuyPrice);
+					}
+					else
+					{
+						illegalNumberOfItems = result;
+						itemTotal = (result * m_IllegalShopItem.BuyPrice);
+					}
 				}
 				focusedIndex = i;
 			}
 		}
 		int tempTotal = 0;
-		for(int i = 0; i < m_NumberOfEachItem.Length; i++) {
-			tempTotal += (m_NumberOfEachItem[i] * m_ShopItems[i].BuyPrice);
-		}
+		tempTotal += (legalNumberOfItems * m_LegalShopItem.BuyPrice);
+		tempTotal += (illegalNumberOfItems * m_IllegalShopItem.BuyPrice);
+
 
 		m_TotalPriceAmount = tempTotal;
 		m_TotalPriceText.text = tempTotal.ToString();
-		int itemTotal = (result * m_ShopItems[focusedIndex].BuyPrice);
+		
 		m_TotalTextFields[focusedIndex].text = "Totaal: " + itemTotal.ToString();
 	}
 
