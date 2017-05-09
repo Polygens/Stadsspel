@@ -5,28 +5,32 @@ SocketCreate: function(url)
 {
 	var str = Pointer_stringify(url);
 	var socket = {
-		socket: new WebSocket(str, ['GpBinaryV16']),
+		socket: new WebSocket(str),
 		buffer: new Uint8Array(0),
 		error: null,
 		messages: []
 	}
+
 	socket.socket.binaryType = 'arraybuffer';
+
 	socket.socket.onmessage = function (e) {
-//		if (e.data instanceof Blob)
-//		{
-//			var reader = new FileReader();
-//			reader.addEventListener("loadend", function() {
-//				var array = new Uint8Array(reader.result);
-//				socket.messages.push(array);
-//			});
-//			reader.readAsArrayBuffer(e.data);
-//		} 
-		if (e.data instanceof ArrayBuffer)
+		// Todo: handle other data types?
+		if (e.data instanceof Blob)
+		{
+			var reader = new FileReader();
+			reader.addEventListener("loadend", function() {
+				var array = new Uint8Array(reader.result);
+				socket.messages.push(array);
+			});
+			reader.readAsArrayBuffer(e.data);
+		}
+		else if (e.data instanceof ArrayBuffer)
 		{
 			var array = new Uint8Array(e.data);
 			socket.messages.push(array);
 		}
 	};
+
 	socket.socket.onclose = function (e) {
 		if (e.code != 1000)
 		{
