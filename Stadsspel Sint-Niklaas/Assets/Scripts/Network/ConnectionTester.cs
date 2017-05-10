@@ -25,8 +25,7 @@ public class ConnectionTester : MonoBehaviour {
   //var wsWeb;
   private string hostToken;
   private static bool stop = false;
-
-  private Rest rest = new Rest();
+	
   private const string TEST_URL = "https://postman-echo.com/";
 
 
@@ -192,7 +191,7 @@ public class ConnectionTester : MonoBehaviour {
   IEnumerator coStartGame()
   {
     Debug.Log("###################### START GAME ############################");
-    string data = rest.StartGame(gameID, hostToken);
+    string data = Rest.StartGame(gameID, hostToken);
     Debug.Log(data);
     yield return 0;
   }
@@ -200,7 +199,7 @@ public class ConnectionTester : MonoBehaviour {
   IEnumerator coStopGame()
   {
     Debug.Log("###################### STOP GAME ############################");
-    string data = rest.StopGame(gameID,hostToken);
+    string data = Rest.StopGame(gameID,hostToken);
     Debug.Log(data);
     yield return 0;
   }
@@ -226,7 +225,7 @@ public class ConnectionTester : MonoBehaviour {
     clientID = "" + Math.Floor(Random.Range(0.0f, 1.0f) * 1000000);
     var obj = "{\"clientID\": \"" + clientID + "\",\"name\": \"tim\",\"password\":\"" + pw + "\"}";
     Debug.Log(obj);
-    string data = rest.RegisterPlayer(obj, gameID);
+    string data = Rest.RegisterPlayer(obj, gameID);
     ConnectionResource connectionResource = JsonUtility.FromJson<ConnectionResource>(data);
     tokenClient = connectionResource.clientToken;
   }
@@ -237,7 +236,7 @@ public class ConnectionTester : MonoBehaviour {
     var obj = JsonUtility.ToJson(gameResource);
     Debug.Log(obj);
     Debug.Log(gameResource);
-    gameID = rest.NewGame(obj);
+    gameID = Rest.NewGame(obj);
     Debug.Log(gameID);
   }
 
@@ -245,7 +244,7 @@ public class ConnectionTester : MonoBehaviour {
     Debug.Log("###################### LOGIN HOST ############################");
     var obj = "{\"emailaddress\":\"default@host.com\",\"password\":\"test\"}";
     Debug.Log(obj);
-    string data = rest.Login(obj);
+    string data = Rest.Login(obj);
     Debug.Log(data);
     hostToken = data;
   }
