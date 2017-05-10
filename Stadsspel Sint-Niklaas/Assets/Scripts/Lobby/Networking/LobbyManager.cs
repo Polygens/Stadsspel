@@ -32,7 +32,7 @@ namespace Stadsspel.Networking
 
 
 		public void Start()
-		{ 
+		{
 			List<GameListResource> games = Rest.GetStagedGames();
 			UpdateRooms(games);
 		}

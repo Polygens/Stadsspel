@@ -138,14 +138,14 @@ public class Rest
 
 			//return the http status
 			return (int)((HttpWebResponse)response).StatusCode;
-			}
+		}
 		catch (WebException e)
 		{
 			serverResponse = "";
 			return (int)((HttpWebResponse)e.Response).StatusCode;
 		}
 	}
-	
+
 	private static void HandleReturnCode(int code)
 	{
 		int majorCode = (code / 100) % 10;
@@ -400,7 +400,7 @@ public class Rest
 
 internal class RestException : Exception
 {
-	public RestException(int code):base("ERROR CODE: "+code){}
+	public RestException(int code) : base("ERROR CODE: " + code) { }
 }
 
 [Serializable]
@@ -490,7 +490,7 @@ public class JsonArrayHelper
 		}
 		return list;
 	}
-	
+
 	public static string ListToJson<T>(List<T> list)
 	{
 		Wrapper<T> wrapper = new Wrapper<T>();

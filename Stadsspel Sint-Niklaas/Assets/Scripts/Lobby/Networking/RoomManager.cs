@@ -21,8 +21,10 @@ namespace Stadsspel.Networking
 		public const string RoomPasswordProp = "password";
 		public const string RoomGameDurationProp = "gameDuration";
 
-		public RectTransform LobbyPlayerList {
-			get {
+		public RectTransform LobbyPlayerList
+		{
+			get
+			{
 				return m_LobbyPlayerList;
 			}
 		}
@@ -32,7 +34,8 @@ namespace Stadsspel.Networking
 		/// </summary>
 		private void Start()
 		{
-			m_StartGameBtn.onClick.AddListener(() => {
+			m_StartGameBtn.onClick.AddListener(() =>
+			{
 				StartCoroutine(ServerCountdownCoroutine(m_CountdownDuration));
 			});
 		}
@@ -65,14 +68,17 @@ namespace Stadsspel.Networking
 			float remainingTime = time;
 			int floorTime = Mathf.FloorToInt(remainingTime);
 
-			while(floorTime > 0) {
+			while (floorTime > 0)
+			{
 				remainingTime -= Time.deltaTime;
 				int newFloorTime = Mathf.FloorToInt(remainingTime);
 
-				if(newFloorTime != floorTime) {//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
+				if (newFloorTime != floorTime)
+				{//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
 					floorTime = newFloorTime;
 
-					if(floorTime != 0) {
+					if (floorTime != 0)
+					{
 						photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime);
 					}
 				}
@@ -97,7 +103,8 @@ namespace Stadsspel.Networking
 			ht.Add(RoomPasswordProp, roomPassword);
 			ht.Add(RoomGameDurationProp, gameDuration);
 
-			RoomOptions roomOptions = new RoomOptions() {
+			RoomOptions roomOptions = new RoomOptions()
+			{
 				MaxPlayers = amountPlayers,
 				IsVisible = true,
 				CustomRoomPropertiesForLobby = lobbyOptions,
@@ -113,13 +120,16 @@ namespace Stadsspel.Networking
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
-			if(newState) {
-				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, new UnityAction(() => {
+			if (newState)
+			{
+				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, new UnityAction(() =>
+				{
 					EnableDisableMenu(false);
 					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 				}));
 			}
-			else {
+			else
+			{
 				PhotonNetwork.LeaveRoom();
 			}
 		}
@@ -130,6 +140,7 @@ namespace Stadsspel.Networking
 		public override void OnJoinedRoom()
 		{
 			base.OnJoinedRoom();
+
 			NetworkManager.Singleton.TopPanelManager.SetName(PhotonNetwork.room.Name);
 			PhotonNetwork.Instantiate(NetworkManager.Singleton.LobbyPlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
@@ -156,26 +167,31 @@ namespace Stadsspel.Networking
 		public void CheckIfReadyToStart()
 		{
 			int playersReady = 0;
-			foreach(Transform item in m_LobbyPlayerList) {
-				if(item.GetComponent<LobbyPlayer>().IsReady) {
+			foreach (Transform item in m_LobbyPlayerList)
+			{
+				if (item.GetComponent<LobbyPlayer>().IsReady)
+				{
 					++playersReady;
 				}
 			}
-			if(playersReady == PhotonNetwork.room.MaxPlayers) {
+			if (playersReady == PhotonNetwork.room.MaxPlayers)
+			{
 				m_StartGameBtn.gameObject.SetActive(true);
 			}
-			else {
+			else
+			{
 				m_StartGameBtn.gameObject.SetActive(false);
 			}
 
 
-#if(UNITY_EDITOR)
+#if (UNITY_EDITOR)
 			m_StartGameBtn.gameObject.SetActive(true);
 			m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
 #endif
 
-#if(UNITY_STANDALONE)
-			if(Debug.isDebugBuild) {
+#if (UNITY_STANDALONE)
+			if (Debug.isDebugBuild)
+			{
 				m_StartGameBtn.gameObject.SetActive(true);
 				m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
 			}
