@@ -14,6 +14,7 @@ namespace Stadsspel
 		private Text m_PasswordTxt;
 
 		private string m_Password;
+		private string ID;
 
 		/// <summary>
 		/// Initialises the room UI elements with the passed parameters.
@@ -23,7 +24,23 @@ namespace Stadsspel
 			m_RoomNameTxt.text = roomName;
 			m_RoomSlotsTxt.text = amountPlayers + "/" + maxPlayers;
 			m_Password = password;
-			if(m_Password != "") {
+			if (m_Password != "")
+			{
+				m_PasswordTxt.gameObject.SetActive(true);
+			}
+		}
+
+		/// <summary>
+		/// Initialises the room UI elements with the passed parameters.
+		/// </summary>
+		public void InitializeRoom(string roomName, string ID)
+		{
+			this.ID = ID;
+			m_RoomNameTxt.text = roomName;
+			m_RoomSlotsTxt.text = "0/0";
+			m_Password = "pow";
+			if (m_Password != "")
+			{
 				m_PasswordTxt.gameObject.SetActive(true);
 			}
 		}
@@ -33,15 +50,7 @@ namespace Stadsspel
 		/// </summary>
 		public void ClickJoinRoom()
 		{
-			if(m_Password == "") {
-				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
-				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
-				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
-				PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
-			}
-			else {
-				NetworkManager.Singleton.PasswordLoginManager.EnableDisableMenu(true, this);
-			}
+			NetworkManager.Singleton.PasswordLoginManager.EnableDisableMenu(true, this);
 		}
 
 		/// <summary>
@@ -49,14 +58,20 @@ namespace Stadsspel
 		/// </summary>
 		public bool JoinProtectedRoom(string password)
 		{
-			if(m_Password == password) {
+			//todo allow player name change
+			try
+			{
+				ConnectionResource resource = Rest.RegisterPlayer(SystemInfo.deviceUniqueIdentifier, "PLAYERNAME", password, ID);
+				//todo store clientToken somewhere
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
 				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
 				PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
 				return true;
 			}
-			else {
+			catch (RestException e)
+			{
+				Debug.Log(e.Message);
 				return false;
 			}
 		}

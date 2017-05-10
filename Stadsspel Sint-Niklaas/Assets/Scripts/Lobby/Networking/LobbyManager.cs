@@ -121,7 +121,7 @@ namespace Stadsspel.Networking
 
 				//string password = rooms[i].CustomProperties[RoomManager.RoomPasswordProp] as string;
 				//todo expand gameListResource to have more data?
-				room.GetComponent<Room>().InitializeRoom(resource.name, 0, 16, "");
+				room.GetComponent<Room>().InitializeRoom(resource.name, resource.id);
 			}
 		}
 	}

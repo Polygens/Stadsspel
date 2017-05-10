@@ -8,6 +8,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
+using NUnit.Framework.Constraints;
 
 public class Rest
 {
@@ -72,16 +73,20 @@ public class Rest
 		dataStream.Write(byteArray, 0, byteArray.Length);
 		// Close the Stream object.  
 		dataStream.Close();
-		// Get the response.  
+		// Get the response.
+		Debug.Log("1");
 		WebResponse response = request.GetResponse();
+		Debug.Log("2");
 		// Get the stream containing content returned by the server.  
 		dataStream = response.GetResponseStream();
 		// Open the stream using a StreamReader for easy access.  
 		StreamReader reader = new StreamReader(dataStream);
+		Debug.Log("3");
 		// Read the content.  
 		string responseFromServer = reader.ReadToEnd();
 		// Display the content.
 		serverResponse = responseFromServer;
+		Debug.Log("4");
 		// Clean up the streams.  
 		reader.Close();
 		dataStream.Close();
@@ -115,24 +120,32 @@ public class Rest
 		// Close the Stream object.  
 		dataStream.Close();
 		// Get the response.  
-		WebResponse response = request.GetResponse();
-		// Get the stream containing content returned by the server.  
-		dataStream = response.GetResponseStream();
-		// Open the stream using a StreamReader for easy access.  
-		StreamReader reader = new StreamReader(dataStream);
-		// Read the content.  
-		string responseFromServer = reader.ReadToEnd();
-		// Display the content.
-		serverResponse = responseFromServer;
-		// Clean up the streams.  
-		reader.Close();
-		dataStream.Close();
-		response.Close();
+		try
+		{
+			WebResponse response = request.GetResponse();
+			// Get the stream containing content returned by the server.  
+			dataStream = response.GetResponseStream();
+			// Open the stream using a StreamReader for easy access.  
+			StreamReader reader = new StreamReader(dataStream);
+			// Read the content.  
+			string responseFromServer = reader.ReadToEnd();
+			// Display the content.
+			serverResponse = responseFromServer;
+			// Clean up the streams.  
+			reader.Close();
+			dataStream.Close();
+			response.Close();
 
-		//return the http status
-		return (int)((HttpWebResponse)response).StatusCode;
+			//return the http status
+			return (int)((HttpWebResponse)response).StatusCode;
+			}
+		catch (WebException e)
+		{
+			serverResponse = "";
+			return (int)((HttpWebResponse)e.Response).StatusCode;
+		}
 	}
-
+	
 	private static void HandleReturnCode(int code)
 	{
 		int majorCode = (code / 100) % 10;
@@ -140,14 +153,17 @@ public class Rest
 		{
 			if (majorCode == 4)
 			{
+				throw new RestException(code);
 				//error in request parameters or body
 			}
 			else if (majorCode == 5)
 			{
+				throw new RestException(code);
 				//server error
 			}
 			else
 			{
+				throw new RestException(code);
 				//unknown other return
 			}
 		}
@@ -271,13 +287,20 @@ public class Rest
 		return response;
 	}
 
-	public static string RegisterPlayer(string data, string gameId)
+	public static ConnectionResource RegisterPlayer(string clientId, string name, string password, string gameId)
 	{
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/register";
-		int code = Post(urlSuffix, data, out response);
+		RegisterUserResource rur = new RegisterUserResource
+		{
+			name = name,
+			clientID = clientId,
+			password = password
+		};
+		int code = Post(urlSuffix, JsonUtility.ToJson(rur), out response);
 		HandleReturnCode(code);
-		return response;
+		ConnectionResource cr = JsonUtility.FromJson<ConnectionResource>(response);
+		return cr;
 	}
 
 	public static string UnregisterPlayer(string clientId, string gameId)
@@ -373,6 +396,11 @@ public class Rest
 		return response;
 	}
 
+}
+
+internal class RestException : Exception
+{
+	public RestException(int code):base("ERROR CODE: "+code){}
 }
 
 [Serializable]
