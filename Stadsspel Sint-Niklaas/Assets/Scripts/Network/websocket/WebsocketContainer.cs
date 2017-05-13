@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using Stadsspel.Networking;
@@ -16,12 +18,22 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	private bool stopThread = true;
 	private readonly Queue<string> messageBuffer;
 	private string gameID, clientID;
+	private ConcurrentQueue<MessageWrapper> _inbox;
 
-
+	private void Update()
+	{
+		while (!_inbox.IsEmpty)
+		{
+			MessageWrapper messageWrapper;
+			while (!_inbox.TryDequeue(out messageWrapper)) ;
+			HandleMessage(messageWrapper);
+		}
+	}
 
 
 	protected WebsocketContainer()
 	{
+		_inbox = new ConcurrentQueue<MessageWrapper>();
 		//private constructor for singleton
 		messageBuffer = new Queue<string>();
 	}
@@ -31,9 +43,10 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		if (ws == null)
 		{
 			ws = new WebSocket(new Uri(url));
-			this.clientID = clientID;
-			this.gameID = gameID;
 		}
+		this.clientID = clientID;
+		this.gameID = gameID;
+		_inbox = new ConcurrentQueue<MessageWrapper>();
 
 		yield return StartCoroutine(ws.Connect());
 		listeningThread = new Thread(ListeningRun);
@@ -44,7 +57,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 
 	public void SendHearthbeat()
 	{
-		Send(GameMessageType.HEARTBEAT,"");
+		Send(GameMessageType.HEARTBEAT, "");
 	}
 
 	private void ListeningRun()
@@ -57,7 +70,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 			{
 				Debug.Log("Received: " + reply);
 				MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
-				HandleMessage(mw);
+				_inbox.Enqueue(mw);
 			}
 			if (ws.error != null)
 			{
@@ -70,7 +83,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	private void HandleMessage(MessageWrapper message)
 	{
 		//todo move this line somewhere else
-		NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
+		NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
 		switch (message.getMessageType())
 		{
 			case GameMessageType.BULK_LOCATION:
@@ -141,12 +154,16 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 
 	public void Send(GameMessageType type, string innerMessage)
 	{
-		string message = JsonUtility.ToJson(new MessageWrapper(type, innerMessage, gameID, clientID));
+		string message = JsonUtility.ToJson(new MessageWrapper(type, innerMessage, gameID, clientId: clientID, token: CurrentGame.Instance.ClientToken));
 		messageBuffer.Enqueue(message);
 		Send();
 	}
 
-
+	public new void OnDestroy()
+	{
+		base.OnDestroy();
+		stopThread = true;
+	}
 
 
 	protected abstract void HandleGameStart(MessageWrapper message);
