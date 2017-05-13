@@ -3,7 +3,12 @@ using System.Collections;
 
 public class WebsocketImpl : WebsocketContainer
 {
-	
+
+	void Awake()
+	{
+		DontDestroyOnLoad(transform.gameObject);
+	}
+
 	protected override void HandleGameStart(MessageWrapper message)
 	{
 		throw new System.NotImplementedException();

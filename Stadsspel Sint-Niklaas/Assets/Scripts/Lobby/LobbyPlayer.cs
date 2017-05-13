@@ -2,10 +2,12 @@ using ExitGames.Client.Photon;
 using Photon;
 using UnityEngine;
 using UnityEngine.UI;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
 	public class LobbyPlayer : PunBehaviour
+	//public class LobbyPlayer : MonoBehaviour
 	{
 		[SerializeField]
 		private Button m_TeamBtn;

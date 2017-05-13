@@ -62,16 +62,17 @@ namespace Stadsspel
 			try
 			{
 				ConnectionResource resource = Rest.RegisterPlayer(SystemInfo.deviceUniqueIdentifier, "PLAYERNAME", password, ID);
-				CurrentGame.GetInstance().ClientToken = resource.clientToken;
-				CurrentGame.GetInstance().GameId = ID;
-				CurrentGame.GetInstance().PasswordUsed = password;
-				StartCoroutine(CurrentGame.GetInstance().Ws.Connect("ws://localhost:8090", ID, SystemInfo.deviceUniqueIdentifier));//todo switch to heroku server
+				CurrentGame.Instance.ClientToken = resource.clientToken;
+				CurrentGame.Instance.GameId = ID;
+				CurrentGame.Instance.PasswordUsed = password;
+				CurrentGame.Instance.Connect();
+				//StartCoroutine(CurrentGame.GetInstance().Ws.Connect("ws://localhost:8090/user", ID, SystemInfo.deviceUniqueIdentifier));//todo switch to heroku server
 
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
 				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
 
-				PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
+				//PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
 				return true;
 			}
 			catch (RestException e)

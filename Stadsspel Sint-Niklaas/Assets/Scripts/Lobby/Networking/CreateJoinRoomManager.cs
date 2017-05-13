@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Stadsspel.Networking
@@ -16,6 +17,14 @@ namespace Stadsspel.Networking
 		[SerializeField]
 		private Text m_AmountOfPlayersTxt;
 
+
+		public void Awake()
+		{
+			GameObject network = new GameObject("Network");
+			network.AddComponent(typeof(WebsocketImpl));
+			network.AddComponent(typeof(CurrentGame));
+			DontDestroyOnLoad(network);
+		}
 		/// <summary>
 		/// Generic function for handling switching between the different menus.
 		/// </summary>

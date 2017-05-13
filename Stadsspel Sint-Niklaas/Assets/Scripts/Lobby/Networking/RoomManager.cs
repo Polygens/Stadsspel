@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
-	public class RoomManager : PunBehaviour
+	//public class RoomManager : PunBehaviour
+	public class RoomManager : MonoBehaviour
 	{
 		[SerializeField]
 		private RectTransform m_LobbyPlayerList;
@@ -63,7 +65,7 @@ namespace Stadsspel.Networking
 		/// </summary>
 		public IEnumerator ServerCountdownCoroutine(int time)
 		{
-			photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, true);
+			//photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, true); todo find out what this does
 
 			float remainingTime = time;
 			int floorTime = Mathf.FloorToInt(remainingTime);
@@ -79,7 +81,7 @@ namespace Stadsspel.Networking
 
 					if (floorTime != 0)
 					{
-						photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime);
+						//photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime); todo find out what this does
 					}
 				}
 				yield return null;
@@ -130,25 +132,28 @@ namespace Stadsspel.Networking
 			}
 			else
 			{
-				PhotonNetwork.LeaveRoom();
+				//PhotonNetwork.LeaveRoom(); todo DELETE
 			}
 		}
 
 		/// <summary>
 		/// [PunBehaviour] Gets called when a player joins the room.
 		/// </summary>
+		/* todo replace with something equivalent (new message type?)
 		public override void OnJoinedRoom()
 		{
 			base.OnJoinedRoom();
 
 			NetworkManager.Singleton.TopPanelManager.SetName(PhotonNetwork.room.Name);
-			PhotonNetwork.Instantiate(NetworkManager.Singleton.LobbyPlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
+			//PhotonNetwork.Instantiate(NetworkManager.Singleton.LobbyPlayerPrefabName, Vector3.zero, Quaternion.identity, 0); todo DELETE
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
 		}
+		*/
 
 		/// <summary>
 		/// [PunBehaviour] Gets called when a player leaves the room. [PunBehaviour]
 		/// </summary>
+		/* todo replace with something equivalent (new message type?)
 		public override void OnLeftRoom()
 		{
 			base.OnLeftRoom();
@@ -156,6 +161,7 @@ namespace Stadsspel.Networking
 			EnableDisableMenu(false);
 			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 		}
+		*/
 
 		/// <summary>
 		/// Iterates trough every player in the room and checks if every player has pressed check. If everyone is ready the start button gets shown.

@@ -13,7 +13,6 @@ public class ConnectingManager : MonoBehaviour
 	private void Start()
 	{
 		m_CancelConnectingBtn.onClick.AddListener(() => {
-
 			PhotonNetwork.LeaveLobby();
 			PhotonNetwork.JoinLobby(TypedLobby.Default);
 			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Photon;
 using UnityEngine;
 using UnityEngine.Events;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
 	//todo allow manual refresh / auto refresh every 5 seconds
-	public class LobbyManager : PunBehaviour
+	//public class LobbyManager : PunBehaviour
+	public class LobbyManager : MonoBehaviour
 	{
 		[SerializeField]
 		RectTransform m_RoomList;
@@ -52,13 +54,14 @@ namespace Stadsspel.Networking
 		/// <summary>
 		/// [PunBehaviour] Gets called when the room list has changed.
 		/// </summary>
+		/* todo replace with something simmilar
 		public override void OnReceivedRoomListUpdate()
 		{
-			/* todo actually delete
 			base.OnReceivedRoomListUpdate();
 			UpdateRooms();
-			*/
+			
 		}
+	*/
 
 		/*todo ectually delete
 		/// <summary>
