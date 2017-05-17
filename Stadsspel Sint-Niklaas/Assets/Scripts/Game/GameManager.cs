@@ -33,36 +33,47 @@ public class GameManager : PunBehaviour
 
 	private bool isGameOver = false;
 
-	public Player Player {
-		get {
+	public Player Player
+	{
+		get
+		{
 			return m_Player;
 		}
-		set {
-			if(m_Player == null) {
+		set
+		{
+			if (m_Player == null)
+			{
 				m_Player = value;
 			}
 		}
 	}
 
-	public Team[] Teams {
-		get {
+	public Team[] Teams
+	{
+		get
+		{
 			return m_Teams;
 		}
 	}
 
-	public DistrictManager DistrictManager {
-		get {
+	public DistrictManager DistrictManager
+	{
+		get
+		{
 			return m_DistrictManager;
 		}
 	}
 
-	public LocationManager LocationManager {
-		get {
+	public LocationManager LocationManager
+	{
+		get
+		{
 			return m_LocationManager;
 		}
 	}
 
-	public float GameLength {
+	public float GameLength
+	{
 		get { return m_GameLength; }
 	}
 
@@ -71,20 +82,23 @@ public class GameManager : PunBehaviour
 	/// </summary>
 	private void Start()
 	{
-		if(s_Singleton != null) {
+		if (s_Singleton != null)
+		{
 			Destroy(this);
 			return;
 		}
 		s_Singleton = this;
 
-		m_AmountOfTeams = TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);
+		//m_AmountOfTeams = TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);todo fix
+		m_AmountOfTeams = TeamData.GetMaxTeams(12);
 		MasterClientStart();
 
 		m_Treasures = new List<Treasure>();
 		m_NextMoneyUpdateTime = m_MoneyUpdateTimeInterval;
 
-		m_GameLength = (int)PhotonNetwork.room.CustomProperties[RoomManager.RoomGameDurationProp];
-#if(UNITY_EDITOR)
+		//m_GameLength = (int)PhotonNetwork.room.CustomProperties[RoomManager.RoomGameDurationProp]; todo fix
+		m_GameLength = 60;
+#if (UNITY_EDITOR)
 		Debug.Log("Game will take: " + m_GameLength + "seconds");
 #endif
 	}
@@ -94,15 +108,19 @@ public class GameManager : PunBehaviour
 	/// </summary>
 	private void Update()
 	{
-		if(Time.timeSinceLevelLoad > m_GameLength && isGameOver == false) {
+		if (Time.timeSinceLevelLoad > m_GameLength && isGameOver == false)
+		{
 			isGameOver = true;
 			InGameUIManager.s_Singleton.FinalScoreUI.gameObject.SetActive(true);
 		}
-		if(Time.timeSinceLevelLoad > m_NextMoneyUpdateTime && !isGameOver) {
-			if(PhotonNetwork.isMasterClient) {
+		if (Time.timeSinceLevelLoad > m_NextMoneyUpdateTime && !isGameOver)
+		{
+			if (PhotonNetwork.isMasterClient)
+			{
 				// Call GainMoneyOverTime() from each financial object
 
-				for(int i = 0; i < m_Treasures.Count; i++) {
+				for (int i = 0; i < m_Treasures.Count; i++)
+				{
 					m_Treasures[i].photonView.RPC("RetrieveTaxes", PhotonTargets.All);
 				}
 
@@ -116,18 +134,17 @@ public class GameManager : PunBehaviour
 	/// </summary>
 	private void MasterClientStart()
 	{
-		/*
-		if(PhotonNetwork.player.IsMasterClient) {
-#if(UNITY_EDITOR)
-			Debug.Log("Master client started");
+#if (UNITY_EDITOR)
+		Debug.Log("Master client started");
 #endif
-			for(int i = 0; i < m_AmountOfTeams; i++) {
-				PhotonNetwork.InstantiateSceneObject(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0, null);
-			}
-
-			//photonView.RPC("ClientsStart", PhotonTargets.All);
+		for (int i = 0; i < m_AmountOfTeams; i++)
+		{
+			//PhotonNetwork.InstantiateSceneObject(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0, null);
+			Instantiate(Resources.Load(m_TeamPrefabName), Vector3.zero, Quaternion.identity);
 		}
-		*/
+
+		//photonView.RPC("ClientsStart", PhotonTargets.All);
+		ClientsStart();
 	}
 
 	/// <summary>
@@ -136,13 +153,14 @@ public class GameManager : PunBehaviour
 	[PunRPC]
 	private void ClientsStart()
 	{
-#if(UNITY_EDITOR)
+#if (UNITY_EDITOR)
 		Debug.Log("Clients start");
 #endif
 		m_DistrictManager.StartGame(m_AmountOfTeams);
 
 		m_Teams = new Team[m_AmountOfTeams];
-		for(int i = 0; i < m_AmountOfTeams; i++) {
+		for (int i = 0; i < m_AmountOfTeams; i++)
+		{
 			m_Teams[i] = transform.GetChild(i).gameObject.GetComponent<Team>();
 		}
 
@@ -166,8 +184,10 @@ public class GameManager : PunBehaviour
 	/// </summary>
 	public Treasure GetTreasureFrom(TeamID id)
 	{
-		for(int i = 0; i < m_Treasures.Count; i++) {
-			if(m_Treasures[i].Team == id) {
+		for (int i = 0; i < m_Treasures.Count; i++)
+		{
+			if (m_Treasures[i].Team == id)
+			{
 				return m_Treasures[i];
 			}
 		}
