@@ -29,14 +29,18 @@ namespace Stadsspel.Networking
 					EnableDisableMenu(false);
 					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 				}));
+				List<GameListResource> games = Rest.GetStagedGames();
+				UpdateRooms(games);
 			}
 		}
 
 
 		public void Start()
 		{
+			/*
 			List<GameListResource> games = Rest.GetStagedGames();
 			UpdateRooms(games);
+			*/
 		}
 
 		/// <summary>

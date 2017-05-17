@@ -66,14 +66,15 @@ namespace Stadsspel.Networking
 		public IEnumerator ServerCountdownCoroutine(int time)
 		{
 			//photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, true); todo find out what this does
+			StartCountDown(true);
 
 			float remainingTime = time;
-			int floorTime = Mathf.FloorToInt(remainingTime);
+			byte floorTime =(byte) Mathf.FloorToInt(remainingTime);
 
 			while (floorTime > 0)
 			{
 				remainingTime -= Time.deltaTime;
-				int newFloorTime = Mathf.FloorToInt(remainingTime);
+				byte newFloorTime = (byte) Mathf.FloorToInt(remainingTime);
 
 				if (newFloorTime != floorTime)
 				{//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
@@ -82,11 +83,12 @@ namespace Stadsspel.Networking
 					if (floorTime != 0)
 					{
 						//photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime); todo find out what this does
+						UpdateCountDown(floorTime);
 					}
 				}
 				yield return null;
 			}
-			PhotonNetwork.room.IsVisible = false;
+			//PhotonNetwork.room.IsVisible = false;
 			SceneManager.LoadScene("Game");
 		}
 

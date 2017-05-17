@@ -20,7 +20,7 @@ namespace Stadsspel.Districts
 			base.Awake();
 			Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
 			rigidbody.isKinematic = true;
-			m_PlayersOnPoint = new byte[TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers)];
+			//m_PlayersOnPoint = new byte[TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers)]; todo replace
 		}
 
 		/// <summary>

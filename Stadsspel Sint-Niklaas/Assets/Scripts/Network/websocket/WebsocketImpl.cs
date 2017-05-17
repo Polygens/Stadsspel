@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Stadsspel.Networking;
 
 public class WebsocketImpl : WebsocketContainer
 {
@@ -11,7 +12,8 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleGameStart(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
+		Debug.Log("GAME STARTED");
 	}
 
 	protected override void HandleEvent(MessageWrapper message)

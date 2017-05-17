@@ -116,6 +116,7 @@ public class GameManager : PunBehaviour
 	/// </summary>
 	private void MasterClientStart()
 	{
+		/*
 		if(PhotonNetwork.player.IsMasterClient) {
 #if(UNITY_EDITOR)
 			Debug.Log("Master client started");
@@ -124,8 +125,9 @@ public class GameManager : PunBehaviour
 				PhotonNetwork.InstantiateSceneObject(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0, null);
 			}
 
-			photonView.RPC("ClientsStart", PhotonTargets.All);
+			//photonView.RPC("ClientsStart", PhotonTargets.All);
 		}
+		*/
 	}
 
 	/// <summary>
@@ -144,7 +146,8 @@ public class GameManager : PunBehaviour
 			m_Teams[i] = transform.GetChild(i).gameObject.GetComponent<Team>();
 		}
 
-		GameObject temp = PhotonNetwork.Instantiate(m_PlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
+		//GameObject temp = PhotonNetwork.Instantiate(m_PlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
+		GameObject temp = (GameObject)Instantiate(Resources.Load(m_PlayerPrefabName), Vector3.zero, Quaternion.identity);
 		m_DistrictManager.SetPlayerTransform(temp.transform);
 		temp.transform.position += new Vector3(0, 0, -10);
 	}
