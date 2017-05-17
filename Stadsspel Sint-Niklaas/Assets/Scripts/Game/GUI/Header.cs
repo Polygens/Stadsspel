@@ -1,4 +1,5 @@
 using System;
+using Stadsspel.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,6 +37,7 @@ public class Header : MonoBehaviour
 		m_UpdateTimer += Time.deltaTime;
 		if(m_UpdateTimer > m_UpdateTime) {
 			m_UpdateTimer = 0;
+			Player p = GameManager.s_Singleton.Player;
 			if(GameManager.s_Singleton.Player.Person) {
 
 				// Header Update 
