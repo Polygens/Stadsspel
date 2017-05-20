@@ -17,24 +17,31 @@ namespace Stadsspel.Elements
 
 		private Districts.DistrictManager districtManager;
 
-        public float colliderRadius = 23f;
+		public float colliderRadius = 23f;
+
+		[SerializeField]
+		private ServerPlayer Player { get; set; }
 
 		/// <summary>
 		/// Initialises the class before Start.
 		/// </summary>
 		private void Awake()
 		{
-			m_Team = Stadsspel.Networking.TeamExtensions.GetTeam(photonView.owner);
-			if(PhotonNetwork.player == photonView.owner) {
+			if (CurrentGame.Instance.LocalPlayer.clientID.Equals(Player.clientID))
+			{
 				gameObject.AddComponent<Player>();
 				transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
-			}
-			else if(m_Team == Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player)) {
+				m_Team = CurrentGame.Instance.PlayerTeam;
+			} else if (CurrentGame.Instance.PlayerTeam.ContainsPlayer(Player.clientID))
+			{
 				gameObject.AddComponent<Friend>();
-			}
-			else {
+				m_Team = CurrentGame.Instance.PlayerTeam;
+			} else
+			{
 				gameObject.AddComponent<Enemy>();
+				m_Team = CurrentGame.Instance.gameDetail.findTeamByPlayer(Player.clientID);
 			}
+
 			districtManager = GameObject.FindWithTag("Districts").GetComponent<Districts.DistrictManager>();
 		}
 
@@ -43,30 +50,38 @@ namespace Stadsspel.Elements
 		/// </summary>
 		protected new void Start()
 		{
-			GetComponent<MeshRenderer>().material.color = TeamData.GetColor(m_Team);
-			transform.SetParent(GameManager.s_Singleton.Teams[(byte)m_Team - 1].transform, false);
-			transform.GetChild(0).GetComponent<TextMesh>().text = photonView.owner.NickName;
+			Color color = new Color();
+			ColorUtility.TryParseHtmlString(m_Team.CustomColor, out color);
+			GetComponent<MeshRenderer>().material.color = color;
+
+			transform.SetParent(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(m_Team)].transform, false);
+			transform.GetChild(0).GetComponent<TextMesh>().text = Player.Name;
 			ActionRadius = colliderRadius;
 
 			//instantiate list with 3 numbers for each list.
 
-			for(int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++)
+			{
 				m_LegalItems.Add(0);
 				m_IllegalItems.Add(0);
 			}
-        }
+		}
 
 		/// <summary>
 		/// Robs every player in the player radius.
 		/// </summary>
 		public void Rob()
 		{
-			foreach(GameObject enemy in GameManager.s_Singleton.Player.EnemiesInRadius) {
+			/*
+			foreach (GameObject enemy in GameManager.s_Singleton.Player.EnemiesInRadius)
+			{
 				int enemyMoney = enemy.GetComponent<Person>().AmountOfMoney;
 				AddGoods(enemyMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems, (int)enemy.GetComponent<Person>().Team);
 				enemy.GetComponent<Person>().GetComponent<PhotonView>().RPC("GetRobbed", PhotonTargets.All, (int)enemy.GetComponent<Person>().Team);
-
+				
 			}
+		*/
+		//todo send tag event
 		}
 
 		/// <summary>
@@ -75,7 +90,8 @@ namespace Stadsspel.Elements
 		[PunRPC]
 		public void ResetLegalItems()
 		{
-			for(int i = 0; i < m_LegalItems.Count; i++) {
+			for (int i = 0; i < m_LegalItems.Count; i++)
+			{
 				m_LegalItems[i] = 0;
 			}
 		}
@@ -86,34 +102,38 @@ namespace Stadsspel.Elements
 		[PunRPC]
 		public void ResetIllegalItems()
 		{
-			for(int i = 0; i < m_IllegalItems.Count; i++) {
+			for (int i = 0; i < m_IllegalItems.Count; i++)
+			{
 				m_IllegalItems[i] = 0;
 			}
 		}
 
 		/// <summary>
 		/// [PunRPC] TODO
+		/// todo g: server
 		/// </summary>
 		[PunRPC]
 		public void GetRobbed(int teamId)
 		{
+			/*
 			GameManager.s_Singleton.Teams[teamId - 1].AddOrRemoveMoney(-m_AmountOfMoney);
 			m_AmountOfMoney = 0;
 
-            if (districtManager.CurrentDistrict.GetComponent<Districts.District>() != null)
-            {
-                Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
-                if (currentDistrict.DistrictType == Districts.DistrictType.square || currentDistrict.DistrictType == Districts.DistrictType.CapturableDistrict || currentDistrict.DistrictType == Districts.DistrictType.HeadDistrict)
-                {
-                    if ((int)currentDistrict.Team != teamId && currentDistrict.Team != TeamID.NoTeam && currentDistrict.Team != TeamID.NotSet)
-                    {
-                        ResetLegalItems();
-                    }
-                }
-            }
-                
+			if (districtManager.CurrentDistrict.GetComponent<Districts.District>() != null)
+			{
+				Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
+				if (currentDistrict.DistrictType == Districts.DistrictType.square || currentDistrict.DistrictType == Districts.DistrictType.CapturableDistrict || currentDistrict.DistrictType == Districts.DistrictType.HeadDistrict)
+				{
+					if ((int)currentDistrict.Team != teamId && currentDistrict.Team != null && currentDistrict.Team != TeamID.NotSet)
+					{
+						ResetLegalItems();
+					}
+				}
+			}
+
 			ResetIllegalItems();
 			gameObject.GetComponent<RobStatus>().RecentlyGotRobbed = true;
+			*/
 		}
 
 
@@ -145,16 +165,17 @@ namespace Stadsspel.Elements
 		}
 
 
-        /// <summary>
-        /// [PunRPC] Performs a money transaction from outside the team to the player.
-        /// </summary>
-        [PunRPC]
+		/// <summary>
+		/// [PunRPC] Performs a money transaction from outside the team to the player.
+		/// </summary>
+		[PunRPC]
 		public void MoneyTransaction(int money)
 		{
+			/* todo what is this?
 			m_AmountOfMoney += money;
 			//photonView.RPC("UpdateTeamMoneyFromServer", PhotonTargets.MasterClient, money, (int)m_Team);
 			GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(money);
-
+			*/
 		}
 
 		/// <summary>
@@ -162,20 +183,23 @@ namespace Stadsspel.Elements
 		/// </summary>
 		public void TreasureTransaction(int amount, bool isEnemyTreasure)
 		{
+			//todo this is rob an enemy treasure as well as your own --> mux different events
+			/*
 			TeamID id = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Districts.Treasure>().Team;
 
 			//GameManager.s_Singleton.GetTreasureFrom(id).EmptyChest(amount);
 			GameManager.s_Singleton.GetTreasureFrom(id).GetComponent<PhotonView>().RPC("ReduceChestMoney", PhotonTargets.All, amount);
 			GameManager.s_Singleton.Player.Person.photonView.RPC("TransactionMoney", PhotonTargets.AllViaServer, amount);
 
-			if(isEnemyTreasure)
-            {
+			if (isEnemyTreasure)
+			{
 				GameManager.s_Singleton.Teams[(int)m_Team - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, amount);
 				GameManager.s_Singleton.Teams[(int)id - 1].GetComponent<PhotonView>().RPC("AddOrRemoveMoney", PhotonTargets.All, -amount);
 
 				//GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(amount);
 				//GameManager.s_Singleton.Teams[(int)id - 1].AddOrRemoveMoney(-amount);
 			}
+			*/
 
 		}
 
@@ -184,28 +208,31 @@ namespace Stadsspel.Elements
 		/// </summary>
 		public void AddGoods(int money, List<int> legalItems, List<int> illegalItems, int enemyTeamId)// Used when stealing from someone
 		{
+			/* todo this should be handled by the server
 			photonView.RPC("MoneyTransaction", PhotonTargets.All, money);
 
-            GameManager.s_Singleton.DistrictManager.CheckDisctrictState();
-			
-            if(districtManager.CurrentDistrict.GetComponent<Districts.District>() != null)
-            {
-                Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
-                if (currentDistrict.DistrictType == Districts.DistrictType.square || currentDistrict.DistrictType == Districts.DistrictType.CapturableDistrict || currentDistrict.DistrictType == Districts.DistrictType.HeadDistrict)
-                {
-                    if ((int)currentDistrict.Team != enemyTeamId && currentDistrict.Team != TeamID.NoTeam && currentDistrict.Team != TeamID.NotSet)
-                    {
-                        for (int i = 0; i < legalItems.Count; i++)
-                        {
-                            photonView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
-                        }
-                    }
-                }
-            }
-			
-			for(int i = 0; i < illegalItems.Count; i++) {
+			GameManager.s_Singleton.DistrictManager.CheckDisctrictState();
+
+			if (districtManager.CurrentDistrict.GetComponent<Districts.District>() != null)
+			{
+				Districts.District currentDistrict = districtManager.CurrentDistrict.GetComponent<Districts.District>();
+				if (currentDistrict.DistrictType == Districts.DistrictType.square || currentDistrict.DistrictType == Districts.DistrictType.CapturableDistrict || currentDistrict.DistrictType == Districts.DistrictType.HeadDistrict)
+				{
+					if ((int)currentDistrict.Team != enemyTeamId && currentDistrict.Team != TeamID.NoTeam && currentDistrict.Team != TeamID.NotSet)
+					{
+						for (int i = 0; i < legalItems.Count; i++)
+						{
+							photonView.RPC("AddLegalItem", PhotonTargets.All, i, legalItems[i]);
+						}
+					}
+				}
+			}
+
+			for (int i = 0; i < illegalItems.Count; i++)
+			{
 				photonView.RPC("AddIllegalItem", PhotonTargets.All, i, illegalItems[i]);
 			}
+			*/
 
 		}
 

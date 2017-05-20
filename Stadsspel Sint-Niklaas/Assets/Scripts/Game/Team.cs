@@ -1,11 +1,12 @@
 using Photon;
 using Stadsspel.Elements;
 using UnityEngine;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
-public class Team : PunBehaviour
+public class Team : MonoBehaviour
 {
 	[SerializeField]
-	private TeamID m_TeamID;
+	private ServerTeam m_TeamID;
 
 	[SerializeField]
 	private int m_TotalMoney = 0;
@@ -14,7 +15,7 @@ public class Team : PunBehaviour
 
 	private BankAccount m_BankAccount;
 
-	public TeamID TeamID {
+	public ServerTeam TeamID {
 		get {
 			return m_TeamID;
 		}
@@ -48,7 +49,7 @@ public class Team : PunBehaviour
 	private void Awake()
 	{
 		transform.SetParent(GameManager.s_Singleton.transform);
-		m_TeamID = (TeamID)(transform.GetSiblingIndex() + 1);
+		m_TeamID = CurrentGame.Instance.gameDetail.GetTeamByIndex(transform.GetSiblingIndex());
 		name = TeamID.ToString();
 	}
 

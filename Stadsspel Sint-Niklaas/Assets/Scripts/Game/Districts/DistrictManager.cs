@@ -55,23 +55,23 @@ namespace Stadsspel.Districts
 			for(int i = 1; i <= 6; i++) {
 				if(amountOfTeams >= i) {
 					HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
-					district.Team = (TeamID)(i);
+					district.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(i);
 					district.enabled = true;
 					m_HeadDistricts.Add(district);
 					Destroy(district.GetComponent<CapturableDistrict>());
 					Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
-					square.Team = (TeamID)(i);
+					square.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(i);
 					square.enabled = true;
 					Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
 
 				}
 				else {
 					CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
-					district.Team = TeamID.NoTeam;
+					district.Team = null;
 					district.enabled = true;
 					Destroy(district.GetComponent<HeadDistrict>());
 					CapturePoint square = district.transform.GetChild(0).gameObject.GetComponent<CapturePoint>();
-					square.Team = TeamID.NoTeam;
+					square.Team = null;
 					square.enabled = true;
 					Destroy(district.transform.GetChild(0).GetComponent<Treasure>());
 				}

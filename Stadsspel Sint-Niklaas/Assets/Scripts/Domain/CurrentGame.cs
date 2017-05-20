@@ -17,6 +17,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public string PasswordUsed { get; set; }
 	public Game gameDetail { get; set; }
 	public LocalPlayer LocalPlayer { get; set; }
+	public ServerTeam PlayerTeam { get; set; }
 
 	[Serializable]
 	public class Game
@@ -30,6 +31,47 @@ public class CurrentGame : Singleton<CurrentGame>
 		private List<ServerTeam> teams;
 		private int maxPlayersPerTeam;
 		private int maxTeams;
+
+		/// <summary>
+		/// Searches for the team a specific client belongs to.
+		/// Returns null if no team contains the given id.
+		/// </summary>
+		/// <param name="clientId"></param>
+		/// <returns></returns>
+		public ServerTeam findTeamByPlayer(string clientId)
+		{
+			foreach (ServerTeam serverTeam in teams)
+			{
+				if (serverTeam.ContainsPlayer(clientId))
+				{
+					return serverTeam;
+				}
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Searches for the index of a specific team.
+		/// Returns -1 if the requested team is not found.
+		/// </summary>
+		/// <param name="team"></param>
+		/// <returns></returns>
+		public int IndexOfTeam(ServerTeam team)
+		{
+			for (int i = 0; i < teams.Count; i++)
+			{
+				if (team.TeamName.Equals(teams[i].TeamName))
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		public ServerTeam GetTeamByIndex(int i)
+		{
+			return teams[i];
+		}
 	}
 
 	private CurrentGame()

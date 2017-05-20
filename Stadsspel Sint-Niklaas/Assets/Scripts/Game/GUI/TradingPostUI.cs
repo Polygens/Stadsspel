@@ -86,7 +86,7 @@ public class TradingPostUI : MonoBehaviour
 #endif
 		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
 		for(int i = 0; i < visitedTeams.Count; i++) {
-			if(visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team) {
+			if(visitedTeams[i] == CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)+1) {//todo this does not seem right, what is being compared?
 				teamAlreadyVisited = true;
 				break;
 			}
@@ -143,10 +143,11 @@ public class TradingPostUI : MonoBehaviour
 	//Execute when items are purchased (button holds this method)
 
 	/// <summary>
-	/// TODO
+	/// TODO server should do dis
 	/// </summary>
 	public void AddGoodsToPlayer()
 	{
+		/*
 		List<int> legalItems = new List<int>();
 		List<int> illegalItems = new List<int>();
 
@@ -180,6 +181,7 @@ public class TradingPostUI : MonoBehaviour
 
 		m_TotalPriceText.text = "0";
 		m_TotalPriceAmount = 0;
+		*/
 	}
 
 	/// <summary>

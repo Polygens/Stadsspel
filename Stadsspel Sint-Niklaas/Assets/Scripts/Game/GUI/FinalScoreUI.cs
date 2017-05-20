@@ -21,7 +21,11 @@ public class FinalScoreUI : MonoBehaviour
 			GameObject scoreEntryInstance = Instantiate(m_ScoreEntryPrefab);
 			scoreEntryInstance.transform.SetParent(m_Content, false);
 			scoreEntryInstance.transform.FindChild("Place").GetComponent<Text>().text = (i + 1).ToString();
-			scoreEntryInstance.transform.FindChild("Team").GetComponent<Image>().color = TeamData.GetColor(m_TeamOrder[i].TeamID);
+
+			Color c = new Color();
+			ColorUtility.TryParseHtmlString(m_TeamOrder[i].TeamID.CustomColor, out c);
+			scoreEntryInstance.transform.FindChild("Team").GetComponent<Image>().color = c;
+
 			scoreEntryInstance.transform.FindChild("Money").GetComponent<Text>().text = m_TeamOrder[i].TotalMoney.ToString();
 		}
 	}

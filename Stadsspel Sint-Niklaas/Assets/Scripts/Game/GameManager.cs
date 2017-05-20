@@ -168,6 +168,7 @@ public class GameManager : PunBehaviour
 		GameObject temp = (GameObject)Instantiate(Resources.Load(m_PlayerPrefabName), Vector3.zero, Quaternion.identity);
 		m_DistrictManager.SetPlayerTransform(temp.transform);
 		temp.transform.position += new Vector3(0, 0, -10);
+		temp.GetComponent<Person>();
 	}
 
 	/// <summary>
@@ -184,6 +185,7 @@ public class GameManager : PunBehaviour
 	/// </summary>
 	public Treasure GetTreasureFrom(TeamID id)
 	{
+		/* todo make event for server
 		for (int i = 0; i < m_Treasures.Count; i++)
 		{
 			if (m_Treasures[i].Team == id)
@@ -191,6 +193,7 @@ public class GameManager : PunBehaviour
 				return m_Treasures[i];
 			}
 		}
+		*/
 		return null;
 	}
 }

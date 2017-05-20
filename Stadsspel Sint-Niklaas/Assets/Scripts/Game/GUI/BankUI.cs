@@ -42,7 +42,7 @@ public class BankUI : MonoBehaviour
 	public void UpdateUI()
 	{
 		m_AmountOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-		m_AmountBankMoney.text = GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].BankAccount.Balance.ToString();
+		m_AmountBankMoney.text = GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].BankAccount.Balance.ToString();
 	}
 
 	/// <summary>
@@ -59,7 +59,7 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void SelectAllBankMoney()
 	{
-		m_AmountField.text = GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].BankAccount.Balance.ToString();
+		m_AmountField.text = GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].BankAccount.Balance.ToString();
 		RetractMoney();
 	}
 
@@ -69,7 +69,7 @@ public class BankUI : MonoBehaviour
 	public void TransferMoney()
 	{
 		if(GameManager.s_Singleton.Player.Person.AmountOfMoney >= int.Parse(m_AmountField.text)) {
-			GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(int.Parse(m_AmountField.text));
+			GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].PlayerTransaction(int.Parse(m_AmountField.text));
 			UpdateUI();
 
 		}
@@ -82,8 +82,8 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void RetractMoney()
 	{
-		if(GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].BankAccount.Balance >= int.Parse(m_AmountField.text)) {
-			GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].PlayerTransaction(-int.Parse(m_AmountField.text));
+		if(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].BankAccount.Balance >= int.Parse(m_AmountField.text)) {
+			GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].PlayerTransaction(-int.Parse(m_AmountField.text));
 		}
 
 		UpdateUI();

@@ -9,7 +9,7 @@ public class MainSquareArrow : MonoBehaviour
 	/// </summary>
 	private void Start()
 	{
-		m_HeadSquarePos = GameManager.s_Singleton.DistrictManager.GetHeadSquare(GameManager.s_Singleton.Player.Person.Team).transform.position;
+		m_HeadSquarePos = GameManager.s_Singleton.DistrictManager.GetHeadSquare((TeamID)CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)+1).transform.position;//todo RIP dafuq is dis
 	}
 
 	/// <summary>

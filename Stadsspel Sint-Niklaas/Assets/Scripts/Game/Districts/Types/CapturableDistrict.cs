@@ -10,7 +10,7 @@ namespace Stadsspel.Districts
 		private new void Awake()
 		{
 			m_DistrictType = DistrictType.CapturableDistrict;
-			Team = TeamID.NoTeam;
+			Team = null;
 			base.Awake();
 		}
 
