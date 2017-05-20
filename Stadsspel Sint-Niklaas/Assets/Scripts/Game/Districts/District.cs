@@ -42,6 +42,15 @@ namespace Stadsspel.Districts
 		/// </summary>
 		protected virtual void OnTeamChanged()
 		{
+			if (m_Team == null)
+			{
+				Debug.Log("Team Null");
+				return;
+			}
+			else if (m_Team.CustomColor == null)
+			{
+				m_Team.CustomColor = "#FF0000";
+			}
 			Color newColor = new Color();
 			ColorUtility.TryParseHtmlString(m_Team.CustomColor, out newColor);
 			gameObject.GetComponent<Renderer>().material.color = newColor;
