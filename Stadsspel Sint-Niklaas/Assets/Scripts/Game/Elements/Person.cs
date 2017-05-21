@@ -48,9 +48,9 @@ namespace Stadsspel.Elements
 			transform.GetChild(0).GetComponent<TextMesh>().text = photonView.owner.NickName;
 			ActionRadius = colliderRadius;
 
-			//instantiate list with 3 numbers for each list.
+			//instantiate list with 6 numbers for each list.
 
-			for(int i = 0; i < 3; i++) {
+			for(int i = 0; i < 6; i++) {
 				m_LegalItems.Add(0);
 				m_IllegalItems.Add(0);
 			}
@@ -130,18 +130,18 @@ namespace Stadsspel.Elements
 		/// [PunRPC] TODO
 		/// </summary>
 		[PunRPC]
-		public void AddLegalItem(int index, int item)
+		public void AddLegalItem(int index, int amount)
 		{
-			m_LegalItems[index] += item;
+			m_LegalItems[index] += amount;
 		}
 
 		/// <summary>
 		/// [PunRPC] TODO
 		/// </summary>
 		[PunRPC]
-		public void AddIllegalItem(int index, int item)
+		public void AddIllegalItem(int index, int amount)
 		{
-			m_IllegalItems[index] += item;
+			m_IllegalItems[index] += amount;
 		}
 
 

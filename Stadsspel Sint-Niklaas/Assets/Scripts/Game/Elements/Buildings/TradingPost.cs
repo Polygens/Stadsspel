@@ -6,6 +6,7 @@ namespace Stadsspel.Elements
 	public class TradingPost : Building
 	{
 		public TradingpostType tradingpostType;
+		public string naamTradingpost;
 
 		//	private SyncListInt visitedTeams = new SyncListInt();
 		private List<int> m_visitedTeams = new List<int>();

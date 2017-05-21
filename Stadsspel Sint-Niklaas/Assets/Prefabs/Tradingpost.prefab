@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 58000012532571338}
   - component: {fileID: 114000010731738868}
   - component: {fileID: 114040348477062750}
+  - component: {fileID: 114005234191480262}
   m_Layer: 0
   m_Name: Tradingpost
   m_TagString: TradingPost
@@ -67,8 +68,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013852722062}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 123.9, y: -419.7, z: -10}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 169, y: 504, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011805476680}
@@ -195,8 +196,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_GameName: Not set
-  tradingpostType: 1
+  tradingpostType: 2
+  naamTradingpost: 
   m_CountdownDuration: 300
+--- !u!114 &114005234191480262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013852722062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8796e0b3a9ea47a3acb92abdceacc47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 0}
+  coordinatesGPS:
+    latitude: 51.169864
+    longitude: 4.142617
+    altitude: 0
 --- !u!114 &114040348477062750
 MonoBehaviour:
   m_ObjectHideFlags: 1
