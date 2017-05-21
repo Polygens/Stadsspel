@@ -145,15 +145,32 @@ public class TradingPostUI : MonoBehaviour
 	{
 		if (m_TotalPriceAmount < GameManager.s_Singleton.Player.Person.AmountOfMoney)
 		{
-			int remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney - m_TotalPriceAmount;
+			int remainingMoney = 0; 
 			if (type == 0) // LEGAL
 			{
+				if (illegalField.text != "")
+				{
+					remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney - (int.Parse(illegalField.text) * m_IllegalShopItem.BuyPrice);
+				}
+				else
+				{
+					remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney;
+				}
 				int numberOfItems = Mathf.FloorToInt(remainingMoney / m_LegalShopItem.BuyPrice);
 				legalNumberOfItems = numberOfItems;
+				
 				legalField.text = numberOfItems.ToString();
 			}
 			else
 			{
+				if (legalField.text != "")
+				{
+					remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney - (int.Parse(legalField.text) * m_LegalShopItem.BuyPrice);
+				}
+				else
+				{
+					remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney;
+				}
 				int numberOfItems = Mathf.FloorToInt(remainingMoney / m_IllegalShopItem.BuyPrice);
 				illegalField.text = numberOfItems.ToString();
 				illegalNumberOfItems = numberOfItems;

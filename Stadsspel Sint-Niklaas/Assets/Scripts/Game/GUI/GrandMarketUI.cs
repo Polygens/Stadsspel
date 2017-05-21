@@ -12,12 +12,43 @@ public class GrandMarketUI : MonoBehaviour
 	private List<int> m_LegalItems = new List<int>();
 	private int m_Total;
 
+	private void Start()
+	{
+		m_MarktPanel = (RectTransform)InGameUIManager.s_Singleton.GrandMarketUI.transform; 
+	}
+
 	/// <summary>
 	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{
-		//UpdateUI();
+		
+		m_Total = 0;
+		m_LegalItems = GameManager.s_Singleton.Player.Person.LookUpLegalItems;
+
+		m_IllegalItems = GameManager.s_Singleton.Player.Person.LookUpIllegalItems;
+
+		RectTransform Grid = (RectTransform)transform.FindChild("MainPanel").transform.FindChild("Grid");
+		for (int i = 1; i < Grid.childCount; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				if (j == 0)
+				{
+					Grid.GetChild(i).GetChild(j).transform.FindChild("Aantal").GetComponent<Text>().text = m_LegalItems[i - 1].ToString();
+					m_Total += m_LegalItems[i - 1] * Item.LegalShopItems[i - 1].SellPrice;
+					Debug.Log("legal item: " + m_LegalItems[i - 1]);
+				}
+				else
+				{
+					Grid.GetChild(i).GetChild(j).transform.FindChild("Aantal").GetComponent<Text>().text = m_IllegalItems[i - 1].ToString();
+					m_Total += m_IllegalItems[i - 1] * Item.IllegalShopItems[i - 1].SellPrice;
+				}
+			}
+		}
+
+		m_TotalUI.text = "Totaal: " + m_Total;
+
 	}
 
 	/// <summary>
@@ -93,15 +124,6 @@ public class GrandMarketUI : MonoBehaviour
 	/// </summary>
 	private void ResetUI()
 	{
-		RectTransform Grid = (RectTransform)m_MarktPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
-		for(int i = 1; i < Grid.childCount; i++) {
-			for(int j = 0; j < 2; j++) {
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Amount").GetComponent<Text>().text = "Amount: 0";
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Profit").GetComponent<Text>().text = "Winst: 0";
-			}
-		}
-
-		m_TotalUI.text = "Totaal: " + m_Total;
 		m_MarktPanel.gameObject.SetActive(false);
 	}
 
