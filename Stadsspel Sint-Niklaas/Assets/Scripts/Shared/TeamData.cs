@@ -17,10 +17,10 @@ public class TeamData
 	private static Color m_NotSet = new Color(1, 0, 1);
 
 	private static Color[] m_TeamColors = new Color[] {
-		Color.magenta,	//Team1
+		Color.blue,	//Team1
 		Color.red,		//Team2
 		Color.cyan,		//Team3
-		Color.blue,		//Team4
+		Color.magenta,		//Team4
 		Color.green,	//Team5
 		Color.yellow,	//Team6
 		Color.grey		//NoTeam
