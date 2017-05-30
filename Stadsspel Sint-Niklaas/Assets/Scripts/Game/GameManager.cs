@@ -5,8 +5,9 @@ using Stadsspel.Elements;
 using Stadsspel.Networking;
 using System.Collections.Generic;
 using UnityEngine;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
-public class GameManager : PunBehaviour
+public class GameManager : MonoBehaviour
 {
 	static public GameManager s_Singleton;
 
@@ -33,14 +34,11 @@ public class GameManager : PunBehaviour
 
 	private bool isGameOver = false;
 
-	public Player Player
-	{
-		get
-		{
+	public Player Player {
+		get {
 			return m_Player;
 		}
-		set
-		{
+		set {
 			if (m_Player == null)
 			{
 				m_Player = value;
@@ -48,32 +46,25 @@ public class GameManager : PunBehaviour
 		}
 	}
 
-	public Team[] Teams
-	{
-		get
-		{
+	public Team[] Teams {
+		get {
 			return m_Teams;
 		}
 	}
 
-	public DistrictManager DistrictManager
-	{
-		get
-		{
+	public DistrictManager DistrictManager {
+		get {
 			return m_DistrictManager;
 		}
 	}
 
-	public LocationManager LocationManager
-	{
-		get
-		{
+	public LocationManager LocationManager {
+		get {
 			return m_LocationManager;
 		}
 	}
 
-	public float GameLength
-	{
+	public float GameLength {
 		get { return m_GameLength; }
 	}
 
@@ -89,15 +80,17 @@ public class GameManager : PunBehaviour
 		}
 		s_Singleton = this;
 
+		//m_GameLength = (int)PhotonNetwork.room.CustomProperties[RoomManager.RoomGameDurationProp]; todo fix
+		m_GameLength = 60;
+
 		//m_AmountOfTeams = TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);todo fix
-		m_AmountOfTeams = TeamData.GetMaxTeams(12);
+		m_AmountOfTeams = TeamData.GetMaxTeams(6);
 		MasterClientStart();
 
 		m_Treasures = new List<Treasure>();
+		Debug.Log("INIT TREASURES");
 		m_NextMoneyUpdateTime = m_MoneyUpdateTimeInterval;
 
-		//m_GameLength = (int)PhotonNetwork.room.CustomProperties[RoomManager.RoomGameDurationProp]; todo fix
-		m_GameLength = 60;
 #if (UNITY_EDITOR)
 		Debug.Log("Game will take: " + m_GameLength + "seconds");
 #endif
@@ -110,6 +103,8 @@ public class GameManager : PunBehaviour
 	{
 		if (Time.timeSinceLevelLoad > m_GameLength && isGameOver == false)
 		{
+			var a = Time.timeSinceLevelLoad;
+
 			isGameOver = true;
 			InGameUIManager.s_Singleton.FinalScoreUI.gameObject.SetActive(true);
 		}
@@ -137,12 +132,15 @@ public class GameManager : PunBehaviour
 #if (UNITY_EDITOR)
 		Debug.Log("Master client started");
 #endif
+
+		//todo remove init of dummy data
+		CurrentGame.Instance.gameDetail = new CurrentGame.Game(m_AmountOfTeams);
+
 		for (int i = 0; i < m_AmountOfTeams; i++)
 		{
 			//PhotonNetwork.InstantiateSceneObject(m_TeamPrefabName, Vector3.zero, Quaternion.identity, 0, null);
 			Instantiate(Resources.Load(m_TeamPrefabName), Vector3.zero, Quaternion.identity);
 		}
-
 		//photonView.RPC("ClientsStart", PhotonTargets.All);
 		ClientsStart();
 	}
@@ -156,19 +154,25 @@ public class GameManager : PunBehaviour
 #if (UNITY_EDITOR)
 		Debug.Log("Clients start");
 #endif
+		Debug.Log("1");
 		m_DistrictManager.StartGame(m_AmountOfTeams);
+		Debug.Log("2");
 
 		m_Teams = new Team[m_AmountOfTeams];
 		for (int i = 0; i < m_AmountOfTeams; i++)
 		{
 			m_Teams[i] = transform.GetChild(i).gameObject.GetComponent<Team>();
 		}
+		Debug.Log("3");
 
 		//GameObject temp = PhotonNetwork.Instantiate(m_PlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
 		GameObject temp = (GameObject)Instantiate(Resources.Load(m_PlayerPrefabName), Vector3.zero, Quaternion.identity);
+		Person person = temp.GetComponent<Person>();
+		person.Player = CurrentGame.Instance.LocalPlayer;
+
 		m_DistrictManager.SetPlayerTransform(temp.transform);
 		temp.transform.position += new Vector3(0, 0, -10);
-		temp.GetComponent<Person>();
+		Debug.Log("4");
 	}
 
 	/// <summary>
@@ -177,6 +181,14 @@ public class GameManager : PunBehaviour
 	[PunRPC]
 	public void AddTreasure(Treasure t)
 	{
+		Debug.Log("ADD TREASURE");
+		Debug.Log(t);
+		Debug.Log(m_Treasures);
+		if (m_Treasures == null)
+		{
+			m_Treasures = new List<Treasure>();
+			//todo g: I added this check but it shouldnt be needed?
+		}
 		m_Treasures.Add(t);
 	}
 

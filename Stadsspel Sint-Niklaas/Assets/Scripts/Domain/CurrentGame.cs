@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Domain;
-using Stadsspel.Elements;
 using UnityEngine;
 
 /// <summary>
@@ -18,6 +17,8 @@ public class CurrentGame : Singleton<CurrentGame>
 	public Game gameDetail { get; set; }
 	public LocalPlayer LocalPlayer { get; set; }
 	public ServerTeam PlayerTeam { get; set; }
+	public bool IsGameRunning { get; set; }
+	public bool IsInLobby { get; set; }
 
 	[Serializable]
 	public class Game
@@ -31,6 +32,22 @@ public class CurrentGame : Singleton<CurrentGame>
 		private List<ServerTeam> teams;
 		private int maxPlayersPerTeam;
 		private int maxTeams;
+
+		public Game(int mAmountOfTeams)
+		{
+			teams = new List<ServerTeam>(0);
+			for (int i = 0; i < mAmountOfTeams; i++)
+			{
+				teams.Add(new ServerTeam {
+					BankAccount = 0,
+					TeamName = "TEAM" + (i + 1),
+					Treasury = 0,
+					Players = new Dictionary<string, ServerPlayer>(),
+					CustomColor = "#FF" + (i + 1) + "000"
+				}
+				);
+			}
+		}
 
 		/// <summary>
 		/// Searches for the team a specific client belongs to.
@@ -77,12 +94,14 @@ public class CurrentGame : Singleton<CurrentGame>
 	private CurrentGame()
 	{
 		LocalPlayer = new LocalPlayer();
+		LocalPlayer.name = "Player";
+		IsGameRunning = false;
+		IsInLobby = false;
 	}
 
 	public void Awake()
 	{
 		Ws = (WebsocketImpl)WebsocketImpl.Instance;
-		LocalPlayer = new LocalPlayer();
 		LocalPlayer.name = "Player";
 		LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
 	}
@@ -97,5 +116,51 @@ public class CurrentGame : Singleton<CurrentGame>
 		ClientToken = null;
 		GameId = null;
 		PasswordUsed = null;
+	}
+
+	private IEnumerator SendPlayerLocation()
+	{
+		Debug.Log("START GAME LOLOL");
+		while (IsGameRunning)
+		{
+			if (LocalPlayer!=null && LocalPlayer.location!=null)
+			{
+				Debug.Log("START GAME LOL");
+				Ws.SendLocation(LocalPlayer.location);
+			}
+			yield return new WaitForSeconds(1); //todo tweak
+			Debug.Log("START GAME LOL2");
+		}
+	}
+
+	private IEnumerator SendHearthbeats()
+	{
+		while ((!IsGameRunning) && IsInLobby)
+		{
+			Ws.SendHearthbeat();
+			yield return new WaitForSeconds(45);
+		}
+	}
+
+	public void StartGame()
+	{
+		IsGameRunning = true;
+		StartCoroutine(SendPlayerLocation());
+	}
+
+	public void StopGame()
+	{
+		IsGameRunning = false;
+	}
+
+	public void EnterLobby()
+	{
+		IsInLobby = true;
+		StartCoroutine(SendHearthbeats());
+	}
+
+	public void LeaveLobby()
+	{
+		IsInLobby = false;
 	}
 }

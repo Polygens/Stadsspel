@@ -12,7 +12,8 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleGameStart(MessageWrapper message)
 	{
-		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
+		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(0));
+		CurrentGame.Instance.StartGame();
 		Debug.Log("GAME STARTED");
 	}
 
@@ -28,7 +29,9 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleGameStop(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		//todo display correct sceens
+		CurrentGame.Instance.StopGame();
+		Debug.Log("GAME STOPPED");
 	}
 
 	protected override void HandleInfoNotification(MessageWrapper message)

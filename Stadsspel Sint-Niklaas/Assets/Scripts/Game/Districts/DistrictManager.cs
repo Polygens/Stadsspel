@@ -50,22 +50,26 @@ namespace Stadsspel.Districts
 			for(int i = 0; i < gameObject.transform.childCount; i++) {
 				m_DistrictColliders[i] = gameObject.transform.GetChild(i).gameObject.GetComponent<PolygonCollider2D>();
 			}
-
+			
 			// Loops trough all district groups and allocates the teams and types.
-			for(int i = 1; i <= 6; i++) {
-				if(amountOfTeams >= i) {
+			for (int i = 1; i <= 6; i++)
+			{
+				var teamIndex = i - 1;
+				if (amountOfTeams >= i)
+				{
 					HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
-					district.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(i);
+					district.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
 					district.enabled = true;
 					m_HeadDistricts.Add(district);
 					Destroy(district.GetComponent<CapturableDistrict>());
 					Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
-					square.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(i);
+					square.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
 					square.enabled = true;
 					Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
 
 				}
-				else {
+				else
+				{
 					CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
 					district.Team = null;
 					district.enabled = true;

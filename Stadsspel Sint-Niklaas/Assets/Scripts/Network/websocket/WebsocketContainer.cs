@@ -142,6 +142,8 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		{
 			var message = messageBuffer.Peek();
 			//todo compress message
+			Debug.Log("SENDING");
+			Debug.Log(message);
 			ws.SendString(message);
 			messageBuffer.Dequeue();
 		}
@@ -155,6 +157,15 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	public void Send(GameMessageType type, string innerMessage)
 	{
 		string message = JsonUtility.ToJson(new MessageWrapper(type, innerMessage, gameID, clientId: clientID, token: CurrentGame.Instance.ClientToken));
+		messageBuffer.Enqueue(message);
+		Send();
+	}
+
+	public void SendLocation(Point location)
+	{
+		LocationMessage lm = new LocationMessage(location.latitude,location.longitude);
+		string innerMessage = JsonUtility.ToJson(lm);
+		string message = JsonUtility.ToJson(new MessageWrapper(GameMessageType.LOCATION, innerMessage, gameID, clientId: clientID, token: CurrentGame.Instance.ClientToken));
 		messageBuffer.Enqueue(message);
 		Send();
 	}

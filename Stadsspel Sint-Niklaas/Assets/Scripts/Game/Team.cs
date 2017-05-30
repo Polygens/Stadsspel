@@ -49,7 +49,14 @@ public class Team : MonoBehaviour
 	private void Awake()
 	{
 		transform.SetParent(GameManager.s_Singleton.transform);
-		m_TeamID = CurrentGame.Instance.gameDetail.GetTeamByIndex(transform.GetSiblingIndex());
+
+		//m_TeamID = CurrentGame.Instance.gameDetail.GetTeamByIndex(transform.GetSiblingIndex()); todo re-enable
+		m_TeamID = new ServerTeam();
+		m_TeamID.BankAccount = 0;
+		m_TeamID.CustomColor = "#FF0000";
+		m_TeamID.TeamName = "TEST TEAM";
+		m_TeamID.Treasury = 0;
+
 		name = TeamID.ToString();
 	}
 

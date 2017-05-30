@@ -105,12 +105,13 @@ namespace Stadsspel.Elements
 			//rigidbody.isKinematic = true;
 
 			Camera.main.GetComponent<AudioListener>().enabled = true;
+			
+		 	MoveAvatar ma = gameObject.AddComponent<MoveAvatar>();
+			ma.isPlayer = true;
 
 
-			gameObject.AddComponent<MoveAvatar>();
-
-            //GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
-        }
+			//GameManager.s_Singleton.DistrictManager.mPlayerTrans = transform;
+		}
 
 		/// <summary>
 		/// Gets called every frame.

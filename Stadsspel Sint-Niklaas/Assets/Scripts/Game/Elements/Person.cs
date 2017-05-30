@@ -20,29 +20,13 @@ namespace Stadsspel.Elements
 		public float colliderRadius = 23f;
 
 		[SerializeField]
-		private ServerPlayer Player { get; set; }
+		public ServerPlayer Player { get; set; }
 
 		/// <summary>
 		/// Initialises the class before Start.
 		/// </summary>
 		private void Awake()
 		{
-			if (CurrentGame.Instance.LocalPlayer.clientID.Equals(Player.clientID))
-			{
-				gameObject.AddComponent<Player>();
-				transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
-				m_Team = CurrentGame.Instance.PlayerTeam;
-			} else if (CurrentGame.Instance.PlayerTeam.ContainsPlayer(Player.clientID))
-			{
-				gameObject.AddComponent<Friend>();
-				m_Team = CurrentGame.Instance.PlayerTeam;
-			} else
-			{
-				gameObject.AddComponent<Enemy>();
-				m_Team = CurrentGame.Instance.gameDetail.findTeamByPlayer(Player.clientID);
-			}
-
-			districtManager = GameObject.FindWithTag("Districts").GetComponent<Districts.DistrictManager>();
 		}
 
 		/// <summary>
@@ -50,6 +34,30 @@ namespace Stadsspel.Elements
 		/// </summary>
 		protected new void Start()
 		{
+			//START: originally in awake
+			Debug.Log("Server player: " + Player);
+			if (Player != null)
+			{
+				Debug.Log("player name: " + Player.Name);
+				if (CurrentGame.Instance.LocalPlayer.clientID.Equals(Player.clientID))
+				{
+					gameObject.AddComponent<Player>();
+					transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
+					m_Team = CurrentGame.Instance.PlayerTeam;
+				} else if (CurrentGame.Instance.PlayerTeam.ContainsPlayer(Player.clientID))
+				{
+					gameObject.AddComponent<Friend>();
+					m_Team = CurrentGame.Instance.PlayerTeam;
+				} else
+				{
+					gameObject.AddComponent<Enemy>();
+					m_Team = CurrentGame.Instance.gameDetail.findTeamByPlayer(Player.clientID);
+				}
+
+				districtManager = GameObject.FindWithTag("Districts").GetComponent<Districts.DistrictManager>();
+			}
+			//END
+
 			Color color = new Color();
 			ColorUtility.TryParseHtmlString(m_Team.CustomColor, out color);
 			GetComponent<MeshRenderer>().material.color = color;
@@ -81,7 +89,7 @@ namespace Stadsspel.Elements
 				
 			}
 		*/
-		//todo send tag event
+			//todo send tag event
 		}
 
 		/// <summary>

@@ -37,9 +37,7 @@ public class Header : MonoBehaviour
 		m_UpdateTimer += Time.deltaTime;
 		if(m_UpdateTimer > m_UpdateTime) {
 			m_UpdateTimer = 0;
-			Player p = GameManager.s_Singleton.Player;
 			if(GameManager.s_Singleton.Player.Person) {
-
 				// Header Update 
 				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
 				UpdateTeamMoney(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].TotalMoney);

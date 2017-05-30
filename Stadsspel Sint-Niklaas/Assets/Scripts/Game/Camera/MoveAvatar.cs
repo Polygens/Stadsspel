@@ -1,9 +1,11 @@
 using System.Collections;
+using Stadsspel.Elements;
 using UnityEngine;
 
 public class MoveAvatar : MonoBehaviour
 {
 	private Transform m_AvatarDirection;
+	public bool isPlayer = false;
 
 	// Use this for initialization
 	void Start()
@@ -20,6 +22,10 @@ public class MoveAvatar : MonoBehaviour
 
 	private void OnOriginSet(Coordinates currentLocation)
 	{
+		if (isPlayer)
+		{
+			CurrentGame.Instance.LocalPlayer.location = new Point(currentLocation);
+		}
 
 		//Position
 		Vector3 currentPosition = currentLocation.convertCoordinateToVector();
@@ -35,9 +41,16 @@ public class MoveAvatar : MonoBehaviour
 
 		//Position
 		Vector3 currentPosition = currentLocation.convertCoordinateToVector();
+
+		if (isPlayer)
+		{
+			CurrentGame.Instance.LocalPlayer.location = new Point(currentLocation);
+		}
+
 		currentPosition.z = transform.position.z;
 
-		if(lastPosition == Vector3.zero) {
+		if (lastPosition == Vector3.zero)
+		{
 			lastPosition = currentPosition;
 		}
 
@@ -58,7 +71,8 @@ public class MoveAvatar : MonoBehaviour
 	{
 		float elapsedTime = 0;
 
-		while(elapsedTime < time) {
+		while (elapsedTime < time)
+		{
 			transform.position = Vector3.Lerp(lastPosition, currentPosition, (elapsedTime / time));
 			elapsedTime += Time.deltaTime;
 			yield return new WaitForEndOfFrame();
