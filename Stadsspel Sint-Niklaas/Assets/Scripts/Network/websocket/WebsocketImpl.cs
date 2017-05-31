@@ -76,13 +76,12 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleTagPermitted(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		//todo display a notification
+		CurrentGame.Instance.IsTaggingPermitted = true;
 	}
 
 	protected override void HandleBulkLocation(MessageWrapper message)
 	{
-		if (!message.gameID.Equals(CurrentGame.Instance.GameId)) return; //if not right game do nothing todo throw error or something
-
 		BulkLocationMessage blm = JsonUtility.FromJson<BulkLocationMessage>(message.message);
 
 		foreach (KeyValuePair<string, Point> playerLocation in blm.taggable)

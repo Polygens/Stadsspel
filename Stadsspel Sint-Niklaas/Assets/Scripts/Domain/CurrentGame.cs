@@ -19,6 +19,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public ServerTeam PlayerTeam { get; set; }
 	public bool IsGameRunning { get; set; }
 	public bool IsInLobby { get; set; }
+	public bool IsTaggingPermitted { get; set; }
 
 	[Serializable]
 	public class Game
@@ -97,6 +98,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		LocalPlayer.name = "Player";
 		IsGameRunning = false;
 		IsInLobby = false;
+		IsTaggingPermitted = false;
 	}
 
 	public void Awake()
