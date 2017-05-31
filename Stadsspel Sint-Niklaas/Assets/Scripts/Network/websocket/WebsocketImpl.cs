@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Stadsspel.Networking;
 
 public class WebsocketImpl : WebsocketContainer
@@ -80,6 +81,23 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleBulkLocation(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		if (!message.gameID.Equals(CurrentGame.Instance.GameId)) return; //if not right game do nothing todo throw error or something
+
+		BulkLocationMessage blm = JsonUtility.FromJson<BulkLocationMessage>(message.message);
+
+		foreach (KeyValuePair<string, Point> playerLocation in blm.taggable)
+		{
+			//todo these players are taggable and need to be drawn on screen
+		}
+
+		foreach (KeyValuePair<string, Point> playerLocation in blm.locations)
+		{
+			//todo these players only need to be drawn on screen
+		}
+
+		if (blm.taggable.Count > 0)
+		{
+			//todo enable tagging of players
+		}
 	}
 }
