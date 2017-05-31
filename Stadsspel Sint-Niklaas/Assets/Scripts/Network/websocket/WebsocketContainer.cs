@@ -28,9 +28,11 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 			while (!_inbox.TryDequeue(out messageWrapper)) ;
 			HandleMessage(messageWrapper);
 		}
+
+		//send a message from the buffer
+		Send();
 	}
-
-
+	
 	protected WebsocketContainer()
 	{
 		_inbox = new ConcurrentQueue<MessageWrapper>();
@@ -52,14 +54,10 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		listeningThread = new Thread(ListeningRun);
 		listeningThread.Start();
 
+		//send hearthbeat to provide server with player info
 		SendHearthbeat();
 	}
-
-	public void SendHearthbeat()
-	{
-		Send(GameMessageType.HEARTBEAT, "");
-	}
-
+	
 	private void ListeningRun()
 	{
 		stopThread = false;
@@ -134,7 +132,11 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		}
 	}
 
-	public void Send()
+	/// <summary>
+	/// Sends a message from the buffer.
+	/// If the buffer is empty or no connection is established it will not send.
+	/// </summary>
+	private void Send()
 	{
 		if (messageBuffer.Count <= 0) return;
 		if (ws == null) return;
@@ -146,37 +148,54 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 			Debug.Log(message);
 			ws.SendString(message);
 			messageBuffer.Dequeue();
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			Debug.Log("Error during sening of message, buffering");
 			Debug.Log(e);
 		}
 	}
 
-	public void Send(GameMessageType type, string innerMessage)
+	private void Send(GameMessageType type, string innerMessage)
 	{
 		string message = JsonUtility.ToJson(new MessageWrapper(type, innerMessage, gameID, clientId: clientID, token: CurrentGame.Instance.ClientToken));
 		messageBuffer.Enqueue(message);
 		Send();
 	}
 
-	public void SendLocation(Point location)
+	public void SendHearthbeat()
 	{
-		LocationMessage lm = new LocationMessage(location.latitude,location.longitude);
-		string innerMessage = JsonUtility.ToJson(lm);
-		string message = JsonUtility.ToJson(new MessageWrapper(GameMessageType.LOCATION, innerMessage, gameID, clientId: clientID, token: CurrentGame.Instance.ClientToken));
-		messageBuffer.Enqueue(message);
-		Send();
+		Send(GameMessageType.HEARTBEAT, "");
 	}
 
+	public void SendLocation(Point location)
+	{
+		LocationMessage lm = new LocationMessage(location.latitude, location.longitude);
+		string innerMessage = JsonUtility.ToJson(lm);
+		Send(GameMessageType.LOCATION,innerMessage);
+	}
+
+	/// <summary>
+	/// Sends an event to the server constructed from the given parameters
+	/// </summary>
+	/// <param name="type">Event type</param>
+	/// <param name="players">All involved players excluding this player</param>
+	/// <param name="moneyTransferred">The amount of money transferred to or from the location</param>
+	/// <param name="items">The items bought or sold</param>
+	/// <param name="locationID">The location or district of the event</param>
+	public void SendEvent(GameEventType type, List<string> players, double moneyTransferred = 0,
+		IDictionary<string, int> items = null, string locationID = null)
+	{
+		GameEventMessage gem = new GameEventMessage(type,players,moneyTransferred,items,locationID);
+		string innerMessage = JsonUtility.ToJson(gem);
+		Send(GameMessageType.EVENT, innerMessage);
+	}
+	
 	public new void OnDestroy()
 	{
 		base.OnDestroy();
 		stopThread = true;
 	}
-
-
+	
 	protected abstract void HandleGameStart(MessageWrapper message);
 
 	protected abstract void HandleEvent(MessageWrapper message);
