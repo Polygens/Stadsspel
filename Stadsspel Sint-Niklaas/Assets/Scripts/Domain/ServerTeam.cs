@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class ServerTeam
 {
 	public string teamName;
-	public Dictionary<string, ServerPlayer> players;
+	public List<ServerPlayer> players;
 	public double treasury;
 	public double bankAccount;
 	public string customColor;
@@ -18,7 +18,7 @@ public class ServerTeam
 		set { teamName = value; }
 	}
 
-	public Dictionary<string, ServerPlayer> Players
+	public List<ServerPlayer> Players
 	{
 		get { return players; }
 		set { players = value; }
@@ -44,6 +44,13 @@ public class ServerTeam
 
 	public bool ContainsPlayer(string clientId)
 	{
-		return players.ContainsKey(clientId);
+		foreach (ServerPlayer serverPlayer in players)
+		{
+			if (serverPlayer.clientID.Equals(clientId))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

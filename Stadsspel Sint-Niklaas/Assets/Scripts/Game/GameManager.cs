@@ -200,6 +200,13 @@ public class GameManager : MonoBehaviour
 				{
 					GameObject temp = (GameObject)Instantiate(Resources.Load("Bank"), Vector3.zero, Quaternion.identity);
 					temp.transform.parent = serverBanks.transform;
+					Bank bankScript = temp.GetComponent<Bank>();
+					if (bankScript != null)
+					{
+						bankScript.BankId = bank.id;
+					}
+
+
 					GOObject obj = GOObject.AddComponentToObject(temp, map,
 						new Coordinates(bank.point.latitude, bank.point.longitude, 1.0));
 					//map.dropPin(bank.point.latitude,bank.point.longitude,temp);
@@ -208,6 +215,13 @@ public class GameManager : MonoBehaviour
 				{
 					GameObject temp = (GameObject)Instantiate(Resources.Load("Tradingpost"), Vector3.zero, Quaternion.identity);
 					temp.transform.parent = serverTPs.transform;
+					TradingPost tpScript = temp.GetComponent<TradingPost>();
+					if (tpScript != null)
+					{
+						tpScript.TPId = tp.id;
+					}
+
+
 					GOObject obj = GOObject.AddComponentToObject(temp, map,
 						new Coordinates(tp.point.latitude, tp.point.longitude, 1.0));
 					//map.dropPin(tp.point.latitude, tp.point.longitude, temp);

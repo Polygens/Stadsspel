@@ -20,6 +20,8 @@ public class CurrentGame : Singleton<CurrentGame>
 	public bool IsGameRunning { get; set; }
 	public bool IsInLobby { get; set; }
 	public bool IsTaggingPermitted { get; set; }
+	public string nearBank { get; set; }
+	public string nearTP { get; set; }
 
 	[Serializable]
 	public class Game
@@ -33,7 +35,6 @@ public class CurrentGame : Singleton<CurrentGame>
 		public List<ServerTeam> teams;
 
 		public List<ServerPlayer> hosts;
-		public String playerPassword;
 		public int maxPlayersPerTeam;
 		public int maxTeams;
 		public long startTime;
@@ -50,7 +51,7 @@ public class CurrentGame : Singleton<CurrentGame>
 					BankAccount = 0,
 					TeamName = "TEAM" + (i + 1),
 					Treasury = 0,
-					Players = new Dictionary<string, ServerPlayer>(),
+					Players = new List<ServerPlayer>(),
 					CustomColor = "#FF" + (i + 1) + "000"
 				}
 				);
@@ -155,6 +156,19 @@ public class CurrentGame : Singleton<CurrentGame>
 		string serverGame = Rest.GetGameById(GameId);
 		Game parsed = JsonUtility.FromJson<Game>(serverGame);
 		gameDetail = parsed;
+		PlayerTeam = FindPlayerTeam();
+	}
+
+	private ServerTeam FindPlayerTeam()
+	{
+		foreach (ServerTeam gameDetailTeam in gameDetail.teams)
+		{
+			if (gameDetailTeam.ContainsPlayer(LocalPlayer.clientID))
+			{
+				return gameDetailTeam;
+			}
+		}
+		return null;
 	}
 
 	public void StopGame()

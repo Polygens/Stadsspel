@@ -41,8 +41,9 @@ public class BankUI : MonoBehaviour
 	[PunRPC]
 	public void UpdateUI()
 	{
-		m_AmountOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-		m_AmountBankMoney.text = GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].BankAccount.Balance.ToString();
+		ServerTeam playerTeam =CurrentGame.Instance.gameDetail.teams.Find(t => t.TeamName.Equals(CurrentGame.Instance.PlayerTeam.TeamName));
+		m_AmountOwnMoney.text = ""+CurrentGame.Instance.LocalPlayer.money;
+		m_AmountBankMoney.text = "" + playerTeam.BankAccount;
 	}
 
 	/// <summary>
@@ -50,7 +51,7 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void SelectAllOwnMoney()
 	{
-		m_AmountField.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		m_AmountField.text = "" + CurrentGame.Instance.LocalPlayer.money; ;
 		TransferMoney();
 	}
 
@@ -59,7 +60,8 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void SelectAllBankMoney()
 	{
-		m_AmountField.text = GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].BankAccount.Balance.ToString();
+		ServerTeam playerTeam = CurrentGame.Instance.gameDetail.teams.Find(t => t.TeamName.Equals(CurrentGame.Instance.PlayerTeam.TeamName));
+		m_AmountField.text = "" + playerTeam.BankAccount;
 		RetractMoney();
 	}
 
@@ -68,10 +70,8 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void TransferMoney()
 	{
-		if(GameManager.s_Singleton.Player.Person.AmountOfMoney >= int.Parse(m_AmountField.text)) {
-			GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].PlayerTransaction(int.Parse(m_AmountField.text));
-			UpdateUI();
-
+		if(CurrentGame.Instance.LocalPlayer.money >= (double.Parse(m_AmountField.text)-0.000001)) {
+			CurrentGame.Instance.Ws.SendBankDeposit(double.Parse(m_AmountField.text),CurrentGame.Instance.nearBank);
 		}
 
 		//GetComponent<PhotonView>().RPC("UpdateUI", PhotonTargets.All);
@@ -82,8 +82,9 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void RetractMoney()
 	{
-		if(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].BankAccount.Balance >= int.Parse(m_AmountField.text)) {
-			GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].PlayerTransaction(-int.Parse(m_AmountField.text));
+		ServerTeam playerTeam = CurrentGame.Instance.gameDetail.teams.Find(t => t.TeamName.Equals(CurrentGame.Instance.PlayerTeam.TeamName));
+		if (playerTeam.BankAccount >= (double.Parse(m_AmountField.text) - 0.000001)) {
+			CurrentGame.Instance.Ws.SendBankWithdrawal(double.Parse(m_AmountField.text), CurrentGame.Instance.nearBank);
 		}
 
 		UpdateUI();

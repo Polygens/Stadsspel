@@ -23,6 +23,8 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		public string TPId { get; set; }
+
 		/// <summary>
 		/// Initialises the class.
 		/// </summary>
