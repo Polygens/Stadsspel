@@ -1,8 +1,11 @@
-﻿public class AreaLocation {
-  private string id;
-  private Point[] points;
-  private AreaType type;
-  private string name;
+﻿using System;
+
+[Serializable]
+public class AreaLocation {
+  public string id;
+  public Point[] points;
+  public AreaType type;
+  public string name;
 
   public enum AreaType {
     //SAFE_ZONE,

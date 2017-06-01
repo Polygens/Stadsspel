@@ -24,15 +24,22 @@ public class CurrentGame : Singleton<CurrentGame>
 	[Serializable]
 	public class Game
 	{
-		private string id;
-		private string roomName;
-		private List<AreaLocation> districts;
-		private List<AreaLocation> markets;
-		private List<PointLocation> tradePosts;
-		private List<PointLocation> banks;
-		private List<ServerTeam> teams;
-		private int maxPlayersPerTeam;
-		private int maxTeams;
+		public string id;
+		public string roomName;
+		public List<AreaLocation> districts;
+		public List<AreaLocation> markets;
+		public List<PointLocation> tradePosts;
+		public List<PointLocation> banks;
+		public List<ServerTeam> teams;
+
+		public List<ServerPlayer> hosts;
+		public String playerPassword;
+		public int maxPlayersPerTeam;
+		public int maxTeams;
+		public long startTime;
+		public long endTime;
+		public String webAppToken;
+		public bool treasuriesOpen;
 
 		public Game(int mAmountOfTeams)
 		{
@@ -122,16 +129,13 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	private IEnumerator SendPlayerLocation()
 	{
-		Debug.Log("START GAME LOLOL");
 		while (IsGameRunning)
 		{
 			if (LocalPlayer!=null && LocalPlayer.location!=null)
 			{
-				Debug.Log("START GAME LOL");
 				Ws.SendLocation(LocalPlayer.location);
 			}
 			yield return new WaitForSeconds(1); //todo tweak
-			Debug.Log("START GAME LOL2");
 		}
 	}
 
@@ -148,6 +152,9 @@ public class CurrentGame : Singleton<CurrentGame>
 	{
 		IsGameRunning = true;
 		StartCoroutine(SendPlayerLocation());
+		string serverGame = Rest.GetGameById(GameId);
+		Game parsed = JsonUtility.FromJson<Game>(serverGame);
+		gameDetail = parsed;
 	}
 
 	public void StopGame()
@@ -166,3 +173,4 @@ public class CurrentGame : Singleton<CurrentGame>
 		IsInLobby = false;
 	}
 }
+

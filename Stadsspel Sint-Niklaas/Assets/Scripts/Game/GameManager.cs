@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
 #endif
 
 		//todo remove init of dummy data
-		CurrentGame.Instance.gameDetail = new CurrentGame.Game(m_AmountOfTeams);
+		//CurrentGame.Instance.gameDetail = new CurrentGame.Game(m_AmountOfTeams);
 
 		for (int i = 0; i < m_AmountOfTeams; i++)
 		{
@@ -154,16 +154,13 @@ public class GameManager : MonoBehaviour
 #if (UNITY_EDITOR)
 		Debug.Log("Clients start");
 #endif
-		Debug.Log("1");
 		m_DistrictManager.StartGame(m_AmountOfTeams);
-		Debug.Log("2");
 
 		m_Teams = new Team[m_AmountOfTeams];
 		for (int i = 0; i < m_AmountOfTeams; i++)
 		{
 			m_Teams[i] = transform.GetChild(i).gameObject.GetComponent<Team>();
 		}
-		Debug.Log("3");
 
 		//GameObject temp = PhotonNetwork.Instantiate(m_PlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
 		GameObject temp = (GameObject)Instantiate(Resources.Load(m_PlayerPrefabName), Vector3.zero, Quaternion.identity);
@@ -172,7 +169,17 @@ public class GameManager : MonoBehaviour
 
 		m_DistrictManager.SetPlayerTransform(temp.transform);
 		temp.transform.position += new Vector3(0, 0, -10);
-		Debug.Log("4");
+
+		InitializeMapLocations();
+	}
+
+	private void InitializeMapLocations()
+	{
+		List<PointLocation> banks = CurrentGame.Instance.gameDetail.banks;
+		List<PointLocation> tradeposts = CurrentGame.Instance.gameDetail.tradePosts;
+		List<AreaLocation> districts = CurrentGame.Instance.gameDetail.districts;
+		List<AreaLocation> markets = CurrentGame.Instance.gameDetail.markets;
+		//todo load all into map
 	}
 
 	/// <summary>

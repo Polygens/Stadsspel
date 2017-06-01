@@ -1,13 +1,15 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
+[Serializable]
 public class ServerTeam
 {
-	private string teamName;
-	private Dictionary<string, ServerPlayer> players;
-	private double treasury;
-	private double bankAccount;
-	private string customColor;
+	public string teamName;
+	public Dictionary<string, ServerPlayer> players;
+	public double treasury;
+	public double bankAccount;
+	public string customColor;
 
 
 	public string TeamName

@@ -12,7 +12,7 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleGameStart(MessageWrapper message)
 	{
-		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(0));
+		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(5));//todo set to 10
 		CurrentGame.Instance.StartGame();
 		Debug.Log("GAME STARTED");
 	}
