@@ -68,6 +68,12 @@ public class GameManager : MonoBehaviour
 		get { return m_GameLength; }
 	}
 
+	private void Awake()
+	{
+		InitializeMapLocations();
+	}
+
+
 	/// <summary>
 	/// Initialises the class.
 	/// </summary>
@@ -169,8 +175,6 @@ public class GameManager : MonoBehaviour
 
 		m_DistrictManager.SetPlayerTransform(temp.transform);
 		temp.transform.position += new Vector3(0, 0, -10);
-
-		InitializeMapLocations();
 	}
 
 	private void InitializeMapLocations()
@@ -180,6 +184,44 @@ public class GameManager : MonoBehaviour
 		List<AreaLocation> districts = CurrentGame.Instance.gameDetail.districts;
 		List<AreaLocation> markets = CurrentGame.Instance.gameDetail.markets;
 		//todo load all into map
+		GameObject mapobj = GameObject.Find("Map");
+		GameObject container = new GameObject("TESTEST");
+		//GameObject container = GameObject.Find("MapElements");
+		if (mapobj != null)
+		{
+			GOMap map = mapobj.GetComponent<GOMap>();
+			if (map != null)
+			{
+				GameObject serverBanks = new GameObject("Server Banks");
+				serverBanks.transform.parent = container.transform;
+				GameObject serverTPs = new GameObject("Server Tradingposts");
+				serverTPs.transform.parent = container.transform;
+				foreach (PointLocation bank in banks)
+				{
+					GameObject temp = (GameObject)Instantiate(Resources.Load("Bank"), Vector3.zero, Quaternion.identity);
+					temp.transform.parent = serverBanks.transform;
+					GOObject obj = GOObject.AddComponentToObject(temp, map,
+						new Coordinates(bank.point.latitude, bank.point.longitude, 1.0));
+					//map.dropPin(bank.point.latitude,bank.point.longitude,temp);
+				}
+				foreach (PointLocation tp in tradeposts)
+				{
+					GameObject temp = (GameObject)Instantiate(Resources.Load("Tradingpost"), Vector3.zero, Quaternion.identity);
+					temp.transform.parent = serverTPs.transform;
+					GOObject obj = GOObject.AddComponentToObject(temp, map,
+						new Coordinates(tp.point.latitude, tp.point.longitude, 1.0));
+					//map.dropPin(tp.point.latitude, tp.point.longitude, temp);
+				}
+
+			} else
+			{
+				Debug.Log("ERROR: MAP NOT LOADED");
+			}
+		}
+		else
+		{
+			Debug.Log("ERROR: MAP NOT LOADED");
+		}
 	}
 
 	/// <summary>

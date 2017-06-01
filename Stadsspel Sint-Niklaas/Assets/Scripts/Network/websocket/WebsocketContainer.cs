@@ -144,8 +144,6 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		{
 			var message = messageBuffer.Peek();
 			//todo compress message
-			Debug.Log("SENDING");
-			Debug.Log(message);
 			ws.SendString(message);
 			messageBuffer.Dequeue();
 		} catch (Exception e)
