@@ -116,7 +116,7 @@ public class TradingPostUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// todo message to server?
 	/// </summary>
 	public void Purchase()
 	{
@@ -143,7 +143,7 @@ public class TradingPostUI : MonoBehaviour
 	//Execute when items are purchased (button holds this method)
 
 	/// <summary>
-	/// TODO server should do dis
+	/// todo server should do dis
 	/// </summary>
 	public void AddGoodsToPlayer()
 	{
@@ -185,7 +185,7 @@ public class TradingPostUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO
+	/// 
 	/// </summary>
 	public void OnClose()
 	{
@@ -194,7 +194,7 @@ public class TradingPostUI : MonoBehaviour
 
 	//For drop down or inputField
 	/// <summary>
-	/// TODO
+	/// 
 	/// </summary>
 	public void UpdateNumberOfGoods(string number)
 	{

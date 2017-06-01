@@ -167,12 +167,13 @@ public class PhotonPingManager
 
     /// <remarks>
     /// Affected by frame-rate of app, as this Coroutine checks the socket for a result once per frame.
+    /// todo not needed?
     /// </remarks>
     public IEnumerator PingSocket(Region region)
     {
         region.Ping = Attempts*MaxMilliseconsPerPing;
 
-        this.PingsRunning++; // TODO: Add try-catch to make sure the PingsRunning are reduced at the end and that the lib does not crash the app
+        this.PingsRunning++;
         PhotonPing ping;
         if (PhotonHandler.PingImplementation == typeof(PingNativeDynamic))
         {

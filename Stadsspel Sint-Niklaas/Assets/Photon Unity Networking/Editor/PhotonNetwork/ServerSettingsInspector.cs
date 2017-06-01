@@ -218,8 +218,8 @@ public class ServerSettingsInspector : Editor
         settings.JoinLobby = EditorGUILayout.Toggle("Auto-Join Lobby", settings.JoinLobby);
         settings.EnableLobbyStatistics = EditorGUILayout.Toggle("Enable Lobby Stats", settings.EnableLobbyStatistics);
 
-        settings.PunLogging = (PhotonLogLevel)EditorGUILayout.EnumPopup("Pun Logging", settings.PunLogging);            // TODO: update at runtime
-        settings.NetworkLogging = (DebugLevel)EditorGUILayout.EnumPopup("Network Logging", settings.NetworkLogging);    // TODO: update at runtime
+        settings.PunLogging = (PhotonLogLevel)EditorGUILayout.EnumPopup("Pun Logging", settings.PunLogging);
+        settings.NetworkLogging = (DebugLevel)EditorGUILayout.EnumPopup("Network Logging", settings.NetworkLogging);
         //EditorGUILayout.LabelField("automaticallySyncScene");
         //EditorGUILayout.LabelField("autoCleanUpPlayerObjects");
         //EditorGUILayout.LabelField("lobby stats");

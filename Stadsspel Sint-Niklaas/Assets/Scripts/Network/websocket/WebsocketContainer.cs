@@ -32,7 +32,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		//send a message from the buffer
 		Send();
 	}
-	
+
 	protected WebsocketContainer()
 	{
 		_inbox = new ConcurrentQueue<MessageWrapper>();
@@ -57,7 +57,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		//send hearthbeat to provide server with player info
 		SendHearthbeat();
 	}
-	
+
 	private void ListeningRun()
 	{
 		stopThread = false;
@@ -171,7 +171,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	{
 		LocationMessage lm = new LocationMessage(location.latitude, location.longitude);
 		string innerMessage = JsonUtility.ToJson(lm);
-		Send(GameMessageType.LOCATION,innerMessage);
+		Send(GameMessageType.LOCATION, innerMessage);
 	}
 
 	/// <summary>
@@ -182,20 +182,76 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	/// <param name="moneyTransferred">The amount of money transferred to or from the location</param>
 	/// <param name="items">The items bought or sold</param>
 	/// <param name="locationID">The location or district of the event</param>
-	public void SendEvent(GameEventType type, List<string> players, double moneyTransferred = 0,
+	private void SendEvent(GameEventType type, List<string> players = null, double moneyTransferred = 0,
 		IDictionary<string, int> items = null, string locationID = null)
 	{
-		GameEventMessage gem = new GameEventMessage(type,players,moneyTransferred,items,locationID);
+		GameEventMessage gem = new GameEventMessage(type, players, moneyTransferred, items, locationID);
 		string innerMessage = JsonUtility.ToJson(gem);
 		Send(GameMessageType.EVENT, innerMessage);
 	}
-	
+
+	public void SendTag(List<string> taggedPlayers, string locationId)
+	{
+		SendEvent(GameEventType.PLAYER_TAGGED, players: taggedPlayers, locationID: locationId);
+	}
+
+	public void SendBankDeposit(double moneyTransferred, string locationID)
+	{
+		SendEvent(GameEventType.BANK_DEPOSIT, moneyTransferred: moneyTransferred, locationID: locationID);
+	}
+
+	public void SendBankWithdrawal(double moneyTransferred, string locationID)
+	{
+		SendEvent(GameEventType.BANK_WITHDRAWAL, moneyTransferred: moneyTransferred, locationID: locationID);
+	}
+
+	public void SendTreasuryWithdrawal(double moneyTransferred, string locationID)
+	{
+		SendEvent(GameEventType.TREASURY_WITHDRAWAL, moneyTransferred: moneyTransferred, locationID: locationID);
+	}
+
+	public void SendTreasuryRobbery(string locationID)
+	{
+		SendEvent(GameEventType.TREASURY_ROBBERY, locationID: locationID);
+	}
+
+	public void TradepostLegalPurchase(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_LEGAL_PURCHASE, items: items, locationID: locationID);
+	}
+
+	public void TradepostLegalSale(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_LEGAL_SALE, items: items, locationID: locationID);
+	}
+
+	public void TradepostIllegalPurchase(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_ILLEGAL_PURCHASE, items: items, locationID: locationID);
+	}
+
+	public void TradepostIllegalSale(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_ILLEGAL_SALE, items: items, locationID: locationID);
+	}
+
+	public void TradepostAllSale(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_ALL_SALE, items: items, locationID: locationID);
+	}
+
+	public void DistrictConquered(string locationId)
+	{
+		SendEvent(GameEventType.DISTRICT_CONQUERED, locationID: locationId);
+	}
+
+
 	public new void OnDestroy()
 	{
 		base.OnDestroy();
 		stopThread = true;
 	}
-	
+
 	protected abstract void HandleGameStart(MessageWrapper message);
 
 	protected abstract void HandleEvent(MessageWrapper message);

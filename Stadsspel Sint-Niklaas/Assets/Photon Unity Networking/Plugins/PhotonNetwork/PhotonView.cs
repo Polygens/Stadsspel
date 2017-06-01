@@ -245,7 +245,6 @@ public class PhotonView : Photon.MonoBehaviour
 	/// <summary>
 	/// The current master ID so that we can compare when we receive OnMasterClientSwitched() callback
 	/// It's public so that we can check it during ownerId assignments in networkPeer script
-	/// TODO: Maybe we can have the networkPeer always aware of the previous MasterClient?
 	/// </summary>
 	public int currentMasterID = -1;
     protected internal bool didAwake;
