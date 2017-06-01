@@ -116,6 +116,7 @@ namespace Stadsspel.Districts
 			if(newDistrict != m_CurrentDistrict) {
 				if(newDistrict) {
 					HandleDistrictChange(m_CurrentDistrict, newDistrict);
+					CurrentGame.Instance.setNewDistrict(newDistrict.name);
 #if(UNITY_EDITOR)
 					Debug.Log(newDistrict.name);
 #endif

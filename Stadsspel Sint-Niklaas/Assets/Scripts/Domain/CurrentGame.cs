@@ -22,6 +22,8 @@ public class CurrentGame : Singleton<CurrentGame>
 	public bool IsTaggingPermitted { get; set; }
 	public string nearBank { get; set; }
 	public string nearTP { get; set; }
+	public string currentDistrict { get; set; }
+	public string currentDistrictID { get; set; }
 
 	[Serializable]
 	public class Game
@@ -185,6 +187,19 @@ public class CurrentGame : Singleton<CurrentGame>
 	public void LeaveLobby()
 	{
 		IsInLobby = false;
+	}
+
+	public void setNewDistrict(string newDistrictName)
+	{
+		currentDistrict = newDistrictName;
+		foreach (AreaLocation district in gameDetail.districts)
+		{
+			if (district.name.ToLower().Equals(newDistrictName.ToLower()))
+			{
+				currentDistrictID = district.id;
+				return;
+			}
+		}
 	}
 }
 
