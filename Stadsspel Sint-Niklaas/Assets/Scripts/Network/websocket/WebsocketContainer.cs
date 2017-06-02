@@ -213,32 +213,32 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		SendEvent(GameEventType.TREASURY_ROBBERY, locationID: locationID);
 	}
 
-	public void TradepostLegalPurchase(IDictionary<string, int> items, string locationID)
+	public void SendTradepostLegalPurchase(IDictionary<string, int> items, string locationID)
 	{
 		SendEvent(GameEventType.TRADEPOST_LEGAL_PURCHASE, items: items, locationID: locationID);
 	}
 
-	public void TradepostLegalSale(IDictionary<string, int> items, string locationID)
+	public void SendTradepostLegalSale(IDictionary<string, int> items, string locationID)
 	{
 		SendEvent(GameEventType.TRADEPOST_LEGAL_SALE, items: items, locationID: locationID);
 	}
 
-	public void TradepostIllegalPurchase(IDictionary<string, int> items, string locationID)
+	public void SendTradepostIllegalPurchase(IDictionary<string, int> items, string locationID)
 	{
 		SendEvent(GameEventType.TRADEPOST_ILLEGAL_PURCHASE, items: items, locationID: locationID);
 	}
 
-	public void TradepostIllegalSale(IDictionary<string, int> items, string locationID)
+	public void SendTradepostIllegalSale(IDictionary<string, int> items, string locationID)
 	{
 		SendEvent(GameEventType.TRADEPOST_ILLEGAL_SALE, items: items, locationID: locationID);
 	}
 
-	public void TradepostAllSale(IDictionary<string, int> items, string locationID)
+	public void SendTradepostAllSale(IDictionary<string, int> items, string locationID)
 	{
 		SendEvent(GameEventType.TRADEPOST_ALL_SALE, items: items, locationID: locationID);
 	}
 
-	public void DistrictConquered(string locationId)
+	public void SendDistrictConquered(string locationId)
 	{
 		SendEvent(GameEventType.DISTRICT_CONQUERED, locationID: locationId);
 	}

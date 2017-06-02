@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour
 	private void InitializeMapLocations()
 	{
 		List<PointLocation> banks = CurrentGame.Instance.gameDetail.banks;
-		List<PointLocation> tradeposts = CurrentGame.Instance.gameDetail.tradePosts;
+		List<ServerTradePost> tradeposts = CurrentGame.Instance.gameDetail.tradePosts;
 		List<AreaLocation> districts = CurrentGame.Instance.gameDetail.districts;
 		List<AreaLocation> markets = CurrentGame.Instance.gameDetail.markets;
 		//todo load all into map

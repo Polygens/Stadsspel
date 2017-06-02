@@ -32,7 +32,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		public string roomName;
 		public List<AreaLocation> districts;
 		public List<AreaLocation> markets;
-		public List<PointLocation> tradePosts;
+		public List<ServerTradePost> tradePosts;
 		public List<PointLocation> banks;
 		public List<ServerTeam> teams;
 

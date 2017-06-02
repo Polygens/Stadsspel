@@ -244,7 +244,7 @@ namespace Stadsspel.Elements
 							CurrentGame.Instance.nearBank = bankScript.BankId;
 						}
 
-					} else if (tag == "Trandingpost")
+					} else if (tag.Equals("TradingPost", StringComparison.InvariantCultureIgnoreCase))
 					{
 						GameObject tp = allGameObjectsInRadius[i];
 						TradingPost tpScript = tp.GetComponent<TradingPost>();
