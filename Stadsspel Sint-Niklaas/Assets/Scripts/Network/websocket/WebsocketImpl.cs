@@ -48,7 +48,8 @@ public class WebsocketImpl : WebsocketContainer
 		jsonParameters.UsingGlobalTypes = false;
 		jsonParameters.UseExtensions = false;
 		PlayerNotification pn = JSON.ToObject<PlayerNotification>(message.message, jsonParameters);
-		throw new System.NotImplementedException();
+
+		//todo implment further
 	}
 
 	protected override void HandleTagNotification(MessageWrapper message)
