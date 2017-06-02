@@ -49,12 +49,15 @@ public class TreasureUI : MonoBehaviour
 	/// </summary>
 	private void UpdateUI()
 	{
-		m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-		m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
+		//m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		//m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
+		m_AmountOfOwnMoney.text = CurrentGame.Instance.LocalPlayer.money.ToString();
+		m_AmountOfChestMoney.text = CurrentGame.Instance.PlayerTeam.Treasury.ToString();
 	}
 
 	/// <summary>
 	/// Searches the treasure the player is on.
+	/// todo not needed in client/server model
 	/// </summary>
 	private void FindCurrentTreasure()
 	{
@@ -68,11 +71,12 @@ public class TreasureUI : MonoBehaviour
 	{
 		int amount;
 		int.TryParse(m_Input.text, out amount);
-		if(m_CurrentTreasure.IsMoneyTranferValid(amount)) {
+		if(amount <= CurrentGame.Instance.PlayerTeam.Treasury) {
 #if(UNITY_EDITOR)
 			Debug.Log("Valid Transaction");
 #endif
-			GameManager.s_Singleton.Player.Person.TreasureTransaction(amount, false);
+			//GameManager.s_Singleton.Player.Person.TreasureTransaction(amount, false);
+			CurrentGame.Instance.Ws.SendTreasuryWithdrawal(amount,CurrentGame.Instance.currentDistrictID);
 		}
 		UpdateUI();
 	}
