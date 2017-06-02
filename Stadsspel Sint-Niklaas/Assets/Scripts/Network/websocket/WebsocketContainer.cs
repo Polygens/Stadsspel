@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
+using fastJSON;
 using Stadsspel.Networking;
 using UnityEngine;
 using WebSocketSharp;
@@ -184,7 +185,11 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		IDictionary<string, int> items = null, string locationID = null)
 	{
 		GameEventMessage gem = new GameEventMessage(type, players, moneyTransferred, items, locationID);
-		string innerMessage = JsonUtility.ToJson(gem);
+		//string innerMessage = JsonUtility.ToJson(gem);
+		JSONParameters jsonParameters = new JSONParameters();
+		jsonParameters.UsingGlobalTypes = false;
+		jsonParameters.UseExtensions = false;
+		string innerMessage = JSON.ToJSON(gem,jsonParameters);
 		Send(GameMessageType.EVENT, innerMessage);
 	}
 
@@ -233,6 +238,12 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		SendEvent(GameEventType.TRADEPOST_ILLEGAL_SALE, items: items, locationID: locationID);
 	}
 
+	/// <summary>
+	/// Sells all items to the market
+	/// todo neither of the parameters get used by the code in server
+	/// </summary>
+	/// <param name="items"></param>
+	/// <param name="locationID"></param>
 	public void SendTradepostAllSale(IDictionary<string, int> items, string locationID)
 	{
 		SendEvent(GameEventType.TRADEPOST_ALL_SALE, items: items, locationID: locationID);

@@ -24,6 +24,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public string nearTP { get; set; }
 	public string currentDistrict { get; set; }
 	public string currentDistrictID { get; set; }
+	public IDictionary<string, ServerTradePost.ServerItem> KnownItems;
 
 	[Serializable]
 	public class Game
@@ -106,6 +107,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	{
 		LocalPlayer = new LocalPlayer();
 		LocalPlayer.name = "Player";
+		LocalPlayer.money = 100000000;
 		IsGameRunning = false;
 		IsInLobby = false;
 		IsTaggingPermitted = false;
@@ -159,6 +161,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		Game parsed = JsonUtility.FromJson<Game>(serverGame);
 		gameDetail = parsed;
 		PlayerTeam = FindPlayerTeam();
+		KnownItems = new Dictionary<string, ServerTradePost.ServerItem>();
 	}
 
 	private ServerTeam FindPlayerTeam()

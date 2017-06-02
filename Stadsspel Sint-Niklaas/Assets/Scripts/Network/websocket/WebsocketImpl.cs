@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using fastJSON;
 using UnityEngine;
 using Stadsspel.Networking;
+using Random = UnityEngine.Random;
 
 public class WebsocketImpl : WebsocketContainer
 {
@@ -41,6 +44,10 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandlePlayerNotification(MessageWrapper message)
 	{
+		JSONParameters jsonParameters = new JSONParameters();
+		jsonParameters.UsingGlobalTypes = false;
+		jsonParameters.UseExtensions = false;
+		PlayerNotification pn = JSON.ToObject<PlayerNotification>(message.message, jsonParameters);
 		throw new System.NotImplementedException();
 	}
 
@@ -84,17 +91,17 @@ public class WebsocketImpl : WebsocketContainer
 	{
 		BulkLocationMessage blm = JsonUtility.FromJson<BulkLocationMessage>(message.message);
 
-		foreach (KeyValuePair<string, Point> playerLocation in blm.taggable)
+		foreach (KeyValuePair<string, Point> playerLocation in blm.Taggable)
 		{
 			//todo these players are taggable and need to be drawn on screen
 		}
 
-		foreach (KeyValuePair<string, Point> playerLocation in blm.locations)
+		foreach (KeyValuePair<string, Point> playerLocation in blm.Locations)
 		{
 			//todo these players only need to be drawn on screen
 		}
 
-		if (blm.taggable.Count > 0)
+		if (blm.Taggable.Count > 0)
 		{
 			//todo enable tagging of players
 		}

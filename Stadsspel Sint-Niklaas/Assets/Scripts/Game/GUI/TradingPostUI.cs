@@ -68,6 +68,10 @@ public class TradingPostUI : MonoBehaviour
 		List<Item> items = new List<Item>();
 		foreach (ServerTradePost.ServerItem serverItem in stp.items)
 		{
+			if (!CurrentGame.Instance.KnownItems.ContainsKey(serverItem.name))
+			{
+				CurrentGame.Instance.KnownItems.Add(serverItem.name, serverItem);
+			}
 			items.Add(new Item(serverItem.name, (int)serverItem.legalPurchase, (int)serverItem.legalSales, true));
 			items.Add(new Item(serverItem.name, (int)serverItem.illegalPurchase, (int)serverItem.illegalSales, false));
 		}
