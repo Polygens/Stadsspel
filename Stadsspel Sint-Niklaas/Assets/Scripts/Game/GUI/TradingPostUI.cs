@@ -195,12 +195,16 @@ public class TradingPostUI : MonoBehaviour
 		{
 			if (m_ShopItems[i].IsLegal)
 			{
-				legalItems.Add(m_ShopItems[i].ItemName, m_NumberOfEachItem[i]);
-
+				if (m_NumberOfEachItem[i] > 0)
+				{
+					legalItems.Add(m_ShopItems[i].ItemName, m_NumberOfEachItem[i]);
+				}
 			} else
 			{
-				illegalItems.Add(m_ShopItems[i].ItemName, m_NumberOfEachItem[i]);
-
+				if (m_NumberOfEachItem[i] > 0)
+				{
+					illegalItems.Add(m_ShopItems[i].ItemName, m_NumberOfEachItem[i]);
+				}
 			}
 		}
 
