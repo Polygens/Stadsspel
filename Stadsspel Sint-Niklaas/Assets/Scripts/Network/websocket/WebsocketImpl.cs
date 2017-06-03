@@ -123,6 +123,7 @@ public class WebsocketImpl : WebsocketContainer
 	protected override void HandleBulkLocation(MessageWrapper message)
 	{
 		BulkLocationMessage blm = JsonUtility.FromJson<BulkLocationMessage>(message.message);
+		CurrentGame.Instance.TagablePlayers = new List<string>();
 
 		IDictionary<string, GameObject> playerObjects = CurrentGame.Instance.PlayerObjects;
 		foreach (GameObject playerObj in playerObjects.Values)
@@ -154,8 +155,10 @@ public class WebsocketImpl : WebsocketContainer
 			}
 		}
 
+
 		if (blm.Taggable.Count > 0)
 		{
+			CurrentGame.Instance.TagablePlayers = new List<string>(blm.Taggable.Keys);
 			//todo enable tagging of players
 		}
 	}

@@ -26,6 +26,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public string currentDistrict { get; set; }
 	public string currentDistrictID { get; set; }
 	public IDictionary<string,GameObject> PlayerObjects { get; private set; }
+	public List<string> TagablePlayers { get; set; }
 
 	public IDictionary<string, ServerTradePost.ServerItem> KnownItems;
 

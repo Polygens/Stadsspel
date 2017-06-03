@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using Boo.Lang;
 using UnityEngine;
 
 namespace Stadsspel.Elements
@@ -6,11 +7,11 @@ namespace Stadsspel.Elements
 	public class Person : Element
 	{
 		[SerializeField]
-		private List<int> m_IllegalItems = new List<int>();
+		private System.Collections.Generic.List<int> m_IllegalItems = new System.Collections.Generic.List<int>();
 
 		//legalItems[(int)Items.diploma] = 10; Bijvoorbeeld
 		[SerializeField]
-		private List<int> m_LegalItems = new List<int>();
+		private System.Collections.Generic.List<int> m_LegalItems = new System.Collections.Generic.List<int>();
 
 		[SerializeField]
 		private int m_AmountOfMoney = 0;
@@ -80,16 +81,8 @@ namespace Stadsspel.Elements
 		/// </summary>
 		public void Rob()
 		{
-			/*
-			foreach (GameObject enemy in GameManager.s_Singleton.Player.EnemiesInRadius)
-			{
-				int enemyMoney = enemy.GetComponent<Person>().AmountOfMoney;
-				AddGoods(enemyMoney, enemy.GetComponent<Person>().LookUpLegalItems, enemy.GetComponent<Person>().LookUpIllegalItems, (int)enemy.GetComponent<Person>().Team);
-				enemy.GetComponent<Person>().GetComponent<PhotonView>().RPC("GetRobbed", PhotonTargets.All, (int)enemy.GetComponent<Person>().Team);
-				
-			}
-		*/
-			//todo send tag event
+			CurrentGame.Instance.Ws.SendTag(CurrentGame.Instance.TagablePlayers,CurrentGame.Instance.currentDistrictID);
+			//todo these parameters look stupid.
 		}
 
 		/// <summary>
@@ -146,11 +139,11 @@ namespace Stadsspel.Elements
 
 
 
-		public List<int> LookUpLegalItems {
+		public System.Collections.Generic.List<int> LookUpLegalItems {
 			get { return m_LegalItems; }
 		}
 
-		public List<int> LookUpIllegalItems {
+		public System.Collections.Generic.List<int> LookUpIllegalItems {
 			get { return m_IllegalItems; }
 		}
 
@@ -214,7 +207,7 @@ namespace Stadsspel.Elements
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public void AddGoods(int money, List<int> legalItems, List<int> illegalItems, int enemyTeamId)// Used when stealing from someone
+		public void AddGoods(int money, System.Collections.Generic.List<int> legalItems, System.Collections.Generic.List<int> illegalItems, int enemyTeamId)// Used when stealing from someone
 		{
 			/* todo this should be handled by the server
 			photonView.RPC("MoneyTransaction", PhotonTargets.All, money);
