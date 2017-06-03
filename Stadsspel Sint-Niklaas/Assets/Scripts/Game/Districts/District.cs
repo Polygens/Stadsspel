@@ -47,12 +47,12 @@ namespace Stadsspel.Districts
 				Debug.Log("Team Null");
 				return;
 			}
-			else if (m_Team.CustomColor == null)
+			else if (m_Team.customColor == null)
 			{
-				m_Team.CustomColor = "#FF0000";
+				m_Team.customColor = "#FF0000";
 			}
 			Color newColor = new Color();
-			ColorUtility.TryParseHtmlString(m_Team.CustomColor, out newColor);
+			ColorUtility.TryParseHtmlString(m_Team.customColor, out newColor);
 			gameObject.GetComponent<Renderer>().material.color = newColor;
 		}
 

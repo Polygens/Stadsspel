@@ -90,7 +90,8 @@ public class GameManager : MonoBehaviour
 		m_GameLength = 60;
 
 		//m_AmountOfTeams = TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers);todo fix
-		m_AmountOfTeams = TeamData.GetMaxTeams(6);
+		//m_AmountOfTeams = TeamData.GetMaxTeams(6);
+		m_AmountOfTeams = CurrentGame.Instance.gameDetail.teams.Count;
 		MasterClientStart();
 
 		m_Treasures = new List<Treasure>();
@@ -100,6 +101,11 @@ public class GameManager : MonoBehaviour
 #if (UNITY_EDITOR)
 		Debug.Log("Game will take: " + m_GameLength + "seconds");
 #endif
+
+		foreach (GameObject playerObj in CurrentGame.Instance.PlayerObjects.Values)
+		{
+			playerObj.SetActive(false);
+		}
 	}
 
 	/// <summary>
@@ -183,9 +189,10 @@ public class GameManager : MonoBehaviour
 		List<ServerTradePost> tradeposts = CurrentGame.Instance.gameDetail.tradePosts;
 		List<AreaLocation> districts = CurrentGame.Instance.gameDetail.districts;
 		List<AreaLocation> markets = CurrentGame.Instance.gameDetail.markets;
+
 		//todo load all into map
 		GameObject mapobj = GameObject.Find("Map");
-		GameObject container = new GameObject("TESTEST");
+		GameObject container = new GameObject("TESTEST");//todo get rid of this
 		//GameObject container = GameObject.Find("MapElements");
 		if (mapobj != null)
 		{
@@ -194,8 +201,6 @@ public class GameManager : MonoBehaviour
 			{
 				GameObject serverBanks = new GameObject("Server Banks");
 				serverBanks.transform.parent = container.transform;
-				GameObject serverTPs = new GameObject("Server Tradingposts");
-				serverTPs.transform.parent = container.transform;
 				foreach (PointLocation bank in banks)
 				{
 					GameObject temp = (GameObject)Instantiate(Resources.Load("Bank"), Vector3.zero, Quaternion.identity);
@@ -211,6 +216,10 @@ public class GameManager : MonoBehaviour
 						new Coordinates(bank.point.latitude, bank.point.longitude, 1.0));
 					//map.dropPin(bank.point.latitude,bank.point.longitude,temp);
 				}
+
+
+				GameObject serverTPs = new GameObject("Server Tradingposts");
+				serverTPs.transform.parent = container.transform;
 				foreach (PointLocation tp in tradeposts)
 				{
 					GameObject temp = (GameObject)Instantiate(Resources.Load("Tradingpost"), Vector3.zero, Quaternion.identity);
@@ -227,6 +236,21 @@ public class GameManager : MonoBehaviour
 					//map.dropPin(tp.point.latitude, tp.point.longitude, temp);
 				}
 
+				GameObject playerHolder = new GameObject("Playerholder");//todo is there a better way to do this?
+				playerHolder.transform.parent = container.transform;
+				List<ServerPlayer> players = CurrentGame.Instance.PlayerList();
+				foreach (ServerPlayer serverPlayer in players)
+				{
+					GameObject temp = (GameObject) Instantiate(Resources.Load("Player"), Vector3.zero, Quaternion.identity);
+					temp.name = serverPlayer.name;
+					temp.transform.parent = playerHolder.transform;
+					Person person = temp.GetComponent<Person>();
+					person.Player = serverPlayer;
+
+					GOObject obj = GOObject.AddComponentToObject(temp, map,new Coordinates(51.164510, 4.140199, 1.0));
+
+					CurrentGame.Instance.PlayerObjects.Add(serverPlayer.ClientId,temp);
+				}
 			} else
 			{
 				Debug.Log("ERROR: MAP NOT LOADED");

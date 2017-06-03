@@ -41,9 +41,9 @@ public class BankUI : MonoBehaviour
 	[PunRPC]
 	public void UpdateUI()
 	{
-		ServerTeam playerTeam =CurrentGame.Instance.gameDetail.teams.Find(t => t.TeamName.Equals(CurrentGame.Instance.PlayerTeam.TeamName));
+		ServerTeam playerTeam =CurrentGame.Instance.gameDetail.teams.Find(t => t.teamName.Equals(CurrentGame.Instance.PlayerTeam.teamName));
 		m_AmountOwnMoney.text = ""+CurrentGame.Instance.LocalPlayer.money;
-		m_AmountBankMoney.text = "" + playerTeam.BankAccount;
+		m_AmountBankMoney.text = "" + playerTeam.bankAccount;
 	}
 
 	/// <summary>
@@ -60,8 +60,8 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void SelectAllBankMoney()
 	{
-		ServerTeam playerTeam = CurrentGame.Instance.gameDetail.teams.Find(t => t.TeamName.Equals(CurrentGame.Instance.PlayerTeam.TeamName));
-		m_AmountField.text = "" + playerTeam.BankAccount;
+		ServerTeam playerTeam = CurrentGame.Instance.gameDetail.teams.Find(t => t.teamName.Equals(CurrentGame.Instance.PlayerTeam.teamName));
+		m_AmountField.text = "" + playerTeam.bankAccount;
 		RetractMoney();
 	}
 
@@ -82,8 +82,8 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void RetractMoney()
 	{
-		ServerTeam playerTeam = CurrentGame.Instance.gameDetail.teams.Find(t => t.TeamName.Equals(CurrentGame.Instance.PlayerTeam.TeamName));
-		if (playerTeam.BankAccount >= (double.Parse(m_AmountField.text) - 0.000001)) {
+		ServerTeam playerTeam = CurrentGame.Instance.gameDetail.teams.Find(t => t.teamName.Equals(CurrentGame.Instance.PlayerTeam.teamName));
+		if (playerTeam.bankAccount >= (double.Parse(m_AmountField.text) - 0.000001)) {
 			CurrentGame.Instance.Ws.SendBankWithdrawal(double.Parse(m_AmountField.text), CurrentGame.Instance.nearBank);
 		}
 

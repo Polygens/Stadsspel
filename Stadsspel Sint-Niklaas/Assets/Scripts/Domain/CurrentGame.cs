@@ -24,6 +24,8 @@ public class CurrentGame : Singleton<CurrentGame>
 	public string nearTP { get; set; }
 	public string currentDistrict { get; set; }
 	public string currentDistrictID { get; set; }
+	public IDictionary<string,GameObject> PlayerObjects { get; private set; }
+
 	public IDictionary<string, ServerTradePost.ServerItem> KnownItems;
 
 	[Serializable]
@@ -51,11 +53,11 @@ public class CurrentGame : Singleton<CurrentGame>
 			for (int i = 0; i < mAmountOfTeams; i++)
 			{
 				teams.Add(new ServerTeam {
-					BankAccount = 0,
-					TeamName = "TEAM" + (i + 1),
-					Treasury = 0,
-					Players = new List<ServerPlayer>(),
-					CustomColor = "#FF" + (i + 1) + "000"
+					bankAccount = 0,
+					teamName = "TEAM" + (i + 1),
+					treasury = 0,
+					players = new List<ServerPlayer>(),
+					customColor = "#FF" + (i + 1) + "000"
 				}
 				);
 			}
@@ -89,7 +91,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		{
 			for (int i = 0; i < teams.Count; i++)
 			{
-				if (team.TeamName.Equals(teams[i].TeamName))
+				if (team.teamName.Equals(teams[i].teamName))
 				{
 					return i;
 				}
@@ -155,6 +157,7 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	public void StartGame()
 	{
+		PlayerObjects = new Dictionary<string, GameObject>();
 		IsGameRunning = true;
 		StartCoroutine(SendPlayerLocation());
 		string serverGame = Rest.GetGameById(GameId);
@@ -203,6 +206,19 @@ public class CurrentGame : Singleton<CurrentGame>
 				return;
 			}
 		}
+	}
+
+	public List<ServerPlayer> PlayerList()
+	{
+		List<ServerPlayer> players = new List<ServerPlayer>();
+		foreach (ServerTeam gameDetailTeam in gameDetail.teams)
+		{
+			foreach (ServerPlayer serverPlayer in gameDetailTeam.players)
+			{
+				players.Add(serverPlayer);
+			}
+		}
+		return players;
 	}
 }
 

@@ -82,8 +82,8 @@ namespace Stadsspel.Districts
 
 					Color c1 = new Color();
 					Color c2 = new Color();
-					ColorUtility.TryParseHtmlString(Team.CustomColor, out c1);
-					ColorUtility.TryParseHtmlString(m_CapturingTeam.CustomColor, out c2);
+					ColorUtility.TryParseHtmlString(Team.customColor, out c1);
+					ColorUtility.TryParseHtmlString(m_CapturingTeam.customColor, out c2);
 					GameManager.s_Singleton.DistrictManager.CapturingNotification.SetColor(c1,c2);
 
 					GameManager.s_Singleton.DistrictManager.CapturingNotification.SetProgress(m_CapturingAmount / 100);

@@ -82,7 +82,10 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	private void HandleMessage(MessageWrapper message)
 	{
 		if (!message.gameID.Equals(CurrentGame.Instance.GameId)) return; //if not right game do nothing todo throw error or something also check if no error will occur with this line here
-		NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false); //todo move this line somewhere better
+		if (NetworkManager.Singleton.ConnectingManager!=null)
+		{
+			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false); //todo move this line somewhere better
+		}
 		switch (message.getMessageType())
 		{
 			case GameMessageType.BULK_LOCATION:

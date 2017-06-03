@@ -52,7 +52,7 @@ public class TreasureUI : MonoBehaviour
 		//m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 		//m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
 		m_AmountOfOwnMoney.text = CurrentGame.Instance.LocalPlayer.money.ToString();
-		m_AmountOfChestMoney.text = CurrentGame.Instance.PlayerTeam.Treasury.ToString();
+		m_AmountOfChestMoney.text = CurrentGame.Instance.PlayerTeam.treasury.ToString();
 	}
 
 	/// <summary>
@@ -71,7 +71,7 @@ public class TreasureUI : MonoBehaviour
 	{
 		int amount;
 		int.TryParse(m_Input.text, out amount);
-		if(amount <= CurrentGame.Instance.PlayerTeam.Treasury) {
+		if(amount <= CurrentGame.Instance.PlayerTeam.treasury) {
 #if(UNITY_EDITOR)
 			Debug.Log("Valid Transaction");
 #endif

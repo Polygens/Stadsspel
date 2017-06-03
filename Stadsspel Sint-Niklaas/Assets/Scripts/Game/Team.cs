@@ -52,10 +52,10 @@ public class Team : MonoBehaviour
 
 		//m_TeamID = CurrentGame.Instance.gameDetail.GetTeamByIndex(transform.GetSiblingIndex()); todo re-enable
 		m_TeamID = new ServerTeam();
-		m_TeamID.BankAccount = 0;
-		m_TeamID.CustomColor = "#FF0000";
-		m_TeamID.TeamName = "TEST TEAM";
-		m_TeamID.Treasury = 0;
+		m_TeamID.bankAccount = 0;
+		m_TeamID.customColor = "#FF0000";
+		m_TeamID.teamName = "TEST TEAM";
+		m_TeamID.treasury = 0;
 
 		name = TeamID.ToString();
 	}

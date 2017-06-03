@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Domain;
 using fastJSON;
@@ -16,8 +17,9 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleGameStart(MessageWrapper message)
 	{
-		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(5));//todo set to 10
 		CurrentGame.Instance.StartGame();
+
+		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(5));//todo set to 10
 		Debug.Log("GAME STARTED");
 	}
 
@@ -47,7 +49,9 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleInfoNotification(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		InfoNotification info = JsonUtility.FromJson<InfoNotification>(message.message);
+		//notification containing extra info about a recently passed event (currently only robbery)
+		//todo g: display message?
 	}
 
 	protected override void HandlePlayerNotification(MessageWrapper message)
@@ -120,14 +124,36 @@ public class WebsocketImpl : WebsocketContainer
 	{
 		BulkLocationMessage blm = JsonUtility.FromJson<BulkLocationMessage>(message.message);
 
+		IDictionary<string, GameObject> playerObjects = CurrentGame.Instance.PlayerObjects;
+		foreach (GameObject playerObj in playerObjects.Values)
+		{
+			playerObj.SetActive(false);
+		}
+
 		foreach (KeyValuePair<string, Point> playerLocation in blm.Taggable)
 		{
 			//todo these players are taggable and need to be drawn on screen
+			if (playerObjects.ContainsKey(playerLocation.Key))
+			{
+				GameObject go = playerObjects[playerLocation.Key];
+				go.SetActive(true);
+				GOObject goObject = go.GetComponent<GOObject>();
+				goObject.coordinatesGPS.latitude = playerLocation.Value.latitude;
+				goObject.coordinatesGPS.longitude = playerLocation.Value.longitude;
+			}
 		}
 
 		foreach (KeyValuePair<string, Point> playerLocation in blm.Locations)
 		{
 			//todo these players only need to be drawn on screen
+			if (playerObjects.ContainsKey(playerLocation.Key))
+			{
+				GameObject go = playerObjects[playerLocation.Key];
+				go.SetActive(true);
+				GOObject goObject = go.GetComponent<GOObject>();
+				goObject.coordinatesGPS.latitude = playerLocation.Value.latitude;
+				goObject.coordinatesGPS.longitude = playerLocation.Value.longitude;
+			}
 		}
 
 		if (blm.Taggable.Count > 0)

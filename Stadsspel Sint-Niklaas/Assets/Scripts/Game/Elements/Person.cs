@@ -59,7 +59,7 @@ namespace Stadsspel.Elements
 			//END
 
 			Color color = new Color();
-			ColorUtility.TryParseHtmlString(m_Team.CustomColor, out color);
+			ColorUtility.TryParseHtmlString(m_Team.customColor, out color);
 			GetComponent<MeshRenderer>().material.color = color;
 
 			transform.SetParent(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(m_Team)].transform, false);

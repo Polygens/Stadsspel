@@ -7,8 +7,10 @@ using System.Collections.Generic;
 public class BulkLocationMessage : ISerializationCallbackReceiver
 {
 	private const int DEFAULT_ALTITUDE = 1;
+	[Serializable]
 	public class BulkLocation
 	{
+		[Serializable]
 		public class BulkPoint
 		{
 			public double lat;
@@ -20,7 +22,7 @@ public class BulkLocationMessage : ISerializationCallbackReceiver
 		public bool taggable;
 	}
 
-	public BulkLocation[] locs;
+	public BulkLocation[] locations;
 	public IDictionary<string, Point> Taggable { get; private set; }
 	public IDictionary<string, Point> Locations { get; private set; }
 
@@ -35,7 +37,7 @@ public class BulkLocationMessage : ISerializationCallbackReceiver
 		Taggable = new Dictionary<string, Point>();
 		Locations = new Dictionary<string, Point>();
 
-		foreach (BulkLocation bulkLocation in locs)
+		foreach (BulkLocation bulkLocation in locations)
 		{
 			if (bulkLocation.taggable)
 			{

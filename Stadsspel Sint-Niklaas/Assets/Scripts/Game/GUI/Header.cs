@@ -40,7 +40,7 @@ public class Header : MonoBehaviour
 			if(GameManager.s_Singleton.Player.Person) {
 				// Header Update 
 				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
-				UpdateTeamMoney(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].TotalMoney);
+				UpdateTeamMoney(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].TotalMoney);//todo link to actual team data
 				UpdateGameTimer();
 			}
 		}

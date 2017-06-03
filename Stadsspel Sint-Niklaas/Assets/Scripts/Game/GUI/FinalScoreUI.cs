@@ -23,7 +23,7 @@ public class FinalScoreUI : MonoBehaviour
 			scoreEntryInstance.transform.FindChild("Place").GetComponent<Text>().text = (i + 1).ToString();
 
 			Color c = new Color();
-			ColorUtility.TryParseHtmlString(m_TeamOrder[i].TeamID.CustomColor, out c);
+			ColorUtility.TryParseHtmlString(m_TeamOrder[i].TeamID.customColor, out c);
 			scoreEntryInstance.transform.FindChild("Team").GetComponent<Image>().color = c;
 
 			scoreEntryInstance.transform.FindChild("Money").GetComponent<Text>().text = m_TeamOrder[i].TotalMoney.ToString();
