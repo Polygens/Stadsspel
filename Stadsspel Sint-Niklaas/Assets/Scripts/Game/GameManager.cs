@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void Update()
 	{
-		if (Time.timeSinceLevelLoad > m_GameLength && isGameOver == false)
+		if (Time.timeSinceLevelLoad > m_GameLength && !isGameOver && !CurrentGame.Instance.IsGameRunning)
 		{
 			var a = Time.timeSinceLevelLoad;
 

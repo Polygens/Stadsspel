@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.Domain;
 using fastJSON;
 using UnityEngine;
 using Stadsspel.Networking;
@@ -22,12 +23,19 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleEvent(MessageWrapper message)
 	{
+		Debug.Log("#############################################");
+		Debug.Log("#############################################");
+		Debug.Log("################### EVENT ###################");
+		Debug.Log("#############################################");
+		Debug.Log("#############################################");
 		throw new System.NotImplementedException();
 	}
 
 	protected override void HandleDistrictNotification(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		DistrictNotification dn = JsonUtility.FromJson<DistrictNotification>(message.message);
+		//Contains a district ID and team name
+		//todo map id to a district and change it's team
 	}
 
 	protected override void HandleGameStop(MessageWrapper message)
@@ -48,38 +56,58 @@ public class WebsocketImpl : WebsocketContainer
 		jsonParameters.UsingGlobalTypes = false;
 		jsonParameters.UseExtensions = false;
 		PlayerNotification pn = JSON.ToObject<PlayerNotification>(message.message, jsonParameters);
-
-		//todo implment further
+		LocalPlayer lp = CurrentGame.Instance.LocalPlayer;
+		lp.money = pn.money;
+		lp.legalItems = pn.LegalItems;
+		lp.illegalItems = pn.IllegalItems;
 	}
 
 	protected override void HandleTagNotification(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		TagNotification tn = JsonUtility.FromJson<TagNotification>(message.message);
+		if (tn.taggedBy.Equals(CurrentGame.Instance.LocalPlayer.ClientId))
+		{
+			//todo Player tagged someone
+		}else{
+			//todo Player got tagged
+		}
 	}
 
 	protected override void HandleErrorException(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		ErrorExceptionMessage eem = JsonUtility.FromJson<ErrorExceptionMessage>(message.message);
+		Debug.Log(eem.message);
+		Debug.Log(eem.exceptionClass);
+		Debug.Log(eem.cause);
 	}
 
 	protected override void HandleWinningTeam(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		//todo display winning team, will be expanded to include statistics
 	}
 
 	protected override void HandleTreasuriesOpen(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		//todo display notification of treasuries opening
 	}
 
 	protected override void HandleTreasuriesClose(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		//todo display notification of treasuries closing
 	}
 
 	protected override void HandleTeamNotification(MessageWrapper message)
 	{
-		throw new System.NotImplementedException();
+		TeamNotification tn = JsonUtility.FromJson<TeamNotification>(message.message);
+		ServerTeam st = CurrentGame.Instance.PlayerTeam;
+		st.bankAccount = tn.bankAccount;
+		st.treasury = tn.treasury;
+		st.districts = new List<string>();
+		foreach (AreaLocation areaLocation in tn.districts)
+		{
+			st.districts.Add(areaLocation.name);
+		}
+		st.tradeposts = tn.tradeposts;
 	}
 
 	protected override void HandleTagPermitted(MessageWrapper message)

@@ -10,37 +10,8 @@ public class ServerTeam
 	public double treasury;
 	public double bankAccount;
 	public string customColor;
-
-
-	public string TeamName
-	{
-		get { return teamName; }
-		set { teamName = value; }
-	}
-
-	public List<ServerPlayer> Players
-	{
-		get { return players; }
-		set { players = value; }
-	}
-
-	public double Treasury
-	{
-		get { return treasury; }
-		set { treasury = value; }
-	}
-
-	public double BankAccount
-	{
-		get { return bankAccount; }
-		set { bankAccount = value; }
-	}
-
-	public string CustomColor
-	{
-		get { return customColor; }
-		set { customColor = value; }
-	}
+	public List<string> districts;
+	public List<string> tradeposts;
 
 	public bool ContainsPlayer(string clientId)
 	{
