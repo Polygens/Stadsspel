@@ -106,6 +106,7 @@ public class TradingPostUI : MonoBehaviour
 	/// </summary>
 	private bool CheckIfTeamAlreadyVisited()
 	{
+		/*moved to server
 		bool teamAlreadyVisited = false;
 		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
 #if (UNITY_EDITOR)
@@ -122,6 +123,8 @@ public class TradingPostUI : MonoBehaviour
 			}
 		}
 		return teamAlreadyVisited;
+		*/
+		return false;
 	}
 
 	/// <summary>

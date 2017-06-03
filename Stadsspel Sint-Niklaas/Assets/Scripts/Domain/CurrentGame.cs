@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Domain;
 using UnityEngine;
+using Random = System.Random;
 
 /// <summary>
 /// A singleton that holds all information regarding the current (or last) game known.
@@ -108,7 +109,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	private CurrentGame()
 	{
 		LocalPlayer = new LocalPlayer();
-		LocalPlayer.name = "Player";
+		LocalPlayer.name = "Player"+ DateTime.Now.Millisecond;
 		LocalPlayer.money = 100000000;
 		IsGameRunning = false;
 		IsInLobby = false;
@@ -118,8 +119,9 @@ public class CurrentGame : Singleton<CurrentGame>
 	public void Awake()
 	{
 		Ws = (WebsocketImpl)WebsocketImpl.Instance;
-		LocalPlayer.name = "Player";
-		LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
+		LocalPlayer.name = "Player" + DateTime.Now.Millisecond;
+		//LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; todo reinstate
+		LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier+LocalPlayer.Name;
 	}
 
 	public void Connect()
@@ -219,6 +221,32 @@ public class CurrentGame : Singleton<CurrentGame>
 			}
 		}
 		return players;
+	}
+
+	public int isHeadDistrict(string districtName)
+	{
+		Dictionary<string,AreaLocation> districts = new Dictionary<string, AreaLocation>();
+		foreach (AreaLocation district in gameDetail.districts)
+		{
+			districts.Add(district.id,district);
+		}
+
+
+		int count = gameDetail.teams.Count;
+
+
+		for (int index = 0; index < gameDetail.teams.Count; index++)
+		{
+			if (gameDetail.teams[index].districts.Count >= 1)
+			{
+				string name = districts[gameDetail.teams[index].districts[0].id].name;
+				if (districts[gameDetail.teams[index].districts[0].id].name.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					return index;
+				}
+			}
+		}
+		return -1;
 	}
 }
 

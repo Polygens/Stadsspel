@@ -10,8 +10,8 @@ public class ServerTeam
 	public double treasury;
 	public double bankAccount;
 	public string customColor;
-	public List<string> districts;
-	public List<string> tradeposts;
+	public List<AreaLocation> districts;
+	public List<string> tradePosts;
 
 	public bool ContainsPlayer(string clientId)
 	{

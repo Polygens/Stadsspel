@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Concurrent;
+//using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using fastJSON;
 using Stadsspel.Networking;
 using UnityEngine;
-using WebSocketSharp;
 
 public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 {
@@ -19,15 +16,19 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	private bool stopThread = true;
 	private readonly Queue<string> messageBuffer;
 	private string gameID, clientID;
-	private ConcurrentQueue<MessageWrapper> _inbox;
+	//private ConcurrentQueue<MessageWrapper> _inbox;
+	private Queue<MessageWrapper> _inbox;
 
 	private void Update()
 	{
-		while (!_inbox.IsEmpty)
+		while (_inbox.Count >0)
 		{
+			/*todo concurrency
 			MessageWrapper messageWrapper;
-			while (!_inbox.TryDequeue(out messageWrapper)) ;
+			while (!_inbox.TryDequeue(out messageWrapper));
 			HandleMessage(messageWrapper);
+			*/
+			HandleMessage(_inbox.Dequeue());
 		}
 
 		//send a message from the buffer
@@ -36,7 +37,8 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 
 	protected WebsocketContainer()
 	{
-		_inbox = new ConcurrentQueue<MessageWrapper>();
+		//_inbox = new ConcurrentQueue<MessageWrapper>();todo concurrency
+		_inbox = new Queue<MessageWrapper>();
 		//private constructor for singleton
 		messageBuffer = new Queue<string>();
 	}
@@ -49,7 +51,8 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		}
 		this.clientID = clientID;
 		this.gameID = gameID;
-		_inbox = new ConcurrentQueue<MessageWrapper>();
+		//_inbox = new ConcurrentQueue<MessageWrapper>(); todo concurrency
+		_inbox = new Queue<MessageWrapper>();
 
 		yield return StartCoroutine(ws.Connect());
 		listeningThread = new Thread(ListeningRun);
@@ -185,8 +188,16 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	/// <param name="items">The items bought or sold</param>
 	/// <param name="locationID">The location or district of the event</param>
 	private void SendEvent(GameEventType type, List<string> players = null, double moneyTransferred = 0,
-		IDictionary<string, int> items = null, string locationID = null)
+		IDictionary<string, int> items = null, string locationID = "")
 	{
+		if (players == null)
+		{
+			players = new List<string>();
+		}
+		if (items == null)
+		{
+			items = new Dictionary<string, int>();
+		}
 		GameEventMessage gem = new GameEventMessage(type, players, moneyTransferred, items, locationID);
 		//string innerMessage = JsonUtility.ToJson(gem);
 		JSONParameters jsonParameters = new JSONParameters();

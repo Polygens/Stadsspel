@@ -44,40 +44,44 @@ namespace Stadsspel.Districts
 		/// <summary>
 		/// Starts the game for the DistrictManager for a given amount of teams.
 		/// </summary>
-		public void StartGame(int amountOfTeams)
-		{
+		public void StartGame(int amountOfTeams){
 			m_DistrictColliders = new PolygonCollider2D[gameObject.transform.childCount];
 			for(int i = 0; i < gameObject.transform.childCount; i++) {
 				m_DistrictColliders[i] = gameObject.transform.GetChild(i).gameObject.GetComponent<PolygonCollider2D>();
 			}
 			
 			// Loops trough all district groups and allocates the teams and types.
-			for (int i = 1; i <= 6; i++)
+			for (int i = 0; i < transform.childCount; i++)
 			{
-				var teamIndex = i - 1;
-				if (amountOfTeams >= i)
+				Transform child = transform.GetChild(i);
+				HeadDistrict hd = child.GetComponent<HeadDistrict>();
+				if (hd!=null)
 				{
-					HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
-					district.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
-					district.enabled = true;
-					m_HeadDistricts.Add(district);
-					Destroy(district.GetComponent<CapturableDistrict>());
-					Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
-					square.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
-					square.enabled = true;
-					Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
+					int teamIndex = CurrentGame.Instance.isHeadDistrict(transform.GetChild(i).gameObject.name);
+					if (teamIndex >= 0)
+					{
+						HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
+						district.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
+						district.enabled = true;
+						m_HeadDistricts.Add(district);
+						Destroy(district.GetComponent<CapturableDistrict>());
+						Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
+						square.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
+						square.enabled = true;
+						Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
 
-				}
-				else
-				{
-					CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
-					district.Team = null;
-					district.enabled = true;
-					Destroy(district.GetComponent<HeadDistrict>());
-					CapturePoint square = district.transform.GetChild(0).gameObject.GetComponent<CapturePoint>();
-					square.Team = null;
-					square.enabled = true;
-					Destroy(district.transform.GetChild(0).GetComponent<Treasure>());
+					} else
+					{
+						CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
+						district.Team = null;
+						district.enabled = true;
+						Destroy(district.GetComponent<HeadDistrict>());
+						CapturePoint square = district.transform.GetChild(0).gameObject.GetComponent<CapturePoint>();
+						square.Team = null;
+						square.enabled = true;
+						Destroy(district.transform.GetChild(0).GetComponent<Treasure>());
+					}
+
 				}
 			}
 		}

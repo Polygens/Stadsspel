@@ -1,4 +1,5 @@
 using Stadsspel.Districts;
+using Stadsspel.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,6 +54,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	/// </summary>
 	private void FindCurrentTreasure()
 	{
+		Player p = GameManager.s_Singleton.Player;
 		m_CurrentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
 	}
 

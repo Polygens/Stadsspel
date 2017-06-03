@@ -101,11 +101,6 @@ public class GameManager : MonoBehaviour
 #if (UNITY_EDITOR)
 		Debug.Log("Game will take: " + m_GameLength + "seconds");
 #endif
-
-		foreach (GameObject playerObj in CurrentGame.Instance.PlayerObjects.Values)
-		{
-			playerObj.SetActive(false);
-		}
 	}
 
 	/// <summary>

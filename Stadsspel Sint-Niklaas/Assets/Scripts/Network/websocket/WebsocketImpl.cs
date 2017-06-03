@@ -106,12 +106,12 @@ public class WebsocketImpl : WebsocketContainer
 		ServerTeam st = CurrentGame.Instance.PlayerTeam;
 		st.bankAccount = tn.bankAccount;
 		st.treasury = tn.treasury;
-		st.districts = new List<string>();
+		st.districts = new List<AreaLocation>();
 		foreach (AreaLocation areaLocation in tn.districts)
 		{
-			st.districts.Add(areaLocation.name);
+			st.districts.Add(areaLocation);
 		}
-		st.tradeposts = tn.tradeposts;
+		st.tradePosts = tn.tradeposts;
 	}
 
 	protected override void HandleTagPermitted(MessageWrapper message)
@@ -137,9 +137,8 @@ public class WebsocketImpl : WebsocketContainer
 			{
 				GameObject go = playerObjects[playerLocation.Key];
 				go.SetActive(true);
-				GOObject goObject = go.GetComponent<GOObject>();
-				goObject.coordinatesGPS.latitude = playerLocation.Value.latitude;
-				goObject.coordinatesGPS.longitude = playerLocation.Value.longitude;
+				Coordinates coordinates = new Coordinates(playerLocation.Value.latitude, playerLocation.Value.longitude, 0);
+				go.transform.localPosition = coordinates.convertCoordinateToVector(0);
 			}
 		}
 
@@ -150,9 +149,8 @@ public class WebsocketImpl : WebsocketContainer
 			{
 				GameObject go = playerObjects[playerLocation.Key];
 				go.SetActive(true);
-				GOObject goObject = go.GetComponent<GOObject>();
-				goObject.coordinatesGPS.latitude = playerLocation.Value.latitude;
-				goObject.coordinatesGPS.longitude = playerLocation.Value.longitude;
+				Coordinates coordinates = new Coordinates(playerLocation.Value.latitude, playerLocation.Value.longitude, 0);
+				go.transform.localPosition = coordinates.convertCoordinateToVector(0);
 			}
 		}
 
