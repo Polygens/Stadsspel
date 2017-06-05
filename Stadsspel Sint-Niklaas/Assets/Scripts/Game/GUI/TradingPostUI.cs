@@ -49,11 +49,11 @@ public class TradingPostUI : MonoBehaviour
 		//  return;
 		//}
 
-		m_MessagePanel = transform.FindChild("MessagePanel").gameObject;
+		m_MessagePanel = transform.Find("MessagePanel").gameObject;
 
 		//RectTransform Grid = (RectTransform)transform.FindChild("MainPanel").transform.FindChild("Grid");
-		m_TotalPriceText = transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("BuyPanel").transform.FindChild("AmountOfGoods").GetComponent<Text>();
-		transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		m_TotalPriceText = transform.Find("MainPanel").transform.Find("InfoPanelTop").transform.Find("BuyPanel").transform.Find("AmountOfGoods").GetComponent<Text>();
+		transform.Find("MainPanel").transform.Find("InfoPanelTop").transform.Find("MoneyPanel").transform.Find("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 
 		LoadItems();
 		m_EverythingIsInstantiated = true;
@@ -79,7 +79,7 @@ public class TradingPostUI : MonoBehaviour
 		m_ShopItems = items;
 
 
-		RectTransform Grid = (RectTransform)transform.FindChild("MainPanel").transform.FindChild("Grid");
+		RectTransform Grid = (RectTransform)transform.Find("MainPanel").transform.Find("Grid");
 		int childsInGrid = Grid.childCount;
 		int index = 0;
 		for (int i = 1; i < childsInGrid; i++)
@@ -91,10 +91,10 @@ public class TradingPostUI : MonoBehaviour
 
 			for (int j = 0; j < 2; j++)
 			{
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").FindChild("NaamItem").GetComponent<Text>().text = m_ShopItems[index].ItemName;
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = m_ShopItems[index].BuyPrice.ToString();
-				m_Inputfields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
-				m_TotalTextFields.Add(Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Totaal").GetComponent<Text>());
+				Grid.GetChild(i).GetChild(j).transform.Find("ItemRow1").Find("NaamItem").GetComponent<Text>().text = m_ShopItems[index].ItemName;
+				Grid.GetChild(i).GetChild(j).transform.Find("ItemRow1").transform.Find("PrijsLabel").transform.Find("Prijs").GetComponent<Text>().text = m_ShopItems[index].BuyPrice.ToString();
+				m_Inputfields.Add(Grid.GetChild(i).GetChild(j).transform.Find("InputField").GetComponent<InputField>());
+				m_TotalTextFields.Add(Grid.GetChild(i).GetChild(j).transform.Find("ItemRow2").transform.Find("Totaal").GetComponent<Text>());
 				index++;
 			}
 		}
@@ -148,7 +148,7 @@ public class TradingPostUI : MonoBehaviour
 		{
 			LoadItems();
 			//transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-			transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = CurrentGame.Instance.LocalPlayer.money.ToString();
+			transform.Find("MainPanel").transform.Find("InfoPanelTop").transform.Find("MoneyPanel").transform.Find("AmountOfMoney").GetComponent<Text>().text = CurrentGame.Instance.LocalPlayer.money.ToString();
 		}
 	}
 
@@ -176,7 +176,7 @@ public class TradingPostUI : MonoBehaviour
 			}
 		} else
 		{
-			transform.FindChild("MessagePanel").gameObject.SetActive(true);
+			transform.Find("MessagePanel").gameObject.SetActive(true);
 		}
 	}
 
@@ -233,7 +233,7 @@ public class TradingPostUI : MonoBehaviour
 	/// </summary>
 	public void OnClose()
 	{
-		transform.FindChild("MessagePanel").gameObject.SetActive(false);
+		transform.Find("MessagePanel").gameObject.SetActive(false);
 	}
 
 	//For drop down or inputField

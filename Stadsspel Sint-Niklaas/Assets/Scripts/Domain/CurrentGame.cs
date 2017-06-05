@@ -115,6 +115,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		IsGameRunning = false;
 		IsInLobby = false;
 		IsTaggingPermitted = false;
+		TagablePlayers = new List<string>();
 	}
 
 	public void Awake()

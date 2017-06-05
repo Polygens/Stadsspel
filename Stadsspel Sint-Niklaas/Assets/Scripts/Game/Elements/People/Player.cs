@@ -131,7 +131,7 @@ namespace Stadsspel.Elements
 					m_RobTimer = 30;
 					if (m_MainPanel.childCount > 0 && ((Priority)m_HighestPriority).ToString() == "Enemy")
 					{
-						m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Stelen";
+						m_MainPanel.GetChild(0).transform.Find("Text").GetComponent<Text>().text = "Stelen";
 						m_MainPanel.GetChild(0).GetComponent<Button>().interactable = true;
 					}
 
@@ -142,7 +142,7 @@ namespace Stadsspel.Elements
 					{
 						m_UpdateTimer = 0;
 						if (m_MainPanel.childCount > 0 && ((Priority)m_HighestPriority).ToString() == "Enemy")
-							m_MainPanel.GetChild(0).transform.FindChild("Text").GetComponent<Text>().text = "Wacht " + Mathf.RoundToInt(m_RobTimer) + "s";
+							m_MainPanel.GetChild(0).transform.Find("Text").GetComponent<Text>().text = "Wacht " + Mathf.RoundToInt(m_RobTimer) + "s";
 					}
 				}
 			}
@@ -220,7 +220,7 @@ namespace Stadsspel.Elements
 					Debug.Log("priority update: " + tag + " And name of object: " + allGameObjectsInRadius[i].name);
 #endif
 					Priority tempP;
-					if (tag == "Treasure")
+					if (tag == "Treasure") //todo make switch case
 					{ /*Square */
 						Debug.Log("tag == Treasure");
 						if (allGameObjectsInRadius[i].GetComponent<Square>().Team == m_Person.Team)
@@ -254,6 +254,10 @@ namespace Stadsspel.Elements
 							CurrentGame.Instance.nearTP = tpScript.TPId;
 						}
 						tempP = Priority.TradingPost;
+					} else if(CurrentGame.Instance.IsTaggingPermitted && CurrentGame.Instance.TagablePlayers.Count>0)
+					{
+						//todo g: added this specific check
+						tempP = Priority.Enemy;
 					} else
 					{
 						tempP = (Priority)Enum.Parse(typeof(Priority), tag);
@@ -290,7 +294,7 @@ namespace Stadsspel.Elements
 				if (m_HighestPriority != 0)
 				{
 					mainButton = Instantiate(m_Buttons[m_HighestPriority], transform.position, transform.rotation, m_MainPanel);
-					mainButton.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
+					mainButton.transform.Find("Text").GetComponent<Text>().text = m_ButtonNames[m_HighestPriority];
 				}
 
 				if (((Priority)m_HighestPriority).ToString() == "Enemy")
@@ -327,7 +331,7 @@ namespace Stadsspel.Elements
 						if (m_CurrentButtons[i] == 0 && priorityPresence[i] == 1)
 						{
 							Button tempB = (Button)Instantiate(m_Buttons[i], transform.position, transform.rotation, m_ListPanel);
-							tempB.transform.FindChild("Text").GetComponent<Text>().text = m_ButtonNames[i];
+							tempB.transform.Find("Text").GetComponent<Text>().text = m_ButtonNames[i];
 							tempPanel = null;
 							for (int j = 0; j < m_Panels.Length; j++)
 							{
