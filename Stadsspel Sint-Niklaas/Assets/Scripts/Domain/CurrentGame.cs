@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Domain;
+using Assets.Scripts.Network.websocket.messages;
+using Stadsspel.Elements;
 using UnityEngine;
 using Random = System.Random;
 
@@ -10,9 +12,17 @@ using Random = System.Random;
 /// </summary>
 public class CurrentGame : Singleton<CurrentGame>
 {
+	private const string URL = "ws://localhost:8090/user";
+	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
+
+
+
 	public WebsocketImpl Ws { get; private set; }
-	public string ClientToken { get; set; }
+	public string HostingLoginToken { get; set; }
+	public string HostedGameId { get; set; }
 	public bool isHost { get; set; }
+
+	public string ClientToken { get; set; }
 	public string GameId { get; set; }
 	public string PasswordUsed { get; set; }
 	public Game gameDetail { get; set; }
@@ -27,6 +37,8 @@ public class CurrentGame : Singleton<CurrentGame>
 	public string currentDistrictID { get; set; }
 	public IDictionary<string,GameObject> PlayerObjects { get; private set; }
 	public List<string> TagablePlayers { get; set; }
+	public Player UIPlayer { get; set; }
+	public ConqueringUpdate lastConqueringUpdate { get; set; }
 
 	public IDictionary<string, ServerTradePost.ServerItem> KnownItems;
 
@@ -128,7 +140,7 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	public void Connect()
 	{
-		StartCoroutine(Ws.Connect("ws://localhost:8090/user", GameId, LocalPlayer.clientID));
+		StartCoroutine(Ws.Connect(URL, GameId, LocalPlayer.clientID));
 	}
 
 	public void Clear()
@@ -212,6 +224,20 @@ public class CurrentGame : Singleton<CurrentGame>
 		}
 	}
 
+	public string DistrictNameFromId(string districtId)
+	{
+		foreach (AreaLocation district in gameDetail.districts)
+		{
+			if (district.id.Equals(districtId))
+			{
+				return district.name;
+			}
+		}
+		return null;
+	}
+
+	
+
 	public List<ServerPlayer> PlayerList()
 	{
 		List<ServerPlayer> players = new List<ServerPlayer>();
@@ -249,6 +275,11 @@ public class CurrentGame : Singleton<CurrentGame>
 			}
 		}
 		return -1;
+	}
+
+	public ServerTeam GetTeamByName(string teamName)
+	{
+		return gameDetail.teams.Find(t => t.teamName.Equals(teamName));
 	}
 }
 

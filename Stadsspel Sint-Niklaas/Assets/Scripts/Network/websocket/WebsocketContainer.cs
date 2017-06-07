@@ -3,6 +3,7 @@ using System.Collections;
 //using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using Assets.Scripts.Network.websocket.messages;
 using fastJSON;
 using Stadsspel.Networking;
 using UnityEngine;
@@ -132,6 +133,12 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 				break;
 			case GameMessageType.ERROR_EXCEPTION:
 				HandleErrorException(message);
+				break;
+			case GameMessageType.LOBBY_UPDATE:
+				HandleLobbyUpdate(message);
+				break;
+			case GameMessageType.CONQUERING_UPDATE:
+				HandleConquerUpdate(message);
 				break;
 			default:
 				Debug.Log("Message is not of a type we should catch");
@@ -268,6 +275,20 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		SendEvent(GameEventType.DISTRICT_CONQUERED, locationID: locationId);
 	}
 
+	public void SendConquerStart(string locationId)
+	{
+		ConquerMessage cm = new ConquerMessage();
+		cm.LocationID = locationId;
+		Send(GameMessageType.CONQUERING_START,JsonUtility.ToJson(cm));
+	}
+
+	public void SendConquerEnd(string locationId)
+	{
+		ConquerMessage cm = new ConquerMessage();
+		cm.LocationID = locationId;
+		Send(GameMessageType.CONQUERING_END,JsonUtility.ToJson(cm));
+	}
+
 
 	public new void OnDestroy()
 	{
@@ -302,4 +323,9 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	protected abstract void HandleTagPermitted(MessageWrapper message);
 
 	protected abstract void HandleBulkLocation(MessageWrapper message);
+
+	protected abstract void HandleLobbyUpdate(MessageWrapper message);
+
+	protected abstract void HandleConquerUpdate(MessageWrapper message);
+
 }

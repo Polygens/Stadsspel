@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
 		}
 		if (Time.timeSinceLevelLoad > m_NextMoneyUpdateTime && !isGameOver)
 		{
+			/*
 			if (PhotonNetwork.isMasterClient)
 			{
 				// Call GainMoneyOverTime() from each financial object
@@ -127,6 +128,7 @@ public class GameManager : MonoBehaviour
 				}
 
 			}
+			*/
 			m_NextMoneyUpdateTime = Time.timeSinceLevelLoad + m_MoneyUpdateTimeInterval;
 		}
 	}

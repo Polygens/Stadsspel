@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Domain;
+using Assets.Scripts.Network.websocket.messages;
 using fastJSON;
+using Stadsspel.Districts;
 using UnityEngine;
 using Stadsspel.Networking;
 using Random = UnityEngine.Random;
@@ -36,6 +38,18 @@ public class WebsocketImpl : WebsocketContainer
 	protected override void HandleDistrictNotification(MessageWrapper message)
 	{
 		DistrictNotification dn = JsonUtility.FromJson<DistrictNotification>(message.message);
+		string name = CurrentGame.Instance.DistrictNameFromId(dn.districtId);
+		GameObject district = GameManager.s_Singleton.DistrictManager.GetDistrictByName(name);
+		if (district != null)
+		{
+			CapturableDistrict capturableDistrict = district.GetComponent<CapturableDistrict>();
+			if (capturableDistrict != null)
+			{
+				capturableDistrict.Team = CurrentGame.Instance.GetTeamByName(dn.teamName);
+				capturableDistrict.OnTeamChanged();
+				district.GetComponentInChildren<CapturePoint>().Team = capturableDistrict.Team;
+			}
+		}
 		//Contains a district ID and team name
 		//todo map id to a district and change it's team
 	}
@@ -150,7 +164,10 @@ public class WebsocketImpl : WebsocketContainer
 			{
 				GameObject go = playerObjects[playerLocation.Key];
 				go.SetActive(true);
-				Coordinates coordinates = new Coordinates(playerLocation.Value.latitude, playerLocation.Value.longitude, 0);
+				Coordinates coordinates = new Coordinates(playerLocation.Value.latitude, playerLocation.Value.longitude, 1);
+
+				//move the object
+				//StartCoroutine(MoveOverSeconds(go, coordinates.convertCoordinateToVector(0), 0.75f));
 				go.transform.localPosition = coordinates.convertCoordinateToVector(0);
 			}
 		}
@@ -159,7 +176,38 @@ public class WebsocketImpl : WebsocketContainer
 		if (blm.Taggable.Count > 0)
 		{
 			CurrentGame.Instance.TagablePlayers = new List<string>(blm.Taggable.Keys);
+			CurrentGame.Instance.UIPlayer.OnTaggablePlayers();
 			//todo enable tagging of players
 		}
+	}
+
+	protected override void HandleLobbyUpdate(MessageWrapper message)
+	{
+		JSONParameters jsonParameters = new JSONParameters();
+		jsonParameters.UsingGlobalTypes = false;
+		jsonParameters.UseExtensions = false;
+		LobbyUpdate lu = JSON.ToObject<LobbyUpdate>(message.message);
+		CurrentGame.Instance.gameDetail.teams = lu.teams;
+		CurrentGame.Instance.isHost = lu.isHost;
+		NetworkManager.Singleton.RoomManager.OnLobbyLoad();
+	}
+
+	protected override void HandleConquerUpdate(MessageWrapper message)
+	{
+		ConqueringUpdate cu = JsonUtility.FromJson<ConqueringUpdate>(message.message);
+		CurrentGame.Instance.lastConqueringUpdate = cu;
+	}
+
+	public IEnumerator MoveOverSeconds(GameObject objectToMove, Vector3 end, float seconds)
+	{
+		float elapsedTime = 0;
+		Vector3 startingPos = objectToMove.transform.position;
+		while (elapsedTime < seconds)
+		{
+			objectToMove.transform.position = Vector3.Lerp(startingPos, end, (elapsedTime / seconds));
+			elapsedTime += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
+		objectToMove.transform.position = end;
 	}
 }

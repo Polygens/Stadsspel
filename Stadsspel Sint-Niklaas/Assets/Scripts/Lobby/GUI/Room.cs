@@ -61,8 +61,12 @@ namespace Stadsspel
 			//todo allow player name change
 			try
 			{
-				ConnectionResource resource = Rest.RegisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.LocalPlayer.name, password, ID);
-				CurrentGame.Instance.ClientToken = resource.clientToken;
+				string serverGame = Rest.GetGameById(ID);
+				CurrentGame.Game parsed = JsonUtility.FromJson<CurrentGame.Game>(serverGame);
+				CurrentGame.Instance.gameDetail = parsed;
+
+				string resource = Rest.RegisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.LocalPlayer.name, password, ID);
+				CurrentGame.Instance.ClientToken = resource;
 				CurrentGame.Instance.GameId = ID;
 				CurrentGame.Instance.PasswordUsed = password;
 				CurrentGame.Instance.Connect();

@@ -32,7 +32,7 @@ namespace Stadsspel.Districts
 		/// <summary>
 		/// Handles the change of team.
 		/// </summary>
-		protected override void OnTeamChanged()
+		public override void OnTeamChanged()
 		{
 			base.OnTeamChanged();
 			Color newColor = gameObject.GetComponent<Renderer>().material.color;

@@ -1,5 +1,6 @@
 using Photon;
 using UnityEngine;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Districts
 {
@@ -14,7 +15,7 @@ namespace Stadsspel.Districts
 		Outside,
 	}
 
-	public class District : PunBehaviour
+	public class District : MonoBehaviour
 	{
 		[SerializeField]
 		protected ServerTeam m_Team;
@@ -40,7 +41,7 @@ namespace Stadsspel.Districts
 		/// <summary>
 		/// Handles the change of team.
 		/// </summary>
-		protected virtual void OnTeamChanged()
+		public virtual void OnTeamChanged()
 		{
 			if (m_Team == null)
 			{

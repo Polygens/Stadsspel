@@ -31,7 +31,8 @@ namespace Stadsspel.Networking
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
-			if(newState) {
+			if (newState)
+			{
 				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(false);
 				NetworkManager.Singleton.TopPanelManager.SetName("");
 			}
@@ -44,26 +45,8 @@ namespace Stadsspel.Networking
 
 		public void MakeRoom()
 		{
-			if(m_RoomNameInp.text != "") {
-				RoomInfo[] rooms = PhotonNetwork.GetRoomList();
-				foreach(RoomInfo room in rooms) {
-					if(room.Name == m_RoomNameInp.text) {
-#if(UNITY_EDITOR)
-						Debug.Log("Room creation failed");
-#endif
-						NetworkManager.Singleton.RoomExistsManager.EnableDisableMenu(true);
-						return;
-					}
-				}
-				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
-				NetworkManager.Singleton.RoomManager.InitializeRoom(m_RoomNameInp.text, m_RoomPasswordInp.text, (int)GameDurationDropdown.m_Durations[m_RoomGameDurationDro.value].TotalSeconds, (byte)Mathf.Round(m_RoomAmountOfPlayersSli.value));
-				gameObject.SetActive(false);
-			}
-			else {
-#if(UNITY_EDITOR)
-				Debug.Log("ERROR: No name given for the room!");
-#endif
-			}
+			CurrentGame.Instance.HostingLoginToken = Rest.DeviceLogin(CurrentGame.Instance.LocalPlayer.clientID);
+			CurrentGame.Instance.HostedGameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, m_RoomNameInp.text, 2, 6,m_RoomPasswordInp.text));
 		}
 
 		public void ShowLobby()

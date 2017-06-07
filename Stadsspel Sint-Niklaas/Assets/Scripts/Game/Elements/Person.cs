@@ -88,7 +88,6 @@ namespace Stadsspel.Elements
 		/// <summary>
 		/// [PunRPC] TODO
 		/// </summary>
-		[PunRPC]
 		public void ResetLegalItems()
 		{
 			for (int i = 0; i < m_LegalItems.Count; i++)
@@ -100,7 +99,6 @@ namespace Stadsspel.Elements
 		/// <summary>
 		/// [PunRPC] TODO
 		/// </summary>
-		[PunRPC]
 		public void ResetIllegalItems()
 		{
 			for (int i = 0; i < m_IllegalItems.Count; i++)
@@ -113,7 +111,6 @@ namespace Stadsspel.Elements
 		/// [PunRPC] TODO
 		/// todo g: server
 		/// </summary>
-		[PunRPC]
 		public void GetRobbed(int teamId)
 		{
 			/*
@@ -150,7 +147,6 @@ namespace Stadsspel.Elements
 		/// <summary>
 		/// [PunRPC] TODO
 		/// </summary>
-		[PunRPC]
 		public void AddLegalItem(int index, int item)
 		{
 			m_LegalItems[index] += item;
@@ -159,7 +155,6 @@ namespace Stadsspel.Elements
 		/// <summary>
 		/// [PunRPC] TODO
 		/// </summary>
-		[PunRPC]
 		public void AddIllegalItem(int index, int item)
 		{
 			m_IllegalItems[index] += item;
@@ -169,7 +164,6 @@ namespace Stadsspel.Elements
 		/// <summary>
 		/// [PunRPC] Performs a money transaction from outside the team to the player.
 		/// </summary>
-		[PunRPC]
 		public void MoneyTransaction(int money)
 		{
 			/* todo what is this?
@@ -245,7 +239,6 @@ namespace Stadsspel.Elements
 		/// <summary>
 		/// [PunRPC] Performs a money transaction from within the team to the player.
 		/// </summary>
-		[PunRPC]
 		public void TransactionMoney(int money)
 		{
 			m_AmountOfMoney += money;

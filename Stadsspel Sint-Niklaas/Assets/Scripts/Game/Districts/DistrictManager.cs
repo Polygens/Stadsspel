@@ -139,14 +139,14 @@ namespace Stadsspel.Districts
 			if(oldDistrict) {
 				CapturePoint capturePointOld = oldDistrict.GetComponent<CapturePoint>();
 				if(capturePointOld) {
-					capturePointOld.photonView.RPC("RemovePlayerOnPoint", PhotonTargets.All, m_PlayerTrans.GetComponent<Person>().Team);
+					capturePointOld.RemovePlayerOnPoint(m_PlayerTrans.GetComponent<Person>().Team.teamName);
 				}
 			}
 
 			CapturePoint capturePointNew = newDistrict.GetComponent<CapturePoint>();
 			if(capturePointNew) {
 				m_CurrentCapturePoint = capturePointNew;
-				capturePointNew.photonView.RPC("AddPlayerOnPoint", PhotonTargets.All, m_PlayerTrans.GetComponent<Person>().Team);
+				capturePointNew.AddPlayerOnPoint(m_PlayerTrans.GetComponent<Person>().Team.teamName);
 			}
 		}
 
@@ -186,6 +186,20 @@ namespace Stadsspel.Districts
 		public Treasure GetHeadSquare(TeamID team)
 		{
 			return GetHeadDistrict(team).transform.GetChild(0).GetComponent<Treasure>();
+		}
+
+		public GameObject GetDistrictByName(string name)
+		{
+			foreach (PolygonCollider2D districtCollider in m_DistrictColliders)
+			{
+				string districtName = districtCollider.gameObject.name;
+				Debug.Log(districtName);
+				if (districtName.ToLower().Equals(name.ToLower()))
+				{
+					return districtCollider.gameObject;
+				}
+			}
+			return null;
 		}
 	}
 }

@@ -204,10 +204,13 @@ public class Rest
 
 
 	//######################### GAME METHODS
-	public static string NewGame(string data)
+	public static string NewGame(GameResource resource)
 	{
+		Debug.Log(resource.password);
 		string response;
 		string urlSuffix = GAME_SUFFIX;
+		string data = JsonUtility.ToJson(resource);
+		Debug.Log(data);
 		int code = Post(urlSuffix, data, out response);
 		HandleReturnCode(code);
 		return response;
@@ -285,7 +288,7 @@ public class Rest
 		return response;
 	}
 
-	public static ConnectionResource RegisterPlayer(string clientId, string name, string password, string gameId)
+	public static string RegisterPlayer(string clientId, string name, string password, string gameId)
 	{
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/register";
@@ -297,8 +300,7 @@ public class Rest
 		};
 		int code = Post(urlSuffix, JsonUtility.ToJson(rur), out response);
 		HandleReturnCode(code);
-		ConnectionResource cr = JsonUtility.FromJson<ConnectionResource>(response);
-		return cr;
+		return response;
 	}
 
 	public static string UnregisterPlayer(string clientId, string gameId)
@@ -419,15 +421,15 @@ public class GameResource
 	public string roomName;
 	public int maxTeams;
 	public int maxPlayersPerTeam;
-	public string hostPassword;
+	public string password;
 
-	public GameResource(string token, string roomName, int maxTeams, int maxPlayersPerTeam, string hostPassword)
+	public GameResource(string token, string roomName, int maxTeams, int maxPlayersPerTeam, string password)
 	{
 		this.token = token;
 		this.roomName = roomName;
 		this.maxTeams = maxTeams;
 		this.maxPlayersPerTeam = maxPlayersPerTeam;
-		this.hostPassword = hostPassword;
+		this.password = password;
 	}
 }
 

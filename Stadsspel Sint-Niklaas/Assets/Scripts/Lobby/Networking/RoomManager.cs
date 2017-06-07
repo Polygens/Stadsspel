@@ -1,5 +1,6 @@
 ﻿using Photon;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,8 @@ namespace Stadsspel.Networking
 
 		public const string RoomPasswordProp = "password";
 		public const string RoomGameDurationProp = "gameDuration";
+		private List<ServerTeam> teams;
+		private IDictionary<string, GameObject> playerObjects;
 
 		public RectTransform LobbyPlayerList
 		{
@@ -38,14 +41,16 @@ namespace Stadsspel.Networking
 		{
 			m_StartGameBtn.onClick.AddListener(() =>
 			{
-				StartCoroutine(ServerCountdownCoroutine(m_CountdownDuration));
+				if (CurrentGame.Instance.HostingLoginToken != null || !CurrentGame.Instance.HostingLoginToken.Equals(""))
+				{
+					Rest.StartGame(CurrentGame.Instance.GameId, CurrentGame.Instance.HostingLoginToken);
+				}
 			});
 		}
 
 		/// <summary>
 		/// [PunRPC] Updates the countdown popup with a given time in seconds.
 		/// </summary>
-		[PunRPC]
 		private void UpdateCountDown(byte time)
 		{
 			NetworkManager.Singleton.CountdownManager.SetText("Het spel start in...\n" + time);
@@ -54,7 +59,6 @@ namespace Stadsspel.Networking
 		/// <summary>
 		/// [PunRPC] Shows the countdown popup.
 		/// </summary>
-		[PunRPC]
 		private void StartCountDown(bool state)
 		{
 			NetworkManager.Singleton.CountdownManager.EnableDisableMenu(state);
@@ -139,18 +143,45 @@ namespace Stadsspel.Networking
 		}
 
 		/// <summary>
-		/// [PunBehaviour] Gets called when a player joins the room.
+		/// todo replace with a muxing message
 		/// </summary>
-		/* todo replace with something equivalent (new message type?)
-		public override void OnJoinedRoom()
+		public void OnLobbyLoad()
 		{
-			base.OnJoinedRoom();
+			NetworkManager.Singleton.TopPanelManager.SetName(CurrentGame.Instance.gameDetail.roomName);
 
-			NetworkManager.Singleton.TopPanelManager.SetName(PhotonNetwork.room.Name);
+			if (playerObjects != null)
+			{
+				foreach (GameObject o in playerObjects.Values)
+				{
+					Destroy(o);
+				}
+				playerObjects = null;
+			}
+
+			teams = CurrentGame.Instance.gameDetail.teams;
+			playerObjects = new Dictionary<string, GameObject>();
+			foreach (var serverTeam in teams)
+			{
+				foreach (ServerPlayer player in serverTeam.players)
+				{
+					GameObject go = (GameObject)Instantiate(Resources.Load(NetworkManager.Singleton.LobbyPlayerPrefabName), Vector3.zero, Quaternion.identity);
+					playerObjects.Add(player.clientID, go);
+				}
+			}
+
+			if (!CurrentGame.Instance.isHost)
+			{
+				DisableStartButton();
+			}
+			else
+			{
+				m_StartGameBtn.gameObject.SetActive(true);
+			}
+
+
 			//PhotonNetwork.Instantiate(NetworkManager.Singleton.LobbyPlayerPrefabName, Vector3.zero, Quaternion.identity, 0); todo DELETE
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
 		}
-		*/
 
 		/// <summary>
 		/// [PunBehaviour] Gets called when a player leaves the room. [PunBehaviour]
@@ -174,6 +205,7 @@ namespace Stadsspel.Networking
 		/// </remarks>
 		public void CheckIfReadyToStart()
 		{
+			/*
 			int playersReady = 0;
 			foreach (Transform item in m_LobbyPlayerList)
 			{
@@ -204,6 +236,7 @@ namespace Stadsspel.Networking
 				m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
 			}
 #endif
+			*/
 		}
 
 		/// <summary>
