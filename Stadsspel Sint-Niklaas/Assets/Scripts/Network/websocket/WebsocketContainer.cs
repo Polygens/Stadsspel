@@ -289,6 +289,16 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		Send(GameMessageType.CONQUERING_END,JsonUtility.ToJson(cm));
 	}
 
+	public void SendPlayerNameUpdate(string newName)
+	{
+		Send(GameMessageType.PLAYER_UPDATE_NAME, newName);
+	}
+
+	public void SendPlayerTeamUpdate(string newTeam)
+	{
+		Send(GameMessageType.PLAYER_UPDATE_TEAM, newTeam);
+	}
+
 
 	public new void OnDestroy()
 	{

@@ -73,8 +73,6 @@ namespace Stadsspel.Networking
 		/// </summary>
 		void Start()
 		{
-			
-
 			//transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList,false);
 		}
 
@@ -144,7 +142,6 @@ namespace Stadsspel.Networking
 
 			GetComponent<Image>().color = m_LocalPlayerColor;
 
-			//PhotonNetwork.playerName = "Speler: " + photonView.ownerId;
 			m_NameInp.text = player.Name;
 
 			m_TeamBtn.interactable = true;
@@ -155,8 +152,9 @@ namespace Stadsspel.Networking
 			});
 
 			m_NameInp.interactable = true;
-			m_NameInp.onEndEdit.AddListener(val => {
-				//todo change name
+			m_NameInp.onEndEdit.AddListener(val =>
+			{
+				CurrentGame.Instance.Ws.SendPlayerNameUpdate(val);
 			});
 
 			m_ReadyBtn.interactable = true;
