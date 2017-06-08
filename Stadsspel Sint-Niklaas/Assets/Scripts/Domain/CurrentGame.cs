@@ -281,5 +281,16 @@ public class CurrentGame : Singleton<CurrentGame>
 	{
 		return gameDetail.teams.Find(t => t.teamName.Equals(teamName));
 	}
+
+	public ServerTeam getNextTeam(ServerTeam team)
+	{
+		int index = gameDetail.teams.FindIndex(t => t.teamName.Equals(team.teamName));
+		int nextIndex = index++;
+		if (nextIndex >= gameDetail.teams.Count)
+		{
+			nextIndex = 0;
+		}
+		return gameDetail.teams[nextIndex];
+	}
 }
 

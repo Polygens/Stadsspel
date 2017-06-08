@@ -145,10 +145,10 @@ namespace Stadsspel.Networking
 			m_NameInp.text = player.Name;
 
 			m_TeamBtn.interactable = true;
-			m_TeamBtn.onClick.AddListener(() => {
-				//todo switch team
-				//m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(photonView.owner.GetTeam());
-				//photonView.RPC("TeamChanged", PhotonTargets.AllBufferedViaServer, TeamData.GetNextTeam());
+			m_TeamBtn.onClick.AddListener(() =>
+			{
+				ServerTeam nextTeam = CurrentGame.Instance.getNextTeam(team);
+				CurrentGame.Instance.Ws.SendPlayerTeamUpdate(nextTeam.teamName);
 			});
 
 			m_NameInp.interactable = true;
