@@ -10,8 +10,8 @@ using System.Text;
 
 public class Rest
 {
-	private const string BASE_URL = "https://stniklaas-stadsspel.herokuapp.com/api/";
-	//private const string BASE_URL = "http://localhost:8090/api/";
+	//private const string BASE_URL = "https://stniklaas-stadsspel.herokuapp.com/api/";
+	private const string BASE_URL = "http://localhost:8090/api/";
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
 	private const string ACCOUNT_SUFFIX = "accounts";
@@ -22,7 +22,6 @@ public class Rest
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
 		// Create a request using a URL that can receive a Post.
-		Debug.Log("" + BASE_URL + urlSuffix);
 		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
 
 		// Set the Method property of the request to POST.
@@ -51,8 +50,7 @@ public class Rest
 	private static int Put(string urlSuffix, string data, out string serverResponse)
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
-		// Create a request using a URL that can receive a Post.   
-		Debug.Log("" + BASE_URL + urlSuffix);
+		// Create a request using a URL that can receive a Post.
 		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
 		// Set the Method property of the request to POST.  
 		request.Method = "PUT";
@@ -97,8 +95,7 @@ public class Rest
 	private static int Post(string urlSuffix, string data, out string serverResponse)
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
-		// Create a request using a URL that can receive a Post.   
-		Debug.Log("" + BASE_URL + urlSuffix);
+		// Create a request using a URL that can receive a Post.
 		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
 		// Set the Method property of the request to POST.  
 		request.Method = "POST";
@@ -206,11 +203,9 @@ public class Rest
 	//######################### GAME METHODS
 	public static string NewGame(GameResource resource)
 	{
-		Debug.Log(resource.password);
 		string response;
 		string urlSuffix = GAME_SUFFIX;
 		string data = JsonUtility.ToJson(resource);
-		Debug.Log(data);
 		int code = Post(urlSuffix, data, out response);
 		HandleReturnCode(code);
 		return response;

@@ -183,10 +183,7 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleLobbyUpdate(MessageWrapper message)
 	{
-		JSONParameters jsonParameters = new JSONParameters();
-		jsonParameters.UsingGlobalTypes = false;
-		jsonParameters.UseExtensions = false;
-		LobbyUpdate lu = JSON.ToObject<LobbyUpdate>(message.message);
+		LobbyUpdate lu = JsonUtility.FromJson<LobbyUpdate>(message.message);
 		CurrentGame.Instance.gameDetail.teams = lu.teams;
 		CurrentGame.Instance.isHost = lu.isHost;
 		NetworkManager.Singleton.RoomManager.OnLobbyLoad();

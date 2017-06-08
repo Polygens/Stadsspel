@@ -12,15 +12,15 @@ using Random = System.Random;
 /// </summary>
 public class CurrentGame : Singleton<CurrentGame>
 {
-	//private const string URL = "ws://localhost:8090/user";
-	private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
-
+	private const string URL = "ws://localhost:8090/user";
+	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
 
 
 	public WebsocketImpl Ws { get; private set; }
 	public string HostingLoginToken { get; set; }
 	public string HostedGameId { get; set; }
 	public bool isHost { get; set; }
+	public IDictionary<string, string> RegisteredGames { get; private set; }
 
 	public string ClientToken { get; set; }
 	public string GameId { get; set; }
@@ -35,7 +35,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public string nearTP { get; set; }
 	public string currentDistrict { get; set; }
 	public string currentDistrictID { get; set; }
-	public IDictionary<string,GameObject> PlayerObjects { get; private set; }
+	public IDictionary<string, GameObject> PlayerObjects { get; private set; }
 	public List<string> TagablePlayers { get; set; }
 	public Player UIPlayer { get; set; }
 	public ConqueringUpdate lastConqueringUpdate { get; set; }
@@ -122,8 +122,8 @@ public class CurrentGame : Singleton<CurrentGame>
 	private CurrentGame()
 	{
 		LocalPlayer = new LocalPlayer();
-		LocalPlayer.name = "Player"+ DateTime.Now.Millisecond;
-		LocalPlayer.money = 100000000;
+		LocalPlayer.name = "Player" + DateTime.Now.Millisecond; //todo fix
+		LocalPlayer.money = 0;
 		IsGameRunning = false;
 		IsInLobby = false;
 		IsTaggingPermitted = false;
@@ -135,7 +135,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		Ws = (WebsocketImpl)WebsocketImpl.Instance;
 		LocalPlayer.name = "Player" + DateTime.Now.Millisecond;
 		//LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; todo reinstate
-		LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier+LocalPlayer.Name;
+		LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier + LocalPlayer.Name;
 	}
 
 	public void Connect()
@@ -154,7 +154,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	{
 		while (IsGameRunning)
 		{
-			if (LocalPlayer!=null && LocalPlayer.location!=null)
+			if (LocalPlayer != null && LocalPlayer.location != null)
 			{
 				Ws.SendLocation(LocalPlayer.location);
 			}
@@ -236,7 +236,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		return null;
 	}
 
-	
+
 
 	public List<ServerPlayer> PlayerList()
 	{
@@ -253,10 +253,10 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	public int isHeadDistrict(string districtName)
 	{
-		Dictionary<string,AreaLocation> districts = new Dictionary<string, AreaLocation>();
+		Dictionary<string, AreaLocation> districts = new Dictionary<string, AreaLocation>();
 		foreach (AreaLocation district in gameDetail.districts)
 		{
-			districts.Add(district.id,district);
+			districts.Add(district.id, district);
 		}
 
 

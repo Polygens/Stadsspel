@@ -71,8 +71,8 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 			string reply = ws.RecvString();
 			if (reply != null)
 			{
-				Debug.Log("Received: " + reply);
 				MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
+				Debug.Log(mw.messageType);
 				_inbox.Enqueue(mw);
 			}
 			if (ws.error != null)

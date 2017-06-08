@@ -149,6 +149,8 @@ namespace Stadsspel.Networking
 		{
 			NetworkManager.Singleton.TopPanelManager.SetName(CurrentGame.Instance.gameDetail.roomName);
 
+
+			//todo replace with detect and update
 			if (playerObjects != null)
 			{
 				foreach (GameObject o in playerObjects.Values)
@@ -165,6 +167,12 @@ namespace Stadsspel.Networking
 				foreach (ServerPlayer player in serverTeam.players)
 				{
 					GameObject go = (GameObject)Instantiate(Resources.Load(NetworkManager.Singleton.LobbyPlayerPrefabName), Vector3.zero, Quaternion.identity);
+					LobbyPlayer lobbyPlayer = go.GetComponent<LobbyPlayer>();
+					if (lobbyPlayer != null)
+					{
+						lobbyPlayer.Initialise(serverTeam,player);
+					}
+					go.transform.SetParent(m_LobbyPlayerList.transform,false);
 					playerObjects.Add(player.clientID, go);
 				}
 			}

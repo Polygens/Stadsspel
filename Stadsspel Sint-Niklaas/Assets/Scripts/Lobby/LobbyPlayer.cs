@@ -73,29 +73,9 @@ namespace Stadsspel.Networking
 		/// </summary>
 		void Start()
 		{
-			//m_IsLocalPlayer = photonView.owner.IsLocal;
-			//m_IsMasterClient = photonView.owner.IsMasterClient;
+			
 
-			/*
-			if (m_IsLocalPlayer)
-			{
-				SetupLocalPlayer();
-			} else
-			{
-				SetupOtherPlayer();
-			}
-			*/
-
-			transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList, false);
-			if (m_IsMasterClient)
-			{
-				transform.SetAsFirstSibling();
-			} else if (m_IsLocalPlayer)
-			{
-				transform.SetSiblingIndex(1);
-			}
-
-			SetupStyling();
+			//transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList,false);
 		}
 
 		/// <summary>
@@ -132,10 +112,24 @@ namespace Stadsspel.Networking
 			if (player.clientID.Equals(CurrentGame.Instance.LocalPlayer.clientID))
 			{
 				SetupLocalPlayer(team, player);
+				m_IsLocalPlayer = true;
 			} else
 			{
 				SetupOtherPlayer(team, player);
+				m_IsLocalPlayer = false;
 			}
+
+			m_IsMasterClient = CurrentGame.Instance.isHost;
+
+			if (m_IsMasterClient)
+			{
+				transform.SetAsFirstSibling();
+			} else if (m_IsLocalPlayer)
+			{
+				transform.SetSiblingIndex(1);
+			}
+
+			SetupStyling();
 		}
 
 		/// <summary>
