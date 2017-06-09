@@ -10,8 +10,8 @@ using System.Text;
 
 public class Rest
 {
-	private const string BASE_URL = "https://stniklaas-stadsspel.herokuapp.com/api/";
-	//private const string BASE_URL = "http://localhost:8090/api/";
+	//private const string BASE_URL = "https://stniklaas-stadsspel.herokuapp.com/api/";
+	private const string BASE_URL = "http://localhost:8090/api/";
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
 	private const string ACCOUNT_SUFFIX = "accounts";
@@ -232,9 +232,10 @@ public class Rest
 	public static List<GameListResource> GetStagedGames()
 	{
 		string reply;
-		string urlSuffix = GAME_SUFFIX + "/staged";
-		int code = Get(urlSuffix, out reply);
+		const string urlSuffix = GAME_SUFFIX + "/staged";
+		var code = Get(urlSuffix, out reply);
 		HandleReturnCode(code);
+		Debug.Log(reply);
 		return JsonArrayHelper.getJsonList<GameListResource>(reply);
 	}
 
@@ -433,6 +434,7 @@ public class GameListResource
 {
 	public string id;
 	public string name;
+	public bool hasPassword;
 }
 
 [Serializable]

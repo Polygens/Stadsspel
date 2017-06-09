@@ -9,17 +9,11 @@ using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
-	//public class RoomManager : PunBehaviour
 	public class RoomManager : MonoBehaviour
 	{
-		[SerializeField]
-		private RectTransform m_LobbyPlayerList;
-
-		[SerializeField]
-		private Button m_StartGameBtn;
-
-		[SerializeField]
-		private int m_CountdownDuration = 5;
+		[SerializeField] private RectTransform _mLobbyPlayerList;
+		[SerializeField] private Button _mStartGameBtn;
+		[SerializeField] private int _mCountdownDuration = 5;
 
 		public const string RoomPasswordProp = "password";
 		public const string RoomGameDurationProp = "gameDuration";
@@ -28,10 +22,7 @@ namespace Stadsspel.Networking
 
 		public RectTransform LobbyPlayerList
 		{
-			get
-			{
-				return m_LobbyPlayerList;
-			}
+			get { return _mLobbyPlayerList; }
 		}
 
 		/// <summary>
@@ -39,12 +30,10 @@ namespace Stadsspel.Networking
 		/// </summary>
 		private void Start()
 		{
-			m_StartGameBtn.onClick.AddListener(() =>
+			_mStartGameBtn.onClick.AddListener(() =>
 			{
 				if (CurrentGame.Instance.HostingLoginToken != null || !CurrentGame.Instance.HostingLoginToken.Equals(""))
-				{
 					Rest.StartGame(CurrentGame.Instance.GameId, CurrentGame.Instance.HostingLoginToken);
-				}
 			});
 		}
 
@@ -73,7 +62,7 @@ namespace Stadsspel.Networking
 			StartCountDown(true);
 
 			float remainingTime = time;
-			byte floorTime =(byte) Mathf.FloorToInt(remainingTime);
+			byte floorTime = (byte) Mathf.FloorToInt(remainingTime);
 
 			while (floorTime > 0)
 			{
@@ -81,7 +70,8 @@ namespace Stadsspel.Networking
 				byte newFloorTime = (byte) Mathf.FloorToInt(remainingTime);
 
 				if (newFloorTime != floorTime)
-				{//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
+				{
+//to avoid flooding the nepunrtwork of message, we only send a notice to client when the number of plain seconds change. 
 					floorTime = newFloorTime;
 
 					if (floorTime != 0)
@@ -149,14 +139,12 @@ namespace Stadsspel.Networking
 		{
 			NetworkManager.Singleton.TopPanelManager.SetName(CurrentGame.Instance.gameDetail.roomName);
 
-
 			//todo replace with detect and update
 			if (playerObjects != null)
 			{
-				foreach (GameObject o in playerObjects.Values)
-				{
-					Destroy(o);
-				}
+				foreach (var gameObj in playerObjects.Values)
+					Destroy(gameObj);
+				
 				playerObjects = null;
 			}
 
@@ -164,15 +152,16 @@ namespace Stadsspel.Networking
 			playerObjects = new Dictionary<string, GameObject>();
 			foreach (var serverTeam in teams)
 			{
-				foreach (ServerPlayer player in serverTeam.players)
+				foreach (var player in serverTeam.players)
 				{
-					GameObject go = (GameObject)Instantiate(Resources.Load(NetworkManager.Singleton.LobbyPlayerPrefabName), Vector3.zero, Quaternion.identity);
+					GameObject go = (GameObject) Instantiate(Resources.Load(NetworkManager.Singleton.LobbyPlayerPrefabName),
+						Vector3.zero, Quaternion.identity);
 					LobbyPlayer lobbyPlayer = go.GetComponent<LobbyPlayer>();
 					if (lobbyPlayer != null)
 					{
-						lobbyPlayer.Initialise(serverTeam,player);
+						lobbyPlayer.Initialise(serverTeam, player);
 					}
-					go.transform.SetParent(m_LobbyPlayerList.transform,false);
+					go.transform.SetParent(_mLobbyPlayerList.transform, false);
 					playerObjects.Add(player.clientID, go);
 				}
 			}
@@ -183,7 +172,7 @@ namespace Stadsspel.Networking
 			}
 			else
 			{
-				m_StartGameBtn.gameObject.SetActive(true);
+				_mStartGameBtn.gameObject.SetActive(true);
 			}
 
 
@@ -203,7 +192,6 @@ namespace Stadsspel.Networking
 			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 		}
 		*/
-
 		/// <summary>
 		/// Iterates trough every player in the room and checks if every player has pressed check. If everyone is ready the start button gets shown.
 		/// </summary>
@@ -252,7 +240,7 @@ namespace Stadsspel.Networking
 		/// </summary>
 		public void DisableStartButton()
 		{
-			m_StartGameBtn.gameObject.SetActive(false);
+			_mStartGameBtn.gameObject.SetActive(false);
 		}
 	}
 }
