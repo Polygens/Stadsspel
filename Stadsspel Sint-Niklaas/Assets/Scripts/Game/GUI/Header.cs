@@ -67,10 +67,7 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void UpdatePlayerMoney(int pPlayerMoney)
 	{
-		m_PlayerMoney.text = pPlayerMoney.ToString();
-#if(UNITY_EDITOR)
-		Debug.Log("Update player money");
-#endif
+		m_PlayerMoney.text = ((int)CurrentGame.Instance.LocalPlayer.money)+""; //todo format
 	}
 
 	/// <summary>
@@ -78,7 +75,7 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void UpdateTeamMoney(int pTeamMoney)
 	{
-		m_TeamMoney.text = pTeamMoney.ToString();
+		m_TeamMoney.text = ((int) (CurrentGame.Instance.PlayerTeam.bankAccount + CurrentGame.Instance.PlayerTeam.treasury)) + ""; //todo format + is this the correct money?
 	}
 
 	/// <summary>
