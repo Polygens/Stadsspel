@@ -136,14 +136,14 @@ PlayerSettings:
       depthFormat: 1
   protectGraphicsMemory: 0
   useHDRDisplay: 0
-   applicationIdentifier:
-     Android: com.KdG.Stadsspel_SintNiklaas
-     Standalone: unity.KdG.Stadsspel_SintNiklaas
-     Tizen: com.KdG.Stadsspel_SintNiklaas
-     iOS: com.KdG.Stadsspel_SintNiklaas
-     tvOS: com.KdG.Stadsspel_SintNiklaas
-   buildNumber:
-     iOS: 0
+  applicationIdentifier:
+    Android: com.KdG.Stadsspel_SintNiklaas
+    Standalone: unity.KdG.Stadsspel_SintNiklaas
+    Tizen: com.KdG.Stadsspel_SintNiklaas
+    iOS: com.KdG.Stadsspel_SintNiklaas
+    tvOS: com.KdG.Stadsspel_SintNiklaas
+  buildNumber:
+    iOS: 0
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
@@ -434,7 +434,8 @@ PlayerSettings:
   switchLocalCommunicationIds_7: 
   switchParentalControl: 0
   switchAllowsScreenshot: 1
-  switchDataLossConfirmation: 0  ps4NPAgeRating: 12
+  switchDataLossConfirmation: 0
+  ps4NPAgeRating: 12
   ps4NPTitleSecret: 
   ps4NPTrophyPackPath: 
   ps4ParentalLevel: 1
