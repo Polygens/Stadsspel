@@ -6,28 +6,23 @@ namespace Stadsspel
 {
 	public class Room : MonoBehaviour
 	{
-		[SerializeField]
-		private Text m_RoomNameTxt;
-		[SerializeField]
-		private Text m_RoomSlotsTxt;
-		[SerializeField]
-		private Text m_PasswordTxt;
+		[SerializeField] private Text _mRoomNameTxt;
+		[SerializeField] private Text _mRoomSlotsTxt;
+		[SerializeField] private Text _mPasswordTxt;
 
 		private string m_Password;
 		private string ID;
+		private bool hasPassword;
 
 		/// <summary>
 		/// Initialises the room UI elements with the passed parameters.
 		/// </summary>
-		public void InitializeRoom(string roomName, int amountPlayers, int maxPlayers, string password)
+		public void InitializeRoom(string roomName, string id, int amountPlayers, int maxPlayers, bool hasPassword)
 		{
-			m_RoomNameTxt.text = roomName;
-			m_RoomSlotsTxt.text = amountPlayers + "/" + maxPlayers;
-			m_Password = password;
-			if (m_Password != "")
-			{
-				m_PasswordTxt.gameObject.SetActive(true);
-			}
+			_mRoomNameTxt.text = roomName;
+			_mRoomSlotsTxt.text = amountPlayers + "/" + maxPlayers;
+			this.ID = id;
+			this.hasPassword = hasPassword;
 		}
 
 		/// <summary>
@@ -36,13 +31,8 @@ namespace Stadsspel
 		public void InitializeRoom(string roomName, string ID)
 		{
 			this.ID = ID;
-			m_RoomNameTxt.text = roomName;
-			m_RoomSlotsTxt.text = "0/0";
-			m_Password = "pow";
-			if (m_Password != "")
-			{
-				m_PasswordTxt.gameObject.SetActive(true);
-			}
+			_mRoomNameTxt.text = roomName;
+			_mRoomSlotsTxt.text = "0/0";
 		}
 
 		/// <summary>
@@ -50,7 +40,26 @@ namespace Stadsspel
 		/// </summary>
 		public void ClickJoinRoom()
 		{
-			NetworkManager.Singleton.PasswordLoginManager.EnableDisableMenu(true, this);
+			if (hasPassword)
+				NetworkManager.Singleton.PasswordLoginManager.EnableDisableMenu(true, this);
+			else
+			{
+				var serverGame = Rest.GetGameById(ID);
+				var parsedGame = JsonUtility.FromJson<CurrentGame.Game>(serverGame);
+				CurrentGame.Instance.gameDetail = parsedGame;
+				
+				var resource = Rest.RegisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.LocalPlayer.name, "", ID);
+				CurrentGame.Instance.ClientToken = resource;
+				CurrentGame.Instance.GameId = ID;
+				CurrentGame.Instance.PasswordUsed = "";
+				CurrentGame.Instance.Connect();
+				//StartCoroutine(CurrentGame.GetInstance().Ws.Connect("ws://localhost:8090/user", ID, SystemInfo.deviceUniqueIdentifier));//todo switch to heroku server
+
+				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
+				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
+				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
+			}
+				
 		}
 
 		/// <summary>

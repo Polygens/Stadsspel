@@ -232,9 +232,10 @@ public class Rest
 	public static List<GameListResource> GetStagedGames()
 	{
 		string reply;
-		string urlSuffix = GAME_SUFFIX + "/staged";
-		int code = Get(urlSuffix, out reply);
+		const string urlSuffix = GAME_SUFFIX + "/staged";
+		var code = Get(urlSuffix, out reply);
 		HandleReturnCode(code);
+		Debug.Log(reply);
 		return JsonArrayHelper.getJsonList<GameListResource>(reply);
 	}
 
@@ -433,6 +434,7 @@ public class GameListResource
 {
 	public string id;
 	public string name;
+	public bool hasPassword;
 }
 
 [Serializable]

@@ -1,100 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using Photon;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.Events;
 using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
 	//todo allow manual refresh / auto refresh every 5 seconds
-	//public class LobbyManager : PunBehaviour
 	public class LobbyManager : MonoBehaviour
 	{
-		[SerializeField]
-		RectTransform m_RoomList;
-		[SerializeField]
-		RectTransform m_NoServerFound;
+		[SerializeField] private RectTransform _mRoomList;
+		[SerializeField] public RectTransform _mNoServerFound;
 
-		/// <summary>
-		/// Generic function for handling switching between the different menus.
-		/// </summary>
+		public void RegisterToGame(string gameId, string password)
+		{
+			Debug.Log("Registering to my game: " + gameId);
+			var game = JsonUtility.FromJson<CurrentGame.Game>(Rest.GetGameById(gameId));
+			var room = Instantiate(Resources.Load("Room") as GameObject);
+			room.GetComponent<Room>().InitializeRoom(game.roomName, game.id, 0, 0, password.Length > 0);
+			room.GetComponent<Room>().ClickJoinRoom();
+		}
+		
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
-			if (newState)
+
+			if (!newState) return;
+
+			// adds back-button in the top-panel to leave lobby
+			NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, () =>
 			{
-				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, new UnityAction(() =>
-				{
-					EnableDisableMenu(false);
-					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
-				}));
-				List<GameListResource> games = Rest.GetStagedGames();
-				UpdateRooms(games);
-			}
-		}
+				Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
+				EnableDisableMenu(false);
+				NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
+			});
 
-
-		public void Start()
-		{
-			/*
-			List<GameListResource> games = Rest.GetStagedGames();
+			var games = Rest.GetStagedGames();
 			UpdateRooms(games);
-			*/
 		}
-
-		/// <summary>
-		/// Gets called every frame.
-		/// </summary>
-		public void Update()
-		{
-			/* todo actually delete
-			if(m_RoomList.childCount != PhotonNetwork.GetRoomList().Length) {
-				UpdateRooms();
-			}
-			*/
-		}
-
-		/// <summary>
-		/// [PunBehaviour] Gets called when the room list has changed.
-		/// </summary>
-		/* todo replace with something simmilar
-		public override void OnReceivedRoomListUpdate()
-		{
-			base.OnReceivedRoomListUpdate();
-			UpdateRooms();
-			
-		}
-	*/
-
-		/*todo ectually delete
-		/// <summary>
-		/// Updates the rooms in the rooms list UI. Removes all rooms first and then adds all existing rooms again. If no rooms are found a message is shown.
-		/// </summary>
-		public void UpdateRooms()
-		{
-			int children = m_RoomList.childCount;
-			for(int i = children - 1; i >= 0; i--) {
-				GameObject.Destroy(m_RoomList.GetChild(i).gameObject);
-			}
-			RoomInfo[] rooms = PhotonNetwork.GetRoomList();
-			if(rooms.Length == 0) {
-				m_NoServerFound.gameObject.SetActive(true);
-			}
-			else {
-				m_NoServerFound.gameObject.SetActive(false);
-			}
-			for(int i = 0; i < rooms.Length; i++) {
-				if(rooms[i].PlayerCount != rooms[i].MaxPlayers) {
-					GameObject room = Instantiate(Resources.Load("Room") as GameObject);
-					room.transform.SetParent(m_RoomList, false);
-
-					string password = rooms[i].CustomProperties[RoomManager.RoomPasswordProp] as string;
-					room.GetComponent<Room>().InitializeRoom(rooms[i].Name, rooms[i].PlayerCount, rooms[i].MaxPlayers, password != "" ? password : "");
-				}
-			}
-		}
-		*/
 
 
 		/// <summary>
@@ -102,33 +44,21 @@ namespace Stadsspel.Networking
 		/// </summary>
 		public void UpdateRooms(List<GameListResource> rooms)
 		{
-			int children = m_RoomList.childCount;
-			for (int i = children - 1; i >= 0; i--)
-			{
-				GameObject.Destroy(m_RoomList.GetChild(i).gameObject);
-			}
+			var children = _mRoomList.childCount;
+			for (var i = children - 1; i >= 0; i--)
+				Destroy(_mRoomList.GetChild(i).gameObject);
 
-			//RoomInfo[] rooms = PhotonNetwork.GetRoomList();
+			_mNoServerFound.gameObject.SetActive(rooms.Count == 0);
 
-			if (rooms.Count == 0)
-			{
-				m_NoServerFound.gameObject.SetActive(true);
-			}
-			else
-			{
-				m_NoServerFound.gameObject.SetActive(false);
-			}
-
-			foreach (GameListResource resource in rooms)
+			foreach (var resource in rooms)
 			{
 				//todo filter full rooms
 
-				GameObject room = Instantiate(Resources.Load("Room") as GameObject);
-				room.transform.SetParent(m_RoomList, false);
+				var room = Instantiate(Resources.Load("Room") as GameObject);
+				room.transform.SetParent(_mRoomList, false);
 
-				//string password = rooms[i].CustomProperties[RoomManager.RoomPasswordProp] as string;
 				//todo expand gameListResource to have more data?
-				room.GetComponent<Room>().InitializeRoom(resource.name, resource.id);
+				room.GetComponent<Room>().InitializeRoom(resource.name, resource.id, 0, 0, resource.hasPassword);
 			}
 		}
 	}
