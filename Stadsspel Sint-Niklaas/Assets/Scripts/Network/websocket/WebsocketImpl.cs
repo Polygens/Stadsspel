@@ -86,7 +86,8 @@ public class WebsocketImpl : WebsocketContainer
 		if (tn.taggedBy.Equals(CurrentGame.Instance.LocalPlayer.ClientId))
 		{
 			//todo Player tagged someone
-		}else{
+		} else
+		{
 			//todo Player got tagged
 		}
 	}

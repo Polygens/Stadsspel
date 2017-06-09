@@ -12,8 +12,8 @@ using Random = System.Random;
 /// </summary>
 public class CurrentGame : Singleton<CurrentGame>
 {
-	//private const string URL = "ws://localhost:8090/user";
-	private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
+	private const string URL = "ws://localhost:8090/user";
+	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
 
 
 	public WebsocketImpl Ws { get; private set; }
@@ -285,7 +285,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public ServerTeam getNextTeam(ServerTeam team)
 	{
 		int index = gameDetail.teams.FindIndex(t => t.teamName.Equals(team.teamName));
-		int nextIndex = index++;
+		int nextIndex = ++index;
 		if (nextIndex >= gameDetail.teams.Count)
 		{
 			nextIndex = 0;
