@@ -155,6 +155,7 @@ public class WebsocketImpl : WebsocketContainer
 				go.SetActive(true);
 				Coordinates coordinates = new Coordinates(playerLocation.Value.latitude, playerLocation.Value.longitude, 0);
 				go.transform.localPosition = coordinates.convertCoordinateToVector(0);
+				CurrentGame.FixZ(go);
 			}
 		}
 
@@ -170,6 +171,7 @@ public class WebsocketImpl : WebsocketContainer
 				//move the object
 				//StartCoroutine(MoveOverSeconds(go, coordinates.convertCoordinateToVector(0), 0.75f));
 				go.transform.localPosition = coordinates.convertCoordinateToVector(0);
+				CurrentGame.FixZ(go);
 			}
 		}
 

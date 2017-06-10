@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private LocationManager m_LocationManager;
 
+	public List<GameObject> MapObjects;
+
 	private const string m_TeamPrefabName = "Team";
 	private const string m_PlayerPrefabName = "Player";
 
@@ -103,11 +105,24 @@ public class GameManager : MonoBehaviour
 #endif
 	}
 
+	private void FixMapObjectsZ()
+	{
+		Debug.Log("FIX Z");
+		foreach (GameObject mapObject in MapObjects)
+		{
+			CurrentGame.FixZ(mapObject);
+		}
+	}
+
 	/// <summary>
 	/// Gets called every frame.
 	/// </summary>
 	private void Update()
 	{
+		if (Time.frameCount%1000 == 0)
+		{
+			FixMapObjectsZ();
+		}
 		if (Time.timeSinceLevelLoad > m_GameLength && !isGameOver && !CurrentGame.Instance.IsGameRunning)
 		{
 			var a = Time.timeSinceLevelLoad;
@@ -157,7 +172,6 @@ public class GameManager : MonoBehaviour
 	/// <summary>
 	/// [PunRPC] Starts the game for the clients, including the master client.
 	/// </summary>
-	[PunRPC]
 	private void ClientsStart()
 	{
 #if (UNITY_EDITOR)
@@ -182,6 +196,7 @@ public class GameManager : MonoBehaviour
 
 	private void InitializeMapLocations()
 	{
+		MapObjects = new List<GameObject>();
 		List<PointLocation> banks = CurrentGame.Instance.gameDetail.banks;
 		List<ServerTradePost> tradeposts = CurrentGame.Instance.gameDetail.tradePosts;
 		List<AreaLocation> districts = CurrentGame.Instance.gameDetail.districts;
@@ -209,9 +224,12 @@ public class GameManager : MonoBehaviour
 					}
 
 
-					GOObject obj = GOObject.AddComponentToObject(temp, map,
-						new Coordinates(bank.point.latitude, bank.point.longitude, 1.0));
-					//map.dropPin(bank.point.latitude,bank.point.longitude,temp);
+					Coordinates coordinates = new Coordinates(bank.point.latitude, bank.point.longitude, 0);
+					GOObject obj = GOObject.AddComponentToObject(temp, map,coordinates);
+					Vector3 pos = coordinates.convertCoordinateToVector(0);
+					pos.z = -3;
+					temp.transform.localPosition = pos;
+					MapObjects.Add(temp);
 				}
 
 
@@ -230,7 +248,7 @@ public class GameManager : MonoBehaviour
 
 					GOObject obj = GOObject.AddComponentToObject(temp, map,
 						new Coordinates(tp.point.latitude, tp.point.longitude, 1.0));
-					//map.dropPin(tp.point.latitude, tp.point.longitude, temp);
+					MapObjects.Add(temp);
 				}
 
 				GameObject playerHolder = new GameObject("Playerholder");//todo is there a better way to do this?

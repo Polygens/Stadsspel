@@ -12,8 +12,8 @@ using Random = System.Random;
 /// </summary>
 public class CurrentGame : Singleton<CurrentGame>
 {
-	private const string URL = "ws://localhost:8090/user";
-	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
+	//private const string URL = "ws://localhost:8090/user";
+	private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
 
 
 	public WebsocketImpl Ws { get; private set; }
@@ -291,6 +291,13 @@ public class CurrentGame : Singleton<CurrentGame>
 			nextIndex = 0;
 		}
 		return gameDetail.teams[nextIndex];
+	}
+
+	public static void FixZ(GameObject o)
+	{
+		Vector3 pos = o.transform.localPosition;
+		pos.z = -3;
+		o.transform.localPosition = pos;
 	}
 }
 
