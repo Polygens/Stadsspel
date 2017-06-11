@@ -13,20 +13,51 @@ public class GrandMarketUI : MonoBehaviour
 	private IDictionary<string, int> illegalItems;
 	private int m_Total;
 
+	private void Start()
+	{
+		m_MarktPanel = (RectTransform)InGameUIManager.s_Singleton.GrandMarketUI.transform; 
+	}
+
 	/// <summary>
 	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{
-		UpdateUI();
+		
+		m_Total = 0;
+		m_LegalItems = GameManager.s_Singleton.Player.Person.LookUpLegalItems;
+
+		m_IllegalItems = GameManager.s_Singleton.Player.Person.LookUpIllegalItems;
+
+		RectTransform Grid = (RectTransform)transform.FindChild("MainPanel").transform.FindChild("Grid");
+		for (int i = 1; i < Grid.childCount; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				if (j == 0)
+				{
+					Grid.GetChild(i).GetChild(j).transform.FindChild("Aantal").GetComponent<Text>().text = m_LegalItems[i - 1].ToString();
+					m_Total += m_LegalItems[i - 1] * Item.LegalShopItems[i - 1].SellPrice;
+					Debug.Log("legal item: " + m_LegalItems[i - 1]);
+				}
+				else
+				{
+					Grid.GetChild(i).GetChild(j).transform.FindChild("Aantal").GetComponent<Text>().text = m_IllegalItems[i - 1].ToString();
+					m_Total += m_IllegalItems[i - 1] * Item.IllegalShopItems[i - 1].SellPrice;
+				}
+			}
+		}
+
+		m_TotalUI.text = "Totaal: " + m_Total;
+
 	}
 
 	/// <summary>
 	/// Updates the grand market UI. Fills in all the player's goods.
 	/// </summary>
-	private void UpdateUI()
-	{
-		m_Total = 0;
+	//private void UpdateUI()
+	//{
+	//	m_Total = 0;
 
 		legalItems = CurrentGame.Instance.LocalPlayer.legalItems;
 		List<string> legalKeys = legalItems.Keys.ToList();
@@ -103,7 +134,7 @@ public class GrandMarketUI : MonoBehaviour
 	{
 		CurrentGame.Instance.Ws.SendTradepostAllSale(new Dictionary<string, int>(),CurrentGame.Instance.currentDistrictID);
 		m_Total = 0;
-		UpdateUI();
+		//UpdateUI();
 		ResetUI();
 	}
 

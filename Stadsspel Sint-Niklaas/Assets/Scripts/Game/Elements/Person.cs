@@ -67,10 +67,9 @@ namespace Stadsspel.Elements
 			transform.GetChild(0).GetComponent<TextMesh>().text = Player.Name;
 			ActionRadius = colliderRadius;
 
-			//instantiate list with 3 numbers for each list.
+			//instantiate list with 6 numbers for each list.
 
-			for (int i = 0; i < 3; i++)
-			{
+			for(int i = 0; i < 6; i++) {
 				m_LegalItems.Add(0);
 				m_IllegalItems.Add(0);
 			}
@@ -149,7 +148,7 @@ namespace Stadsspel.Elements
 		/// </summary>
 		public void AddLegalItem(int index, int item)
 		{
-			m_LegalItems[index] += item;
+			m_LegalItems[index] += amount;
 		}
 
 		/// <summary>
@@ -157,7 +156,7 @@ namespace Stadsspel.Elements
 		/// </summary>
 		public void AddIllegalItem(int index, int item)
 		{
-			m_IllegalItems[index] += item;
+			m_IllegalItems[index] += amount;
 		}
 
 

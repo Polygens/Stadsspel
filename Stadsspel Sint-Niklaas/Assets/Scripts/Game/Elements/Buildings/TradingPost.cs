@@ -5,6 +5,9 @@ namespace Stadsspel.Elements
 {
 	public class TradingPost : Building
 	{
+		public TradingpostType tradingpostType;
+		public string naamTradingpost;
+
 		//	private SyncListInt visitedTeams = new SyncListInt();
 		private List<int> m_visitedTeams = new List<int>();
 		private List<float> m_TeamTimers = new List<float>();
@@ -109,12 +112,22 @@ namespace Stadsspel.Elements
 				int minutes = Mathf.FloorToInt(time / 60F);
 				int seconds = Mathf.FloorToInt(time - minutes * 60);
 				string message = string.Format("{0:0}:{1:00}", minutes, seconds);
-				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + message + " minuten wachten om bij deze winkel goederen te kopen. Jou team is hier al reeds geweest.";
+				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + message + " minuten wachten om bij deze handelspost goederen te kopen. Jouw team is hier al reeds geweest.";
 			}
 			else {
-				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + time + " seconden wachten om bij deze winkel goederen te kopen.";
+				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + time + " seconden wachten om bij deze handelspost goederen te kopen. Jouw team is hier al reeds geweest.";
 			}
 
 		}
 	}
+
+	public enum TradingpostType
+	{
+		Bloemen,
+		Bier,
+		Ijs,
+		Textiel,
+		Bakstenen,
+		Kunst
+	} 
 }

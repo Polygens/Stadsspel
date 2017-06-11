@@ -12,10 +12,13 @@ public class TradingPostUI : MonoBehaviour
 	private GameObject m_MessagePanel;
 
 	//SyncListInt visitedTeams = new SyncListInt();
-	private List<Item> m_ShopItems = new List<Item>();
+	private Item m_LegalShopItem;
+	private Item m_IllegalShopItem;
 
-	private int[] m_NumberOfEachItem;
 	private bool m_EverythingIsInstantiated = false;
+	private int type, legalNumberOfItems, illegalNumberOfItems;
+
+	public InputField legalField, illegalField;
 
 	public bool IsVisited {
 		get {
@@ -97,6 +100,13 @@ public class TradingPostUI : MonoBehaviour
 				m_TotalTextFields.Add(Grid.GetChild(i).GetChild(j).transform.Find("ItemRow2").transform.Find("Totaal").GetComponent<Text>());
 				index++;
 			}
+			else
+			{
+				Grid.GetChild(0).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = m_IllegalShopItem.BuyPrice.ToString();
+			}
+
+			m_Inputfields.Add(Grid.GetChild(0).GetChild(j).transform.FindChild("InputField").GetComponent<InputField>());
+			m_TotalTextFields.Add(Grid.GetChild(0).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Totaal").GetComponent<Text>());
 		}
 		m_NumberOfEachItem = new int[m_ShopItems.Count];
 	}
@@ -132,8 +142,15 @@ public class TradingPostUI : MonoBehaviour
 	/// </summary>
 	private void OnEnable()
 	{
-		if (CheckIfTeamAlreadyVisited())
-		{
+		legalNumberOfItems = 0;
+		illegalNumberOfItems = 0;
+		m_TotalPriceAmount = 0;
+		legalField.text = "";
+		illegalField.text = "";
+		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
+		transform.GetChild(0).FindChild("NaamItem").GetComponent<Text>().text = tempTradePost.GetComponent<TradingPost>().tradingpostType.ToString();
+		transform.GetChild(0).FindChild("NaamTradingpost").GetComponent<Text>().text = tempTradePost.GetComponent<TradingPost>().naamTradingpost;
+		if (CheckIfTeamAlreadyVisited()) {
 			//Start, + property
 			m_MessagePanel.SetActive(true);
 		} else
@@ -149,6 +166,44 @@ public class TradingPostUI : MonoBehaviour
 			LoadItems();
 			//transform.FindChild("MainPanel").transform.FindChild("InfoPanelTop").transform.FindChild("MoneyPanel").transform.FindChild("AmountOfMoney").GetComponent<Text>().text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
 			transform.Find("MainPanel").transform.Find("InfoPanelTop").transform.Find("MoneyPanel").transform.Find("AmountOfMoney").GetComponent<Text>().text = CurrentGame.Instance.LocalPlayer.money.ToString();
+		}
+		
+	}
+
+	public void MaxButton(int type)
+	{
+		if (m_TotalPriceAmount < GameManager.s_Singleton.Player.Person.AmountOfMoney)
+		{
+			int remainingMoney = 0; 
+			if (type == 0) // LEGAL
+			{
+				if (illegalField.text != "")
+				{
+					remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney - (int.Parse(illegalField.text) * m_IllegalShopItem.BuyPrice);
+				}
+				else
+				{
+					remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney;
+				}
+				int numberOfItems = Mathf.FloorToInt(remainingMoney / m_LegalShopItem.BuyPrice);
+				legalNumberOfItems = numberOfItems;
+				
+				legalField.text = numberOfItems.ToString();
+			}
+			else
+			{
+				if (legalField.text != "")
+				{
+					remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney - (int.Parse(legalField.text) * m_LegalShopItem.BuyPrice);
+				}
+				else
+				{
+					remainingMoney = GameManager.s_Singleton.Player.Person.AmountOfMoney;
+				}
+				int numberOfItems = Mathf.FloorToInt(remainingMoney / m_IllegalShopItem.BuyPrice);
+				illegalField.text = numberOfItems.ToString();
+				illegalNumberOfItems = numberOfItems;
+			}
 		}
 	}
 
@@ -267,10 +322,12 @@ public class TradingPostUI : MonoBehaviour
 			tempTotal += (m_NumberOfEachItem[i] * m_ShopItems[i].BuyPrice);
 		}
 
+
 		m_TotalPriceAmount = tempTotal;
 		m_TotalPriceText.text = tempTotal.ToString();
-		int itemTotal = (result * m_ShopItems[focusedIndex].BuyPrice);
-		m_TotalTextFields[focusedIndex].text = "Totaal: " + itemTotal.ToString();
+		
+		m_TotalTextFields[0].text = "Totaal: " + legalItemTotal.ToString();
+		m_TotalTextFields[1].text = "Totaal: " + illegalItemTotal.ToString();
 	}
 
 }
