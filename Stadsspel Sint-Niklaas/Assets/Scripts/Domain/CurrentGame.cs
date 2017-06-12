@@ -12,8 +12,8 @@ using Random = System.Random;
 /// </summary>
 public class CurrentGame : Singleton<CurrentGame>
 {
-	private const string URL = "ws://localhost:8090/user";
-	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
+	//private const string URL = "ws://localhost:8090/user";
+	private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
 
 
 	public WebsocketImpl Ws { get; private set; }
