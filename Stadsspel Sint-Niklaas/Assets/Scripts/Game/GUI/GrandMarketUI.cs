@@ -13,7 +13,7 @@ public class GrandMarketUI : MonoBehaviour
 	private IDictionary<string, int> illegalItems;
 	private int m_Total;
 
-	private string[] indexStrings = new[] {"TOP","Bloemen", "Vat bier", "Kg ijs", "Rol textiel", "Bakstenen", "Kunst"};
+	private string[] indexStrings = new[] {"TOP", "Dozijn bloemen", "Vat bier", "Kg ijs", "Rol textiel", "Koets bakstenen", "Art deco" };
 
 	private void Start()
 	{
@@ -66,9 +66,7 @@ public class GrandMarketUI : MonoBehaviour
 
 		m_MarktPanel = (RectTransform)InGameUIManager.s_Singleton.GrandMarketUI.transform;
 		RectTransform Grid = (RectTransform)m_MarktPanel.transform.Find("MainPanel").transform.Find("Grid");
-
-		int legalIndex = 0;
-		int illegalIndex = 0;
+		
 
 		for (int i = 1; i < Grid.childCount; i++)
 		{ // i is which row 
@@ -81,25 +79,19 @@ public class GrandMarketUI : MonoBehaviour
 				int subTotal = 0;
 				if (j == 0)
 				{
-					if (legalIndex >= legalItems.Count)
+					if (legalItems.ContainsKey(rowItem))
 					{
-						//Grid.GetChild(i).GetChild(j).gameObject.SetActive(false);
-					} else
-					{
-						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[legalKeys[legalIndex]]+"";
-						subTotal = CalculateSubtotal(legalKeys[legalIndex], true);
-						legalIndex++;
+						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[rowItem]+"";
+						//Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[legalKeys[legalIndex]]+"";
+						subTotal = CalculateSubtotal(rowItem, true);
 					}
 				} else
 				{
-					if (illegalIndex >= illegalItems.Count)
+					if (illegalItems.ContainsKey(rowItem))
 					{
-						//Grid.GetChild(i).GetChild(j).gameObject.SetActive(false);
-					} else
-					{
-						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[illegalKeys[illegalIndex]]+"";
-						subTotal = CalculateSubtotal(illegalKeys[illegalIndex], false);
-						illegalIndex++;
+						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[rowItem]+"";
+						//Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[illegalKeys[illegalIndex]]+"";
+						subTotal = CalculateSubtotal(rowItem, false);
 					}
 				}
 				//Grid.GetChild(i).GetChild(j).transform.Find("ItemRow2").transform.Find("Profit").GetComponent<Text>().text = "Winst: " + subTotal;
@@ -127,7 +119,6 @@ public class GrandMarketUI : MonoBehaviour
 	{
 		CurrentGame.Instance.Ws.SendTradepostAllSale(new Dictionary<string, int>(),CurrentGame.Instance.currentDistrictID);
 		m_Total = 0;
-		//UpdateUI();
 		ResetUI();
 	}
 
@@ -141,8 +132,8 @@ public class GrandMarketUI : MonoBehaviour
 		{
 			for (int j = 0; j < 2; j++)
 			{
-				Grid.GetChild(i).GetChild(j).transform.Find("ItemRow2").transform.Find("Amount").GetComponent<Text>().text = "Amount: 0";
-				Grid.GetChild(i).GetChild(j).transform.Find("ItemRow2").transform.Find("Profit").GetComponent<Text>().text = "Winst: 0";
+				Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
+				Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
 			}
 		}
 
