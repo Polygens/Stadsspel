@@ -26,7 +26,10 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void Start()
 	{
-		m_TeamColor.color = TeamData.GetColor(Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player));
+		//m_TeamColor.color = TeamData.GetColor(Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player));
+		Color c = Color.magenta;
+		ColorUtility.TryParseHtmlString(CurrentGame.Instance.PlayerTeam.customColor, out c);
+		m_TeamColor.color = c;
 	}
 
 	/// <summary>
@@ -39,7 +42,7 @@ public class Header : MonoBehaviour
 			m_UpdateTimer = 0;
 			if(GameManager.s_Singleton.Player.Person) {
 				// Header Update 
-				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
+				UpdatePlayerMoney((int)CurrentGame.Instance.LocalPlayer.money);
 				UpdateTeamMoney(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].TotalMoney);//todo link to actual team data
 				UpdateGameTimer();
 			}

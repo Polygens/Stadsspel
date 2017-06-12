@@ -70,10 +70,12 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandlePlayerNotification(MessageWrapper message)
 	{
+		/*
 		JSONParameters jsonParameters = new JSONParameters();
 		jsonParameters.UsingGlobalTypes = false;
 		jsonParameters.UseExtensions = false;
-		PlayerNotification pn = JSON.ToObject<PlayerNotification>(message.message, jsonParameters);
+		*/
+		PlayerNotification pn = JsonUtility.FromJson<PlayerNotification>(message.message);
 		LocalPlayer lp = CurrentGame.Instance.LocalPlayer;
 		lp.money = pn.money;
 		lp.legalItems = pn.LegalItems;

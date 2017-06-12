@@ -1,5 +1,4 @@
-using System;
-using Boo.Lang;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Stadsspel.Elements
@@ -135,11 +134,11 @@ namespace Stadsspel.Elements
 
 
 
-		public System.Collections.Generic.List<int> LookUpLegalItems {
+		public List<int> LookUpLegalItems {
 			get { return m_LegalItems; }
 		}
 
-		public System.Collections.Generic.List<int> LookUpIllegalItems {
+		public List<int> LookUpIllegalItems {
 			get { return m_IllegalItems; }
 		}
 
@@ -148,7 +147,7 @@ namespace Stadsspel.Elements
 		/// </summary>
 		public void AddLegalItem(int index, int item)
 		{
-			m_LegalItems[index] += amount;
+			m_LegalItems[index] += item;
 		}
 
 		/// <summary>
@@ -156,7 +155,7 @@ namespace Stadsspel.Elements
 		/// </summary>
 		public void AddIllegalItem(int index, int item)
 		{
-			m_IllegalItems[index] += amount;
+			m_IllegalItems[index] += item;
 		}
 
 
