@@ -86,15 +86,20 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void UpdateGameTimer()
 	{
-		float timer = GameManager.s_Singleton.GameLength - Time.timeSinceLevelLoad;
+		long current = (DateTime.UtcNow.Ticks - CurrentGame.timeOffset)/10000;
+		long end = CurrentGame.Instance.gameDetail.endTime;
+		TimeSpan ts = TimeSpan.FromMilliseconds((double)(end-current));
 
+		/*
+		float timer = GameManager.s_Singleton.GameLength - Time.timeSinceLevelLoad;
 		//int hours = Mathf.FloorToInt(timer / 3600);
 		int minutes = Mathf.FloorToInt(timer / 60);
 		int defMinutes;
 		int hours = Math.DivRem(minutes, 60, out defMinutes);
 		int seconds = Mathf.FloorToInt(timer - minutes * 60);
+		*/
 
-		string time = string.Format("{0:00}:{1:00}:{2:00}", hours, defMinutes, seconds);
+		string time = string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
 
 		m_GameDuration.text = time;
 	}
