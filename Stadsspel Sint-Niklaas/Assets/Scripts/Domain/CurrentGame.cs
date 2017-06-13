@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Assets.scripts.dom;
 using Assets.Scripts.Domain;
 using Assets.Scripts.Network.websocket.messages;
 using Stadsspel.Elements;
@@ -12,8 +14,8 @@ using Random = System.Random;
 /// </summary>
 public class CurrentGame : Singleton<CurrentGame>
 {
-	//private const string URL = "ws://localhost:8090/user";
-	private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
+	private const string URL = "ws://localhost:8090/user";
+	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
 
 
 	public WebsocketImpl Ws { get; private set; }
@@ -298,6 +300,19 @@ public class CurrentGame : Singleton<CurrentGame>
 		Vector3 pos = o.transform.localPosition;
 		pos.z = -3;
 		o.transform.localPosition = pos;
+	}
+
+	/// <summary>
+	/// Returns the name of the local player's main district 
+	/// </summary>
+	/// <returns>lowered main district name</returns>
+	public string GetMainSquare()
+	{
+		if (PlayerTeam == null) return null;
+
+		AreaLocation mainDistrict = PlayerTeam.districts.Find(d => d.type == AreaLocation.AreaType.DISTRICT_A);
+		if (mainDistrict == null) return null;
+		return mainDistrict.name.ToLower();
 	}
 }
 

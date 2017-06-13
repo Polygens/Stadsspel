@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Stadsspel.Districts;
+using UnityEngine;
 
 public class MainSquareArrow : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class MainSquareArrow : MonoBehaviour
 	/// </summary>
 	private void Start()
 	{
-		m_HeadSquarePos = GameManager.s_Singleton.DistrictManager.GetHeadSquare((TeamID)CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)+1).transform.position;//todo RIP dafuq is dis
+		GameObject district = GameManager.s_Singleton.DistrictManager.GetDistrictByName(CurrentGame.Instance.GetMainSquare());
+		HeadDistrict hd = district.GetComponent<HeadDistrict>();
+		Treasure t = hd.transform.GetComponentInChildren<Treasure>();
+		m_HeadSquarePos = t.transform.position;
 	}
 
 	/// <summary>
@@ -19,5 +23,16 @@ public class MainSquareArrow : MonoBehaviour
 	{
 		Vector3 dir = m_HeadSquarePos - transform.position;
 		transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90, Vector3.forward);
+
+		Renderer r = GetComponentInChildren<Renderer>();
+		float distance = Vector3.Distance(transform.position, m_HeadSquarePos);
+		if (distance < 100 && r.enabled)
+		{
+			r.enabled = false;
+		}
+		else if (distance >= 100 && !r.enabled)
+		{
+			r.enabled = true;
+		}
 	}
 }
