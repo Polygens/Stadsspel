@@ -26,11 +26,11 @@ public class MainSquareArrow : MonoBehaviour
 
 		Renderer r = GetComponentInChildren<Renderer>();
 		float distance = Vector3.Distance(transform.position, m_HeadSquarePos);
-		if (distance < 100 && r.enabled)
+		if (distance < 50 && r.enabled)
 		{
 			r.enabled = false;
 		}
-		else if (distance >= 100 && !r.enabled)
+		else if (distance >= 50 && !r.enabled)
 		{
 			r.enabled = true;
 		}
