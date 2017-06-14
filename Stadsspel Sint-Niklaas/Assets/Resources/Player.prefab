@@ -520,7 +520,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d62c4c94f913aa46bc0e07d383bf3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_GameName: Not set
   m_IllegalItems: 
   m_LegalItems: 

@@ -12,7 +12,7 @@ public class MainSquareBtn : MonoBehaviour
 	/// </summary>
 	public void ToggleMainSquareArrow()
 	{
-		if(!m_Arrow) {
+		if(m_Arrow == null) {
 			m_Arrow = GameManager.s_Singleton.Player.gameObject.GetComponentInChildren<MainSquareArrow>();
 		}
 		IsOn = !IsOn;
