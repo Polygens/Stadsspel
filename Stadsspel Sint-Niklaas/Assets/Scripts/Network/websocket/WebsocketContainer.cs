@@ -66,19 +66,25 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	private void ListeningRun()
 	{
 		stopThread = false;
+		int consecutiveErrors =0;
 		while (!stopThread)
 		{
 			string reply = ws.RecvString();
 			if (reply != null)
 			{
+				consecutiveErrors = 0;
 				MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
 				Debug.Log(mw.messageType);
 				_inbox.Enqueue(mw);
 			}
 			if (ws.error != null)
 			{
-				Debug.LogError("Error: " + ws.error);
-				break;
+				consecutiveErrors++;
+				if (consecutiveErrors >= 5)
+				{
+					Debug.LogError("Error: " + ws.error);
+					break; //todo not break loop?
+				}
 			}
 		}
 	}
