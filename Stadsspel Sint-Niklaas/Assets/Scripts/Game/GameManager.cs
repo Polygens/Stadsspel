@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
 
 				GameObject serverTPs = new GameObject("Server Tradingposts");
 				serverTPs.transform.parent = container.transform;
-				foreach (PointLocation tp in tradeposts)
+				foreach (ServerTradePost tp in tradeposts)
 				{
 					GameObject temp = (GameObject)Instantiate(Resources.Load("Tradingpost"), Vector3.zero, Quaternion.identity);
 					temp.transform.parent = serverTPs.transform;
@@ -243,6 +243,7 @@ public class GameManager : MonoBehaviour
 					if (tpScript != null)
 					{
 						tpScript.TPId = tp.id;
+						//todo load flavorText?
 					}
 
 

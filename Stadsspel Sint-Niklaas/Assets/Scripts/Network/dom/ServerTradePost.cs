@@ -16,6 +16,7 @@ public class ServerTradePost : PointLocation
 	}
 
 	public List<ServerItem> items;
+	public string flavorText;
 
 }
 
