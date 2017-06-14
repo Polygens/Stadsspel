@@ -21,13 +21,13 @@ public class WebsocketImpl : WebsocketContainer
 	{
 		CurrentGame.Instance.StartGame();
 
-		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(5));//todo set to 10
+		StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
 		Debug.Log("GAME STARTED");
 	}
 
 	protected override void HandleEvent(MessageWrapper message)
 	{
-		Debug.Log("#############################################");
+		Debug.Log("#############################################");//I think a player should only send events not receive
 		Debug.Log("#############################################");
 		Debug.Log("################### EVENT ###################");
 		Debug.Log("#############################################");
@@ -64,8 +64,38 @@ public class WebsocketImpl : WebsocketContainer
 	protected override void HandleInfoNotification(MessageWrapper message)
 	{
 		InfoNotification info = JsonUtility.FromJson<InfoNotification>(message.message);
+		string text=null;
 		//notification containing extra info about a recently passed event (currently only robbery)
-		//todo g: display message?
+		switch (info.gameEventType)
+		{
+			case GameEventType.BANK_DEPOSIT:
+				break;
+			case GameEventType.BANK_WITHDRAWAL:
+				break;
+			case GameEventType.PLAYER_TAGGED:
+				break;
+			case GameEventType.DISTRICT_CONQUERED:
+				break;
+			case GameEventType.TRADEPOST_LEGAL_SALE:
+				break;
+			case GameEventType.TRADEPOST_LEGAL_PURCHASE:
+				break;
+			case GameEventType.TRADEPOST_ILLEGAL_SALE:
+				break;
+			case GameEventType.TRADEPOST_ILLEGAL_PURCHASE:
+				break;
+			case GameEventType.TREASURY_WITHDRAWAL:
+				break;
+			case GameEventType.TRADEPOST_ALL_SALE:
+				break;
+			case GameEventType.TREASURY_ROBBERY:
+				text = "Je schatkist is bestolen door " + CurrentGame.Instance.FindPlayerById(info.by);
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+
+		InGameUIManager.s_Singleton.LogUI.AddToLog(text, new object[] { });
 	}
 
 	protected override void HandlePlayerNotification(MessageWrapper message)
@@ -87,10 +117,10 @@ public class WebsocketImpl : WebsocketContainer
 		TagNotification tn = JsonUtility.FromJson<TagNotification>(message.message);
 		if (tn.taggedBy.Equals(CurrentGame.Instance.LocalPlayer.ClientId))
 		{
-			//todo Player tagged someone
+			InGameUIManager.s_Singleton.LogUI.AddToLog("Je hebt iemand getikt", new object[] { });
 		} else
 		{
-			//todo Player got tagged
+			InGameUIManager.s_Singleton.LogUI.AddToLog("Je bent getikt", new object[] { });
 		}
 	}
 
@@ -100,6 +130,9 @@ public class WebsocketImpl : WebsocketContainer
 		Debug.Log(eem.message);
 		Debug.Log(eem.exceptionClass);
 		Debug.Log(eem.cause);
+		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: "+eem.message, new object[] { },silent:true);
+		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: "+eem.exceptionClass, new object[] { }, silent: true);
+		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: "+eem.cause, new object[] { }, silent: true);
 	}
 
 	protected override void HandleWinningTeam(MessageWrapper message)
@@ -107,34 +140,76 @@ public class WebsocketImpl : WebsocketContainer
 		//todo display winning team, will be expanded to include statistics
 	}
 
-	protected override void HandleTreasuriesOpen(MessageWrapper message)
-	{
-		//todo display notification of treasuries opening
-	}
-
-	protected override void HandleTreasuriesClose(MessageWrapper message)
-	{
-		//todo display notification of treasuries closing
-	}
-
 	protected override void HandleTeamNotification(MessageWrapper message)
 	{
+		bool treasuryTax = false,treasuryRob = false, bankUpdateDep = false,bankUpdateWith = false, districtUpdate = false, tradepostUpdate = false;
 		TeamNotification tn = JsonUtility.FromJson<TeamNotification>(message.message);
 		ServerTeam st = CurrentGame.Instance.PlayerTeam;
-		st.bankAccount = tn.bankAccount;
-		st.treasury = tn.treasury;
+
+		if (st.bankAccount < (tn.bankAccount + 0.0001))
+		{
+			st.bankAccount = tn.bankAccount;
+			bankUpdateDep = true;
+		} else if(st.bankAccount > (tn.bankAccount - 0.0001))
+		{
+			st.bankAccount = tn.bankAccount;
+			bankUpdateWith = true;
+		}
+
+
+		if (st.treasury > (tn.treasury + 0.0001))
+		{
+			st.treasury = tn.treasury;
+			treasuryRob = true;
+		}
+		else if(st.treasury < (tn.treasury - 0.0001))
+		{
+			st.treasury = tn.treasury;
+			treasuryTax = true;
+
+		}
+
+		//todo check for differences
 		st.districts = new List<AreaLocation>();
 		foreach (AreaLocation areaLocation in tn.districts)
 		{
 			st.districts.Add(areaLocation);
 		}
+
+		//todo check for differences
 		st.tradePosts = tn.tradeposts;
+		
+
+		if (treasuryTax)
+		{
+			InGameUIManager.s_Singleton.LogUI.AddToLog("Er zijn belastingen binnen gekomen", new object[] { });
+		}
+
+		if (treasuryRob)
+		{
+			InGameUIManager.s_Singleton.LogUI.AddToLog("Er is geld uit je schatkist genomen", new object[] { });
+		}
+		if (bankUpdateDep)
+		{
+			InGameUIManager.s_Singleton.LogUI.AddToLog("Er is geld op de bank gezet", new object[] { });
+		}
+		if (bankUpdateWith)
+		{
+			InGameUIManager.s_Singleton.LogUI.AddToLog("Er is geld van de bank afgehaald", new object[] { });
+		}
+		if (districtUpdate)
+		{
+			InGameUIManager.s_Singleton.LogUI.AddToLog("WIJK UPDATE", new object[] { });
+		}
+		if (tradepostUpdate)
+		{
+			InGameUIManager.s_Singleton.LogUI.AddToLog("HANDELSPOST UPDATE", new object[] { });
+		}
 	}
 
 	protected override void HandleTagPermitted(MessageWrapper message)
 	{
 		CurrentGame.Instance.IsTaggingPermitted = true;
-
 		InGameUIManager.s_Singleton.LogUI.AddToLog("Tikken is nu toegestaan", new object[] { });
 	}
 
@@ -199,6 +274,10 @@ public class WebsocketImpl : WebsocketContainer
 	{
 		ConqueringUpdate cu = JsonUtility.FromJson<ConqueringUpdate>(message.message);
 		CurrentGame.Instance.lastConqueringUpdate = cu;
+		if (cu.isConqueringTeam && !cu.isDraw && cu.progress >= 1.0)
+		{
+			InGameUIManager.s_Singleton.LogUI.AddToLog("Wijk overgenomen", new object[] { });
+		}
 	}
 
 	public IEnumerator MoveOverSeconds(GameObject objectToMove, Vector3 end, float seconds)

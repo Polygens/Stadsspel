@@ -330,10 +330,6 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 
 	protected abstract void HandleWinningTeam(MessageWrapper message);
 
-	protected abstract void HandleTreasuriesOpen(MessageWrapper message);
-
-	protected abstract void HandleTreasuriesClose(MessageWrapper message);
-
 	protected abstract void HandleTeamNotification(MessageWrapper message);
 
 	protected abstract void HandleTagPermitted(MessageWrapper message);

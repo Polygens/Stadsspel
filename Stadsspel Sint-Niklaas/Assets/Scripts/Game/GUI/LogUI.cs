@@ -15,20 +15,27 @@ public class LogUI : MonoBehaviour
 
 
 	/// <summary>
-	/// Creates a notification and puts data in the log panel. Text(presets are above) is passed along with optional variables and a boolean if the notification should be permanent.
+	/// Creates a notification and puts data in the log panel. Text(presets are above) is passed along with optional variables and a boolean if the notification should be permanent.	
 	/// </summary>
-	public GameObject AddToLog(string text, object[] variables, bool permanent = false)
+	/// <param name="text">Text to display</param>
+	/// <param name="variables">variables for format text if needed</param>
+	/// <param name="permanent">is the notification permanent default false</param>
+	/// <param name="silent">should a notification be displayed default false</param>
+	/// <returns></returns>
+	public GameObject AddToLog(string text, object[] variables, bool permanent = false,bool silent = false)
 	{
-		GameObject notification=null;
-		if (permanent)
+		GameObject notification = null;
+		if (!silent)
 		{
-			notification = Instantiate(Resources.Load("Notification") as GameObject, InGameUIManager.s_Singleton.LogNotifications, false);
-			notification.GetComponent<Notification>().SetText(string.Format(text, variables));
-			notification.GetComponent<Notification>().SetPermanent(permanent);
-		}
-		else
-		{
-			Notification.QueueNotification(string.Format(text, variables));
+			if (permanent)
+			{
+				notification = Instantiate(Resources.Load("Notification") as GameObject, InGameUIManager.s_Singleton.LogNotifications, false);
+				notification.GetComponent<Notification>().SetText(string.Format(text, variables));
+				notification.GetComponent<Notification>().SetPermanent(permanent);
+			} else
+			{
+				Notification.QueueNotification(string.Format(text, variables));
+			}
 		}
 
 		// Forces the VerticalLayoutGroup to update with the new notification.

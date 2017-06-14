@@ -296,6 +296,15 @@ public class CurrentGame : Singleton<CurrentGame>
 		return gameDetail.teams[nextIndex];
 	}
 
+	public string FindPlayerById(string id)
+	{
+		ServerTeam team = gameDetail.teams.Find(st => st.ContainsPlayer(id));
+		if (team == null) return null;
+		ServerPlayer player = team.players.Find(pl => pl.ClientId.Equals(id));
+		if (player == null) return null;
+		return player.Name;
+	}
+
 	public static void FixZ(GameObject o)
 	{
 		Vector3 pos = o.transform.localPosition;
