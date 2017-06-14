@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Notification : MonoBehaviour
 {
+	private static Queue<string> notiQueue = new Queue<string>(0);
+	private static bool Displaying = false;
+
 	[SerializeField]
 	private Text m_Text;
 
@@ -21,6 +25,8 @@ public class Notification : MonoBehaviour
 			m_DestroyTime -= Time.deltaTime;
 			if(m_DestroyTime < 0) {
 				Destroy(gameObject);
+				Displaying = false;
+				DisplayNextNotification();
 			}
 		}
 	}
@@ -64,5 +70,30 @@ public class Notification : MonoBehaviour
 	public void SetPermanent(bool isPermanent)
 	{
 		m_Permanent = isPermanent;
+	}
+
+
+	public static void QueueNotification(string text)
+	{
+		notiQueue.Enqueue(text);
+		DisplayNextNotification();
+	}
+
+	private static void DisplayNotification(string text)
+	{
+		Displaying = true;
+		GameObject noti = Instantiate(Resources.Load("Notification") as GameObject, InGameUIManager.s_Singleton.LogNotifications, false);
+		//GameObject noti = (GameObject)Instantiate(Resources.Load("Notification"), Vector3.zero, Quaternion.identity);
+		Notification script = noti.GetComponent<Notification>();
+		script.SetText(text);
+		CurrentGame.FixZ(noti);
+	}
+
+	private static void DisplayNextNotification()
+	{
+		if (notiQueue.Count > 0 && !Displaying)
+		{
+			DisplayNotification(notiQueue.Dequeue());
+		}
 	}
 }

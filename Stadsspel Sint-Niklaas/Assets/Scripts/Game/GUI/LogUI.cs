@@ -17,11 +17,19 @@ public class LogUI : MonoBehaviour
 	/// <summary>
 	/// Creates a notification and puts data in the log panel. Text(presets are above) is passed along with optional variables and a boolean if the notification should be permanent.
 	/// </summary>
-	public GameObject AddToLog(string text, object[] variables = null, bool permanent = false)
+	public GameObject AddToLog(string text, object[] variables, bool permanent = false)
 	{
-		GameObject notification = Instantiate(Resources.Load("Notification") as GameObject, InGameUIManager.s_Singleton.LogNotifications, false);
-		notification.GetComponent<Notification>().SetText(string.Format(text, variables));
-		notification.GetComponent<Notification>().SetPermanent(permanent);
+		GameObject notification=null;
+		if (permanent)
+		{
+			notification = Instantiate(Resources.Load("Notification") as GameObject, InGameUIManager.s_Singleton.LogNotifications, false);
+			notification.GetComponent<Notification>().SetText(string.Format(text, variables));
+			notification.GetComponent<Notification>().SetPermanent(permanent);
+		}
+		else
+		{
+			Notification.QueueNotification(string.Format(text, variables));
+		}
 
 		// Forces the VerticalLayoutGroup to update with the new notification.
 		LayoutRebuilder.ForceRebuildLayoutImmediate(InGameUIManager.s_Singleton.LogNotifications);

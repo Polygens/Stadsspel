@@ -133,8 +133,9 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleTagPermitted(MessageWrapper message)
 	{
-		//todo display a notification
 		CurrentGame.Instance.IsTaggingPermitted = true;
+
+		InGameUIManager.s_Singleton.LogUI.AddToLog("Tikken is nu toegestaan", new object[] { });
 	}
 
 	protected override void HandleBulkLocation(MessageWrapper message)
