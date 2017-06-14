@@ -128,12 +128,6 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 			case GameMessageType.TEAM_NOTIFICATION:
 				HandleTeamNotification(message);
 				break;
-			case GameMessageType.TREASURIES_CLOSE:
-				HandleTreasuriesClose(message);
-				break;
-			case GameMessageType.TREASURIES_OPEN:
-				HandleTreasuriesOpen(message);
-				break;
 			case GameMessageType.WINNING_TEAM:
 				HandleWinningTeam(message);
 				break;

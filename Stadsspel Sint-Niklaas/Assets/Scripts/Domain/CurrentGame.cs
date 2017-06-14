@@ -308,7 +308,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public static void FixZ(GameObject o)
 	{
 		Vector3 pos = o.transform.localPosition;
-		pos.z = -3;
+		pos.z = -4;
 		o.transform.localPosition = pos;
 	}
 
