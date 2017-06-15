@@ -44,8 +44,8 @@ public class Header : MonoBehaviour
 			if (GameManager.s_Singleton.Player.Person)
 			{
 				// Header Update 
-				UpdatePlayerMoney((int)CurrentGame.Instance.LocalPlayer.money);
-				UpdateTeamMoney(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].TotalMoney);//todo link to actual team data
+				UpdatePlayerMoney();
+				UpdateTeamMoney();
 				UpdateGameTimer();
 			}
 		}
@@ -70,17 +70,17 @@ public class Header : MonoBehaviour
 	/// <summary>
 	/// Updates the textfield of the amount of money the player has.
 	/// </summary>
-	private void UpdatePlayerMoney(int pPlayerMoney)
+	private void UpdatePlayerMoney()
 	{
-		m_PlayerMoney.text = ((int)CurrentGame.Instance.LocalPlayer.money) + ""; //todo format
+		m_PlayerMoney.text = (int)CurrentGame.Instance.LocalPlayer.money + ""; //todo format
 	}
 
 	/// <summary>
 	/// Updates the textfield of the amount of money the team has.
 	/// </summary>
-	private void UpdateTeamMoney(int pTeamMoney)
+	private void UpdateTeamMoney()
 	{
-		m_TeamMoney.text = ((int)(CurrentGame.Instance.PlayerTeam.bankAccount + CurrentGame.Instance.PlayerTeam.treasury)) + ""; //todo format + is this the correct money?
+		m_TeamMoney.text = (int)(CurrentGame.Instance.PlayerTeam.bankAccount + CurrentGame.Instance.PlayerTeam.treasury + CurrentGame.Instance.PlayerTeam.TotalPlayerMoney) + ""; //todo format + is this the correct money?
 	}
 
 	/// <summary>
@@ -92,7 +92,7 @@ public class Header : MonoBehaviour
 		long current = (DateTime.UtcNow.Ticks - CurrentGame.timeOffset) / 10000;
 		long end = CurrentGame.Instance.gameDetail.endTime;
 		TimeSpan ts = TimeSpan.FromMilliseconds((double)(end - current));
-		
+
 		//checks whether a notification should be shown
 		if (!CurrentGame.Instance.HalfwayPassed)
 		{

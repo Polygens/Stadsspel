@@ -145,6 +145,7 @@ public class WebsocketImpl : WebsocketContainer
 		bool treasuryTax = false,treasuryRob = false, bankUpdateDep = false,bankUpdateWith = false, districtUpdate = false, tradepostUpdate = false;
 		TeamNotification tn = JsonUtility.FromJson<TeamNotification>(message.message);
 		ServerTeam st = CurrentGame.Instance.PlayerTeam;
+		st.TotalPlayerMoney = tn.totalPlayerMoney;
 
 		if (st.bankAccount < (tn.bankAccount - 0.0001))
 		{

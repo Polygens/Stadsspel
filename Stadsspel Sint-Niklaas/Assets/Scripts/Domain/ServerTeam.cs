@@ -13,6 +13,8 @@ public class ServerTeam
 	public List<AreaLocation> districts;
 	public List<string> tradePosts;
 
+	public double TotalPlayerMoney { get; set; }
+
 	public bool ContainsPlayer(string clientId)
 	{
 		foreach (ServerPlayer serverPlayer in players)
