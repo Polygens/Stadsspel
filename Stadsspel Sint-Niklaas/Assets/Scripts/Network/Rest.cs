@@ -274,6 +274,14 @@ public class Rest
 		HandleReturnCode(code);
 		return response;
 	}
+	public static string ChangeDuration(string gameId, string token,int minutes)
+	{
+		string response;
+		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/duration/" + token;
+		int code = Post(urlSuffix, minutes+"", out response);
+		HandleReturnCode(code);
+		return response;
+	}
 
 	public static string GetPlayersByClientId(string gameId, string clientId)
 	{

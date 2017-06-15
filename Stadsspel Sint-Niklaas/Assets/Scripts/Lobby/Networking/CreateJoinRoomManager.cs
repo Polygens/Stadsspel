@@ -47,7 +47,35 @@ namespace Stadsspel.Networking
 			int players = (int) _mRoomAmountOfPlayersSli.value;
 			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));			
 			CurrentGame.Instance.HostedGameId = gameId;
-			
+			int minutes = 0;
+
+			switch (_mRoomGameDurationDro.value)
+			{
+				case 0:
+					minutes = 1;
+					break;
+				case 1:
+					minutes = 30;
+					break;
+				case 2:
+					minutes = 60;
+					break;
+				case 3:
+					minutes = 90;
+					break;
+				case 4:
+					minutes = 120;
+					break;
+				case 5:
+					minutes = 150;
+					break;
+				default:
+					minutes = 60;
+					break;
+			}
+
+			Rest.ChangeDuration(gameId, CurrentGame.Instance.HostingLoginToken, minutes);
+
 			Debug.Log("gameid: " + gameId);
 			
 			EnableDisableMenu(false);
