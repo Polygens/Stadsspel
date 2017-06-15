@@ -15,8 +15,8 @@ using Random = System.Random;
 public class CurrentGame : Singleton<CurrentGame>
 {
 	public static long timeOffset = new DateTime(1970, 1, 1, 0, 0, 0).Ticks;
-	//private const string URL = "ws://localhost:8090/user";
-	private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
+	private const string URL = "ws://localhost:8090/user";
+	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
 
 
 	public WebsocketImpl Ws { get; private set; }
@@ -44,6 +44,14 @@ public class CurrentGame : Singleton<CurrentGame>
 	public ConqueringUpdate lastConqueringUpdate { get; set; }
 
 	public IDictionary<string, ServerTradePost.ServerItem> KnownItems;
+	public bool HalfwayPassed { get; set; }
+	public bool TenMinuteMark { get; set; }
+	public bool LastMinuteMark { get; set; }
+
+	[Serializable]
+	public class PersistentData{
+	}
+
 
 	[Serializable]
 	public class Game
@@ -125,20 +133,29 @@ public class CurrentGame : Singleton<CurrentGame>
 	private CurrentGame()
 	{
 		LocalPlayer = new LocalPlayer();
-		LocalPlayer.name = "Player" + DateTime.Now.Millisecond; //todo fix
+		LocalPlayer.name = "Local Player";
 		LocalPlayer.money = 0;
 		IsGameRunning = false;
 		IsInLobby = false;
 		IsTaggingPermitted = false;
 		TagablePlayers = new List<string>();
+		HalfwayPassed = false;
+		TenMinuteMark = false;
+		LastMinuteMark = false;
 	}
 
 	public void Awake()
 	{
 		Ws = (WebsocketImpl)WebsocketImpl.Instance;
-		LocalPlayer.name = "Player" + DateTime.Now.Millisecond;
-		//LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; todo reinstate
-		LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier + LocalPlayer.Name;
+		LocalPlayer.name = "Speler" + DateTime.Now.Millisecond;
+		if (!(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer))
+		{
+			LocalPlayer.clientID = ""+DateTime.Now.Ticks;
+		}
+		else
+		{
+			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
+		}
 	}
 
 	public void Connect()
@@ -151,6 +168,11 @@ public class CurrentGame : Singleton<CurrentGame>
 		ClientToken = null;
 		GameId = null;
 		PasswordUsed = null;
+		IsTaggingPermitted = false;
+		TagablePlayers = new List<string>();
+		HalfwayPassed = false;
+		TenMinuteMark = false;
+		LastMinuteMark = false;
 	}
 
 	private IEnumerator SendPlayerLocation()
@@ -238,9 +260,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		}
 		return null;
 	}
-
-
-
+	
 	public List<ServerPlayer> PlayerList()
 	{
 		List<ServerPlayer> players = new List<ServerPlayer>();
@@ -248,6 +268,10 @@ public class CurrentGame : Singleton<CurrentGame>
 		{
 			foreach (ServerPlayer serverPlayer in gameDetailTeam.players)
 			{
+				if (serverPlayer.ClientId.Equals(LocalPlayer.ClientId))
+				{
+					LocalPlayer.name = serverPlayer.name;
+				}
 				players.Add(serverPlayer);
 			}
 		}

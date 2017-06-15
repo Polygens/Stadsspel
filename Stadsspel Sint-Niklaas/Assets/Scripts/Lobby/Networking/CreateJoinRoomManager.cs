@@ -43,8 +43,9 @@ namespace Stadsspel.Networking
 			Debug.Log("hostinglogintoken: " + CurrentGame.Instance.HostingLoginToken);
 			Debug.Log("roomname: " + _mRoomNameInp.text);
 			Debug.Log("password: " + _mRoomPasswordInp.text);
-			
-			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, 2, 6, _mRoomPasswordInp.text));			
+			Debug.Log("Players: " + (int)_mRoomAmountOfPlayersSli.value);
+			int players = (int) _mRoomAmountOfPlayersSli.value;
+			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));			
 			CurrentGame.Instance.HostedGameId = gameId;
 			
 			Debug.Log("gameid: " + gameId);

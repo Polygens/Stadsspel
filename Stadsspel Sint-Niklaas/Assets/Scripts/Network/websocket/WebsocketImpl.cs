@@ -146,11 +146,11 @@ public class WebsocketImpl : WebsocketContainer
 		TeamNotification tn = JsonUtility.FromJson<TeamNotification>(message.message);
 		ServerTeam st = CurrentGame.Instance.PlayerTeam;
 
-		if (st.bankAccount < (tn.bankAccount + 0.0001))
+		if (st.bankAccount < (tn.bankAccount - 0.0001))
 		{
 			st.bankAccount = tn.bankAccount;
 			bankUpdateDep = true;
-		} else if(st.bankAccount > (tn.bankAccount - 0.0001))
+		} else if(st.bankAccount > (tn.bankAccount + 0.0001))
 		{
 			st.bankAccount = tn.bankAccount;
 			bankUpdateWith = true;

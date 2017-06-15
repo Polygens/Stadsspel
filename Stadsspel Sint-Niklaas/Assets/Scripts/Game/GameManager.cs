@@ -103,6 +103,11 @@ public class GameManager : MonoBehaviour
 #if (UNITY_EDITOR)
 		Debug.Log("Game will take: " + m_GameLength + "seconds");
 #endif
+
+
+
+		InGameUIManager.s_Singleton.LogUI.AddToLog("Er kan een minuut niet getikt worden", new object[] { });
+		InGameUIManager.s_Singleton.LogUI.AddToLog("Ga naar je schatkist of een handelspost", new object[] { });
 	}
 
 	private void FixMapObjectsZ()
@@ -119,7 +124,7 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void Update()
 	{
-		if (Time.frameCount%1000 == 0)
+		if (Time.frameCount % 1000 == 0)
 		{
 			FixMapObjectsZ();
 		}
@@ -186,12 +191,15 @@ public class GameManager : MonoBehaviour
 		}
 
 		//GameObject temp = PhotonNetwork.Instantiate(m_PlayerPrefabName, Vector3.zero, Quaternion.identity, 0);
+		
 		GameObject temp = (GameObject)Instantiate(Resources.Load(m_PlayerPrefabName), Vector3.zero, Quaternion.identity);
+		temp.name = CurrentGame.Instance.LocalPlayer.name;
 		Person person = temp.GetComponent<Person>();
 		person.Player = CurrentGame.Instance.LocalPlayer;
 
 		m_DistrictManager.SetPlayerTransform(temp.transform);
 		temp.transform.position += new Vector3(0, 0, -10);
+		
 	}
 
 	private void InitializeMapLocations()
@@ -205,7 +213,7 @@ public class GameManager : MonoBehaviour
 		//todo load all into map
 		GameObject mapobj = GameObject.Find("Map");
 		GameObject container = new GameObject("TESTEST");//todo get rid of this
-		//GameObject container = GameObject.Find("MapElements");
+														 //GameObject container = GameObject.Find("MapElements");
 		if (mapobj != null)
 		{
 			GOMap map = mapobj.GetComponent<GOMap>();
@@ -225,7 +233,7 @@ public class GameManager : MonoBehaviour
 
 
 					Coordinates coordinates = new Coordinates(bank.point.latitude, bank.point.longitude, 0);
-					GOObject obj = GOObject.AddComponentToObject(temp, map,coordinates);
+					GOObject obj = GOObject.AddComponentToObject(temp, map, coordinates);
 					Vector3 pos = coordinates.convertCoordinateToVector(0);
 					pos.z = -3;
 					temp.transform.localPosition = pos;
@@ -257,22 +265,23 @@ public class GameManager : MonoBehaviour
 				List<ServerPlayer> players = CurrentGame.Instance.PlayerList();
 				foreach (ServerPlayer serverPlayer in players)
 				{
-					GameObject temp = (GameObject) Instantiate(Resources.Load("Player"), Vector3.zero, Quaternion.identity);
+					if (serverPlayer.ClientId.Equals(CurrentGame.Instance.LocalPlayer.ClientId)) continue;
+
+					GameObject temp = (GameObject)Instantiate(Resources.Load("Player"), Vector3.zero, Quaternion.identity);
 					temp.name = serverPlayer.name;
 					temp.transform.parent = playerHolder.transform;
 					Person person = temp.GetComponent<Person>();
 					person.Player = serverPlayer;
 
-					GOObject obj = GOObject.AddComponentToObject(temp, map,new Coordinates(51.164510, 4.140199, 1.0));
+					GOObject obj = GOObject.AddComponentToObject(temp, map, new Coordinates(51.164510, 4.140199, 1.0));
 
-					CurrentGame.Instance.PlayerObjects.Add(serverPlayer.ClientId,temp);
+					CurrentGame.Instance.PlayerObjects.Add(serverPlayer.ClientId, temp);
 				}
 			} else
 			{
 				Debug.Log("ERROR: MAP NOT LOADED");
 			}
-		}
-		else
+		} else
 		{
 			Debug.Log("ERROR: MAP NOT LOADED");
 		}

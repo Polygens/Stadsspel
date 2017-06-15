@@ -84,9 +84,6 @@ namespace Stadsspel.Networking
 			}
 			//PhotonNetwork.room.IsVisible = false;
 			SceneManager.LoadScene("Game");
-
-			InGameUIManager.s_Singleton.LogUI.AddToLog("Er kan een minuut niet getikt worden", new object[] { });
-			InGameUIManager.s_Singleton.LogUI.AddToLog("Ga naar je schatkist of een handelspost", new object[] { });
 		}
 
 		/// <summary>

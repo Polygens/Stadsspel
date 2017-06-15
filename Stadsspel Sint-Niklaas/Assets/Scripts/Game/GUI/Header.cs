@@ -38,9 +38,11 @@ public class Header : MonoBehaviour
 	private void Update()
 	{
 		m_UpdateTimer += Time.deltaTime;
-		if(m_UpdateTimer > m_UpdateTime) {
+		if (m_UpdateTimer > m_UpdateTime)
+		{
 			m_UpdateTimer = 0;
-			if(GameManager.s_Singleton.Player.Person) {
+			if (GameManager.s_Singleton.Player.Person)
+			{
 				// Header Update 
 				UpdatePlayerMoney((int)CurrentGame.Instance.LocalPlayer.money);
 				UpdateTeamMoney(GameManager.s_Singleton.Teams[CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team)].TotalMoney);//todo link to actual team data
@@ -70,7 +72,7 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void UpdatePlayerMoney(int pPlayerMoney)
 	{
-		m_PlayerMoney.text = ((int)CurrentGame.Instance.LocalPlayer.money)+""; //todo format
+		m_PlayerMoney.text = ((int)CurrentGame.Instance.LocalPlayer.money) + ""; //todo format
 	}
 
 	/// <summary>
@@ -78,7 +80,7 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void UpdateTeamMoney(int pTeamMoney)
 	{
-		m_TeamMoney.text = ((int) (CurrentGame.Instance.PlayerTeam.bankAccount + CurrentGame.Instance.PlayerTeam.treasury)) + ""; //todo format + is this the correct money?
+		m_TeamMoney.text = ((int)(CurrentGame.Instance.PlayerTeam.bankAccount + CurrentGame.Instance.PlayerTeam.treasury)) + ""; //todo format + is this the correct money?
 	}
 
 	/// <summary>
@@ -86,21 +88,45 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void UpdateGameTimer()
 	{
-		long current = (DateTime.UtcNow.Ticks - CurrentGame.timeOffset)/10000;
+		long start = CurrentGame.Instance.gameDetail.startTime;
+		long current = (DateTime.UtcNow.Ticks - CurrentGame.timeOffset) / 10000;
 		long end = CurrentGame.Instance.gameDetail.endTime;
-		TimeSpan ts = TimeSpan.FromMilliseconds((double)(end-current));
+		TimeSpan ts = TimeSpan.FromMilliseconds((double)(end - current));
+		
+		//checks whether a notification should be shown
+		if (!CurrentGame.Instance.HalfwayPassed)
+		{
+			//game is not halfway
+			TimeSpan total = TimeSpan.FromMilliseconds((double)(end - start));
+			if (ts.TotalMinutes < (total.TotalMinutes / 2) && !CurrentGame.Instance.HalfwayPassed)
+			{
+				CurrentGame.Instance.HalfwayPassed = true;
+				InGameUIManager.s_Singleton.LogUI.AddToLog("Het spel is halfweg", new object[] { });
+			}
+		} else
+		{
+			//halfway mark passed
+			if (!CurrentGame.Instance.TenMinuteMark)
+			{
+				//probably more than 10 minutes left
+				if (ts.TotalMinutes <= 10.0)
+				{
+					CurrentGame.Instance.TenMinuteMark = true;
+					InGameUIManager.s_Singleton.LogUI.AddToLog("Nog 10 minuten over", new object[] { });
+				}
+			} else
+			{
+				//last 10 minute mark passed
+				if (!CurrentGame.Instance.LastMinuteMark && ts.TotalMinutes <= 1.0)
+				{
+					CurrentGame.Instance.LastMinuteMark = true;
+					InGameUIManager.s_Singleton.LogUI.AddToLog("Laatste minuut", new object[] { });
+				}
 
-		/*
-		float timer = GameManager.s_Singleton.GameLength - Time.timeSinceLevelLoad;
-		//int hours = Mathf.FloorToInt(timer / 3600);
-		int minutes = Mathf.FloorToInt(timer / 60);
-		int defMinutes;
-		int hours = Math.DivRem(minutes, 60, out defMinutes);
-		int seconds = Mathf.FloorToInt(timer - minutes * 60);
-		*/
+			}
+		}
 
 		string time = string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
-
 		m_GameDuration.text = time;
 	}
 }
