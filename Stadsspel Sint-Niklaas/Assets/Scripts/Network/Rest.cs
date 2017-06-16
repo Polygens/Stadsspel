@@ -11,8 +11,8 @@ using System.Text;
 public class Rest
 {
 	//private const string BASE_URL = "https://stniklaas-stadsspel.herokuapp.com/api/"; todo deprecated
-	//private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com//api/";
-	private const string BASE_URL = "http://localhost:8090/api/";
+	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
+	//private const string BASE_URL = "http://localhost:8090/api/";
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
 	private const string ACCOUNT_SUFFIX = "accounts";
