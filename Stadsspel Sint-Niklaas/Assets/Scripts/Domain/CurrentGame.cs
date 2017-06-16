@@ -16,7 +16,8 @@ public class CurrentGame : Singleton<CurrentGame>
 {
 	public static long timeOffset = new DateTime(1970, 1, 1, 0, 0, 0).Ticks;
 	private const string URL = "ws://localhost:8090/user";
-	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user";
+	//private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
+	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user"; todo deprecated
 
 
 	public WebsocketImpl Ws { get; private set; }

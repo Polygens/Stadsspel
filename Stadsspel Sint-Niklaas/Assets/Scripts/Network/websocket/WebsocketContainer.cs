@@ -140,6 +140,9 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 			case GameMessageType.CONQUERING_UPDATE:
 				HandleConquerUpdate(message);
 				break;
+			case GameMessageType.PLAYER_KICKED:
+				//todo get kicked
+				break;
 			default:
 				Debug.Log("Message is not of a type we should catch");
 				break;
