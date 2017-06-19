@@ -7,7 +7,6 @@ using fastJSON;
 using Stadsspel.Districts;
 using UnityEngine;
 using Stadsspel.Networking;
-using Random = UnityEngine.Random;
 
 public class WebsocketImpl : WebsocketContainer
 {
@@ -280,6 +279,12 @@ public class WebsocketImpl : WebsocketContainer
 		{
 			InGameUIManager.s_Singleton.LogUI.AddToLog("Wijk overgenomen", new object[] { });
 		}
+	}
+
+	protected override void HandlePlayerKicked()
+	{
+		NetworkManager.Singleton.RoomManager.EnableDisableMenu(false);
+		NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 	}
 
 	public IEnumerator MoveOverSeconds(GameObject objectToMove, Vector3 end, float seconds)

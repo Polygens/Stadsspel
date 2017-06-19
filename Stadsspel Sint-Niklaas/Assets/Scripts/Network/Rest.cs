@@ -10,15 +10,9 @@ using System.Text;
 
 public class Rest
 {
-#if UNITY_EDITOR || UNITY_EDITOR_WIN
-	private const string BASE_URL = "http://localhost:8090/api/";
-#else
 	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
-#endif
-
-	//private const string BASE_URL = "https://stniklaas-stadsspel.herokuapp.com/api/"; todo deprecated
-	//private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
 	//private const string BASE_URL = "http://localhost:8090/api/";
+
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
 	private const string ACCOUNT_SUFFIX = "accounts";
@@ -281,11 +275,21 @@ public class Rest
 		HandleReturnCode(code);
 		return response;
 	}
+
 	public static string ChangeDuration(string gameId, string token,int minutes)
 	{
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/duration/" + token;
 		int code = Post(urlSuffix, minutes+"", out response);
+		HandleReturnCode(code);
+		return response;
+	}
+
+	public static string KickPlayer(string gameId, string token,string playerId)
+	{
+		string response;
+		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/kick/" + token;
+		int code = Post(urlSuffix, playerId, out response);
 		HandleReturnCode(code);
 		return response;
 	}

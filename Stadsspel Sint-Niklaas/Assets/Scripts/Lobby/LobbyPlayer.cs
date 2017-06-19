@@ -117,7 +117,7 @@ namespace Stadsspel.Networking
 				m_IsLocalPlayer = false;
 			}
 
-			m_IsMasterClient = CurrentGame.Instance.isHost;
+			m_IsMasterClient = CurrentGame.Instance.isHost && CurrentGame.Instance.LocalPlayer.ClientId.Equals(player.ClientId);
 
 			if (m_IsMasterClient)
 			{
@@ -164,6 +164,11 @@ namespace Stadsspel.Networking
 				//todo change ready state G: is this needed in server?
 			});
 
+			m_KickPlayerBtn.interactable = true;
+			m_KickPlayerBtn.onClick.AddListener(() => {
+				//todo change ready state G: is this needed in server?
+			});
+
 		}
 
 		/// <summary>
@@ -177,17 +182,15 @@ namespace Stadsspel.Networking
 			m_TeamBtn.GetComponent<Image>().color = c;
 			m_NameInp.text = player.Name;
 			SetReadyButton(m_IsReady);
-
-			/*
-			if (PhotonNetwork.player.IsMasterClient)
+			
+			if (CurrentGame.Instance.isHost)
 			{
 				m_KickPlayerBtn.gameObject.SetActive(true);
-				m_KickPlayerBtn.onClick.AddListener(() => {
-					PhotonNetwork.CloseConnection(photonView.owner);
+				m_KickPlayerBtn.onClick.AddListener(() =>
+				{
+					Rest.KickPlayer(CurrentGame.Instance.GameId, CurrentGame.Instance.HostingLoginToken, player.clientID);
 				});
-
 			}
-			*/
 		}
 
 		/// <summary>

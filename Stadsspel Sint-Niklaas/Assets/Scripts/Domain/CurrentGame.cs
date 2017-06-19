@@ -15,14 +15,11 @@ using Random = System.Random;
 public class CurrentGame : Singleton<CurrentGame>
 {
 	public static long timeOffset = new DateTime(1970, 1, 1, 0, 0, 0).Ticks;
-#if UNITY_EDITOR || UNITY_EDITOR_WIN
-	private const string URL = "ws://localhost:8090/user";
-#else
-	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
-#endif
+
+
 	//private const string URL = "ws://localhost:8090/user";
-	//private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
-	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user"; todo deprecated
+	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
+	
 
 
 	public WebsocketImpl Ws { get; private set; }
@@ -180,6 +177,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		HalfwayPassed = false;
 		TenMinuteMark = false;
 		LastMinuteMark = false;
+		Ws.Clear();
 	}
 
 	private IEnumerator SendPlayerLocation()

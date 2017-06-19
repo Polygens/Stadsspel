@@ -46,19 +46,47 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 
 	public IEnumerator Connect(string url, string gameID, string clientID)
 	{
+		Debug.Log("DEBUG");
+		if (listeningThread.ThreadState != ThreadState.Stopped)
+		{
+			Debug.Log("Stop previous");
+			stopThread = true;
+			yield return new WaitUntil(() => listeningThread.ThreadState == ThreadState.Stopped);
+		}
+
 		if (ws == null)
 		{
 			ws = new WebSocket(new Uri(url));
 		}
+		else
+		{
+			ws.Close();
+		}
+
 		this.clientID = clientID;
 		this.gameID = gameID;
 		//_inbox = new ConcurrentQueue<MessageWrapper>(); todo concurrency
 		_inbox = new Queue<MessageWrapper>();
+		Debug.Log("CONNECT");
+		bool connected = false;
+		while (!connected)
+		{
+			yield return StartCoroutine(ws.Connect());
+			if (ws.error != null)
+			{//todo limit the tries
+				Debug.Log("ERROR: " + ws.error);
+			}
+			else
+			{
+				Debug.Log("CONNECTED");
+				connected = true;
+			}
+		}
 
-		yield return StartCoroutine(ws.Connect());
 		listeningThread = new Thread(ListeningRun);
 		listeningThread.Start();
 
+		Debug.Log("SEND");
 		//send hearthbeat to provide server with player info
 		SendHearthbeat();
 	}
@@ -83,10 +111,15 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 				if (consecutiveErrors >= 5)
 				{
 					Debug.LogError("Error: " + ws.error);
-					break; //todo not break loop?
+					stopThread = true;
 				}
 			}
 		}
+	}
+
+	public void Clear()
+	{
+		stopThread = true;
 	}
 
 	private void HandleMessage(MessageWrapper message)
@@ -141,7 +174,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 				HandleConquerUpdate(message);
 				break;
 			case GameMessageType.PLAYER_KICKED:
-				//todo get kicked
+				HandlePlayerKicked();
 				break;
 			default:
 				Debug.Log("Message is not of a type we should catch");
@@ -337,5 +370,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	protected abstract void HandleLobbyUpdate(MessageWrapper message);
 
 	protected abstract void HandleConquerUpdate(MessageWrapper message);
+
+	protected abstract void HandlePlayerKicked();
 
 }
