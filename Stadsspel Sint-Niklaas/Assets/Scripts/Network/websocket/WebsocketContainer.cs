@@ -160,6 +160,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		try
 		{
 			var message = messageBuffer.Peek();
+			//Debug.Log(message);
 			//todo compress message
 			ws.SendString(message);
 			messageBuffer.Dequeue();

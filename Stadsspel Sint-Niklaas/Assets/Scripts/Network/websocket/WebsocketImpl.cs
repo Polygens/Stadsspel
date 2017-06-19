@@ -45,7 +45,7 @@ public class WebsocketImpl : WebsocketContainer
 			CapturableDistrict capturableDistrict = district.GetComponent<CapturableDistrict>();
 			if (capturableDistrict != null)
 			{
-				capturableDistrict.Team = CurrentGame.Instance.GetTeamByName(dn.teamName);
+				capturableDistrict.Team = CurrentGame.Instance.FindTeamByName(dn.teamName);
 				capturableDistrict.OnTeamChanged();
 				district.GetComponentInChildren<CapturePoint>().Team = capturableDistrict.Team;
 			}
@@ -137,7 +137,8 @@ public class WebsocketImpl : WebsocketContainer
 
 	protected override void HandleWinningTeam(MessageWrapper message)
 	{
-		//todo display winning team, will be expanded to include statistics
+		WinningTeamMessage winningTeamMessage = JsonUtility.FromJson<WinningTeamMessage>(message.message);
+		CurrentGame.Instance.TeamScores = winningTeamMessage.scoreList;
 	}
 
 	protected override void HandleTeamNotification(MessageWrapper message)

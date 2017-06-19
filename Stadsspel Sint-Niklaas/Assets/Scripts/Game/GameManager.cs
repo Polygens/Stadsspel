@@ -128,27 +128,15 @@ public class GameManager : MonoBehaviour
 		{
 			FixMapObjectsZ();
 		}
-		if (Time.timeSinceLevelLoad > m_GameLength && !isGameOver && !CurrentGame.Instance.IsGameRunning)
-		{
-			var a = Time.timeSinceLevelLoad;
 
+		if (!isGameOver && !CurrentGame.Instance.IsGameRunning)
+		{
 			isGameOver = true;
 			InGameUIManager.s_Singleton.FinalScoreUI.gameObject.SetActive(true);
 		}
+
 		if (Time.timeSinceLevelLoad > m_NextMoneyUpdateTime && !isGameOver)
 		{
-			/*
-			if (PhotonNetwork.isMasterClient)
-			{
-				// Call GainMoneyOverTime() from each financial object
-
-				for (int i = 0; i < m_Treasures.Count; i++)
-				{
-					m_Treasures[i].photonView.RPC("RetrieveTaxes", PhotonTargets.All);
-				}
-
-			}
-			*/
 			m_NextMoneyUpdateTime = Time.timeSinceLevelLoad + m_MoneyUpdateTimeInterval;
 		}
 	}
@@ -320,4 +308,5 @@ public class GameManager : MonoBehaviour
 		*/
 		return null;
 	}
+	
 }

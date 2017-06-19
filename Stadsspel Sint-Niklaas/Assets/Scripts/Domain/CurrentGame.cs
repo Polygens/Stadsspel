@@ -15,8 +15,13 @@ using Random = System.Random;
 public class CurrentGame : Singleton<CurrentGame>
 {
 	public static long timeOffset = new DateTime(1970, 1, 1, 0, 0, 0).Ticks;
-	//private const string URL = "ws://localhost:8090/user";
+#if UNITY_EDITOR || UNITY_EDITOR_WIN
+	private const string URL = "ws://localhost:8090/user";
+#else
 	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
+#endif
+	//private const string URL = "ws://localhost:8090/user";
+	//private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
 	//private const string URL = "wss://stniklaas-stadsspel.herokuapp.com/user"; todo deprecated
 
 
@@ -48,6 +53,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public bool HalfwayPassed { get; set; }
 	public bool TenMinuteMark { get; set; }
 	public bool LastMinuteMark { get; set; }
+	public List<WinningTeamMessage.TeamScore> TeamScores { get; set; }
 
 	[Serializable]
 	public class PersistentData{
@@ -207,6 +213,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		gameDetail = parsed;
 		PlayerTeam = FindPlayerTeam();
 		KnownItems = new Dictionary<string, ServerTradePost.ServerItem>();
+		TeamScores = null;
 	}
 
 	private ServerTeam FindPlayerTeam()
@@ -305,7 +312,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		return -1;
 	}
 
-	public ServerTeam GetTeamByName(string teamName)
+	public ServerTeam FindTeamByName(string teamName)
 	{
 		return gameDetail.teams.Find(t => t.teamName.Equals(teamName));
 	}

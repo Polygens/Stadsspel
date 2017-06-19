@@ -44,6 +44,7 @@ namespace Stadsspel
 				NetworkManager.Singleton.PasswordLoginManager.EnableDisableMenu(true, this);
 			else
 			{
+				CurrentGame.Instance.Clear();
 				var serverGame = Rest.GetGameById(ID);
 				var parsedGame = JsonUtility.FromJson<CurrentGame.Game>(serverGame);
 				CurrentGame.Instance.gameDetail = parsedGame;
@@ -53,7 +54,6 @@ namespace Stadsspel
 				CurrentGame.Instance.GameId = ID;
 				CurrentGame.Instance.PasswordUsed = "";
 				CurrentGame.Instance.Connect();
-				//StartCoroutine(CurrentGame.GetInstance().Ws.Connect("ws://localhost:8090/user", ID, SystemInfo.deviceUniqueIdentifier));//todo switch to heroku server
 
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
@@ -67,9 +67,9 @@ namespace Stadsspel
 		/// </summary>
 		public bool JoinProtectedRoom(string password)
 		{
-			//todo allow player name change
 			try
 			{
+				CurrentGame.Instance.Clear();
 				string serverGame = Rest.GetGameById(ID);
 				CurrentGame.Game parsed = JsonUtility.FromJson<CurrentGame.Game>(serverGame);
 				CurrentGame.Instance.gameDetail = parsed;
@@ -79,13 +79,10 @@ namespace Stadsspel
 				CurrentGame.Instance.GameId = ID;
 				CurrentGame.Instance.PasswordUsed = password;
 				CurrentGame.Instance.Connect();
-				//StartCoroutine(CurrentGame.GetInstance().Ws.Connect("ws://localhost:8090/user", ID, SystemInfo.deviceUniqueIdentifier));//todo switch to heroku server
 
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
 				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
-
-				//PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
 				return true;
 			}
 			catch (RestException e)

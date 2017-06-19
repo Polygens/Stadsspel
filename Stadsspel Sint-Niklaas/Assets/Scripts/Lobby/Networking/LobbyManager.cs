@@ -16,6 +16,7 @@ namespace Stadsspel.Networking
 			Debug.Log("Registering to my game: " + gameId);
 			var game = JsonUtility.FromJson<CurrentGame.Game>(Rest.GetGameById(gameId));
 			var room = Instantiate(Resources.Load("Room") as GameObject);
+			Debug.Log("2nd id: "+game.id);
 			room.GetComponent<Room>().InitializeRoom(game.roomName, game.id, 0, 0, password.Length > 0);
 			room.GetComponent<Room>().ClickJoinRoom();
 		}
