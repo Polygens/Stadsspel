@@ -85,6 +85,11 @@ public class TradingPostUI : MonoBehaviour
 		}
 		//m_ShopItems = Item.ShopItems;
 		//m_ShopItems = items;
+		Transform wjd = transform.Find("WistJeDatPanel");
+		if (wjd != null)
+		{
+			wjd.Find("PlaceHolder").Find("Message").gameObject.GetComponent<Text>().text = stp.flavorText;
+		}
 
 
 		RectTransform Grid = (RectTransform)transform.Find("MainPanel").transform.Find("Grid");
