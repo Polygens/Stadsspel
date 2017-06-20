@@ -53,7 +53,11 @@ public class CurrentGame : Singleton<CurrentGame>
 	public List<WinningTeamMessage.TeamScore> TeamScores { get; set; }
 
 	[Serializable]
-	public class PersistentData{
+	public class PersistentData
+	{
+		public string ClientToken;
+		public string GameId;
+		public string PasswordUsed;
 	}
 
 
