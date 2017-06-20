@@ -47,7 +47,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	public IEnumerator Connect(string url, string gameID, string clientID)
 	{
 		Debug.Log("DEBUG");
-		if (listeningThread.ThreadState != ThreadState.Stopped)
+		if (listeningThread != null && listeningThread.ThreadState != ThreadState.Stopped)
 		{
 			Debug.Log("Stop previous");
 			stopThread = true;
@@ -60,7 +60,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		}
 		else
 		{
-			ws.Close();
+			//ws.Close();
 		}
 
 		this.clientID = clientID;
