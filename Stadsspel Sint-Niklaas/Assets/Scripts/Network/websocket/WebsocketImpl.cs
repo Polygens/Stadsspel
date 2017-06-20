@@ -285,6 +285,7 @@ public class WebsocketImpl : WebsocketContainer
 	{
 		NetworkManager.Singleton.RoomManager.EnableDisableMenu(false);
 		NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
+		CurrentGame.Instance.Clear();
 	}
 
 	public IEnumerator MoveOverSeconds(GameObject objectToMove, Vector3 end, float seconds)

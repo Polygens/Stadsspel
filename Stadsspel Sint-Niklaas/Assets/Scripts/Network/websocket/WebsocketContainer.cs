@@ -16,13 +16,13 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	private Thread listeningThread;
 	private bool stopThread = true;
 	private readonly Queue<string> messageBuffer;
-	private string gameID, clientID;
+	private string gameID, clientID, url;
 	//private ConcurrentQueue<MessageWrapper> _inbox;
 	private Queue<MessageWrapper> _inbox;
 
 	private void Update()
 	{
-		while (_inbox.Count >0)
+		while (_inbox.Count > 0)
 		{
 			/*todo concurrency
 			MessageWrapper messageWrapper;
@@ -57,14 +57,14 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		if (ws == null)
 		{
 			ws = new WebSocket(new Uri(url));
-		}
-		else
+		} else
 		{
 			//ws.Close();
 		}
 
 		this.clientID = clientID;
 		this.gameID = gameID;
+		this.url = url;
 		//_inbox = new ConcurrentQueue<MessageWrapper>(); todo concurrency
 		_inbox = new Queue<MessageWrapper>();
 		Debug.Log("CONNECT");
@@ -75,8 +75,46 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 			if (ws.error != null)
 			{//todo limit the tries
 				Debug.Log("ERROR: " + ws.error);
+			} else
+			{
+				Debug.Log("CONNECTED");
+				connected = true;
 			}
-			else
+		}
+
+		listeningThread = new Thread(ListeningRun);
+		listeningThread.Start();
+
+		Debug.Log("SEND");
+		//send hearthbeat to provide server with player info
+		SendHearthbeat();
+	}
+
+	public IEnumerator ReConnectCurrent()
+	{
+		Debug.Log("DEBUG");
+		if (listeningThread != null && listeningThread.ThreadState != ThreadState.Stopped)
+		{
+			Debug.Log("Stop previous");
+			stopThread = true;
+			yield return new WaitUntil(() => listeningThread.ThreadState == ThreadState.Stopped);
+		}
+		if (ws.IsConnected)
+		{
+			ws.Close();
+		}
+
+		//_inbox = new ConcurrentQueue<MessageWrapper>(); todo concurrency
+		_inbox = new Queue<MessageWrapper>();
+		Debug.Log("RECONNECT");
+		bool connected = false;
+		while (ws.IsConnected)
+		{
+			yield return StartCoroutine(ws.Connect());
+			if (ws.error != null)
+			{//todo limit the tries
+				Debug.Log("ERROR: " + ws.error);
+			} else
 			{
 				Debug.Log("CONNECTED");
 				connected = true;
@@ -94,38 +132,46 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	private void ListeningRun()
 	{
 		stopThread = false;
-		int consecutiveErrors =0;
+		int consecutiveErrors = 0;
 		while (!stopThread)
 		{
-			string reply = ws.RecvString();
-			if (reply != null)
+			if (ws.IsConnected)
 			{
-				consecutiveErrors = 0;
-				MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
-				Debug.Log(mw.messageType);
-				_inbox.Enqueue(mw);
-			}
-			if (ws.error != null)
-			{
-				consecutiveErrors++;
-				if (consecutiveErrors >= 5)
+				string reply = ws.RecvString();
+				if (reply != null)
 				{
-					Debug.LogError("Error: " + ws.error);
-					stopThread = true;
+					consecutiveErrors = 0;
+					MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
+					Debug.Log(mw.messageType);
+					_inbox.Enqueue(mw);
+				}
+				if (ws.error != null)
+				{
+					consecutiveErrors++;
+					if (consecutiveErrors >= 5)
+					{
+						Debug.LogError("G Error: " + ws.error);
+						stopThread = true;
+					}
 				}
 			}
 		}
+		Debug.Log("BORKEN LOOP");
 	}
 
 	public void Clear()
 	{
 		stopThread = true;
+		if (ws != null && ws.IsConnected)
+		{
+			ws.Close();
+		}
 	}
 
 	private void HandleMessage(MessageWrapper message)
 	{
 		if (!message.gameID.Equals(CurrentGame.Instance.GameId)) return; //if not right game do nothing todo throw error or something also check if no error will occur with this line here
-		if (NetworkManager.Singleton.ConnectingManager!=null)
+		if (NetworkManager.Singleton.ConnectingManager != null)
 		{
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false); //todo move this line somewhere better
 		}
@@ -192,11 +238,17 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		if (ws == null) return;
 		try
 		{
-			var message = messageBuffer.Peek();
-			//Debug.Log(message);
-			//todo compress message
-			ws.SendString(message);
-			messageBuffer.Dequeue();
+			if (!ws.IsConnected)
+			{
+				StartCoroutine(ReConnectCurrent());
+			} else
+			{
+				var message = messageBuffer.Peek();
+				//Debug.Log(message);
+				//todo compress message
+				ws.SendString(message);
+				messageBuffer.Dequeue();
+			}
 		} catch (Exception e)
 		{
 			Debug.Log("Error during sening of message, buffering");
@@ -247,7 +299,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		JSONParameters jsonParameters = new JSONParameters();
 		jsonParameters.UsingGlobalTypes = false;
 		jsonParameters.UseExtensions = false;
-		string innerMessage = JSON.ToJSON(gem,jsonParameters);
+		string innerMessage = JSON.ToJSON(gem, jsonParameters);
 		Send(GameMessageType.EVENT, innerMessage);
 	}
 
@@ -316,14 +368,14 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 	{
 		ConquerMessage cm = new ConquerMessage();
 		cm.LocationID = locationId;
-		Send(GameMessageType.CONQUERING_START,JsonUtility.ToJson(cm));
+		Send(GameMessageType.CONQUERING_START, JsonUtility.ToJson(cm));
 	}
 
 	public void SendConquerEnd(string locationId)
 	{
 		ConquerMessage cm = new ConquerMessage();
 		cm.LocationID = locationId;
-		Send(GameMessageType.CONQUERING_END,JsonUtility.ToJson(cm));
+		Send(GameMessageType.CONQUERING_END, JsonUtility.ToJson(cm));
 	}
 
 	public void SendPlayerNameUpdate(string newName)

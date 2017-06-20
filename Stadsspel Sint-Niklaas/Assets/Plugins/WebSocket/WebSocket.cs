@@ -99,12 +99,19 @@ public class WebSocket {
   WebSocketSharp.WebSocket m_Socket;
   Queue<byte[]> m_Messages = new Queue<byte[]>();
   bool m_IsConnected = false;
-  string m_Error = null;
+
+	public bool IsConnected
+	{
+		get { return m_IsConnected; }
+	}
+
+	string m_Error = null;
 
   public IEnumerator Connect() {
     m_Socket = new WebSocketSharp.WebSocket(mUrl.ToString());
     m_Socket.OnMessage += (sender, e) => m_Messages.Enqueue(e.RawData);
     m_Socket.OnOpen += (sender, e) => m_IsConnected = true;
+    m_Socket.OnClose += (sender, e) => m_IsConnected = false;
     m_Socket.OnError += (sender, e) => m_Error = e.Message;
     m_Socket.ConnectAsync();
     while (!m_IsConnected && m_Error == null)
