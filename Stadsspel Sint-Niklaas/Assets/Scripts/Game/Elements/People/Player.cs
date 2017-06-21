@@ -184,7 +184,7 @@ namespace Stadsspel.Elements
 				m_MainPanel.gameObject.SetActive(true);
 				m_Switch.gameObject.SetActive(false);
 
-				if (allGameObjectsInRadius.Count > 1)
+				if (allGameObjectsInRadius.Count > 1) //todo change check so that button holder does not display when no buttons
 				{
 					m_ListPanel.gameObject.SetActive(true);
 					m_Switch.gameObject.SetActive(true);
@@ -245,7 +245,14 @@ namespace Stadsspel.Elements
 						tempP = Priority.TradingPost;
 					} else
 					{
-						tempP = (Priority)Enum.Parse(typeof(Priority), tag);
+						if ((Priority)Enum.Parse(typeof(Priority),tag) != Priority.Enemy) //exclude enemies from this check
+						{
+							tempP = (Priority)Enum.Parse(typeof(Priority), tag);
+						}
+						else
+						{
+							continue; //if is enemy skip loop iteration
+						}
 					}
 
 					if (allGameObjectsInRadius[i].GetComponentInParent<CapturableDistrict>() == null)

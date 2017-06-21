@@ -193,9 +193,9 @@ namespace Stadsspel.Districts
 			foreach (PolygonCollider2D districtCollider in m_DistrictColliders)
 			{
 				string districtName = districtCollider.gameObject.name;
-				Debug.Log(districtName);
 				if (districtName.ToLower().Equals(name.ToLower()))
 				{
+					Debug.Log(districtName);
 					return districtCollider.gameObject;
 				}
 			}

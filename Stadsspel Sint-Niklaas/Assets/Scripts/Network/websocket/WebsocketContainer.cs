@@ -156,7 +156,6 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 				}
 			}
 		}
-		Debug.Log("BORKEN LOOP");
 	}
 
 	public void Clear()
