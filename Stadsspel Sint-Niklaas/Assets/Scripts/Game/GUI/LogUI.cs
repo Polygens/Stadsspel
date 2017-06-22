@@ -34,7 +34,10 @@ public class LogUI : MonoBehaviour
 				notification.GetComponent<Notification>().SetPermanent(permanent);
 			} else
 			{
-				Notification.QueueNotification(string.Format(text, variables));
+				if (text != null)
+				{
+					Notification.QueueNotification(string.Format(text, variables));
+				}
 			}
 		}
 

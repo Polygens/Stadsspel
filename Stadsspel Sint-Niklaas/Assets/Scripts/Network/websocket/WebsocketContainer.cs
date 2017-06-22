@@ -142,7 +142,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 				{
 					consecutiveErrors = 0;
 					MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
-					Debug.Log(mw.messageType);
+					Debug.Log(mw.MessageType.ToString());
 					_inbox.Enqueue(mw);
 				}
 				if (ws.error != null)
@@ -174,7 +174,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 		{
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false); //todo move this line somewhere better
 		}
-		switch (message.getMessageType())
+		switch (message.MessageType)
 		{
 			case GameMessageType.BULK_LOCATION:
 				HandleBulkLocation(message);

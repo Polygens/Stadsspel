@@ -63,9 +63,10 @@ public class WebsocketImpl : WebsocketContainer
 	protected override void HandleInfoNotification(MessageWrapper message)
 	{
 		InfoNotification info = JsonUtility.FromJson<InfoNotification>(message.message);
-		string text=null;
+		Debug.Log(message.message);
+		string text=info.GameEventType.ToString();
 		//notification containing extra info about a recently passed event (currently only robbery)
-		switch (info.gameEventType)
+		switch (info.GameEventType)
 		{
 			case GameEventType.BANK_DEPOSIT:
 				break;
@@ -88,7 +89,7 @@ public class WebsocketImpl : WebsocketContainer
 			case GameEventType.TRADEPOST_ALL_SALE:
 				break;
 			case GameEventType.TREASURY_ROBBERY:
-				text = "Je schatkist is bestolen door " + CurrentGame.Instance.FindPlayerById(info.by);
+				text = "Je schatkist is bestolen door " + info.by;
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();
