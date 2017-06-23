@@ -39,7 +39,7 @@ public class TouchCamera : MonoBehaviour
 		Input.location.Start();
 		Input.compass.enabled = true;
 		m_Camera = GetComponent<Camera>();
-
+		m_CameraBounds = GameObject.Find("CameraBoundsGlobal").GetComponent<BoxCollider2D>();
 		m_Min = m_CameraBounds.bounds.min;
 		m_Max = m_CameraBounds.bounds.max;
 
