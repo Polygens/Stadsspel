@@ -1,6 +1,7 @@
 // Just add this script to your camera. It doesn't need any configuration.
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TouchCamera : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class TouchCamera : MonoBehaviour
 	private Camera m_Camera;
 	private Vector3 m_Min, m_Max;
 
+	private Button btnPos, btnRot;
+
 	void Start()
 	{
 		m_DefaultCameraPosition = transform.localPosition;
@@ -39,6 +42,12 @@ public class TouchCamera : MonoBehaviour
 
 		m_Min = m_CameraBounds.bounds.min;
 		m_Max = m_CameraBounds.bounds.max;
+
+		btnPos = GameObject.Find("BtnPosition").GetComponent<Button>();
+		btnPos.onClick.AddListener(ResetCameraPosition);
+
+		btnRot = GameObject.Find("BtnRotation").GetComponent<Button>();
+		btnRot.onClick.AddListener(ResetCameraRotation);
 	}
 
 	void Update()

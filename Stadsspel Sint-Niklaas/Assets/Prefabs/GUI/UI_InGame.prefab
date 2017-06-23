@@ -6957,19 +6957,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114000010782536938}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114000011439272682, guid: 693c8bb778cf4f940bc647830fab5058,
-          type: 2}
-        m_MethodName: ResetCameraPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114000010526437516
@@ -11342,19 +11330,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114000014012770350}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114000011439272682, guid: 693c8bb778cf4f940bc647830fab5058,
-          type: 2}
-        m_MethodName: ResetCameraRotation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114000014278294690
@@ -21789,7 +21765,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 153}
-  m_SizeDelta: {x: 0, y: 483}
+  m_SizeDelta: {x: -257, y: 483}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &224000011895138476
 RectTransform:
