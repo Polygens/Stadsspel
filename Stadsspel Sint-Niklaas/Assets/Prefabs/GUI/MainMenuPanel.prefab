@@ -3108,7 +3108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1886988738717446
 GameObject:
   m_ObjectHideFlags: 1
@@ -4022,7 +4022,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 54
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -5061,7 +5061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6103448, g: 0.6103448, b: 0.6103448, a: 0.392}
+  m_Color: {r: 0.9607844, g: 0.3921569, b: 0.18431373, a: 0.392}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6244,14 +6244,15 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 54
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Een manier om geld te verdienen is door legale of illegale goederen te kopen
-    bij de handelsposten en deze dan te gaan verkopen met interest aan de grote markt.
+  m_Text: De eerste manier om geld te verdienen is door legale of illegale goederen
+    te kopen bij de handelsposten en deze dan te gaan verkopen met interest aan de
+    grote markt.
 --- !u!114 &114374649146574522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6574,8 +6575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52557add32b02714d8e25b3ec15688cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RoomList: {fileID: 224200767293039010}
-  m_NoServerFound: {fileID: 224829574605873034}
+  _mRoomList: {fileID: 224200767293039010}
+  _mNoServerFound: {fileID: 224829574605873034}
 --- !u!114 &114431476328802024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6958,9 +6959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a81620431bc724aac0d6447f5b48e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LobbyPlayerList: {fileID: 224735743218531722}
-  m_StartGameBtn: {fileID: 114226924715380804}
-  m_CountdownDuration: 5
+  _mLobbyPlayerList: {fileID: 224735743218531722}
+  _mStartGameBtn: {fileID: 114226924715380804}
+  _mCountdownDuration: 5
 --- !u!114 &114481184434480848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7376,7 +7377,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: '30 seconden '
 --- !u!114 &114526333759815910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7429,7 +7430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6103448, g: 0.6103448, b: 0.6103448, a: 0.392}
+  m_Color: {r: 0.9607844, g: 0.3921569, b: 0.18431373, a: 0.392}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7549,7 +7550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6103448, g: 0.6103448, b: 0.6103448, a: 0.392}
+  m_Color: {r: 0.9607844, g: 0.3921569, b: 0.18431373, a: 0.392}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7765,7 +7766,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 54
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -8013,7 +8014,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 54
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -8388,11 +8389,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3030cfa2e404141a0d2f70a3cff1c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RoomNameInp: {fileID: 114074886075173358}
-  m_RoomPasswordInp: {fileID: 114784839510289638}
-  m_RoomGameDurationDro: {fileID: 114733947715986700}
-  m_RoomAmountOfPlayersSli: {fileID: 114283510817787514}
-  m_AmountOfPlayersTxt: {fileID: 114134077835953542}
+  _mRoomNameInp: {fileID: 114074886075173358}
+  _mRoomPasswordInp: {fileID: 114784839510289638}
+  _mRoomGameDurationDro: {fileID: 114733947715986700}
+  _mRoomAmountOfPlayersSli: {fileID: 114283510817787514}
+  _mAmountOfPlayersTxt: {fileID: 114134077835953542}
 --- !u!114 &114674608621663264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8825,7 +8826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6103448, g: 0.6103448, b: 0.6103448, a: 0.392}
+  m_Color: {r: 0.9607844, g: 0.3921569, b: 0.18431373, a: 0.392}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8910,7 +8911,19 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options: []
+    m_Options:
+    - m_Text: '30 seconden '
+      m_Image: {fileID: 0}
+    - m_Text: '30 minuten '
+      m_Image: {fileID: 0}
+    - m_Text: '1 uur '
+      m_Image: {fileID: 0}
+    - m_Text: '1 uur 30 minuten '
+      m_Image: {fileID: 0}
+    - m_Text: '2 uren '
+      m_Image: {fileID: 0}
+    - m_Text: '2 uren 30 minuten '
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -9190,7 +9203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9264,14 +9277,14 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 54
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Het doel van het spel is om zoveel mogelijk geld in te zamelen met je team,
-    dit doe je d.m.v handel drijven, schatkisten en door te stelen.
+    dit doe je door middel van handel drijven, schatkisten en door te stelen.
 --- !u!114 &114771234094048944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9686,7 +9699,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 54
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -10569,7 +10582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6103448, g: 0.6103448, b: 0.6103448, a: 0.392}
+  m_Color: {r: 0.9607844, g: 0.3921569, b: 0.18431373, a: 0.392}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11003,7 +11016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6103448, g: 0.6103448, b: 0.6103448, a: 0.392}
+  m_Color: {r: 0.9607844, g: 0.3921569, b: 0.18431373, a: 0.392}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -12243,8 +12256,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -70, y: -70}
+  m_AnchoredPosition: {x: 0, y: 5}
+  m_SizeDelta: {x: -70, y: -24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224011313971878074
 RectTransform:
@@ -12483,8 +12496,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 884.1451, y: -1187.33}
-  m_SizeDelta: {x: 1768.2902, y: 309.11}
+  m_AnchoredPosition: {x: 324, y: -1187.33}
+  m_SizeDelta: {x: 648, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224069968821195556
 RectTransform:
@@ -12803,7 +12816,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 20, y: -10}
-  m_SizeDelta: {x: 312.6441, y: -20}
+  m_SizeDelta: {x: 193.71007, y: -20}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224167411072382524
 RectTransform:
@@ -12989,8 +13002,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 884.1451, y: -863.22}
-  m_SizeDelta: {x: 1768.2902, y: 309.11}
+  m_AnchoredPosition: {x: 324, y: -863.22}
+  m_SizeDelta: {x: 648, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224227122875777626
 RectTransform:
@@ -13398,7 +13411,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -200, y: -10}
-  m_SizeDelta: {x: 260.76636, y: -20}
+  m_SizeDelta: {x: 135.3317, y: -20}
   m_Pivot: {x: 1, y: 1}
 --- !u!224 &224318674558034674
 RectTransform:
@@ -13983,8 +13996,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 884.1451, y: -1835.5499}
-  m_SizeDelta: {x: 1768.2902, y: 309.11}
+  m_AnchoredPosition: {x: 324, y: -1835.5499}
+  m_SizeDelta: {x: 648, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224487953210971096
 RectTransform:
@@ -14448,8 +14461,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 884.1451, y: -215}
-  m_SizeDelta: {x: 1768.2902, y: 309.11}
+  m_AnchoredPosition: {x: 324, y: -215}
+  m_SizeDelta: {x: 648, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224632412372592672
 RectTransform:
@@ -14675,8 +14688,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 884.1451, y: -539.11}
-  m_SizeDelta: {x: 1768.2902, y: 309.11}
+  m_AnchoredPosition: {x: 324, y: -539.11}
+  m_SizeDelta: {x: 648, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224688635792618924
 RectTransform:
@@ -14712,7 +14725,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 7, y: 4.36}
+  m_AnchoredPosition: {x: 7, y: 4.3599997}
   m_SizeDelta: {x: 27, y: 9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224696869474680536
@@ -14872,8 +14885,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 884.1451, y: -1511.44}
-  m_SizeDelta: {x: 1768.2902, y: 309.11}
+  m_AnchoredPosition: {x: 324, y: -1511.44}
+  m_SizeDelta: {x: 648, y: 309.11}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224724299006851286
 RectTransform:
@@ -15413,8 +15426,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 884.1451, y: 0}
-  m_SizeDelta: {x: 1768.2902, y: 200}
+  m_AnchoredPosition: {x: 324, y: 0}
+  m_SizeDelta: {x: 648, y: 200}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224840645779467166
 RectTransform:
@@ -15966,7 +15979,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1113.8495}
   m_SizeDelta: {x: 0, y: 1251.82}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224972065672753456
