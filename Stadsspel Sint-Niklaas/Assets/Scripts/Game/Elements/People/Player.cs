@@ -31,7 +31,7 @@ namespace Stadsspel.Elements
 			"Koop",
 			"Verkoop",
 			"Belastingen innen",
-			"Belastingen stelen",
+			"Roven",
 			"Stelen",
 			"Overnemen"
 		};
