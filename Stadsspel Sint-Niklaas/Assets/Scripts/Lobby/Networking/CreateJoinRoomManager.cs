@@ -49,30 +49,7 @@ namespace Stadsspel.Networking
 			CurrentGame.Instance.HostedGameId = gameId;
 			int minutes = 0;
 
-			switch (_mRoomGameDurationDro.value)
-			{
-				case 0:
-					minutes = 1;
-					break;
-				case 1:
-					minutes = 30;
-					break;
-				case 2:
-					minutes = 60;
-					break;
-				case 3:
-					minutes = 90;
-					break;
-				case 4:
-					minutes = 120;
-					break;
-				case 5:
-					minutes = 150;
-					break;
-				default:
-					minutes = 60;
-					break;
-			}
+			minutes = (int)GameDurationDropdown.m_Durations[_mRoomGameDurationDro.value].TotalMinutes;
 
 			Rest.ChangeDuration(gameId, CurrentGame.Instance.HostingLoginToken, minutes);
 
