@@ -35,16 +35,16 @@ namespace Stadsspel.Networking
 				NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 			});
 
-			var games = Rest.GetStagedGames();
-			UpdateRooms(games);
+			UpdateRooms();
 		}
 
 
 		/// <summary>
 		/// Updates the rooms in the rooms list UI. Removes all rooms first and then adds all existing rooms again. If no rooms are found a message is shown.
 		/// </summary>
-		public void UpdateRooms(List<GameListResource> rooms)
+		public void UpdateRooms()
 		{
+			var rooms = Rest.GetStagedGames();
 			var children = _mRoomList.childCount;
 			for (var i = children - 1; i >= 0; i--)
 				Destroy(_mRoomList.GetChild(i).gameObject);
@@ -59,7 +59,7 @@ namespace Stadsspel.Networking
 				room.transform.SetParent(_mRoomList, false);
 
 				//todo expand gameListResource to have more data?
-				room.GetComponent<Room>().InitializeRoom(resource.name, resource.id, 0, 0, resource.hasPassword);
+				room.GetComponent<Room>().InitializeRoom(resource.name, resource.id, resource.players, resource.maxPlayers, resource.hasPassword);
 			}
 		}
 	}

@@ -10,8 +10,8 @@ using System.Text;
 
 public class Rest
 {
-	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
-	//private const string BASE_URL = "http://localhost:8090/api/";
+	//private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
+	private const string BASE_URL = "http://localhost:8090/api/";
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
@@ -454,6 +454,7 @@ public class GameListResource
 	public string id;
 	public string name;
 	public bool hasPassword;
+	public int players, maxPlayers;
 }
 
 [Serializable]
