@@ -30,7 +30,7 @@ namespace Stadsspel.Networking
 			// adds back-button in the top-panel to leave lobby
 			NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, () =>
 			{
-				Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
+				//Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
 				EnableDisableMenu(false);
 				NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 			});

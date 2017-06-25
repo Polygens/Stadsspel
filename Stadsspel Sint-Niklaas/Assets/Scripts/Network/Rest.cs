@@ -323,6 +323,7 @@ public class Rest
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/unregister/" + clientId;
 		int code = Post(urlSuffix, "", out response);
+		Debug.Log("unregister");
 		HandleReturnCode(code);
 		return response;
 	}
