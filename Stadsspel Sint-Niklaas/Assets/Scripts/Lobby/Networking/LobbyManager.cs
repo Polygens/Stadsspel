@@ -35,7 +35,7 @@ namespace Stadsspel.Networking
 				NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 			});
 
-			UpdateRooms();
+			FixedUpdateRooms();
 		}
 
 
@@ -61,6 +61,12 @@ namespace Stadsspel.Networking
 				//todo expand gameListResource to have more data?
 				room.GetComponent<Room>().InitializeRoom(resource.name, resource.id, resource.players, resource.maxPlayers, resource.hasPassword);
 			}
+		}
+
+		private void FixedUpdateRooms()
+		{
+			UpdateRooms();
+			Invoke("FixedUpdateRooms", 3f);
 		}
 	}
 }
