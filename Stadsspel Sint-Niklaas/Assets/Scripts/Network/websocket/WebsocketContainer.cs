@@ -222,7 +222,7 @@ public abstract class WebsocketContainer : Singleton<WebsocketContainer>
 				HandlePlayerKicked();
 				break;
 			default:
-				Debug.Log("Message is not of a type we should catch");
+				Debug.Log("Message is not of a type we should catch: "+message.MessageType.ToString());
 				break;
 		}
 	}
