@@ -8,6 +8,9 @@ public class GameDurationDropdown : MonoBehaviour
 	public static TimeSpan[] m_Durations = new TimeSpan[] {
 		#if (UNITY_EDITOR)
 		new TimeSpan(0, 1, 0),
+		new TimeSpan(0, 5, 0),
+		new TimeSpan(0, 10, 0),
+		new TimeSpan(0, 15, 0),
 		#endif
 		new TimeSpan(0, 30, 0),
 		new TimeSpan(1, 0, 0),

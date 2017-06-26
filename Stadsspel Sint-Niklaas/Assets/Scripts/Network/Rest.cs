@@ -10,8 +10,8 @@ using System.Text;
 
 public class Rest
 {
-	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
-	//private const string BASE_URL = "http://localhost:8090/api/";
+	//private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
+	private const string BASE_URL = "http://localhost:8090/api/";
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
@@ -236,6 +236,12 @@ public class Rest
 		const string urlSuffix = GAME_SUFFIX + "/staged";
 		var code = Get(urlSuffix, out reply);
 		HandleReturnCode(code);
+
+		if (code == 204)
+		{//HTTP code for "No Content"
+			return new List<GameListResource>(0);
+		}
+
 		Debug.Log(reply);
 		return JsonArrayHelper.getJsonList<GameListResource>(reply);
 	}
