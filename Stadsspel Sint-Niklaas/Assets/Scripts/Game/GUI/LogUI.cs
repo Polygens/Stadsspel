@@ -45,12 +45,15 @@ public class LogUI : MonoBehaviour
 		LayoutRebuilder.ForceRebuildLayoutImmediate(InGameUIManager.s_Singleton.LogNotifications);
 
 		GameObject logItem = Instantiate(Resources.Load("LogItem") as GameObject, m_LogScrollViewContent, false);
+		logItem.transform.SetSiblingIndex(0);
 		Text textLog = logItem.transform.GetChild(0).GetComponent<Text>();
 		textLog.text = System.DateTime.Now.Hour + ":" + System.DateTime.Now.Minute + ": " + string.Format(text, variables);
-		if(logItem.transform.GetSiblingIndex() % 2 == 0) {
+		if (logItem.transform.parent.childCount % 2 == 0)
+		{
 			logItem.GetComponent<Image>().color = new Color(.95f, .95f, .95f);
 		}
-		else {
+		else
+		{
 			logItem.GetComponent<Image>().color = new Color(.9f, .9f, .9f);
 		}
 

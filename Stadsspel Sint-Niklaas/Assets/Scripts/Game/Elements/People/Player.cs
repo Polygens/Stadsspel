@@ -30,9 +30,9 @@ namespace Stadsspel.Elements
 			"Bank",
 			"Koop",
 			"Verkoop",
-			"Belastingen innen",
+			"Innen",
 			"Roven",
-			"Stelen",
+			"Tikken",
 			"Overnemen"
 		};
 

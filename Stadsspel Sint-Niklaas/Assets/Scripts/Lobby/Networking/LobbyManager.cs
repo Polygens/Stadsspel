@@ -30,12 +30,12 @@ namespace Stadsspel.Networking
 			// adds back-button in the top-panel to leave lobby
 			NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, () =>
 			{
-				Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
+				//Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
 				EnableDisableMenu(false);
 				NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 			});
 
-			UpdateRooms();
+			FixedUpdateRooms();
 		}
 
 
@@ -61,6 +61,12 @@ namespace Stadsspel.Networking
 				//todo expand gameListResource to have more data?
 				room.GetComponent<Room>().InitializeRoom(resource.name, resource.id, resource.players, resource.maxPlayers, resource.hasPassword);
 			}
+		}
+
+		private void FixedUpdateRooms()
+		{
+			UpdateRooms();
+			Invoke("FixedUpdateRooms", 3f);
 		}
 	}
 }

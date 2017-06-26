@@ -3808,7 +3808,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010048914008
 MonoBehaviour:
@@ -3821,7 +3828,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010089462614
 MonoBehaviour:
@@ -3834,7 +3848,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010212750354
 MonoBehaviour:
@@ -3847,7 +3868,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9272e516527dc144a864007ad8c262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
   m_Icon: {fileID: 212696307664065562}
   m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
@@ -3862,7 +3890,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010392936514
 MonoBehaviour:
@@ -3875,7 +3910,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010418779474
 MonoBehaviour:
@@ -3888,7 +3930,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010427829360
 MonoBehaviour:
@@ -3901,7 +3950,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010441675530
 MonoBehaviour:
@@ -3914,9 +3970,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9272e516527dc144a864007ad8c262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 212206587391254172}
   m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
 --- !u!114 &114000010544653980
 MonoBehaviour:
@@ -3929,7 +3992,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010563654432
 MonoBehaviour:
@@ -3942,7 +4012,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba75634685dfe2c4a8ba7536ffd749b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010583371042
 MonoBehaviour:
@@ -3955,7 +4032,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a597e4ba17ef8a4087c931c58025eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010681071144
 MonoBehaviour:
@@ -3968,7 +4052,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010757969004
 MonoBehaviour:
@@ -3993,7 +4084,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000010962023544
 MonoBehaviour:
@@ -4006,7 +4104,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000011011493722
 MonoBehaviour:
@@ -4019,7 +4124,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a597e4ba17ef8a4087c931c58025eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000011575224082
 MonoBehaviour:
@@ -4032,7 +4144,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000011607757230
 MonoBehaviour:
@@ -4045,7 +4164,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000011684738716
 MonoBehaviour:
@@ -4058,7 +4184,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9272e516527dc144a864007ad8c262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
   m_Icon: {fileID: 212422088737574488}
   m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
@@ -4073,7 +4206,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9272e516527dc144a864007ad8c262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
   m_Icon: {fileID: 212549359915713920}
   m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
@@ -4088,7 +4228,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000011922308168
 MonoBehaviour:
@@ -4101,7 +4248,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012131320342
 MonoBehaviour:
@@ -4114,7 +4268,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012133393472
 MonoBehaviour:
@@ -4127,7 +4288,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a597e4ba17ef8a4087c931c58025eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012133441204
 MonoBehaviour:
@@ -4140,7 +4308,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d3bc9ebd36e3e4b81f0e24fc64626e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012407632028
 MonoBehaviour:
@@ -4153,7 +4328,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3efc6146165950c4b8184002d36c1cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012434395088
 MonoBehaviour:
@@ -4166,7 +4348,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012452039032
 MonoBehaviour:
@@ -4179,7 +4368,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012599852140
 MonoBehaviour:
@@ -4192,7 +4388,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a597e4ba17ef8a4087c931c58025eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012756365054
 MonoBehaviour:
@@ -4205,7 +4408,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012848487964
 MonoBehaviour:
@@ -4218,7 +4428,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000012860047402
 MonoBehaviour:
@@ -4231,7 +4448,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a597e4ba17ef8a4087c931c58025eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000013050634476
 MonoBehaviour:
@@ -4244,7 +4468,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000013095559272
 MonoBehaviour:
@@ -4257,7 +4488,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a597e4ba17ef8a4087c931c58025eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000013332289492
 MonoBehaviour:
@@ -4270,7 +4508,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000013515751078
 MonoBehaviour:
@@ -4283,7 +4528,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e57475c26876240bf58072377fccd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114000013652246814
 MonoBehaviour:
@@ -4296,7 +4548,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9272e516527dc144a864007ad8c262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
   m_Icon: {fileID: 212816827273527014}
   m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
@@ -4311,7 +4570,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9272e516527dc144a864007ad8c262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
   m_Icon: {fileID: 212408808914904216}
   m_ChestIcon: {fileID: 21300000, guid: a0d78187b43c5c6469b02bec1e9721e7, type: 3}
@@ -4326,7 +4592,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a7215e2dbdac5459093916968437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114034492866897918
 MonoBehaviour:
@@ -4569,7 +4842,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba75634685dfe2c4a8ba7536ffd749b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114408642166637506
 MonoBehaviour:
@@ -5021,7 +5301,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba75634685dfe2c4a8ba7536ffd749b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114863759639235870
 MonoBehaviour:
@@ -5034,7 +5321,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba75634685dfe2c4a8ba7536ffd749b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_DistrictType: 0
 --- !u!114 &114933613435290332
 MonoBehaviour:

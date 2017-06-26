@@ -122,6 +122,7 @@ namespace Stadsspel.Networking
 			{
 				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, new UnityAction(() =>
 				{
+					Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
 					EnableDisableMenu(false);
 					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 				}));
