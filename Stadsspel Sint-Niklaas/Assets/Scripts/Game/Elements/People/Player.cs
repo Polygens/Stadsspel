@@ -32,7 +32,7 @@ namespace Stadsspel.Elements
 			"Verkoop",
 			"Innen",
 			"Roven",
-			"Stelen",
+			"Tikken",
 			"Overnemen"
 		};
 
