@@ -5,6 +5,7 @@ public class PlayerNotification
 	//not serialized
 	private IDictionary<string, int> _legalItems;
 	private IDictionary<string, int> _illegalItems;
+	private IDictionary<string, long> _visitedTradeposts;
 	public IDictionary<string, int> LegalItems
 	{
 		get
@@ -20,8 +21,7 @@ public class PlayerNotification
 			return _legalItems;
 		}
 	}
-	public IDictionary<string, int> IllegalItems
-	{
+	public IDictionary<string, int> IllegalItems {
 		get {
 			if (_illegalItems == null)
 			{
@@ -34,10 +34,24 @@ public class PlayerNotification
 			return _illegalItems;
 		}
 	}
+	public IDictionary<string, long> VisitedTradeposts {
+		get {
+			if (_visitedTradeposts == null)
+			{
+				_visitedTradeposts = new Dictionary<string, long>();
+				foreach (TradepostLock postLock in visitedTradeposts)
+				{
+					_visitedTradeposts.Add(postLock.tradepostId, postLock.unlockMoment);
+				}
+			}
+			return _visitedTradeposts;
+		}
+	}
 
 	//serialized
 	public List<PlayerItemCount> illegalItems;
 	public List<PlayerItemCount> legalItems;
+	public List<TradepostLock> visitedTradeposts;
 	public double money;
 
 	[Serializable]

@@ -21,13 +21,12 @@ public class TradingPostUI : MonoBehaviour
 
 	public InputField legalField, illegalField;
 	private int[] m_NumberOfEachItem;
+	private bool visitedByPlayer;
+	private bool visitedbyTeam;
 
 	public bool IsVisited {
 		get {
-			throw new System.NotImplementedException();
-		}
-
-		set {
+			return visitedbyTeam || visitedByPlayer;
 		}
 	}
 
@@ -69,11 +68,21 @@ public class TradingPostUI : MonoBehaviour
 
 	private void LoadItems()
 	{
+		visitedByPlayer = false;
+		visitedbyTeam = false;
 		//items = new List<Item>();
 
 
 		//load items
 		ServerTradePost stp = CurrentGame.Instance.gameDetail.tradePosts.Find(tp => tp.id.Equals(CurrentGame.Instance.nearTP));
+		if (CurrentGame.Instance.LocalPlayer.visitedTradeposts.ContainsKey(stp.id))
+		{
+			visitedByPlayer = true;
+			MessagePanelText.text = "Bij deze handelspost is reeds gekocht door jou, kom later terug";
+		} else if (CurrentGame.Instance.PlayerTeam.visitedTadeposts.ContainsKey(stp.id)) {
+			visitedbyTeam = true;
+			MessagePanelText.text = "Bij deze handelspost is reeds gekocht door jou team, kom later terug";
+		}
 		//items = new List<Item>();
 		foreach (ServerTradePost.ServerItem serverItem in stp.items)
 		{
@@ -128,33 +137,7 @@ public class TradingPostUI : MonoBehaviour
 
 		m_NumberOfEachItem = new int[2];
 	}
-
-	/// <summary>
-	/// Checks and returns if the player's team has already visited.
-	/// </summary>
-	private bool CheckIfTeamAlreadyVisited()
-	{
-		/*moved to server
-		bool teamAlreadyVisited = false;
-		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
-#if (UNITY_EDITOR)
-		Debug.Log(tempTradePost.name);
-		Debug.Log(tempTradePost.GetComponent<TradingPost>().VisitedTeams.Count);
-#endif
-		List<int> visitedTeams = tempTradePost.GetComponent<TradingPost>().VisitedTeams;
-		for (int i = 0; i < visitedTeams.Count; i++)
-		{
-			if (visitedTeams[i] == CurrentGame.Instance.gameDetail.IndexOfTeam(GameManager.s_Singleton.Player.Person.Team) + 1)
-			{//todo this does not seem right, what is being compared?
-				teamAlreadyVisited = true;
-				break;
-			}
-		}
-		return teamAlreadyVisited;
-		*/
-		return false;
-	}
-
+	
 	/// <summary>
 	/// Gets called when the GameObject becomes active.
 	/// </summary>
@@ -168,7 +151,7 @@ public class TradingPostUI : MonoBehaviour
 		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
 		transform.Find("MainPanel").Find("NaamItem").GetComponent<Text>().text = "";
 		transform.Find("MainPanel").Find("NaamTradingpost").GetComponent<Text>().text = "";
-		if (CheckIfTeamAlreadyVisited())
+		if (IsVisited)
 		{
 			//Start, + property
 			m_MessagePanel.SetActive(true);
@@ -232,7 +215,7 @@ public class TradingPostUI : MonoBehaviour
 		//{
 		//  return;
 		//}
-		if (!CheckIfTeamAlreadyVisited())
+		if (!IsVisited)
 		{
 			//if (GameManager.s_Singleton.Player.Person.AmountOfMoney >= m_TotalPriceAmount)
 			if (CurrentGame.Instance.LocalPlayer.money + 0.0000001 >= m_TotalPriceAmount)

@@ -110,6 +110,7 @@ public class WebsocketImpl : WebsocketContainer
 		lp.money = pn.money;
 		lp.legalItems = pn.LegalItems;
 		lp.illegalItems = pn.IllegalItems;
+		lp.visitedTradeposts = pn.VisitedTradeposts;
 	}
 
 	protected override void HandleTagNotification(MessageWrapper message)
@@ -147,6 +148,7 @@ public class WebsocketImpl : WebsocketContainer
 		TeamNotification tn = JsonUtility.FromJson<TeamNotification>(message.message);
 		ServerTeam st = CurrentGame.Instance.PlayerTeam;
 		st.TotalPlayerMoney = tn.totalPlayerMoney;
+		st.visitedTadeposts = tn.VisitedTradeposts;//todo validate
 
 		if (st.bankAccount < (tn.bankAccount - 0.0001))
 		{
