@@ -334,6 +334,16 @@ public class Rest
 		return response;
 	}
 
+	public static string GetGameState(string gameId)
+	{
+		string response;
+		string urlSuffix = GAME_SUFFIX + "/state/" + gameId;
+		int code = Post(urlSuffix, "", out response);
+		Debug.Log("request game state");
+		HandleReturnCode(code);
+		return response;
+	}
+
 	//######################### LOCATION METHODS
 	public static string GetAreaLocations()
 	{

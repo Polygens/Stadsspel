@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using Assets.scripts.dom;
 using Assets.Scripts.Domain;
 using Assets.Scripts.Network.websocket.messages;
@@ -15,11 +17,14 @@ using Random = System.Random;
 public class CurrentGame : Singleton<CurrentGame>
 {
 	public static long timeOffset = new DateTime(1970, 1, 1, 0, 0, 0).Ticks;
+	public static string dataPath = Application.persistentDataPath + "stadspelapp";
+	public static string previousGamePath = dataPath + Path.DirectorySeparatorChar + "previousGame";
 
 
 	//private const string URL = "ws://localhost:8090/user";
 	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
-	
+
+	private static PersistentData persistentData = null;
 
 
 	public WebsocketImpl Ws { get; private set; }
@@ -158,11 +163,66 @@ public class CurrentGame : Singleton<CurrentGame>
 		LocalPlayer.name = "Speler" + DateTime.Now.Millisecond;
 		if (!(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer))
 		{
-			LocalPlayer.clientID = ""+DateTime.Now.Ticks;
-		}
-		else
+			LocalPlayer.clientID = "" + DateTime.Now.Ticks;
+		} else
 		{
 			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
+		}
+
+		LoadPersistentData();
+		SavePersistentData();
+	}
+
+	private void SavePersistentData()
+	{
+		if (!Directory.Exists(dataPath))
+		{
+			Directory.CreateDirectory(dataPath);
+		}
+		//directory exists at this point
+
+		if (File.Exists(previousGamePath))
+		{
+			File.Delete(previousGamePath);
+		}
+
+		using (StreamWriter sw = File.CreateText(previousGamePath))
+		{
+			sw.WriteLine(JsonUtility.ToJson(persistentData));
+		}
+		File.Encrypt(previousGamePath);
+	}
+
+	private void LoadPersistentData()
+	{
+		if (!Directory.Exists(dataPath))
+		{
+			Directory.CreateDirectory(dataPath);
+		}
+		//directory exists at this point
+
+		if (!File.Exists(previousGamePath))
+		{
+			persistentData = new PersistentData();
+		} else
+		{
+			File.Decrypt(previousGamePath);
+			using (StreamReader fs = File.OpenText(previousGamePath))
+			{
+				while (!fs.EndOfStream)
+				{
+					try
+					{
+						String line = fs.ReadLine();
+						PersistentData pd = JsonUtility.FromJson<PersistentData>(line);
+						persistentData = pd;
+					} catch (Exception e)
+					{
+						Console.WriteLine(e);
+					}
+				}
+			}
+			File.Encrypt(previousGamePath);
 		}
 	}
 
@@ -270,7 +330,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		}
 		return null;
 	}
-	
+
 	public List<ServerPlayer> PlayerList()
 	{
 		List<ServerPlayer> players = new List<ServerPlayer>();
@@ -305,7 +365,8 @@ public class CurrentGame : Singleton<CurrentGame>
 			if (gameDetail.teams[index].districts.Count >= 1)
 			{
 				string name = districts[gameDetail.teams[index].districts[0].id].name;
-				if (districts[gameDetail.teams[index].districts[0].id].name.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
+				if (districts[gameDetail.teams[index].districts[0].id].name
+					.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
 				{
 					return index;
 				}
@@ -359,4 +420,3 @@ public class CurrentGame : Singleton<CurrentGame>
 		return mainDistrict.name.ToLower();
 	}
 }
-
