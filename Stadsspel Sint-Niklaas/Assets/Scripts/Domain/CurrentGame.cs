@@ -8,6 +8,7 @@ using Assets.scripts.dom;
 using Assets.Scripts.Domain;
 using Assets.Scripts.Network.websocket.messages;
 using Stadsspel.Elements;
+using Stadsspel.Networking;
 using UnityEngine;
 using Random = System.Random;
 
@@ -63,6 +64,13 @@ public class CurrentGame : Singleton<CurrentGame>
 		public string ClientToken;
 		public string GameId;
 		public string PasswordUsed;
+
+		public void Clear()
+		{
+			ClientToken = "";
+			GameId = "";
+			PasswordUsed = "";
+		}
 	}
 
 
@@ -161,16 +169,49 @@ public class CurrentGame : Singleton<CurrentGame>
 	{
 		Ws = (WebsocketImpl)WebsocketImpl.Instance;
 		LocalPlayer.name = "Speler" + DateTime.Now.Millisecond;
-		if (!(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer))
-		{
-			LocalPlayer.clientID = "" + DateTime.Now.Ticks;
-		} else
+		if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
+		} else
+		{
+			LocalPlayer.clientID = "" + DateTime.Now.Ticks;
 		}
 
 		LoadPersistentData();
-		SavePersistentData();
+		CheckPersistentData();
+	}
+
+	private void CheckPersistentData()
+	{
+		string state = Rest.GetGameState(persistentData.GameId);
+		if (state.Equals("STAGED") || state.Equals("RUNNING"))
+		{
+			//todo show "trying to reconnect" popup
+			//hot join game now
+			ClientToken = persistentData.ClientToken;
+			GameId = persistentData.GameId;
+			PasswordUsed = persistentData.PasswordUsed;
+
+			//connect websocket and open required screens for staged game
+			Connect();
+			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
+			NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
+			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(false);
+			NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
+
+			if (state.Equals("RUNNING"))
+			{
+				StartGame();
+
+				StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
+				Debug.Log("GAME HOT JOINED");
+			}
+		}
+		else
+		{
+			persistentData.Clear();
+			SavePersistentData();
+		}
 	}
 
 	private void SavePersistentData()

@@ -58,7 +58,6 @@ namespace Stadsspel.Networking
 		/// </summary>
 		public IEnumerator ServerCountdownCoroutine(int time)
 		{
-			//photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, true); todo find out what this does
 			StartCountDown(true);
 
 			float remainingTime = time;
@@ -76,13 +75,11 @@ namespace Stadsspel.Networking
 
 					if (floorTime != 0)
 					{
-						//photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime); todo find out what this does
 						UpdateCountDown(floorTime);
 					}
 				}
 				yield return null;
 			}
-			//PhotonNetwork.room.IsVisible = false;
 			SceneManager.LoadScene("Game");
 		}
 
