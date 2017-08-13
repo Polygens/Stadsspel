@@ -18,7 +18,7 @@ namespace Stadsspel.Elements
 		/// </summary>
 		protected new void Start()
 		{
-			Team = TeamID.NoTeam;
+			Team = null;
 			base.Start();
 			ActionRadius = 15;
 

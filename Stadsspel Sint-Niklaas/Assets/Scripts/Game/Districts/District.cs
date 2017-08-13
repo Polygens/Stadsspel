@@ -1,5 +1,6 @@
 using Photon;
 using UnityEngine;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Districts
 {
@@ -14,15 +15,15 @@ namespace Stadsspel.Districts
 		Outside,
 	}
 
-	public class District : PunBehaviour
+	public class District : MonoBehaviour
 	{
 		[SerializeField]
-		protected TeamID m_Team = 0;
+		protected ServerTeam m_Team;
 
 		[SerializeField]
 		protected DistrictType m_DistrictType = 0;
 
-		public TeamID Team {
+		public ServerTeam Team {
 			get {
 				return m_Team;
 			}
@@ -40,9 +41,19 @@ namespace Stadsspel.Districts
 		/// <summary>
 		/// Handles the change of team.
 		/// </summary>
-		protected virtual void OnTeamChanged()
+		public virtual void OnTeamChanged()
 		{
-			Color newColor = TeamData.GetColor(m_Team);
+			if (m_Team == null)
+			{
+				Debug.Log("Team Null");
+				return;
+			}
+			else if (m_Team.customColor == null)
+			{
+				m_Team.customColor = "#FF0000";
+			}
+			Color newColor = new Color();
+			ColorUtility.TryParseHtmlString(m_Team.customColor, out newColor);
 			gameObject.GetComponent<Renderer>().material.color = newColor;
 		}
 

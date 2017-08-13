@@ -1,15 +1,16 @@
 using Photon;
 using System.Linq;
 using UnityEngine;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Elements
 {
-	public class Element : PunBehaviour
+	public class Element: MonoBehaviour
 	{
 		private float m_ActionRadius;
 
 		[SerializeField]
-		protected TeamID m_Team = TeamID.NotSet;
+		protected ServerTeam m_Team;
 
 		[SerializeField]
 		private string m_GameName = "Not set";
@@ -21,7 +22,7 @@ namespace Stadsspel.Elements
 		{
 		}
 
-		public TeamID Team {
+		public ServerTeam Team {
 			get {
 				return m_Team;
 			}

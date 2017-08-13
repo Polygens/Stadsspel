@@ -8,7 +8,7 @@ namespace Stadsspel.Elements
 		[SerializeField]
 		private int m_Balance;
 
-		private TeamID m_Team;
+		private ServerTeam m_Team;
 
 		private float m_InterestMultiplier = 0.02f;
 
@@ -16,7 +16,7 @@ namespace Stadsspel.Elements
 			get { return m_Balance; }
 		}
 
-		public TeamID Team {
+		public ServerTeam Team {
 			get { return m_Team; }
 			set { m_Team = value; }
 		}
@@ -49,11 +49,12 @@ namespace Stadsspel.Elements
 
 		/// <summary>
 		/// [PunRPC] Performs a bank transaction of the passed amount on the account money.
+		/// todo this is handled by server i guess need to confirm
 		/// </summary>
 		[PunRPC]
 		public bool PlayerTransaction(int amount)
 		{
-
+			/*
 			if(amount > 0) { //Add money to bank, subtract from player
 				if(amount <= GameManager.s_Singleton.Player.Person.AmountOfMoney) {
 					GameManager.s_Singleton.Player.Person.photonView.RPC("TransactionMoney", PhotonTargets.AllViaServer, -amount);
@@ -68,6 +69,8 @@ namespace Stadsspel.Elements
 					return true;
 				}
 			}
+			return false;
+			*/
 			return false;
 		}
 	}

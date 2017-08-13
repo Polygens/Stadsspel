@@ -1,4 +1,5 @@
 using Stadsspel.Districts;
+using Stadsspel.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,9 +41,12 @@ public class TreasureEnemyUI : MonoBehaviour
 	/// </summary>
 	private void UpdateUI()
 	{
-		m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
-		m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
-		m_Label.text = m_CurrentTreasure.GetRobAmount().ToString();
+		//m_AmountOfOwnMoney.text = GameManager.s_Singleton.Player.Person.AmountOfMoney.ToString();
+		//m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
+		//m_Label.text = m_CurrentTreasure.GetRobAmount().ToString();
+		m_AmountOfOwnMoney.text = CurrentGame.Instance.LocalPlayer.money.ToString();
+		m_AmountOfChestMoney.text = "?";
+		m_Label.text = "?";
 	}
 
 	/// <summary>
@@ -50,6 +54,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	/// </summary>
 	private void FindCurrentTreasure()
 	{
+		Player p = GameManager.s_Singleton.Player;
 		m_CurrentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
 	}
 
@@ -58,8 +63,12 @@ public class TreasureEnemyUI : MonoBehaviour
 	/// </summary>
 	public void TransferMoney()
 	{
-		int amount = int.Parse(m_CurrentTreasure.GetRobAmount().ToString());
-		GameManager.s_Singleton.Player.Person.TreasureTransaction(amount, true);
+		//int amount = int.Parse(m_CurrentTreasure.GetRobAmount().ToString());
+		//GameManager.s_Singleton.Player.Person.TreasureTransaction(amount, true);
+
+		CurrentGame.Instance.Ws.SendTreasuryRobbery(CurrentGame.Instance.currentDistrictID); //todo currently relying on the client to check for distance to treasury --> fix to server
+
+
 		UpdateUI();
 	}
 }

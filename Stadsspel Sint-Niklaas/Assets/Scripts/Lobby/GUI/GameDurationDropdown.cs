@@ -7,7 +7,10 @@ public class GameDurationDropdown : MonoBehaviour
 {
 	public static TimeSpan[] m_Durations = new TimeSpan[] {
 		#if (UNITY_EDITOR)
-		new TimeSpan(0, 0, 30),
+		new TimeSpan(0, 1, 0),
+		new TimeSpan(0, 5, 0),
+		new TimeSpan(0, 10, 0),
+		new TimeSpan(0, 15, 0),
 		#endif
 		new TimeSpan(0, 30, 0),
 		new TimeSpan(1, 0, 0),
@@ -45,8 +48,15 @@ public class GameDurationDropdown : MonoBehaviour
 					option += m_Durations[i].Hours + " uur ";
 				}
 			}
-			if(m_Durations[i].Minutes > 0) {
-				option += m_Durations[i].Minutes + " minuten ";
+			if(m_Durations[i].Minutes > 0)
+			{
+				if (m_Durations[i].Minutes > 1)
+				{
+					option += m_Durations[i].Minutes + " minuten ";
+				} else
+				{
+					option += m_Durations[i].Minutes + " minuut ";
+				}
 			}
 			if(m_Durations[i].Seconds > 0) {
 				option += m_Durations[i].Seconds + " seconden ";

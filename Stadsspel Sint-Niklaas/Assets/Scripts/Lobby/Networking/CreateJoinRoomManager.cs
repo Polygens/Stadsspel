@@ -5,56 +5,58 @@ namespace Stadsspel.Networking
 {
 	public class CreateJoinRoomManager : MonoBehaviour
 	{
-		[SerializeField]
-		private InputField m_RoomNameInp;
-		[SerializeField]
-		private InputField m_RoomPasswordInp;
-		[SerializeField]
-		private Dropdown m_RoomGameDurationDro;
-		[SerializeField]
-		private Slider m_RoomAmountOfPlayersSli;
-		[SerializeField]
-		private Text m_AmountOfPlayersTxt;
+		[SerializeField] private InputField _mRoomNameInp;
+		[SerializeField] private InputField _mRoomPasswordInp;
+		[SerializeField] private Dropdown _mRoomGameDurationDro;
+		[SerializeField] private Slider _mRoomAmountOfPlayersSli;
+		[SerializeField] private Text _mAmountOfPlayersTxt;
 
-		/// <summary>
-		/// Generic function for handling switching between the different menus.
-		/// </summary>
+
+		public void Awake()
+		{
+			var network = new GameObject("Network");
+			network.AddComponent(typeof(WebsocketImpl));
+			network.AddComponent(typeof(CurrentGame));
+			DontDestroyOnLoad(network);
+		}
+
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
-			if(newState) {
-				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(false);
-				NetworkManager.Singleton.TopPanelManager.SetName("");
-			}
+
+			if (!newState) return;
+
+			NetworkManager.Singleton.TopPanelManager.EnableDisableButton(false);
+			NetworkManager.Singleton.TopPanelManager.SetName("");
 		}
 
 		public void UpdateAmountOfPlayersUI(float numPlayers)
 		{
-			m_AmountOfPlayersTxt.text = "AANTAL SPELERS: " + numPlayers;
+			_mAmountOfPlayersTxt.text = "AANTAL SPELERS: " + numPlayers;
 		}
 
 		public void MakeRoom()
 		{
-			if(m_RoomNameInp.text != "") {
-				RoomInfo[] rooms = PhotonNetwork.GetRoomList();
-				foreach(RoomInfo room in rooms) {
-					if(room.Name == m_RoomNameInp.text) {
-#if(UNITY_EDITOR)
-						Debug.Log("Room creation failed");
-#endif
-						NetworkManager.Singleton.RoomExistsManager.EnableDisableMenu(true);
-						return;
-					}
-				}
-				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
-				NetworkManager.Singleton.RoomManager.InitializeRoom(m_RoomNameInp.text, m_RoomPasswordInp.text, (int)GameDurationDropdown.m_Durations[m_RoomGameDurationDro.value].TotalSeconds, (byte)Mathf.Round(m_RoomAmountOfPlayersSli.value));
-				gameObject.SetActive(false);
-			}
-			else {
-#if(UNITY_EDITOR)
-				Debug.Log("ERROR: No name given for the room!");
-#endif
-			}
+			
+			CurrentGame.Instance.HostingLoginToken = Rest.DeviceLogin(CurrentGame.Instance.LocalPlayer.clientID);
+			
+			Debug.Log("hostinglogintoken: " + CurrentGame.Instance.HostingLoginToken);
+			Debug.Log("roomname: " + _mRoomNameInp.text);
+			Debug.Log("password: " + _mRoomPasswordInp.text);
+			Debug.Log("Players: " + (int)_mRoomAmountOfPlayersSli.value);
+			int players = (int) _mRoomAmountOfPlayersSli.value;
+			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));			
+			CurrentGame.Instance.HostedGameId = gameId;
+			int minutes = 0;
+
+			minutes = (int)GameDurationDropdown.m_Durations[_mRoomGameDurationDro.value].TotalMinutes;
+
+			Rest.ChangeDuration(gameId, CurrentGame.Instance.HostingLoginToken, minutes);
+
+			Debug.Log("gameid: " + gameId);
+			
+			EnableDisableMenu(false);
+			NetworkManager.Singleton.LobbyManager.RegisterToGame(gameId, _mRoomPasswordInp.text);
 		}
 
 		public void ShowLobby()

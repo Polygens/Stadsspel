@@ -20,7 +20,7 @@ public class Item
 	/// <summary>
 	/// Constructor, initialises the item.
 	/// </summary>
-	public Item(string ItemName, int BuyPrice, int SellPrice, bool IsLegal)
+	public Item(string ItemName, int BuyPrice, int SellPrice,bool IsLegal)
 	{
 		m_ItemName = ItemName;
 		m_BuyPrice = BuyPrice;
@@ -28,16 +28,33 @@ public class Item
 		m_IsLegal = IsLegal;
 	}
 
-	static public List<Item> ShopItems {
+	static public List<Item> LegalShopItems {
 		get {
 			List<Item> shopItems = new List<Item>();
-			shopItems.Add(new Item("Ijs", 3, 4, true));
-			shopItems.Add(new Item("Drugs", 30, 50, false));
-			shopItems.Add(new Item("Koekjes", 6, 10, true));
+			shopItems.Add(new Item("Dozijn bloemen", 5, 6,true));
+			shopItems.Add(new Item("Vat bier", 8, 10, true));
+			shopItems.Add(new Item("Kg ijs", 10, 13, true));
 
-			shopItems.Add(new Item("Diploma", 100, 120, false));
-			shopItems.Add(new Item("Pizza", 10, 15, true));
-			shopItems.Add(new Item("Orgaan", 50, 70, false));
+			shopItems.Add(new Item("Rol textiel", 15, 20, true));
+			shopItems.Add(new Item("Bakstenen", 20, 28, true));
+			shopItems.Add(new Item("Art Deco Kunst", 29, 40, true));
+			return shopItems;
+		}
+	}
+
+
+	static public List<Item> IllegalShopItems
+	{
+		get
+		{
+			List<Item> shopItems = new List<Item>();
+			shopItems.Add(new Item("Dozijn bloemen", 4, 5, false));
+			shopItems.Add(new Item("Vat bier", 7, 9, false));
+			shopItems.Add(new Item("Kg ijs", 8, 11, false));
+
+			shopItems.Add(new Item("Rol textiel", 12, 17, false));
+			shopItems.Add(new Item("Bakstenen", 17, 25, false));
+			shopItems.Add(new Item("Art Deco Kunst", 25, 36, false));
 			return shopItems;
 		}
 	}

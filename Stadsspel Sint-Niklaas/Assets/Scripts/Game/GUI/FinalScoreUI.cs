@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,21 +9,38 @@ public class FinalScoreUI : MonoBehaviour
 	public GameObject m_ScoreEntryPrefab;
 	public Transform m_Content;
 
-	private List<Team> m_TeamOrder = new List<Team>();
+	private List<WinningTeamMessage.TeamScore> m_TeamOrder;
 
 	/// <summary>
-	/// Gets called when the GameObject becomes active. Creates the scoreboard and calls sorting of teams.
+	/// Does nothing anymore because it is not certain the data is already present
 	/// </summary>
-	private void OnEnable()
-	{
-		SortTeams();
+	private void OnEnable(){}
 
-		for(int i = 0; i < m_TeamOrder.Count; i++) {
-			GameObject scoreEntryInstance = Instantiate(m_ScoreEntryPrefab);
-			scoreEntryInstance.transform.SetParent(m_Content, false);
-			scoreEntryInstance.transform.FindChild("Place").GetComponent<Text>().text = (i + 1).ToString();
-			scoreEntryInstance.transform.FindChild("Team").GetComponent<Image>().color = TeamData.GetColor(m_TeamOrder[i].TeamID);
-			scoreEntryInstance.transform.FindChild("Money").GetComponent<Text>().text = m_TeamOrder[i].TotalMoney.ToString();
+
+	public void Update()
+	{
+		if (m_TeamOrder == null && CurrentGame.Instance.TeamScores != null)
+		{
+			SortTeams();
+
+			for (int i = 0; i < m_TeamOrder.Count; i++)
+			{
+				GameObject scoreEntryInstance = Instantiate(m_ScoreEntryPrefab);
+				scoreEntryInstance.transform.SetParent(m_Content, false);
+				scoreEntryInstance.transform.Find("Place").GetComponent<Text>().text = (i + 1).ToString();
+
+				Color c = new Color();
+				ServerTeam st = CurrentGame.Instance.FindTeamByName(m_TeamOrder[i].name);
+				ColorUtility.TryParseHtmlString(st.customColor, out c);
+				scoreEntryInstance.transform.Find("Team").GetComponent<Image>().color = c;
+
+				scoreEntryInstance.transform.Find("Money").GetComponent<Text>().text = ((int)m_TeamOrder[i].score).ToString();
+			}
+
+		}
+		else
+		{
+			//todo show loading scores popup
 		}
 	}
 
@@ -31,12 +49,10 @@ public class FinalScoreUI : MonoBehaviour
 	/// </summary>
 	private void SortTeams()
 	{
-		for(int i = 0; i < GameManager.s_Singleton.Teams.Length; i++) {
-			m_TeamOrder.Add(GameManager.s_Singleton.Teams[i]);
-		}
-
-		m_TeamOrder.Sort(SortByTotalMoney);
-		m_TeamOrder.Reverse();
+		m_TeamOrder = CurrentGame.Instance.TeamScores;
+		m_TeamOrder = m_TeamOrder.OrderByDescending(t => t.score).ToList();
+		//m_TeamOrder.Sort(SortByTotalMoney);
+		//m_TeamOrder.Reverse();
 	}
 
 	/// <summary>

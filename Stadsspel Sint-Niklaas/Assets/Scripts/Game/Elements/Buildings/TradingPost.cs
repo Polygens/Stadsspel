@@ -5,6 +5,9 @@ namespace Stadsspel.Elements
 {
 	public class TradingPost : Building
 	{
+		public TradingpostType tradingpostType;
+		public string naamTradingpost;
+
 		//	private SyncListInt visitedTeams = new SyncListInt();
 		private List<int> m_visitedTeams = new List<int>();
 		private List<float> m_TeamTimers = new List<float>();
@@ -23,6 +26,8 @@ namespace Stadsspel.Elements
 			}
 		}
 
+		public string TPId { get; set; }
+
 		/// <summary>
 		/// Initialises the class.
 		/// </summary>
@@ -34,14 +39,16 @@ namespace Stadsspel.Elements
 
 		/// <summary>
 		/// Gets called every frame.
+		/// todo fix
 		/// </summary>
 		private void Update()
 		{
+			/*
 			if(m_TeamTimers.Count > 0 && m_visitedTeams.Count > 0) {
 				for(int i = 0; i < m_TeamTimers.Count; i++) {
 					m_TeamTimers[i] -= Time.deltaTime;
 					if(m_TeamTimers[i] <= 0) {
-						photonView.RPC("RemoveTeamFromList", PhotonTargets.AllViaServer, i);
+						photonView.RPC("RemoveTeamFromList", PhotonTargets.AllViaServer, i); //G: removes a team from the recent shoppers?
 						break;
 					}
 					else {
@@ -50,12 +57,13 @@ namespace Stadsspel.Elements
 							if(m_UpdateTimer > m_UpdateTime) {
 								m_UpdateTimer = 0;
 								if(m_visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team)
-									photonView.RPC("UpdateUI", PhotonTargets.AllViaServer, Mathf.RoundToInt(m_TeamTimers[i]));
+									photonView.RPC("UpdateUI", PhotonTargets.AllViaServer, Mathf.RoundToInt(m_TeamTimers[i])); //G: dont know what this does
 							}
 						}
 					}
 				}
 			}
+			*/
 		}
 
 		/// <summary>
@@ -73,10 +81,12 @@ namespace Stadsspel.Elements
 
 		/// <summary>
 		/// [PunRPC] Removes the passed TeamID index from the list of teams that have visited this TradingPost.
+		/// todo server
 		/// </summary>
 		[PunRPC]
 		public void RemoveTeamFromList(int index)
 		{
+			/*
 			if(m_visitedTeams.Count > 0) {
 				if(m_visitedTeams[index] == (int)GameManager.s_Singleton.Player.Person.Team) {
 					m_visitedTeams.RemoveAt(index);
@@ -89,6 +99,7 @@ namespace Stadsspel.Elements
 #if(UNITY_EDITOR)
 			Debug.Log("Team: " + (int)GameManager.s_Singleton.Player.Person.Team + " removed from visited list");
 #endif
+			*/
 		}
 
 		/// <summary>
@@ -101,12 +112,22 @@ namespace Stadsspel.Elements
 				int minutes = Mathf.FloorToInt(time / 60F);
 				int seconds = Mathf.FloorToInt(time - minutes * 60);
 				string message = string.Format("{0:0}:{1:00}", minutes, seconds);
-				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + message + " minuten wachten om bij deze winkel goederen te kopen. Jou team is hier al reeds geweest.";
+				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + message + " minuten wachten om bij deze handelspost goederen te kopen. Jouw team is hier al reeds geweest.";
 			}
 			else {
-				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + time + " seconden wachten om bij deze winkel goederen te kopen.";
+				InGameUIManager.s_Singleton.TradingPostUI.MessagePanelText.text = "Je moet nog " + time + " seconden wachten om bij deze handelspost goederen te kopen. Jouw team is hier al reeds geweest.";
 			}
 
 		}
 	}
+
+	public enum TradingpostType
+	{
+		Bloemen,
+		Bier,
+		Ijs,
+		Textiel,
+		Bakstenen,
+		Kunst
+	} 
 }

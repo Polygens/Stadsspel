@@ -105,8 +105,8 @@ namespace Stadsspel.Networking
 			else {
 				Singleton = this;
 			}
-			PhotonNetwork.ConnectUsingSettings(NetworkManager.Singleton.VERSION);
-			PhotonNetwork.automaticallySyncScene = true;
+			//PhotonNetwork.ConnectUsingSettings(NetworkManager.Singleton.VERSION);
+			//PhotonNetwork.automaticallySyncScene = true;
 		}
 
 	}

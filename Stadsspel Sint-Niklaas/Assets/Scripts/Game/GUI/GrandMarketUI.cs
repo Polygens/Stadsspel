@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,15 +9,44 @@ public class GrandMarketUI : MonoBehaviour
 	private RectTransform m_MarktPanel;
 	[SerializeField]
 	private Text m_TotalUI;
-	private List<int> m_IllegalItems = new List<int>();
-	private List<int> m_LegalItems = new List<int>();
+	private IDictionary<string, int> legalItems;
+	private IDictionary<string, int> illegalItems;
 	private int m_Total;
+
+	private string[] indexStrings = new[] {"TOP", "Dozijn bloemen", "Vat bier", "Kg ijs", "Rol textiel", "Koets bakstenen", "Art deco" };
+
+	private void Start()
+	{
+		m_MarktPanel = (RectTransform)InGameUIManager.s_Singleton.GrandMarketUI.transform; 
+	}
 
 	/// <summary>
 	/// Gets called when the GameObject becomes active.
 	/// </summary>
 	private void OnEnable()
 	{
+		
+		m_Total = 0;
+		//m_LegalItems = GameManager.s_Singleton.Player.Person.LookUpLegalItems;
+		//m_IllegalItems = GameManager.s_Singleton.Player.Person.LookUpIllegalItems;
+
+		RectTransform Grid = (RectTransform)transform.Find("MainPanel").transform.Find("Grid");
+		for (int i = 1; i < Grid.childCount; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				if (j == 0)
+				{
+					Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
+				}
+				else
+				{
+					Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
+				}
+			}
+		}
+
+		m_TotalUI.text = "Totaal: 0";
 		UpdateUI();
 	}
 
@@ -27,50 +57,59 @@ public class GrandMarketUI : MonoBehaviour
 	{
 		m_Total = 0;
 
-		m_LegalItems = GameManager.s_Singleton.Player.Person.LookUpLegalItems;
-		m_IllegalItems = GameManager.s_Singleton.Player.Person.LookUpIllegalItems;
+		legalItems = CurrentGame.Instance.LocalPlayer.legalItems;
+		List<string> legalKeys = legalItems.Keys.ToList();
+
+		illegalItems = CurrentGame.Instance.LocalPlayer.illegalItems;
+		List<string> illegalKeys = illegalItems.Keys.ToList();
+
 
 		m_MarktPanel = (RectTransform)InGameUIManager.s_Singleton.GrandMarketUI.transform;
-		RectTransform Grid = (RectTransform)m_MarktPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
-		int index = 0;
-		//int indexLegal = 0;  
-		//int indexIllegal = 0;  
+		RectTransform Grid = (RectTransform)m_MarktPanel.transform.Find("MainPanel").transform.Find("Grid");
+		
 
-		for(int i = 1; i < Grid.childCount; i++) { // i is which row 
-			for(int j = 0; j < 2; j++) { // J is for legal or illegal 
+		for (int i = 1; i < Grid.childCount; i++)
+		{ // i is which row 
+			string rowItem = indexStrings[i];
+			for (int j = 0; j < 2; j++)
+			{
+				// J is for legal or illegal
+				Grid.GetChild(i).GetChild(j).gameObject.SetActive(true);
+
 				int subTotal = 0;
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = Item.ShopItems[index].SellPrice.ToString();
-				if(j == 0) {
-					Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Amount").GetComponent<Text>().text = "Amount: " + m_LegalItems[i - 1].ToString();
-					subTotal = CalculateSubtotal(i - 1, index, m_LegalItems);
-					//indexLegal++;  
+				if (j == 0)
+				{
+					if (legalItems.ContainsKey(rowItem))
+					{
+						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[rowItem]+"";
+						//Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[legalKeys[legalIndex]]+"";
+						subTotal = CalculateSubtotal(rowItem, true);
+					}
+				} else
+				{
+					if (illegalItems.ContainsKey(rowItem))
+					{
+						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[rowItem]+"";
+						//Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[illegalKeys[illegalIndex]]+"";
+						subTotal = CalculateSubtotal(rowItem, false);
+					}
 				}
-				else {
-					Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Amount").GetComponent<Text>().text = "Amount: " + m_IllegalItems[i - 1].ToString();
-					subTotal = CalculateSubtotal(i - 1, index, m_IllegalItems);
-					//indexIllegal++;  
-				}
-
-
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Profit").GetComponent<Text>().text = "Winst: " + subTotal;
+				//Grid.GetChild(i).GetChild(j).transform.Find("ItemRow2").transform.Find("Profit").GetComponent<Text>().text = "Winst: " + subTotal;
 				m_Total += subTotal;
-				index++;
-
-				m_TotalUI.text = "Totaal: " + m_Total;
-
-
 			}
+			m_TotalUI.text = "Totaal: " + m_Total;
 		}
 	}
+
 
 	/// <summary>
 	/// Returns and calculates the sum of all the goods passed.
 	/// </summary>
-	private int CalculateSubtotal(int Listindex, int index, List<int> items)
+	private int CalculateSubtotal(string itemName, bool isLegal)
 	{
-		int sellPrice = Item.ShopItems[index].SellPrice;
-		int subTotal = sellPrice * items[Listindex];
-		return subTotal;
+		int amount = isLegal ? legalItems[itemName] : illegalItems[itemName];
+		double price = isLegal ? CurrentGame.Instance.KnownItems[itemName].legalSales : CurrentGame.Instance.KnownItems[itemName].illegalSales;
+		return (int)(amount * price);
 	}
 
 	/// <summary>
@@ -78,12 +117,8 @@ public class GrandMarketUI : MonoBehaviour
 	/// </summary>
 	public void Sell()
 	{
-
-		GameManager.s_Singleton.Player.Person.photonView.RPC("MoneyTransaction", PhotonTargets.AllViaServer, m_Total);
-		GameManager.s_Singleton.Player.Person.ResetIllegalItems();
-		GameManager.s_Singleton.Player.Person.ResetLegalItems();
+		CurrentGame.Instance.Ws.SendTradepostAllSale(new Dictionary<string, int>(),CurrentGame.Instance.currentDistrictID);
 		m_Total = 0;
-		UpdateUI();
 		ResetUI();
 	}
 
@@ -92,11 +127,13 @@ public class GrandMarketUI : MonoBehaviour
 	/// </summary>
 	private void ResetUI()
 	{
-		RectTransform Grid = (RectTransform)m_MarktPanel.transform.FindChild("MainPanel").transform.FindChild("Grid");
-		for(int i = 1; i < Grid.childCount; i++) {
-			for(int j = 0; j < 2; j++) {
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Amount").GetComponent<Text>().text = "Amount: 0";
-				Grid.GetChild(i).GetChild(j).transform.FindChild("ItemRow2").transform.FindChild("Profit").GetComponent<Text>().text = "Winst: 0";
+		RectTransform Grid = (RectTransform)m_MarktPanel.transform.Find("MainPanel").transform.Find("Grid");
+		for (int i = 1; i < Grid.childCount; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
+				Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
 			}
 		}
 

@@ -2,10 +2,12 @@ using ExitGames.Client.Photon;
 using Photon;
 using UnityEngine;
 using UnityEngine.UI;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
-	public class LobbyPlayer : PunBehaviour
+	//public class LobbyPlayer : PunBehaviour
+	public class LobbyPlayer : MonoBehaviour
 	{
 		[SerializeField]
 		private Button m_TeamBtn;
@@ -48,21 +50,20 @@ namespace Stadsspel.Networking
 		/// <summary>
 		/// [PunRPC] Updates the lobbyplayer name text field.
 		/// </summary>
-		[PunRPC]
-		private void NameChanged()
+		private void NameChanged(string name)
 		{
-			m_NameInp.text = photonView.owner.NickName;
+			m_NameInp.text = name;
 		}
 
 		/// <summary>
 		/// [PunRPC] Updates the player's ready state, ready button and checks if the game can start.
 		/// </summary>
-		[PunRPC]
 		private void ReadyChanged(bool newReadyState)
 		{
 			m_IsReady = newReadyState;
 			SetReadyButton(m_IsReady);
-			if(PhotonNetwork.player.IsMasterClient) {
+			if (PhotonNetwork.player.IsMasterClient)
+			{
 				NetworkManager.Singleton.RoomManager.CheckIfReadyToStart();
 			}
 		}
@@ -72,26 +73,7 @@ namespace Stadsspel.Networking
 		/// </summary>
 		void Start()
 		{
-			m_IsLocalPlayer = photonView.owner.IsLocal;
-			m_IsMasterClient = photonView.owner.IsMasterClient;
-
-
-			if(m_IsLocalPlayer) {
-				SetupLocalPlayer();
-			}
-			else {
-				SetupOtherPlayer();
-			}
-
-			transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList, false);
-			if(m_IsMasterClient) {
-				transform.SetAsFirstSibling();
-			}
-			else if(m_IsLocalPlayer) {
-				transform.SetSiblingIndex(1);
-			}
-
-			SetupStyling();
+			//transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList,false);
 		}
 
 		/// <summary>
@@ -99,80 +81,115 @@ namespace Stadsspel.Networking
 		/// </summary>
 		private void SetupStyling()
 		{
-			if(m_IsMasterClient) {
+			if (m_IsMasterClient)
+			{
 				m_IconTxt.text = m_HostIcon;
-			}
-			else if(m_IsLocalPlayer) {
+			} else if (m_IsLocalPlayer)
+			{
 				m_IconTxt.text = m_LocalPlayerIcon;
-			}
-			else {
+			} else
+			{
 				m_IconTxt.text = m_OtherPlayerIcon;
 			}
-			if(transform.GetSiblingIndex() % 2 == 0) {
+			if (transform.GetSiblingIndex() % 2 == 0)
+			{
 				GetComponent<Image>().color = m_EvenRowColor;
-			}
-			else {
+			} else
+			{
 				GetComponent<Image>().color = m_OddRowColor;
 			}
 
-			if(m_IsLocalPlayer) {
+			if (m_IsLocalPlayer)
+			{
 				GetComponent<Image>().color = m_LocalPlayerColor;
 			}
+		}
+
+		public void Initialise(ServerTeam team, ServerPlayer player)
+		{
+			if (player.clientID.Equals(CurrentGame.Instance.LocalPlayer.clientID))
+			{
+				SetupLocalPlayer(team, player);
+				m_IsLocalPlayer = true;
+			} else
+			{
+				SetupOtherPlayer(team, player);
+				m_IsLocalPlayer = false;
+			}
+
+			m_IsMasterClient = CurrentGame.Instance.isHost && CurrentGame.Instance.LocalPlayer.ClientId.Equals(player.ClientId);
+
+			if (m_IsMasterClient)
+			{
+				transform.SetAsFirstSibling();
+			} else if (m_IsLocalPlayer)
+			{
+				transform.SetSiblingIndex(1);
+			}
+
+			SetupStyling();
 		}
 
 		/// <summary>
 		/// Gets called when the player is the local player. Sets up the lobbyplayer behaviour.
 		/// </summary>
-		private void SetupLocalPlayer()
+		private void SetupLocalPlayer(ServerTeam team, ServerPlayer player)
 		{
-			photonView.owner.RequestTeam();
-			//m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(photonView.owner.GetTeam());
+			Color c = new Color(0, 0, 0);
+			ColorUtility.TryParseHtmlString(team.customColor, out c);
+
+			m_TeamBtn.GetComponent<Image>().color = c;
 
 			GetComponent<Image>().color = m_LocalPlayerColor;
 
-			PhotonNetwork.playerName = "Speler: " + photonView.ownerId;
-			m_NameInp.text = PhotonNetwork.playerName;
-			photonView.RPC("NameChanged", PhotonTargets.AllBufferedViaServer);
+			m_NameInp.text = player.Name;
 
 			m_TeamBtn.interactable = true;
-			m_TeamBtn.onClick.AddListener(() => {
-				photonView.owner.RequestTeam();
-				//m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(photonView.owner.GetTeam());
-				//photonView.RPC("TeamChanged", PhotonTargets.AllBufferedViaServer, TeamData.GetNextTeam());
+			m_TeamBtn.onClick.AddListener(() =>
+			{
+				ServerTeam nextTeam = CurrentGame.Instance.getNextTeam(team);
+				CurrentGame.Instance.Ws.SendPlayerTeamUpdate(nextTeam.teamName);
 			});
+
 			m_NameInp.interactable = true;
-			m_NameInp.onEndEdit.AddListener(val => {
-				PhotonNetwork.playerName = val;
-				photonView.RPC("NameChanged", PhotonTargets.AllBufferedViaServer);
+			m_NameInp.onEndEdit.AddListener(val =>
+			{
+				CurrentGame.Instance.Ws.SendPlayerNameUpdate(val);
 			});
-			if(m_IsMasterClient) {
-				photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, true);
-			}
-			else {
-				m_ReadyBtn.interactable = true;
-				SetReadyButton(false);
-				m_ReadyTxt.gameObject.SetActive(true);
-				m_ReadyBtn.onClick.AddListener(() => {
-					photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, !m_IsReady);
-				});
-			}
+
+			m_ReadyBtn.interactable = true;
+			SetReadyButton(false);
+			m_ReadyTxt.gameObject.SetActive(true);
+			m_ReadyBtn.onClick.AddListener(() => {
+				//todo change ready state G: is this needed in server?
+			});
+
+			m_KickPlayerBtn.interactable = true;
+			m_KickPlayerBtn.onClick.AddListener(() => {
+				//todo change ready state G: is this needed in server?
+			});
+
 		}
 
 		/// <summary>
 		/// Gets called when the player is not a local player. Sets up the lobbyplayer behaviour.
 		/// </summary>
-		private void SetupOtherPlayer()
+		private void SetupOtherPlayer(ServerTeam team, ServerPlayer player)
 		{
-			m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor(photonView.owner.GetTeam());
-			m_NameInp.text = photonView.owner.NickName;
+			Color c = new Color(0, 0, 0);
+			ColorUtility.TryParseHtmlString(team.customColor, out c);
+
+			m_TeamBtn.GetComponent<Image>().color = c;
+			m_NameInp.text = player.Name;
 			SetReadyButton(m_IsReady);
-
-			if(PhotonNetwork.player.IsMasterClient) {
+			
+			if (CurrentGame.Instance.isHost)
+			{
 				m_KickPlayerBtn.gameObject.SetActive(true);
-				m_KickPlayerBtn.onClick.AddListener(() => {
-					PhotonNetwork.CloseConnection(photonView.owner);
+				m_KickPlayerBtn.onClick.AddListener(() =>
+				{
+					Rest.KickPlayer(CurrentGame.Instance.GameId, CurrentGame.Instance.HostingLoginToken, player.clientID);
 				});
-
 			}
 		}
 
@@ -183,13 +200,14 @@ namespace Stadsspel.Networking
 		{
 			Color btn, textColor;
 			string text;
-			if(isReady) {
+			if (isReady)
+			{
 				btn = m_ReadyColor;
 				textColor = m_NotReadyColor;
 				text = "GEREED";
 				m_ReadyTxt.text = m_ReadyIcon;
-			}
-			else {
+			} else
+			{
 				btn = m_NotReadyColor;
 				textColor = m_ReadyColor;
 				text = "...";
@@ -204,27 +222,33 @@ namespace Stadsspel.Networking
 			textComponent.color = textColor;
 		}
 
+
 		/// <summary>
 		/// [PunBehaviour] Gets called when the masterclient has changed. If this lobby player is the new master. UI gets updated.
 		/// </summary>
 		private void OnMasterClientSwitched()
 		{
-			if(photonView.owner.IsMasterClient) {
+			/*
+			if (photonView.owner.IsMasterClient)
+			{
 				m_IsMasterClient = true;
 				transform.SetAsFirstSibling();
 				m_IconTxt.text = m_HostIcon;
 				m_ReadyTxt.gameObject.SetActive(false);
 				photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, true);
 			}
+			*/
 		}
 
+		/*
 		/// <summary>
 		/// [PunBehaviour] Gets called when a player leaves the room. Disables the start button.
 		/// </summary>
-		public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+		public void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 		{
 			base.OnPhotonPlayerDisconnected(otherPlayer);
-			if(PhotonNetwork.player.IsMasterClient) {
+			if (PhotonNetwork.player.IsMasterClient)
+			{
 				NetworkManager.Singleton.RoomManager.DisableStartButton();
 			}
 		}
@@ -232,17 +256,21 @@ namespace Stadsspel.Networking
 		/// <summary>
 		/// [PunBehaviour] Gets called when player properties are modified. Updates the ui corresponding to the new properties.
 		/// </summary>
-		public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
+		public void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
 		{
 			base.OnPhotonPlayerPropertiesChanged(playerAndUpdatedProps);
 			PhotonPlayer player = playerAndUpdatedProps[0] as PhotonPlayer;
-			if(player == photonView.owner) {
+			if (player == photonView.owner)
+			{
 				Hashtable props = playerAndUpdatedProps[1] as Hashtable;
-				if(props[RoomTeams.TeamPlayerProp] != null) {
+				if (props[RoomTeams.TeamPlayerProp] != null)
+				{
 					m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor((TeamID)props[RoomTeams.TeamPlayerProp]);
 				}
 
 			}
 		}
+
+		*/
 	}
 }

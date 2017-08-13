@@ -1,3 +1,5 @@
+using System;
+using Stadsspel.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +26,10 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void Start()
 	{
-		m_TeamColor.color = TeamData.GetColor(Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player));
+		//m_TeamColor.color = TeamData.GetColor(Stadsspel.Networking.TeamExtensions.GetTeam(PhotonNetwork.player));
+		Color c = Color.magenta;
+		ColorUtility.TryParseHtmlString(CurrentGame.Instance.PlayerTeam.customColor, out c);
+		m_TeamColor.color = c;
 	}
 
 	/// <summary>
@@ -33,13 +38,14 @@ public class Header : MonoBehaviour
 	private void Update()
 	{
 		m_UpdateTimer += Time.deltaTime;
-		if(m_UpdateTimer > m_UpdateTime) {
+		if (m_UpdateTimer > m_UpdateTime)
+		{
 			m_UpdateTimer = 0;
-			if(GameManager.s_Singleton.Player.Person) {
-
+			if (GameManager.s_Singleton.Player.Person)
+			{
 				// Header Update 
-				UpdatePlayerMoney(GameManager.s_Singleton.Player.Person.AmountOfMoney);
-				UpdateTeamMoney(GameManager.s_Singleton.Teams[(int)GameManager.s_Singleton.Player.Person.Team - 1].TotalMoney);
+				UpdatePlayerMoney();
+				UpdateTeamMoney();
 				UpdateGameTimer();
 			}
 		}
@@ -64,20 +70,17 @@ public class Header : MonoBehaviour
 	/// <summary>
 	/// Updates the textfield of the amount of money the player has.
 	/// </summary>
-	private void UpdatePlayerMoney(int pPlayerMoney)
+	private void UpdatePlayerMoney()
 	{
-		m_PlayerMoney.text = pPlayerMoney.ToString();
-#if(UNITY_EDITOR)
-		Debug.Log("Update player money");
-#endif
+		m_PlayerMoney.text = (int)CurrentGame.Instance.LocalPlayer.money + ""; //todo format
 	}
 
 	/// <summary>
 	/// Updates the textfield of the amount of money the team has.
 	/// </summary>
-	private void UpdateTeamMoney(int pTeamMoney)
+	private void UpdateTeamMoney()
 	{
-		m_TeamMoney.text = pTeamMoney.ToString();
+		m_TeamMoney.text = (int)(CurrentGame.Instance.PlayerTeam.bankAccount + CurrentGame.Instance.PlayerTeam.treasury + CurrentGame.Instance.PlayerTeam.TotalPlayerMoney) + ""; //todo format + is this the correct money?
 	}
 
 	/// <summary>
@@ -85,14 +88,45 @@ public class Header : MonoBehaviour
 	/// </summary>
 	private void UpdateGameTimer()
 	{
-		float timer = GameManager.s_Singleton.GameLength - Time.timeSinceLevelLoad;
+		long start = CurrentGame.Instance.gameDetail.startTime;
+		long current = (DateTime.UtcNow.Ticks - CurrentGame.timeOffset) / 10000;
+		long end = CurrentGame.Instance.gameDetail.endTime;
+		TimeSpan ts = TimeSpan.FromMilliseconds((double)(end - current));
 
-		int hours = Mathf.FloorToInt(timer / 3600);
-		int minutes = Mathf.FloorToInt(timer / 60);
-		int seconds = Mathf.FloorToInt(timer - minutes * 60);
+		//checks whether a notification should be shown
+		if (!CurrentGame.Instance.HalfwayPassed)
+		{
+			//game is not halfway
+			TimeSpan total = TimeSpan.FromMilliseconds((double)(end - start));
+			if (ts.TotalMinutes < (total.TotalMinutes / 2) && !CurrentGame.Instance.HalfwayPassed)
+			{
+				CurrentGame.Instance.HalfwayPassed = true;
+				InGameUIManager.s_Singleton.LogUI.AddToLog("Het spel is halfweg", new object[] { });
+			}
+		} else
+		{
+			//halfway mark passed
+			if (!CurrentGame.Instance.TenMinuteMark)
+			{
+				//probably more than 10 minutes left
+				if (ts.TotalMinutes <= 10.0)
+				{
+					CurrentGame.Instance.TenMinuteMark = true;
+					InGameUIManager.s_Singleton.LogUI.AddToLog("Nog 10 minuten over", new object[] { });
+				}
+			} else
+			{
+				//last 10 minute mark passed
+				if (!CurrentGame.Instance.LastMinuteMark && ts.TotalMinutes <= 1.0)
+				{
+					CurrentGame.Instance.LastMinuteMark = true;
+					InGameUIManager.s_Singleton.LogUI.AddToLog("Laatste minuut", new object[] { });
+				}
 
-		string time = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+			}
+		}
 
+		string time = string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
 		m_GameDuration.text = time;
 	}
 }

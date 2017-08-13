@@ -34,7 +34,7 @@ namespace Stadsspel.Districts
 		/// </summary>
 		private void Start()
 		{
-			GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(m_AmountOfMoney);//Update total team money
+			//GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(m_AmountOfMoney);//Update total team money todo fix cuz i lazy
 			GameManager.s_Singleton.AddTreasure(this);
 		}
 
@@ -71,10 +71,12 @@ namespace Stadsspel.Districts
 
 		/// <summary>
 		/// [PunRPC] Calculates and adds the tax money of the owned districts to the treasure.
+		/// todo this is done by server
 		/// </summary>
 		[PunRPC]
 		public void RetrieveTaxes()
 		{
+			/*
 			int moneyGain = m_MoneyGainPerDistrict * (GameManager.s_Singleton.Teams[(int)m_Team - 1].AmountOfDistricts + 1);
 			m_AmountOfMoney += moneyGain;
 			GameManager.s_Singleton.Teams[(int)m_Team - 1].AddOrRemoveMoney(moneyGain);//Update total team money
@@ -87,6 +89,7 @@ namespace Stadsspel.Districts
 			{
 				InGameUIManager.s_Singleton.LogUI.AddToLog(LogUI.m_TaxesIncome, new object[] { moneyGain });
 			}
+			*/
 		}
 
 		/// <summary>

@@ -10,14 +10,14 @@ namespace Stadsspel.Districts
 		private new void Awake()
 		{
 			m_DistrictType = DistrictType.CapturableDistrict;
-			Team = TeamID.NoTeam;
+			Team = null;
 			base.Awake();
 		}
 
 		/// <summary>
 		/// Handles the change of team.
 		/// </summary>
-		protected override void OnTeamChanged()
+		public override void OnTeamChanged()
 		{
 			base.OnTeamChanged();
 			Color newColor = gameObject.GetComponent<Renderer>().material.color;

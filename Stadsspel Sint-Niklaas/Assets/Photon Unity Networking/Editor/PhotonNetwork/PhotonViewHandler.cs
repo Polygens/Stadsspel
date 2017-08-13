@@ -92,7 +92,7 @@ public class PhotonViewHandler : EditorWindow
                 Debug.Log("Re-Setting Owner ID of: " + view);
             }
             view.ownerId = 0;   // simply make sure no owner is set (cause room always uses 0)
-            view.prefix = -1;   // TODO: prefix could be settable via inspector per scene?!
+            view.prefix = -1;
 
             if (view.viewID != 0)
             {

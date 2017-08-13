@@ -13,7 +13,8 @@ namespace Stadsspel.Networking
 	/// There are no rules when / if you can join a team. You could add this in JoinTeam or something.
 	/// </remarks>
 	///
-	public class RoomTeams : Photon.MonoBehaviour
+	//public class RoomTeams : Photon.MonoBehaviour
+	public class RoomTeams : MonoBehaviour
 	{
 		/// <summary>The main list of teams with their player-lists. Automatically kept up to date.</summary>
 		/// <remarks>Note that this is static. Can be accessed by PunTeam.PlayersPerTeam. You should not modify this.</remarks>

@@ -6,26 +6,33 @@ namespace Stadsspel
 {
 	public class Room : MonoBehaviour
 	{
-		[SerializeField]
-		private Text m_RoomNameTxt;
-		[SerializeField]
-		private Text m_RoomSlotsTxt;
-		[SerializeField]
-		private Text m_PasswordTxt;
+		[SerializeField] private Text _mRoomNameTxt;
+		[SerializeField] private Text _mRoomSlotsTxt;
+		[SerializeField] private Text _mPasswordTxt;
 
 		private string m_Password;
+		private string ID;
+		private bool hasPassword;
 
 		/// <summary>
 		/// Initialises the room UI elements with the passed parameters.
 		/// </summary>
-		public void InitializeRoom(string roomName, int amountPlayers, int maxPlayers, string password)
+		public void InitializeRoom(string roomName, string id, int amountPlayers, int maxPlayers, bool hasPassword)
 		{
-			m_RoomNameTxt.text = roomName;
-			m_RoomSlotsTxt.text = amountPlayers + "/" + maxPlayers;
-			m_Password = password;
-			if(m_Password != "") {
-				m_PasswordTxt.gameObject.SetActive(true);
-			}
+			_mRoomNameTxt.text = roomName;
+			_mRoomSlotsTxt.text = amountPlayers + "/" + maxPlayers;
+			this.ID = id;
+			this.hasPassword = hasPassword;
+		}
+
+		/// <summary>
+		/// Initialises the room UI elements with the passed parameters.
+		/// </summary>
+		public void InitializeRoom(string roomName, string ID)
+		{
+			this.ID = ID;
+			_mRoomNameTxt.text = roomName;
+			_mRoomSlotsTxt.text = "0/0";
 		}
 
 		/// <summary>
@@ -33,15 +40,26 @@ namespace Stadsspel
 		/// </summary>
 		public void ClickJoinRoom()
 		{
-			if(m_Password == "") {
+			if (hasPassword)
+				NetworkManager.Singleton.PasswordLoginManager.EnableDisableMenu(true, this);
+			else
+			{
+				CurrentGame.Instance.Clear();
+				var serverGame = Rest.GetGameById(ID);
+				var parsedGame = JsonUtility.FromJson<CurrentGame.Game>(serverGame);
+				CurrentGame.Instance.gameDetail = parsedGame;
+				
+				var resource = Rest.RegisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.LocalPlayer.name, "", ID);
+				CurrentGame.Instance.ClientToken = resource;
+				CurrentGame.Instance.GameId = ID;
+				CurrentGame.Instance.PasswordUsed = "";
+				CurrentGame.Instance.Connect();
+
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
 				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
-				PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
 			}
-			else {
-				NetworkManager.Singleton.PasswordLoginManager.EnableDisableMenu(true, this);
-			}
+				
 		}
 
 		/// <summary>
@@ -49,14 +67,27 @@ namespace Stadsspel
 		/// </summary>
 		public bool JoinProtectedRoom(string password)
 		{
-			if(m_Password == password) {
+			try
+			{
+				CurrentGame.Instance.Clear();
+				string serverGame = Rest.GetGameById(ID);
+				CurrentGame.Game parsed = JsonUtility.FromJson<CurrentGame.Game>(serverGame);
+				CurrentGame.Instance.gameDetail = parsed;
+
+				string resource = Rest.RegisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.LocalPlayer.name, password, ID);
+				CurrentGame.Instance.ClientToken = resource;
+				CurrentGame.Instance.GameId = ID;
+				CurrentGame.Instance.PasswordUsed = password;
+				CurrentGame.Instance.Connect();
+
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
 				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
-				PhotonNetwork.JoinRoom(m_RoomNameTxt.text);
 				return true;
 			}
-			else {
+			catch (RestException e)
+			{
+				Debug.Log(e.Message);
 				return false;
 			}
 		}

@@ -15,24 +15,45 @@ public class LogUI : MonoBehaviour
 
 
 	/// <summary>
-	/// Creates a notification and puts data in the log panel. Text(presets are above) is passed along with optional variables and a boolean if the notification should be permanent.
+	/// Creates a notification and puts data in the log panel. Text(presets are above) is passed along with optional variables and a boolean if the notification should be permanent.	
 	/// </summary>
-	public GameObject AddToLog(string text, object[] variables = null, bool permanent = false)
+	/// <param name="text">Text to display</param>
+	/// <param name="variables">variables for format text if needed</param>
+	/// <param name="permanent">is the notification permanent default false</param>
+	/// <param name="silent">should a notification be displayed default false</param>
+	/// <returns></returns>
+	public GameObject AddToLog(string text, object[] variables, bool permanent = false,bool silent = false)
 	{
-		GameObject notification = Instantiate(Resources.Load("Notification") as GameObject, InGameUIManager.s_Singleton.LogNotifications, false);
-		notification.GetComponent<Notification>().SetText(string.Format(text, variables));
-		notification.GetComponent<Notification>().SetPermanent(permanent);
+		GameObject notification = null;
+		if (!silent)
+		{
+			if (permanent)
+			{
+				notification = Instantiate(Resources.Load("Notification") as GameObject, InGameUIManager.s_Singleton.LogNotifications, false);
+				notification.GetComponent<Notification>().SetText(string.Format(text, variables));
+				notification.GetComponent<Notification>().SetPermanent(permanent);
+			} else
+			{
+				if (text != null)
+				{
+					Notification.QueueNotification(string.Format(text, variables));
+				}
+			}
+		}
 
 		// Forces the VerticalLayoutGroup to update with the new notification.
 		LayoutRebuilder.ForceRebuildLayoutImmediate(InGameUIManager.s_Singleton.LogNotifications);
 
 		GameObject logItem = Instantiate(Resources.Load("LogItem") as GameObject, m_LogScrollViewContent, false);
+		logItem.transform.SetSiblingIndex(0);
 		Text textLog = logItem.transform.GetChild(0).GetComponent<Text>();
 		textLog.text = System.DateTime.Now.Hour + ":" + System.DateTime.Now.Minute + ": " + string.Format(text, variables);
-		if(logItem.transform.GetSiblingIndex() % 2 == 0) {
+		if (logItem.transform.parent.childCount % 2 == 0)
+		{
 			logItem.GetComponent<Image>().color = new Color(.95f, .95f, .95f);
 		}
-		else {
+		else
+		{
 			logItem.GetComponent<Image>().color = new Color(.9f, .9f, .9f);
 		}
 

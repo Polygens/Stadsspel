@@ -1,74 +1,72 @@
-﻿using Photon;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.Events;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
-	public class LobbyManager : PunBehaviour
+	//todo allow manual refresh / auto refresh every 5 seconds
+	public class LobbyManager : MonoBehaviour
 	{
-		[SerializeField]
-		RectTransform m_RoomList;
-		[SerializeField]
-		RectTransform m_NoServerFound;
+		[SerializeField] private RectTransform _mRoomList;
+		[SerializeField] public RectTransform _mNoServerFound;
 
-		/// <summary>
-		/// Generic function for handling switching between the different menus.
-		/// </summary>
+		public void RegisterToGame(string gameId, string password)
+		{
+			Debug.Log("Registering to my game: " + gameId);
+			var game = JsonUtility.FromJson<CurrentGame.Game>(Rest.GetGameById(gameId));
+			var room = Instantiate(Resources.Load("Room") as GameObject);
+			Debug.Log("2nd id: "+game.id);
+			room.GetComponent<Room>().InitializeRoom(game.roomName, game.id, 0, 0, password.Length > 0);
+			room.GetComponent<Room>().ClickJoinRoom();
+		}
+		
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
-			if(newState) {
-				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, new UnityAction(() => {
-					EnableDisableMenu(false);
-					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
-				}));
-			}
+
+			if (!newState) return;
+
+			// adds back-button in the top-panel to leave lobby
+			NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, () =>
+			{
+				//Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
+				EnableDisableMenu(false);
+				NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
+			});
+
+			FixedUpdateRooms();
 		}
 
-		/// <summary>
-		/// Gets called every frame.
-		/// </summary>
-		public void Update()
-		{
-			if(m_RoomList.childCount != PhotonNetwork.GetRoomList().Length) {
-				UpdateRooms();
-			}
-		}
-
-		/// <summary>
-		/// [PunBehaviour] Gets called when the room list has changed.
-		/// </summary>
-		public override void OnReceivedRoomListUpdate()
-		{
-			base.OnReceivedRoomListUpdate();
-			UpdateRooms();
-		}
 
 		/// <summary>
 		/// Updates the rooms in the rooms list UI. Removes all rooms first and then adds all existing rooms again. If no rooms are found a message is shown.
 		/// </summary>
 		public void UpdateRooms()
 		{
-			int children = m_RoomList.childCount;
-			for(int i = children - 1; i >= 0; i--) {
-				GameObject.Destroy(m_RoomList.GetChild(i).gameObject);
-			}
-			RoomInfo[] rooms = PhotonNetwork.GetRoomList();
-			if(rooms.Length == 0) {
-				m_NoServerFound.gameObject.SetActive(true);
-			}
-			else {
-				m_NoServerFound.gameObject.SetActive(false);
-			}
-			for(int i = 0; i < rooms.Length; i++) {
-				if(rooms[i].PlayerCount != rooms[i].MaxPlayers) {
-					GameObject room = Instantiate(Resources.Load("Room") as GameObject);
-					room.transform.SetParent(m_RoomList, false);
+			var rooms = Rest.GetStagedGames();
+			var children = _mRoomList.childCount;
+			for (var i = children - 1; i >= 0; i--)
+				Destroy(_mRoomList.GetChild(i).gameObject);
 
-					string password = rooms[i].CustomProperties[RoomManager.RoomPasswordProp] as string;
-					room.GetComponent<Room>().InitializeRoom(rooms[i].Name, rooms[i].PlayerCount, rooms[i].MaxPlayers, password != "" ? password : "");
-				}
+			_mNoServerFound.gameObject.SetActive(rooms.Count == 0);
+
+			foreach (var resource in rooms)
+			{
+				//todo filter full rooms
+
+				var room = Instantiate(Resources.Load("Room") as GameObject);
+				room.transform.SetParent(_mRoomList, false);
+
+				//todo expand gameListResource to have more data?
+				room.GetComponent<Room>().InitializeRoom(resource.name, resource.id, resource.players, resource.maxPlayers, resource.hasPassword);
 			}
+		}
+
+		private void FixedUpdateRooms()
+		{
+			UpdateRooms();
+			Invoke("FixedUpdateRooms", 3f);
 		}
 	}
 }

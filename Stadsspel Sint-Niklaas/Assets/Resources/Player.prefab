@@ -170,7 +170,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012407626070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 382.70377, y: 228.36505, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013926597500}
@@ -201,7 +201,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013871091430}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 17.11, z: -5}
+  m_LocalPosition: {x: 0, y: 29, z: -9.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000012057001244}
@@ -214,7 +214,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1528899806573354}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0.0000029504295}
-  m_LocalPosition: {x: 0, y: 35.6, z: -5}
+  m_LocalPosition: {x: 0, y: 34.8, z: -5}
   m_LocalScale: {x: 13.171205, y: 13.171232, z: 13.171232}
   m_Children: []
   m_Father: {fileID: 4390196852031160}
@@ -264,6 +264,8 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
+  m_AllowMSAA: 1
+  m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -298,6 +300,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23000012253299064
 MeshRenderer:
@@ -329,6 +332,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23000014068090770
 MeshRenderer:
@@ -360,6 +364,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33000010129955270
 MeshFilter:
@@ -426,9 +431,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
 --- !u!61 &61000012880638502
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -440,9 +446,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1500, y: 1500}
+  m_Size: {x: 1900, y: 1900}
+  m_EdgeRadius: 0
 --- !u!81 &81000011087748740
 AudioListener:
   m_ObjectHideFlags: 1
@@ -503,11 +520,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d62c4c94f913aa46bc0e07d383bf3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_GameName: Not set
   m_IllegalItems: 
   m_LegalItems: 
   m_AmountOfMoney: 0
+  colliderRadius: 23
 --- !u!114 &114045973104345044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -662,8 +687,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 51e8a88db5f829e44bdc38dae604e769, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0

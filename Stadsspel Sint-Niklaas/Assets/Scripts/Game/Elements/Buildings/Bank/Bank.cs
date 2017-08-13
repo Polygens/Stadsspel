@@ -10,5 +10,7 @@ namespace Stadsspel.Elements
 			m_BuildingType = BuildingType.Bank;
 			base.Start();
 		}
+
+		public string BankId { get; set; }
 	}
 }

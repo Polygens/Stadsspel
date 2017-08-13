@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 58000012532571338}
   - component: {fileID: 114000010731738868}
   - component: {fileID: 114040348477062750}
+  - component: {fileID: 114005234191480262}
   m_Layer: 0
   m_Name: Tradingpost
   m_TagString: TradingPost
@@ -105,6 +106,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23000013000420158
 MeshRenderer:
@@ -136,6 +138,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33000014158457732
 MeshFilter:
@@ -155,6 +158,7 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
@@ -192,7 +196,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 0
   m_GameName: Not set
+  tradingpostType: 2
+  naamTradingpost: 
   m_CountdownDuration: 300
+--- !u!114 &114005234191480262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013852722062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8796e0b3a9ea47a3acb92abdceacc47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 0}
+  coordinatesGPS:
+    latitude: 51.169864
+    longitude: 4.142617
+    altitude: 0
 --- !u!114 &114040348477062750
 MonoBehaviour:
   m_ObjectHideFlags: 1
