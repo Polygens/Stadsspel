@@ -18,8 +18,8 @@ using Random = System.Random;
 public class CurrentGame : Singleton<CurrentGame>
 {
 	public static long timeOffset = new DateTime(1970, 1, 1, 0, 0, 0).Ticks;
-	public static string dataPath = Application.persistentDataPath + "stadspelapp";
-	public static string previousGamePath = dataPath + Path.DirectorySeparatorChar + "previousGame";
+	public static string dataPath;
+	public static string previousGamePath;
 
 
 	//private const string URL = "ws://localhost:8090/user";
@@ -167,22 +167,43 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	public void Awake()
 	{
+		dataPath = Application.persistentDataPath + Path.DirectorySeparatorChar + "stadspelapp";
+		previousGamePath = dataPath + Path.DirectorySeparatorChar + "previousGame";
+
 		Ws = (WebsocketImpl)WebsocketImpl.Instance;
 		LocalPlayer.name = "Speler" + DateTime.Now.Millisecond;
+
+
 		if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
 		} else
 		{
 			LocalPlayer.clientID = "" + DateTime.Now.Ticks;
+			//LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; //todo this is for rejoin debug, disable pls
 		}
 
 		LoadPersistentData();
+		//CheckPersistentData(); too early, not all objects loaded?
+	}
+
+	public void Start()
+	{
 		CheckPersistentData();
 	}
 
 	private void CheckPersistentData()
 	{
+		Debug.Log("CHECKING PERSISTENT DATA");
+		Debug.Log(dataPath);
+		Debug.Log(previousGamePath);
+		Debug.Log(persistentData.GameId);
+		if (persistentData.GameId == null || persistentData.GameId.Equals(""))
+		{
+			persistentData.Clear();
+			SavePersistentData();
+			return;
+		}
 		string state = Rest.GetGameState(persistentData.GameId);
 		if (state.Equals("STAGED") || state.Equals("RUNNING"))
 		{
@@ -192,20 +213,7 @@ public class CurrentGame : Singleton<CurrentGame>
 			GameId = persistentData.GameId;
 			PasswordUsed = persistentData.PasswordUsed;
 
-			//connect websocket and open required screens for staged game
-			Connect();
-			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
-			NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
-			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(false);
-			NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
-
-			if (state.Equals("RUNNING"))
-			{
-				StartGame();
-
-				StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
-				Debug.Log("GAME HOT JOINED");
-			}
+			StartCoroutine(HotJoin(state));
 		}
 		else
 		{
@@ -216,6 +224,9 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	private void SavePersistentData()
 	{
+		Debug.Log("SAVING PERSISTENT DATA");
+		Debug.Log(GameId);
+		Debug.Log(persistentData.GameId);
 		if (!Directory.Exists(dataPath))
 		{
 			Directory.CreateDirectory(dataPath);
@@ -231,11 +242,12 @@ public class CurrentGame : Singleton<CurrentGame>
 		{
 			sw.WriteLine(JsonUtility.ToJson(persistentData));
 		}
-		File.Encrypt(previousGamePath);
+		//File.Encrypt(previousGamePath);
 	}
 
 	private void LoadPersistentData()
 	{
+		Debug.Log("LOADING PERSISTENT DATA");
 		if (!Directory.Exists(dataPath))
 		{
 			Directory.CreateDirectory(dataPath);
@@ -247,7 +259,7 @@ public class CurrentGame : Singleton<CurrentGame>
 			persistentData = new PersistentData();
 		} else
 		{
-			File.Decrypt(previousGamePath);
+			//File.Decrypt(previousGamePath);
 			using (StreamReader fs = File.OpenText(previousGamePath))
 			{
 				while (!fs.EndOfStream)
@@ -263,7 +275,7 @@ public class CurrentGame : Singleton<CurrentGame>
 					}
 				}
 			}
-			File.Encrypt(previousGamePath);
+			//File.Encrypt(previousGamePath);
 		}
 	}
 
@@ -303,6 +315,27 @@ public class CurrentGame : Singleton<CurrentGame>
 		{
 			Ws.SendHearthbeat();
 			yield return new WaitForSeconds(45);
+		}
+	}
+
+	private IEnumerator HotJoin(string state)
+	{
+		Debug.Log("RECONNECTING");
+		yield return new WaitForSeconds(10);
+		NetworkManager.Singleton.CreateJoinRoomManager.ShowLobby();
+		//connect websocket and open required screens for staged game
+		Connect();
+		NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
+		NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
+		//NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(false);
+		NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
+
+		if (state.Equals("RUNNING"))
+		{
+			StartGame();
+
+			StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
+			Debug.Log("GAME HOT JOINED");
 		}
 	}
 
@@ -459,5 +492,19 @@ public class CurrentGame : Singleton<CurrentGame>
 		AreaLocation mainDistrict = PlayerTeam.districts.Find(d => d.type == AreaLocation.AreaType.DISTRICT_A);
 		if (mainDistrict == null) return null;
 		return mainDistrict.name.ToLower();
+	}
+
+	public void UpdatePersistentData()
+	{
+		persistentData.GameId = GameId;
+		persistentData.ClientToken = ClientToken;
+		persistentData.PasswordUsed = PasswordUsed;
+		SavePersistentData();
+	}
+
+	public void ClearPersistentData()
+	{
+		persistentData.Clear();
+		SavePersistentData();
 	}
 }

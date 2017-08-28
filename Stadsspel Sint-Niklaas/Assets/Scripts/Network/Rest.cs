@@ -338,7 +338,7 @@ public class Rest
 	{
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/state/" + gameId;
-		int code = Post(urlSuffix, "", out response);
+		int code = Get(urlSuffix, out response);
 		Debug.Log("request game state");
 		HandleReturnCode(code);
 		return response;

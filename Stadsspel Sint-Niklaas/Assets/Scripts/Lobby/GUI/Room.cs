@@ -54,6 +54,7 @@ namespace Stadsspel
 				CurrentGame.Instance.GameId = ID;
 				CurrentGame.Instance.PasswordUsed = "";
 				CurrentGame.Instance.Connect();
+				CurrentGame.Instance.UpdatePersistentData();
 
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
@@ -79,6 +80,7 @@ namespace Stadsspel
 				CurrentGame.Instance.GameId = ID;
 				CurrentGame.Instance.PasswordUsed = password;
 				CurrentGame.Instance.Connect();
+				CurrentGame.Instance.UpdatePersistentData();
 
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
