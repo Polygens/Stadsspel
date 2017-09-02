@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Assets.scripts.dom;
 using Assets.Scripts.Domain;
 using Assets.Scripts.Network.websocket.messages;
 using Stadsspel.Elements;
 using UnityEngine;
-using Random = System.Random;
 
 /// <summary>
 /// A singleton that holds all information regarding the current (or last) game known.
@@ -18,7 +15,8 @@ public class CurrentGame : Singleton<CurrentGame>
 
 
 	//private const string URL = "ws://localhost:8090/user";
-	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
+	//private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
+	private const string URL = "wss://stadsspelapp.herokuapp.com/user";
 	
 
 
