@@ -83,6 +83,7 @@ public class TradingPostUI : MonoBehaviour
 			visitedbyTeam = true;
 			MessagePanelText.text = "Bij deze handelspost is reeds gekocht door jou team, kom later terug";
 		}
+
 		//items = new List<Item>();
 		foreach (ServerTradePost.ServerItem serverItem in stp.items)
 		{
@@ -151,7 +152,22 @@ public class TradingPostUI : MonoBehaviour
 		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
 		transform.Find("MainPanel").Find("NaamItem").GetComponent<Text>().text = "";
 		transform.Find("MainPanel").Find("NaamTradingpost").GetComponent<Text>().text = "";
-		if (IsVisited)
+
+		//check if visited
+		ServerTradePost stp = CurrentGame.Instance.gameDetail.tradePosts.Find(tp => tp.id.Equals(CurrentGame.Instance.nearTP));
+		visitedByPlayer = false;
+		visitedbyTeam = false;
+		if (CurrentGame.Instance.LocalPlayer.visitedTradeposts.ContainsKey(stp.id))
+		{
+			visitedByPlayer = true;
+			MessagePanelText.text = "Bij deze handelspost is reeds gekocht door jou, kom later terug";
+		} else if (CurrentGame.Instance.PlayerTeam.visitedTadeposts.ContainsKey(stp.id))
+		{
+			visitedbyTeam = true;
+			MessagePanelText.text = "Bij deze handelspost is reeds gekocht door jou team, kom later terug";
+		}
+
+		if (visitedByPlayer||visitedbyTeam)
 		{
 			//Start, + property
 			m_MessagePanel.SetActive(true);
