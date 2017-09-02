@@ -9,9 +9,9 @@ using System.Text;
 
 public class Rest
 {
-	//private const string BASE_URL = "https://stadsspelapp.herokuapp.com/api/";
-	//private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
-	private const string BASE_URL = "http://localhost:8090/api/";
+	//private const string BASE_URL = "http://localhost:8090/api/";									//LOCAL server
+	//private const string BASE_URL = "https://stadsspelapp.herokuapp.com/api/";					//LIVE	server
+	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";			//DEV	server
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
@@ -330,6 +330,16 @@ public class Rest
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/unregister/" + clientId;
 		int code = Post(urlSuffix, "", out response);
 		Debug.Log("unregister");
+		HandleReturnCode(code);
+		return response;
+	}
+
+	public static string GetGameState(string gameId)
+	{
+		string response;
+		string urlSuffix = GAME_SUFFIX + "/state/" + gameId;
+		int code = Get(urlSuffix, out response);
+		Debug.Log("request game state");
 		HandleReturnCode(code);
 		return response;
 	}

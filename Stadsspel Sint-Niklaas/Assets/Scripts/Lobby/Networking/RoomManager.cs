@@ -58,7 +58,6 @@ namespace Stadsspel.Networking
 		/// </summary>
 		public IEnumerator ServerCountdownCoroutine(int time)
 		{
-			//photonView.RPC("StartCountDown", PhotonTargets.AllViaServer, true); todo find out what this does
 			StartCountDown(true);
 
 			float remainingTime = time;
@@ -76,13 +75,11 @@ namespace Stadsspel.Networking
 
 					if (floorTime != 0)
 					{
-						//photonView.RPC("UpdateCountDown", PhotonTargets.AllViaServer, (byte)floorTime); todo find out what this does
 						UpdateCountDown(floorTime);
 					}
 				}
 				yield return null;
 			}
-			//PhotonNetwork.room.IsVisible = false;
 			SceneManager.LoadScene("Game");
 		}
 
@@ -123,6 +120,7 @@ namespace Stadsspel.Networking
 				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, new UnityAction(() =>
 				{
 					Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
+					CurrentGame.Instance.ClearPersistentData();
 					EnableDisableMenu(false);
 					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 				}));
@@ -181,18 +179,7 @@ namespace Stadsspel.Networking
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
 		}
 
-		/// <summary>
-		/// [PunBehaviour] Gets called when a player leaves the room. [PunBehaviour]
-		/// </summary>
-		/* todo replace with something equivalent (new message type?)
-		public override void OnLeftRoom()
-		{
-			base.OnLeftRoom();
-			NetworkManager.Singleton.KickedManager.EnableDisableMenu(true);
-			EnableDisableMenu(false);
-			NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
-		}
-		*/
+
 		/// <summary>
 		/// Iterates trough every player in the room and checks if every player has pressed check. If everyone is ready the start button gets shown.
 		/// </summary>
@@ -202,38 +189,6 @@ namespace Stadsspel.Networking
 		/// </remarks>
 		public void CheckIfReadyToStart()
 		{
-			/*
-			int playersReady = 0;
-			foreach (Transform item in m_LobbyPlayerList)
-			{
-				if (item.GetComponent<LobbyPlayer>().IsReady)
-				{
-					++playersReady;
-				}
-			}
-			if (playersReady == PhotonNetwork.room.MaxPlayers)
-			{
-				m_StartGameBtn.gameObject.SetActive(true);
-			}
-			else
-			{
-				m_StartGameBtn.gameObject.SetActive(false);
-			}
-
-
-#if (UNITY_EDITOR)
-			m_StartGameBtn.gameObject.SetActive(true);
-			m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
-#endif
-
-#if (UNITY_STANDALONE)
-			if (Debug.isDebugBuild)
-			{
-				m_StartGameBtn.gameObject.SetActive(true);
-				m_StartGameBtn.transform.GetChild(0).GetComponent<Text>().text = "OVERRIDE START! Unity Editor Only";
-			}
-#endif
-			*/
 		}
 
 		/// <summary>

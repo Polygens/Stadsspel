@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.NetworkInformation;
+using Assets.scripts.dom;
 using Assets.Scripts.Domain;
 using Assets.Scripts.Network.websocket.messages;
 using Stadsspel.Elements;
+using Stadsspel.Networking;
 using UnityEngine;
 
 /// <summary>
@@ -12,12 +17,16 @@ using UnityEngine;
 public class CurrentGame : Singleton<CurrentGame>
 {
 	public static long timeOffset = new DateTime(1970, 1, 1, 0, 0, 0).Ticks;
+	public static string dataPath;
+	public static string previousGamePath;
 
 
-	private const string URL = "ws://localhost:8090/user";
-	//private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";
-	//private const string URL = "wss://stadsspelapp.herokuapp.com/user";
+	//private const string URL = "ws://localhost:8090/user";							//LOCAL	server
+	//private const string URL = "wss://stadsspelapp.herokuapp.com/user";				//LIVE	server
+	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";		//DEV	server
 	
+
+	private static PersistentData persistentData = null;
 
 
 	public WebsocketImpl Ws { get; private set; }
@@ -56,6 +65,13 @@ public class CurrentGame : Singleton<CurrentGame>
 		public string ClientToken;
 		public string GameId;
 		public string PasswordUsed;
+
+		public void Clear()
+		{
+			ClientToken = "";
+			GameId = "";
+			PasswordUsed = "";
+		}
 	}
 
 
@@ -152,15 +168,115 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	public void Awake()
 	{
+		dataPath = Application.persistentDataPath + Path.DirectorySeparatorChar + "stadspelapp";
+		previousGamePath = dataPath + Path.DirectorySeparatorChar + "previousGame";
+
 		Ws = (WebsocketImpl)WebsocketImpl.Instance;
 		LocalPlayer.name = "Speler" + DateTime.Now.Millisecond;
-		if (!(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer))
+
+
+		if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
 		{
-			LocalPlayer.clientID = ""+DateTime.Now.Ticks;
+			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
+		} else
+		{
+			LocalPlayer.clientID = "" + DateTime.Now.Ticks;
+			//LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; //todo this is for rejoin debug, disable pls
+		}
+
+		LoadPersistentData();
+		//CheckPersistentData(); too early, not all objects loaded?
+	}
+
+	public void Start()
+	{
+		CheckPersistentData();
+	}
+
+	private void CheckPersistentData()
+	{
+		Debug.Log("CHECKING PERSISTENT DATA");
+		Debug.Log(dataPath);
+		Debug.Log(previousGamePath);
+		Debug.Log(persistentData.GameId);
+		if (persistentData.GameId == null || persistentData.GameId.Equals(""))
+		{
+			persistentData.Clear();
+			SavePersistentData();
+			return;
+		}
+		string state = Rest.GetGameState(persistentData.GameId);
+		if (state.Equals("STAGED") || state.Equals("RUNNING"))
+		{
+			//todo show "trying to reconnect" popup
+			//hot join game now
+			ClientToken = persistentData.ClientToken;
+			GameId = persistentData.GameId;
+			PasswordUsed = persistentData.PasswordUsed;
+
+			StartCoroutine(HotJoin(state));
 		}
 		else
 		{
-			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
+			persistentData.Clear();
+			SavePersistentData();
+		}
+	}
+
+	private void SavePersistentData()
+	{
+		Debug.Log("SAVING PERSISTENT DATA");
+		Debug.Log(GameId);
+		Debug.Log(persistentData.GameId);
+		if (!Directory.Exists(dataPath))
+		{
+			Directory.CreateDirectory(dataPath);
+		}
+		//directory exists at this point
+
+		if (File.Exists(previousGamePath))
+		{
+			File.Delete(previousGamePath);
+		}
+
+		using (StreamWriter sw = File.CreateText(previousGamePath))
+		{
+			sw.WriteLine(JsonUtility.ToJson(persistentData));
+		}
+		//File.Encrypt(previousGamePath);
+	}
+
+	private void LoadPersistentData()
+	{
+		Debug.Log("LOADING PERSISTENT DATA");
+		if (!Directory.Exists(dataPath))
+		{
+			Directory.CreateDirectory(dataPath);
+		}
+		//directory exists at this point
+
+		if (!File.Exists(previousGamePath))
+		{
+			persistentData = new PersistentData();
+		} else
+		{
+			//File.Decrypt(previousGamePath);
+			using (StreamReader fs = File.OpenText(previousGamePath))
+			{
+				while (!fs.EndOfStream)
+				{
+					try
+					{
+						String line = fs.ReadLine();
+						PersistentData pd = JsonUtility.FromJson<PersistentData>(line);
+						persistentData = pd;
+					} catch (Exception e)
+					{
+						Console.WriteLine(e);
+					}
+				}
+			}
+			//File.Encrypt(previousGamePath);
 		}
 	}
 
@@ -200,6 +316,27 @@ public class CurrentGame : Singleton<CurrentGame>
 		{
 			Ws.SendHearthbeat();
 			yield return new WaitForSeconds(45);
+		}
+	}
+
+	private IEnumerator HotJoin(string state)
+	{
+		Debug.Log("RECONNECTING");
+		yield return new WaitForSeconds(10);
+		NetworkManager.Singleton.CreateJoinRoomManager.ShowLobby();
+		//connect websocket and open required screens for staged game
+		Connect();
+		NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
+		NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
+		//NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(false);
+		NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
+
+		if (state.Equals("RUNNING"))
+		{
+			StartGame();
+
+			StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
+			Debug.Log("GAME HOT JOINED");
 		}
 	}
 
@@ -268,7 +405,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		}
 		return null;
 	}
-	
+
 	public List<ServerPlayer> PlayerList()
 	{
 		List<ServerPlayer> players = new List<ServerPlayer>();
@@ -303,7 +440,8 @@ public class CurrentGame : Singleton<CurrentGame>
 			if (gameDetail.teams[index].districts.Count >= 1)
 			{
 				string name = districts[gameDetail.teams[index].districts[0].id].name;
-				if (districts[gameDetail.teams[index].districts[0].id].name.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
+				if (districts[gameDetail.teams[index].districts[0].id].name
+					.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
 				{
 					return index;
 				}
@@ -356,5 +494,18 @@ public class CurrentGame : Singleton<CurrentGame>
 		if (mainDistrict == null) return null;
 		return mainDistrict.name.ToLower();
 	}
-}
 
+	public void UpdatePersistentData()
+	{
+		persistentData.GameId = GameId;
+		persistentData.ClientToken = ClientToken;
+		persistentData.PasswordUsed = PasswordUsed;
+		SavePersistentData();
+	}
+
+	public void ClearPersistentData()
+	{
+		persistentData.Clear();
+		SavePersistentData();
+	}
+}
