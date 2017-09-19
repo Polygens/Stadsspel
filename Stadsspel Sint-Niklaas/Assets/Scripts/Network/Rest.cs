@@ -10,9 +10,9 @@ using System.Text;
 
 public class Rest
 {
-	//private const string URL = "ws://localhost:8090/user";							//LOCAL	server
-	private const string URL = "wss://stadsspelapp.herokuapp.com/user";				//LIVE	server
-	//private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";	//DEV	server
+	//private const string URL = "https://localhost:8090/user";							//LOCAL	server
+	private const string URL = "https://stadsspelapp.herokuapp.com/user";				//LIVE	server
+	//private const string URL = "https://stadspelapp-sintniklaas.herokuapp.com/user";	//DEV	server
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
@@ -24,7 +24,7 @@ public class Rest
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
 		// Create a request using a URL that can receive a Post.
-		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL + urlSuffix);
 
 		// Set the Method property of the request to POST.
 		request.Method = "GET";
@@ -53,7 +53,7 @@ public class Rest
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
 		// Create a request using a URL that can receive a Post.
-		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL + urlSuffix);
 		// Set the Method property of the request to POST.  
 		request.Method = "PUT";
 		request.AutomaticDecompression = DecompressionMethods.None;//todo add decompression method for lzString
@@ -98,7 +98,7 @@ public class Rest
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
 		// Create a request using a URL that can receive a Post.
-		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL + urlSuffix);
 		// Set the Method property of the request to POST.  
 		request.Method = "POST";
 		request.AutomaticDecompression = DecompressionMethods.None;//todo add decompression method for lzString
