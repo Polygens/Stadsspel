@@ -10,8 +10,9 @@ using System.Text;
 
 public class Rest
 {
-	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
-	//private const string BASE_URL = "http://localhost:8090/api/";
+	//private const string URL = "ws://localhost:8090/user";							//LOCAL	server
+	private const string URL = "wss://stadsspelapp.herokuapp.com/user";				//LIVE	server
+	//private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";	//DEV	server
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
