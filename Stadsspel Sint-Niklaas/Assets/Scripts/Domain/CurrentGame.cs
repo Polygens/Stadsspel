@@ -10,6 +10,7 @@ using Assets.Scripts.Network.websocket.messages;
 using Stadsspel.Elements;
 using Stadsspel.Networking;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// A singleton that holds all information regarding the current (or last) game known.
@@ -27,7 +28,6 @@ public class CurrentGame : Singleton<CurrentGame>
 	
 
 	private static PersistentData persistentData = null;
-
 
 	public WebsocketImpl Ws { get; private set; }
 	public string HostingLoginToken { get; set; }
@@ -58,6 +58,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public bool TenMinuteMark { get; set; }
 	public bool LastMinuteMark { get; set; }
 	public List<WinningTeamMessage.TeamScore> TeamScores { get; set; }
+	public GameObject ReconnectPanel;
 
 	[Serializable]
 	public class PersistentData
@@ -93,7 +94,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		public long endTime;
 		public String webAppToken;
 		public bool treasuriesOpen;
-
+		
 		public Game(int mAmountOfTeams)
 		{
 			teams = new List<ServerTeam>(0);
@@ -209,6 +210,12 @@ public class CurrentGame : Singleton<CurrentGame>
 		if (state.Equals("STAGED") || state.Equals("RUNNING"))
 		{
 			//todo show "trying to reconnect" popup
+
+			if (ReconnectPanel != null)
+			{
+				ReconnectPanel.SetActive(true);
+			}
+
 			//hot join game now
 			ClientToken = persistentData.ClientToken;
 			GameId = persistentData.GameId;
@@ -285,6 +292,15 @@ public class CurrentGame : Singleton<CurrentGame>
 		StartCoroutine(Ws.Connect(URL, GameId, LocalPlayer.clientID));
 	}
 
+	public void StopReconnect()
+	{
+		ReconnectPanel.SetActive(false);
+		StopGame();
+		//
+		//
+		//
+	}
+
 	public void Clear()
 	{
 		ClientToken = null;
@@ -337,6 +353,7 @@ public class CurrentGame : Singleton<CurrentGame>
 
 			StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
 			Debug.Log("GAME HOT JOINED");
+			if(ReconnectPanel != null) if (ReconnectPanel.activeSelf) ReconnectPanel.SetActive(false);
 		}
 	}
 
