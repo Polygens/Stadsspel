@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -10,8 +9,9 @@ using System.Text;
 
 public class Rest
 {
-	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";
-	//private const string BASE_URL = "http://localhost:8090/api/";
+	//private const string BASE_URL = "http://localhost:8090/api/";									//LOCAL server
+	//private const string BASE_URL = "https://stadsspelapp.herokuapp.com/api/";					//LIVE	server
+	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";			//DEV	server
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
@@ -168,7 +168,7 @@ public class Rest
 
 
 	/// <summary>
-	/// Returns wether certificate is ok
+	/// Returns whether certificate is ok
 	/// </summary>
 	/// <param name="sender"></param>
 	/// <param name="certificate"></param>

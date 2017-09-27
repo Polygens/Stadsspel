@@ -11,7 +11,8 @@ Material:
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
-  m_CustomRenderQueue: -379
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -360
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:

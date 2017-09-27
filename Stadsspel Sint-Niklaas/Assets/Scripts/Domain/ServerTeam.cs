@@ -12,6 +12,7 @@ public class ServerTeam
 	public string customColor;
 	public List<AreaLocation> districts;
 	public List<string> tradePosts;
+	public IDictionary<string, long> visitedTadeposts;
 
 	public double TotalPlayerMoney { get; set; }
 

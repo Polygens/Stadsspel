@@ -7,6 +7,7 @@ namespace Assets.Scripts.Domain
 	{
 		public IDictionary<string, int> legalItems;
 		public IDictionary<string, int> illegalItems;
+		public IDictionary<string, long> visitedTradeposts;
 		public string token;
 		public List<string> taggedByTeams;
 		public Point location;
