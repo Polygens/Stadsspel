@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Threading;
 using Assets.scripts.dom;
 using Assets.Scripts.Domain;
 using Assets.Scripts.Network.websocket.messages;
@@ -24,8 +25,8 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	//private const string URL = "ws://localhost:8090/user";							//LOCAL	server
 	//private const string URL = "wss://stadsspelapp.herokuapp.com/user";				//LIVE	server
-	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";		//DEV	server
-	
+	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";      //DEV	server
+
 
 	private static PersistentData persistentData = null;
 
@@ -59,6 +60,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public bool LastMinuteMark { get; set; }
 	public List<WinningTeamMessage.TeamScore> TeamScores { get; set; }
 	public GameObject ReconnectPanel;
+	private bool reconnectCancelled;
 
 	[Serializable]
 	public class PersistentData
@@ -94,7 +96,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		public long endTime;
 		public String webAppToken;
 		public bool treasuriesOpen;
-		
+
 		public Game(int mAmountOfTeams)
 		{
 			teams = new List<ServerTeam>(0);
@@ -209,11 +211,11 @@ public class CurrentGame : Singleton<CurrentGame>
 		string state = Rest.GetGameState(persistentData.GameId);
 		if (state.Equals("STAGED") || state.Equals("RUNNING"))
 		{
-			//todo show "trying to reconnect" popup
-
+			//Show Reconnecting popup
 			if (ReconnectPanel != null)
 			{
 				ReconnectPanel.SetActive(true);
+				reconnectCancelled = false;
 			}
 
 			//hot join game now
@@ -222,8 +224,7 @@ public class CurrentGame : Singleton<CurrentGame>
 			PasswordUsed = persistentData.PasswordUsed;
 
 			StartCoroutine(HotJoin(state));
-		}
-		else
+		} else
 		{
 			persistentData.Clear();
 			SavePersistentData();
@@ -295,10 +296,11 @@ public class CurrentGame : Singleton<CurrentGame>
 	public void StopReconnect()
 	{
 		ReconnectPanel.SetActive(false);
-		StopGame();
-		//
-		//
-		//
+		reconnectCancelled = true;
+		if (IsGameRunning)
+		{
+			StopGame();
+		}
 	}
 
 	public void Clear()
@@ -339,21 +341,24 @@ public class CurrentGame : Singleton<CurrentGame>
 	{
 		Debug.Log("RECONNECTING");
 		yield return new WaitForSeconds(10);
-		NetworkManager.Singleton.CreateJoinRoomManager.ShowLobby();
-		//connect websocket and open required screens for staged game
-		Connect();
-		NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
-		NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
-		//NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(false);
-		NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
-
-		if (state.Equals("RUNNING"))
+		if (!reconnectCancelled)//if cancelled don't reconnect
 		{
-			StartGame();
+			NetworkManager.Singleton.CreateJoinRoomManager.ShowLobby();
+			//connect websocket and open required screens for staged game
+			Connect();
+			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
+			NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
+			//NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(false);
+			NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
 
-			StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
-			Debug.Log("GAME HOT JOINED");
-			if(ReconnectPanel != null) if (ReconnectPanel.activeSelf) ReconnectPanel.SetActive(false);
+			if (state.Equals("RUNNING"))
+			{
+				StartGame();
+
+				StartCoroutine(NetworkManager.Singleton.RoomManager.ServerCountdownCoroutine(10));
+				Debug.Log("GAME HOT JOINED");
+				if (ReconnectPanel != null) if (ReconnectPanel.activeSelf) ReconnectPanel.SetActive(false);
+			}
 		}
 	}
 

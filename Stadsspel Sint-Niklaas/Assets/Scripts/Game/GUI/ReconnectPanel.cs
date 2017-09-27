@@ -8,8 +8,9 @@ public class ReconnectPanel : MonoBehaviour {
 	CurrentGame CG;
 
 	// Use this for initialization
-	void Start () {
-		CG = GameObject.Find("Network").GetComponent<CurrentGame>();
+	void Start ()
+	{
+		CG = CurrentGame.Instance;
 		CG.ReconnectPanel = transform.Find("ReconnectingPanel").gameObject;
 		CG.ReconnectPanel.GetComponentInChildren<Button>().onClick.AddListener(CG.StopReconnect);
 	}
