@@ -8,7 +8,8 @@ public class ReconnectPanel : MonoBehaviour {
 	CurrentGame CG;
 
 	// Use this for initialization
-	void Start ()
+	//void Start ()
+	void Awake ()
 	{
 		CG = CurrentGame.Instance;
 		CG.ReconnectPanel = transform.Find("ReconnectingPanel").gameObject;

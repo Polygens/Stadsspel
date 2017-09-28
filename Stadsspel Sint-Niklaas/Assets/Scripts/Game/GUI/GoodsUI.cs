@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class GoodsUI : MonoBehaviour
 {
-	private List<int> m_LegalItems = new List<int>();
-	private List<int> m_IllegalItems = new List<int>();
-
 	private IDictionary<string, int> legalItems;
 	private IDictionary<string, int> illegalItems;
 	private string[] indexStrings = new[] { "TOP", "Dozijn bloemen", "Vat bier", "Kg ijs", "Rol textiel", "Koets bakstenen", "Art deco" };
@@ -17,16 +14,18 @@ public class GoodsUI : MonoBehaviour
 	/// </summary>
 	private void OnEnable()
 	{
-		m_LegalItems = GameManager.s_Singleton.Player.Person.LookUpLegalItems;
-
-		m_IllegalItems = GameManager.s_Singleton.Player.Person.LookUpIllegalItems;
-
+		//ResetUI();
 		//copy from grand market ui
 		legalItems = CurrentGame.Instance.LocalPlayer.legalItems;
+		Debug.Log("LEGAL:" + legalItems.Count);
 		List<string> legalKeys = legalItems.Keys.ToList();
+
 		illegalItems = CurrentGame.Instance.LocalPlayer.illegalItems;
+		Debug.Log("ILLEGAL:" + illegalItems.Count);
 		List<string> illegalKeys = illegalItems.Keys.ToList();
+
 		RectTransform Grid = (RectTransform)transform.Find("MainPanel").transform.Find("Grid");
+
 		int legalIndex = 0;
 		int illegalIndex = 0;
 		for (int i = 1; i < Grid.childCount; i++)
@@ -42,6 +41,7 @@ public class GoodsUI : MonoBehaviour
 				{
 					if (legalItems.ContainsKey(rowItem))
 					{
+						Debug.Log(legalItems[rowItem]);
 						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[rowItem] + "";
 						legalIndex++;
 					}
@@ -73,5 +73,23 @@ public class GoodsUI : MonoBehaviour
 			}
 		}
 		*/
+	}
+
+
+
+	/// <summary>
+	/// Resets the UI to the default values.
+	/// </summary>
+	public void ResetUI()
+	{
+		RectTransform Grid = (RectTransform)transform.Find("MainPanel").transform.Find("Grid");
+		for (int i = 1; i < Grid.childCount; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
+				Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
+			}
+		}
 	}
 }

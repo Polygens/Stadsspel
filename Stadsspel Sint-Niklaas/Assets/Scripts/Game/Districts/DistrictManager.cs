@@ -1,3 +1,4 @@
+using System;
 using Stadsspel.Elements;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,31 +56,47 @@ namespace Stadsspel.Districts
 			{
 				Transform child = transform.GetChild(i);
 				HeadDistrict hd = child.GetComponent<HeadDistrict>();
-				if (hd!=null)
-				{
-					int teamIndex = CurrentGame.Instance.isHeadDistrict(transform.GetChild(i).gameObject.name);
-					if (teamIndex >= 0)
+				CapturableDistrict cd = child.GetComponent<CapturableDistrict>();
+				if (cd!=null){
+					int teamIndex = CurrentGame.Instance.GetTeamIndex(transform.GetChild(i).gameObject.name);
+					bool mainDistrict = CurrentGame.Instance.isHeadDistrict(transform.GetChild(i).gameObject.name);
+
+					if (transform.GetChild(i).gameObject.name.Equals("4a",StringComparison.InvariantCultureIgnoreCase))
+					{
+						Debug.Log("DSITRICT FOUND");
+					}
+
+					//find team if any
+					ServerTeam team =null;
+					if (teamIndex >=0)
+					{
+						team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
+					}
+
+					//check for main district and assign 
+					if (mainDistrict)
 					{
 						HeadDistrict district = transform.GetChild(i).gameObject.GetComponent<HeadDistrict>();
-						district.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
+						district.Team = team;
 						district.enabled = true;
 						m_HeadDistricts.Add(district);
 						Destroy(district.GetComponent<CapturableDistrict>());
 						Treasure square = district.transform.GetChild(0).gameObject.GetComponent<Treasure>();
-						square.Team = CurrentGame.Instance.gameDetail.GetTeamByIndex(teamIndex);
+						square.Team = team;
 						square.enabled = true;
 						Destroy(district.transform.GetChild(0).GetComponent<CapturePoint>());
 
 					} else
 					{
 						CapturableDistrict district = transform.GetChild(i).gameObject.GetComponent<CapturableDistrict>();
-						district.Team = null;
+						district.Team = team;
 						district.enabled = true;
 						Destroy(district.GetComponent<HeadDistrict>());
 						CapturePoint square = district.transform.GetChild(0).gameObject.GetComponent<CapturePoint>();
-						square.Team = null;
+						square.Team = team;
 						square.enabled = true;
 						Destroy(district.transform.GetChild(0).GetComponent<Treasure>());
+						district.OnTeamChanged();
 					}
 
 				}

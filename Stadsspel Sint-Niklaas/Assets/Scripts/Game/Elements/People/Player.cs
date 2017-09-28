@@ -214,7 +214,7 @@ namespace Stadsspel.Elements
 					{
 						/*Square */
 						Debug.Log("tag == Treasure");
-						if (allGameObjectsInRadius[i].GetComponent<Square>().Team == m_Person.Team)
+						if (allGameObjectsInRadius[i].GetComponent<Square>().Team.teamName == m_Person.Team.teamName)
 						{
 							tempP = Priority.Treasure;
 						} else

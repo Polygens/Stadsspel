@@ -111,6 +111,10 @@ public class WebsocketImpl : WebsocketContainer
 		lp.legalItems = pn.LegalItems;
 		lp.illegalItems = pn.IllegalItems;
 		lp.visitedTradeposts = pn.VisitedTradeposts;
+
+
+		Debug.Log(pn.IllegalItems.Count);
+		Debug.Log(pn.LegalItems.Count);
 	}
 
 	protected override void HandleTagNotification(MessageWrapper message)
