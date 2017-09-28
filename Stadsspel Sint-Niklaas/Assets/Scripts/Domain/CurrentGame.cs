@@ -183,8 +183,8 @@ public class CurrentGame : Singleton<CurrentGame>
 			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
 		} else
 		{
-			LocalPlayer.clientID = "" + DateTime.Now.Ticks;
-			//LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; //todo this is for rejoin debug, disable pls
+			//LocalPlayer.clientID = "" + DateTime.Now.Ticks;
+			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; //todo this is for rejoin debug, disable pls
 		}
 
 		LoadPersistentData();
@@ -216,6 +216,10 @@ public class CurrentGame : Singleton<CurrentGame>
 			{
 				ReconnectPanel.SetActive(true);
 				reconnectCancelled = false;
+			}
+			else
+			{
+				Debug.Log("NO RECONNECTING PANEL FOUND");
 			}
 
 			//hot join game now
@@ -371,6 +375,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		Game parsed = JsonUtility.FromJson<Game>(serverGame);
 		gameDetail = parsed;
 		PlayerTeam = FindPlayerTeam();
+		//Debug.Log("DISTRICTS: "+PlayerTeam.districts.Count);
 		KnownItems = new Dictionary<string, ServerTradePost.ServerItem>();
 		TeamScores = null;
 	}
@@ -445,7 +450,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		return players;
 	}
 
-	public int isHeadDistrict(string districtName)
+	public int GetTeamIndex(string districtName)
 	{
 		Dictionary<string, AreaLocation> districts = new Dictionary<string, AreaLocation>();
 		foreach (AreaLocation district in gameDetail.districts)
@@ -459,14 +464,23 @@ public class CurrentGame : Singleton<CurrentGame>
 
 		for (int index = 0; index < gameDetail.teams.Count; index++)
 		{
-			if (gameDetail.teams[index].districts.Count >= 1)
+			if (gameDetail.teams[index].districts.Count > 0)
 			{
-				string name = districts[gameDetail.teams[index].districts[0].id].name;
-				if (districts[gameDetail.teams[index].districts[0].id].name
-					.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
+				AreaLocation district = gameDetail.teams[index].districts.Find(d => d.name.Equals(districtName, StringComparison.InvariantCultureIgnoreCase));
+
+				if (district != null)
 				{
 					return index;
 				}
+
+
+				/*
+				string name = districts[gameDetail.teams[index].districts[0].id].name;
+				if (name.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					return index;
+				}
+				*/
 			}
 		}
 		return -1;
@@ -529,5 +543,40 @@ public class CurrentGame : Singleton<CurrentGame>
 	{
 		persistentData.Clear();
 		SavePersistentData();
+	}
+
+	public bool isHeadDistrict(string districtName)
+	{
+		Dictionary<string, AreaLocation> districts = new Dictionary<string, AreaLocation>();
+		foreach (AreaLocation district in gameDetail.districts)
+		{
+			districts.Add(district.id, district);
+		}
+
+
+		int count = gameDetail.teams.Count;
+
+		int teamIndex = -1;
+		for (int index = 0; index < gameDetail.teams.Count; index++)
+		{
+			if (gameDetail.teams[index].districts.Count >= 1)
+			{
+				string name = districts[gameDetail.teams[index].districts[0].id].name;
+				if (districts[gameDetail.teams[index].districts[0].id].name
+					.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					teamIndex = index;
+					index = gameDetail.teams.Count * 2;
+				}
+			}
+		}
+		if (teamIndex <0) return false;
+		List<AreaLocation> teamDistricts = gameDetail.teams[teamIndex].districts;
+		if (teamDistricts[0].name.Equals(districtName,StringComparison.InvariantCultureIgnoreCase))
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

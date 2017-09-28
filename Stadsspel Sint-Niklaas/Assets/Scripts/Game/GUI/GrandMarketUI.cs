@@ -136,7 +136,7 @@ public class GrandMarketUI : MonoBehaviour
 				Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = "0";
 			}
 		}
-
+		InGameUIManager.s_Singleton.GoodsUI.ResetUI();
 		m_TotalUI.text = "Totaal: " + m_Total;
 		m_MarktPanel.gameObject.SetActive(false);
 	}
