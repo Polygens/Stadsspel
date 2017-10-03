@@ -9,6 +9,15 @@ public class InteractiveInstructions : MonoBehaviour {
 	string textToWrite = "No more instructions wanted";
 	InstructionsState instructionState;
 	public GameObject objectConfirmInstructions;
+	public GameObject teamMoneyInstruction;
+	public GameObject teamColorInstruction;
+	public GameObject personalMoneyInstruction;
+	public GameObject menuInstruction;
+	public GameObject timeInstruction;
+	public GameObject targetButtonInstruction;
+	public GameObject compasInstruction;
+	public GameObject chestInstruction;
+	public GameObject blackArrowInstruction;
 
 	// Use this for initialization
 	void Start () {
@@ -51,24 +60,44 @@ public class InteractiveInstructions : MonoBehaviour {
 				objectConfirmInstructions.SetActive(true);
 				break;
 			case InstructionsState.teamMoney:
+				objectConfirmInstructions.SetActive(false);
+				teamMoneyInstruction.SetActive(true);
 				break;
 			case InstructionsState.teamColor:
+				teamMoneyInstruction.SetActive(false);
+				teamColorInstruction.SetActive(true);
 				break;
 			case InstructionsState.personalMoney:
+				teamColorInstruction.SetActive(false);
+				personalMoneyInstruction.SetActive(true);
 				break;
 			case InstructionsState.menu:
+				personalMoneyInstruction.SetActive(false);
+				menuInstruction.SetActive(true);
 				break;
 			case InstructionsState.time:
+				menuInstruction.SetActive(false);
+				timeInstruction.SetActive(true);
 				break;
 			case InstructionsState.targetButton:
+				timeInstruction.SetActive(false);
+				targetButtonInstruction.SetActive(true);
 				break;
 			case InstructionsState.Compas:
+				targetButtonInstruction.SetActive(false);
+				compasInstruction.SetActive(true);
 				break;
 			case InstructionsState.Chest:
+				compasInstruction.SetActive(false);
+				chestInstruction.SetActive(true);
 				break;
 			case InstructionsState.FollowBlackArrow:
+				chestInstruction.SetActive(false);
+				blackArrowInstruction.SetActive(true);
 				break;
 			case InstructionsState.end:
+				blackArrowInstruction.SetActive(false);
+				WriteToFile();
 				break;
 			default:
 				break;
