@@ -10,13 +10,13 @@ public class InteractiveInstructions : MonoBehaviour {
 	InstructionsState instructionState;
 	public GameObject objectConfirmInstructions;
 	public GameObject teamMoneyInstruction;
-	public GameObject teamColorInstruction;
 	public GameObject personalMoneyInstruction;
 	public GameObject menuInstruction;
 	public GameObject timeInstruction;
 	public GameObject targetButtonInstruction;
 	public GameObject compasInstruction;
 	public GameObject chestInstruction;
+	public GameObject actionBar;
 	public GameObject blackArrowInstruction;
 
 	// Use this for initialization
@@ -35,6 +35,7 @@ public class InteractiveInstructions : MonoBehaviour {
 
 	void WriteToFile()
 	{
+		Debug.Log("Writing");
 		File.WriteAllText(path + "/StadsspelInstructionState.txt", textToWrite);
 	}
 
@@ -63,12 +64,8 @@ public class InteractiveInstructions : MonoBehaviour {
 				objectConfirmInstructions.SetActive(false);
 				teamMoneyInstruction.SetActive(true);
 				break;
-			case InstructionsState.teamColor:
-				teamMoneyInstruction.SetActive(false);
-				teamColorInstruction.SetActive(true);
-				break;
 			case InstructionsState.personalMoney:
-				teamColorInstruction.SetActive(false);
+				teamMoneyInstruction.SetActive(false);
 				personalMoneyInstruction.SetActive(true);
 				break;
 			case InstructionsState.menu:
@@ -91,13 +88,18 @@ public class InteractiveInstructions : MonoBehaviour {
 				compasInstruction.SetActive(false);
 				chestInstruction.SetActive(true);
 				break;
-			case InstructionsState.FollowBlackArrow:
+			case InstructionsState.ActionBar:
 				chestInstruction.SetActive(false);
+				actionBar.SetActive(true);
+				break;
+			case InstructionsState.FollowBlackArrow:
+				actionBar.SetActive(false);
 				blackArrowInstruction.SetActive(true);
 				break;
 			case InstructionsState.end:
 				blackArrowInstruction.SetActive(false);
 				WriteToFile();
+				StopInstructions();
 				break;
 			default:
 				break;
@@ -122,13 +124,13 @@ enum InstructionsState
 {
 	confirmIfInstructionsNeeded,
 	teamMoney,
-	teamColor,
 	personalMoney,
 	menu,
 	time,
 	targetButton,
 	Compas,
 	Chest,
+	ActionBar,
 	FollowBlackArrow,
 	end
 }
