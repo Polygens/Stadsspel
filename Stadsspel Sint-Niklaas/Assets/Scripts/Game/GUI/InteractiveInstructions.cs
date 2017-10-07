@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InteractiveInstructions : MonoBehaviour {
 
-	string path = Application.persistentDataPath;
+	string path;
 	string textToWrite = "No more instructions wanted";
 	InstructionsState instructionState;
 	public GameObject objectConfirmInstructions;
@@ -21,6 +21,7 @@ public class InteractiveInstructions : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		path = Application.persistentDataPath;
 		if (LoadEncodedFile() == textToWrite)
 		{
 			StopInstructions();
