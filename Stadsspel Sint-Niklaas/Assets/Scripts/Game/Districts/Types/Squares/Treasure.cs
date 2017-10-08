@@ -50,18 +50,17 @@ namespace Stadsspel.Districts
 		}
 
 		/// <summary>
-		/// [PunRPC] Reduces the money in the chest with a given amount.
+		///  Reduces the money in the chest with a given amount.
 		/// </summary>
-		[PunRPC]
+
 		public void ReduceChestMoney(int amount)
 		{
 			m_AmountOfMoney -= amount;
 		}
 
 		/// <summary>
-		/// [PunRPC] Reduces the amount of money of the treasure caused by rob.
+		///  Reduces the amount of money of the treasure caused by rob.
 		/// </summary>
-		[PunRPC]
 		public int RobChest()
 		{
 			int robbedMoney = m_AmountOfMoney * (m_RobThreshold / 100);
@@ -70,10 +69,9 @@ namespace Stadsspel.Districts
 		}
 
 		/// <summary>
-		/// [PunRPC] Calculates and adds the tax money of the owned districts to the treasure.
+		///  Calculates and adds the tax money of the owned districts to the treasure.
 		/// todo this is done by server
 		/// </summary>
-		[PunRPC]
 		public void RetrieveTaxes()
 		{
 			/*

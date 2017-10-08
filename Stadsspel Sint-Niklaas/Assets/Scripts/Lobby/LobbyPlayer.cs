@@ -48,7 +48,7 @@ namespace Stadsspel.Networking
 		}
 
 		/// <summary>
-		/// [PunRPC] Updates the lobbyplayer name text field.
+		///  Updates the lobbyplayer name text field.
 		/// </summary>
 		private void NameChanged(string name)
 		{
@@ -56,16 +56,18 @@ namespace Stadsspel.Networking
 		}
 
 		/// <summary>
-		/// [PunRPC] Updates the player's ready state, ready button and checks if the game can start.
+		///  Updates the player's ready state, ready button and checks if the game can start.
 		/// </summary>
 		private void ReadyChanged(bool newReadyState)
 		{
 			m_IsReady = newReadyState;
 			SetReadyButton(m_IsReady);
+			/*
 			if (PhotonNetwork.player.IsMasterClient)
 			{
 				NetworkManager.Singleton.RoomManager.CheckIfReadyToStart();
 			}
+			*/
 		}
 
 		/// <summary>

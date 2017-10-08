@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// [PunRPC] Starts the game for the clients, including the master client.
+	///  Starts the game for the clients, including the master client.
 	/// </summary>
 	private void ClientsStart()
 	{
@@ -276,9 +276,9 @@ public class GameManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// [PunRPC] Adds the passed Treasure to the global list.
+	///  Adds the passed Treasure to the global list.
 	/// </summary>
-	[PunRPC]
+	
 	public void AddTreasure(Treasure t)
 	{
 		Debug.Log("ADD TREASURE");

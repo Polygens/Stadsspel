@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Stadsspel.Elements
 {
-	public class BankAccount : PunBehaviour
+	public class BankAccount : MonoBehaviour
 	{
 		[SerializeField]
 		private int m_Balance;
@@ -20,13 +20,11 @@ namespace Stadsspel.Elements
 			get { return m_Team; }
 			set { m_Team = value; }
 		}
-
-		/// <summary>
-		/// [PunRPC] Performs a bank transaction of the passed amount on the account money.
-		/// </summary>
-		[PunRPC]
+		
+		/*
 		public void Transaction(int amount, PhotonMessageInfo info)
 		{
+
 			if(amount != 0) {
 				m_Balance += amount;
 				if(GameManager.s_Singleton.Player.Person.Team == m_Team) {
@@ -46,12 +44,11 @@ namespace Stadsspel.Elements
 			}
 
 		}
-
+		*/
 		/// <summary>
-		/// [PunRPC] Performs a bank transaction of the passed amount on the account money.
+		///  Performs a bank transaction of the passed amount on the account money.
 		/// todo this is handled by server i guess need to confirm
 		/// </summary>
-		[PunRPC]
 		public bool PlayerTransaction(int amount)
 		{
 			/*

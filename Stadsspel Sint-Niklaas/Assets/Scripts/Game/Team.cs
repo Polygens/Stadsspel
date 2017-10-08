@@ -61,9 +61,9 @@ public class Team : MonoBehaviour
 	}
 
 	/// <summary>
-	/// [PunRPC] Adds or removes the passed amount of money to the team's money.
+	///  Adds or removes the passed amount of money to the team's money.
 	/// </summary>
-	[PunRPC]
+	
 	public void AddOrRemoveMoney(int amount)
 	{
 		m_TotalMoney += amount;
@@ -92,6 +92,6 @@ public class Team : MonoBehaviour
 	public void PlayerTransaction(int amount)
 	{
 		m_BankAccount.PlayerTransaction(amount);
-		m_BankAccount.GetComponent<PhotonView>().RPC("Transaction", PhotonTargets.All, amount);
+		//m_BankAccount.GetComponent<PhotonView>().RPC("Transaction", PhotonTargets.All, amount);
 	}
 }

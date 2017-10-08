@@ -36,9 +36,9 @@ public class BankUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// [PunRPC] Updates the value fields of the UI.
+	///  Updates the value fields of the UI.
 	/// </summary>
-	[PunRPC]
+	
 	public void UpdateUI()
 	{
 		ServerTeam playerTeam = CurrentGame.Instance.PlayerTeam;
