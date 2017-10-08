@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 8
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -87,7 +87,7 @@ LightmapSettings:
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -904,7 +904,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1194661212}
   - component: {fileID: 1194661210}
-  - component: {fileID: 1194661211}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -926,32 +925,6 @@ MonoBehaviour:
   m_DistrictManager: {fileID: 1219591837}
   m_LocationManager: {fileID: 2049199261}
   MapObjects: []
---- !u!114 &1194661211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1194661209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 1
-  instantiationId: 1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!4 &1194661212
 Transform:
   m_ObjectHideFlags: 0
@@ -1274,7 +1247,34 @@ Prefab:
       propertyPath: instantiationId
       value: 39
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114523500989148806, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114404792598189626, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114417407531425740, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114444007885935760, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114215235368770994, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114515213084076044, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114408642166637506, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114627213303828122, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114328864014099780, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114644338746393754, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114139286180002072, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114715893787050198, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114933613435290332, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114557816217269172, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114198679774280486, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114713927519461754, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114034492866897918, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114146151708812576, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114796386754106812, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114675454221678514, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114440023145351734, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114415713261454844, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114222475895033702, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114642037017793536, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114773661779028032, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114603602860920014, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
+    - {fileID: 114064075589870702, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 7e214ee0ac7c8604eb6e12794ca8d9f7, type: 2}
   m_IsPrefabParent: 0
 --- !u!114 &1219591837 stripped
