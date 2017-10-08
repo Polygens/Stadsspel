@@ -220,6 +220,7 @@ public class CurrentGame : Singleton<CurrentGame>
 			else
 			{
 				Debug.Log("NO RECONNECTING PANEL FOUND");
+				reconnectCancelled = true;//todo this shouldn't happen
 			}
 
 			//hot join game now

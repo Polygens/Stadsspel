@@ -198,6 +198,12 @@ public class GameManager : MonoBehaviour
 		List<AreaLocation> districts = CurrentGame.Instance.gameDetail.districts;
 		List<AreaLocation> markets = CurrentGame.Instance.gameDetail.markets;
 
+
+		Debug.Log("BANKS: "+banks.Count);
+		Debug.Log("TPS: "+tradeposts.Count);
+
+
+
 		//todo load all into map
 		GameObject mapobj = GameObject.Find("Map");
 		GameObject container = new GameObject("TESTEST");//todo get rid of this
