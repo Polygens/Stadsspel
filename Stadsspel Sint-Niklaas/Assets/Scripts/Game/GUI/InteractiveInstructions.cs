@@ -19,9 +19,14 @@ public class InteractiveInstructions : MonoBehaviour {
 	public GameObject actionBar;
 	public GameObject blackArrowInstruction;
 
+	private void Awake()
+	{
+		path = Application.persistentDataPath;
+	}
+
 	// Use this for initialization
 	void Start () {
-		path = Application.persistentDataPath;
+		
 		if (LoadEncodedFile() == textToWrite)
 		{
 			StopInstructions();
