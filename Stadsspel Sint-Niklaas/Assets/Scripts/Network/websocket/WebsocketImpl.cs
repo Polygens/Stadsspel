@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Assets.Scripts.Domain;
 using Assets.Scripts.Network.websocket.messages;
 using fastJSON;
@@ -8,15 +9,397 @@ using Stadsspel.Districts;
 using UnityEngine;
 using Stadsspel.Networking;
 
-public class WebsocketImpl : WebsocketContainer
+public class WebsocketImpl : Singleton<WebsocketImpl>
 {
+	private WebSocket ws;
+	private Thread listeningThread;
+	private bool stopThread = true;
+	private readonly Queue<string> messageBuffer;
+	private string gameID, clientID, url;
+	//private ConcurrentQueue<MessageWrapper> _inbox;
+	private Queue<MessageWrapper> _inbox;
 
 	void Awake()
 	{
 		DontDestroyOnLoad(transform.gameObject);
 	}
 
-	protected override void HandleGameStart(MessageWrapper message)
+
+	private void Update()
+	{
+		while (_inbox.Count > 0)
+		{
+			/*todo concurrency
+			MessageWrapper messageWrapper;
+			while (!_inbox.TryDequeue(out messageWrapper));
+			HandleMessage(messageWrapper);
+			*/
+			HandleMessage(_inbox.Dequeue());
+		}
+
+		//send a message from the buffer
+		Send();
+	}
+
+	public WebsocketImpl()
+	{
+		//_inbox = new ConcurrentQueue<MessageWrapper>();todo concurrency
+		_inbox = new Queue<MessageWrapper>();
+		//private constructor for singleton
+		messageBuffer = new Queue<string>();
+	}
+
+	public IEnumerator Connect(string url, string gameID, string clientID)
+	{
+		Debug.Log("DEBUG");
+		if (listeningThread != null && listeningThread.ThreadState != ThreadState.Stopped)
+		{
+			Debug.Log("Stop previous");
+			stopThread = true;
+			yield return new WaitUntil(() => listeningThread.ThreadState == ThreadState.Stopped);
+		}
+
+		if (ws == null)
+		{
+			ws = new WebSocket(new Uri(url));
+		} else
+		{
+			//ws.Close();
+		}
+
+		this.clientID = clientID;
+		this.gameID = gameID;
+		this.url = url;
+		//_inbox = new ConcurrentQueue<MessageWrapper>(); todo concurrency
+		_inbox = new Queue<MessageWrapper>();
+		Debug.Log("CONNECT");
+		bool connected = false;
+		while (!connected)
+		{
+			yield return StartCoroutine(ws.Connect());
+			if (ws.error != null)
+			{//todo limit the tries
+				Debug.Log("ERROR: " + ws.error);
+			} else
+			{
+				Debug.Log("CONNECTED");
+				connected = true;
+			}
+		}
+
+		listeningThread = new Thread(ListeningRun);
+		listeningThread.Start();
+
+		Debug.Log("SEND");
+		//send hearthbeat to provide server with player info
+		SendHearthbeat();
+	}
+
+	public IEnumerator ReConnectCurrent()
+	{
+		Debug.Log("DEBUG");
+		if (listeningThread != null && listeningThread.ThreadState != ThreadState.Stopped)
+		{
+			Debug.Log("Stop previous");
+			stopThread = true;
+			yield return new WaitUntil(() => listeningThread.ThreadState == ThreadState.Stopped);
+		}
+		if (ws.IsConnected)
+		{
+			ws.Close();
+		}
+
+		//_inbox = new ConcurrentQueue<MessageWrapper>(); todo concurrency
+		_inbox = new Queue<MessageWrapper>();
+		Debug.Log("RECONNECT");
+		bool connected = false;
+		while (ws.IsConnected)
+		{
+			yield return StartCoroutine(ws.Connect());
+			if (ws.error != null)
+			{//todo limit the tries
+				Debug.Log("ERROR: " + ws.error);
+			} else
+			{
+				Debug.Log("CONNECTED");
+				connected = true;
+			}
+		}
+
+		listeningThread = new Thread(ListeningRun);
+		listeningThread.Start();
+
+		Debug.Log("SEND");
+		//send hearthbeat to provide server with player info
+		SendHearthbeat();
+	}
+
+	private void ListeningRun()
+	{
+		stopThread = false;
+		int consecutiveErrors = 0;
+		while (!stopThread)
+		{
+			if (ws.IsConnected)
+			{
+				string reply = ws.RecvString();
+				if (reply != null)
+				{
+					consecutiveErrors = 0;
+					MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
+					Debug.Log(mw.MessageType.ToString());
+					_inbox.Enqueue(mw);
+				}
+				if (ws.error != null)
+				{
+					consecutiveErrors++;
+					if (consecutiveErrors >= 5)
+					{
+						Debug.LogError("G Error: " + ws.error);
+						stopThread = true;
+					}
+				}
+			}
+		}
+	}
+
+	public void Clear()
+	{
+		stopThread = true;
+		if (ws != null && ws.IsConnected)
+		{
+			ws.Close();
+		}
+	}
+
+	private void HandleMessage(MessageWrapper message)
+	{
+		if (!message.gameID.Equals(CurrentGame.Instance.GameId)) return; //if not right game do nothing todo throw error or something also check if no error will occur with this line here
+		if (NetworkManager.Singleton.ConnectingManager != null)
+		{
+			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false); //todo move this line somewhere better
+		}
+		switch (message.MessageType)
+		{
+			case GameMessageType.BULK_LOCATION:
+				HandleBulkLocation(message);
+				break;
+			case GameMessageType.DISTRICT_NOTIFICATION:
+				HandleDistrictNotification(message);
+				break;
+			case GameMessageType.EVENT:
+				HandleEvent(message);
+				break;
+			case GameMessageType.GAME_START:
+				HandleGameStart(message);
+				break;
+			case GameMessageType.GAME_STOP:
+				HandleGameStop(message);
+				break;
+			case GameMessageType.INFO_NOTIFICATION:
+				HandleInfoNotification(message);
+				break;
+			case GameMessageType.PLAYER_NOTIFICATION:
+				HandlePlayerNotification(message);
+				break;
+			case GameMessageType.TAG_NOTIFICATION:
+				HandleTagNotification(message);
+				break;
+			case GameMessageType.TAG_PERMITTED:
+				HandleTagPermitted(message);
+				break;
+			case GameMessageType.TEAM_NOTIFICATION:
+				HandleTeamNotification(message);
+				break;
+			case GameMessageType.WINNING_TEAM:
+				HandleWinningTeam(message);
+				break;
+			case GameMessageType.ERROR_EXCEPTION:
+				HandleErrorException(message);
+				break;
+			case GameMessageType.LOBBY_UPDATE:
+				HandleLobbyUpdate(message);
+				break;
+			case GameMessageType.CONQUERING_UPDATE:
+				HandleConquerUpdate(message);
+				break;
+			case GameMessageType.PLAYER_KICKED:
+				HandlePlayerKicked();
+				break;
+			default:
+				Debug.Log("Message is not of a type we should catch: " + message.MessageType.ToString());
+				break;
+		}
+	}
+
+	/// <summary>
+	/// Sends a message from the buffer.
+	/// If the buffer is empty or no connection is established it will not send.
+	/// </summary>
+	private void Send()
+	{
+		if (messageBuffer.Count <= 0) return;
+		if (ws == null) return;
+		try
+		{
+			if (!ws.IsConnected)
+			{
+				StartCoroutine(ReConnectCurrent());
+			} else
+			{
+				var message = messageBuffer.Peek();
+				//Debug.Log(message);
+				//todo compress message
+				ws.SendString(message);
+				messageBuffer.Dequeue();
+			}
+		} catch (Exception e)
+		{
+			Debug.Log("Error during sening of message, buffering");
+			Debug.Log(e);
+		}
+	}
+
+	private void Send(GameMessageType type, string innerMessage)
+	{
+		string message = JsonUtility.ToJson(new MessageWrapper(type, innerMessage, gameID, clientId: clientID, token: CurrentGame.Instance.ClientToken));
+		messageBuffer.Enqueue(message);
+		Send();
+	}
+
+	public void SendHearthbeat()
+	{
+		Send(GameMessageType.HEARTBEAT, "");
+	}
+
+	public void SendLocation(Point location)
+	{
+		LocationMessage lm = new LocationMessage(location.latitude, location.longitude);
+		string innerMessage = JsonUtility.ToJson(lm);
+		Send(GameMessageType.LOCATION, innerMessage);
+	}
+
+	/// <summary>
+	/// Sends an event to the server constructed from the given parameters
+	/// </summary>
+	/// <param name="type">Event type</param>
+	/// <param name="players">All involved players excluding this player</param>
+	/// <param name="moneyTransferred">The amount of money transferred to or from the location</param>
+	/// <param name="items">The items bought or sold</param>
+	/// <param name="locationID">The location or district of the event</param>
+	private void SendEvent(GameEventType type, List<string> players = null, double moneyTransferred = 0,
+		IDictionary<string, int> items = null, string locationID = "")
+	{
+		if (players == null)
+		{
+			players = new List<string>();
+		}
+		if (items == null)
+		{
+			items = new Dictionary<string, int>();
+		}
+		GameEventMessage gem = new GameEventMessage(type, players, moneyTransferred, items, locationID);
+		//string innerMessage = JsonUtility.ToJson(gem);
+		JSONParameters jsonParameters = new JSONParameters();
+		jsonParameters.UsingGlobalTypes = false;
+		jsonParameters.UseExtensions = false;
+		string innerMessage = JSON.ToJSON(gem, jsonParameters);
+		Send(GameMessageType.EVENT, innerMessage);
+	}
+
+	public void SendTag(List<string> taggedPlayers, string locationId)
+	{
+		SendEvent(GameEventType.PLAYER_TAGGED, players: taggedPlayers, locationID: locationId);
+	}
+
+	public void SendBankDeposit(double moneyTransferred, string locationID)
+	{
+		SendEvent(GameEventType.BANK_DEPOSIT, moneyTransferred: moneyTransferred, locationID: locationID);
+	}
+
+	public void SendBankWithdrawal(double moneyTransferred, string locationID)
+	{
+		SendEvent(GameEventType.BANK_WITHDRAWAL, moneyTransferred: moneyTransferred, locationID: locationID);
+	}
+
+	public void SendTreasuryWithdrawal(double moneyTransferred, string locationID)
+	{
+		SendEvent(GameEventType.TREASURY_WITHDRAWAL, moneyTransferred: moneyTransferred, locationID: locationID);
+	}
+
+	public void SendTreasuryRobbery(string locationID)
+	{
+		SendEvent(GameEventType.TREASURY_ROBBERY, locationID: locationID);
+	}
+
+	public void SendTradepostLegalPurchase(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_LEGAL_PURCHASE, items: items, locationID: locationID);
+	}
+
+	public void SendTradepostLegalSale(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_LEGAL_SALE, items: items, locationID: locationID);
+	}
+
+	public void SendTradepostIllegalPurchase(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_ILLEGAL_PURCHASE, items: items, locationID: locationID);
+	}
+
+	public void SendTradepostIllegalSale(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_ILLEGAL_SALE, items: items, locationID: locationID);
+	}
+
+	/// <summary>
+	/// Sells all items to the market
+	/// todo neither of the parameters get used by the code in server
+	/// </summary>
+	/// <param name="items"></param>
+	/// <param name="locationID"></param>
+	public void SendTradepostAllSale(IDictionary<string, int> items, string locationID)
+	{
+		SendEvent(GameEventType.TRADEPOST_ALL_SALE, items: items, locationID: locationID);
+	}
+
+	public void SendDistrictConquered(string locationId)
+	{
+		SendEvent(GameEventType.DISTRICT_CONQUERED, locationID: locationId);
+	}
+
+	public void SendConquerStart(string locationId)
+	{
+		ConquerMessage cm = new ConquerMessage();
+		cm.LocationID = locationId;
+		Send(GameMessageType.CONQUERING_START, JsonUtility.ToJson(cm));
+	}
+
+	public void SendConquerEnd(string locationId)
+	{
+		ConquerMessage cm = new ConquerMessage();
+		cm.LocationID = locationId;
+		Send(GameMessageType.CONQUERING_END, JsonUtility.ToJson(cm));
+	}
+
+	public void SendPlayerNameUpdate(string newName)
+	{
+		Send(GameMessageType.PLAYER_UPDATE_NAME, newName);
+	}
+
+	public void SendPlayerTeamUpdate(string newTeam)
+	{
+		Send(GameMessageType.PLAYER_UPDATE_TEAM, newTeam);
+	}
+
+
+	public new void OnDestroy()
+	{
+		base.OnDestroy();
+		stopThread = true;
+	}
+
+	protected void HandleGameStart(MessageWrapper message)
 	{
 		CurrentGame.Instance.StartGame();
 
@@ -24,7 +407,7 @@ public class WebsocketImpl : WebsocketContainer
 		Debug.Log("GAME STARTED");
 	}
 
-	protected override void HandleEvent(MessageWrapper message)
+	protected void HandleEvent(MessageWrapper message)
 	{
 		Debug.Log("#############################################");//I think a player should only send events not receive
 		Debug.Log("#############################################");
@@ -34,7 +417,7 @@ public class WebsocketImpl : WebsocketContainer
 		throw new System.NotImplementedException();
 	}
 
-	protected override void HandleDistrictNotification(MessageWrapper message)
+	protected void HandleDistrictNotification(MessageWrapper message)
 	{
 		DistrictNotification dn = JsonUtility.FromJson<DistrictNotification>(message.message);
 		string name = CurrentGame.Instance.DistrictNameFromId(dn.districtId);
@@ -53,18 +436,18 @@ public class WebsocketImpl : WebsocketContainer
 		//todo map id to a district and change it's team
 	}
 
-	protected override void HandleGameStop(MessageWrapper message)
+	protected void HandleGameStop(MessageWrapper message)
 	{
 		//todo display correct sceens
 		CurrentGame.Instance.StopGame();
 		Debug.Log("GAME STOPPED");
 	}
 
-	protected override void HandleInfoNotification(MessageWrapper message)
+	protected void HandleInfoNotification(MessageWrapper message)
 	{
 		InfoNotification info = JsonUtility.FromJson<InfoNotification>(message.message);
 		Debug.Log(message.message);
-		string text=info.GameEventType.ToString();
+		string text = info.GameEventType.ToString();
 		//notification containing extra info about a recently passed event (currently only robbery)
 		switch (info.GameEventType)
 		{
@@ -98,7 +481,7 @@ public class WebsocketImpl : WebsocketContainer
 		InGameUIManager.s_Singleton.LogUI.AddToLog(text, new object[] { });
 	}
 
-	protected override void HandlePlayerNotification(MessageWrapper message)
+	protected void HandlePlayerNotification(MessageWrapper message)
 	{
 		/*
 		JSONParameters jsonParameters = new JSONParameters();
@@ -117,7 +500,7 @@ public class WebsocketImpl : WebsocketContainer
 		Debug.Log(pn.LegalItems.Count);
 	}
 
-	protected override void HandleTagNotification(MessageWrapper message)
+	protected void HandleTagNotification(MessageWrapper message)
 	{
 		TagNotification tn = JsonUtility.FromJson<TagNotification>(message.message);
 		if (tn.taggedBy.Equals(CurrentGame.Instance.LocalPlayer.ClientId))
@@ -129,26 +512,26 @@ public class WebsocketImpl : WebsocketContainer
 		}
 	}
 
-	protected override void HandleErrorException(MessageWrapper message)
+	protected void HandleErrorException(MessageWrapper message)
 	{
 		ErrorExceptionMessage eem = JsonUtility.FromJson<ErrorExceptionMessage>(message.message);
 		Debug.Log(eem.message);
 		Debug.Log(eem.exceptionClass);
 		Debug.Log(eem.cause);
-		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: "+eem.message, new object[] { },silent:true);
-		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: "+eem.exceptionClass, new object[] { }, silent: true);
-		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: "+eem.cause, new object[] { }, silent: true);
+		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: " + eem.message, new object[] { }, silent: true);
+		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: " + eem.exceptionClass, new object[] { }, silent: true);
+		InGameUIManager.s_Singleton.LogUI.AddToLog("ERROR: " + eem.cause, new object[] { }, silent: true);
 	}
 
-	protected override void HandleWinningTeam(MessageWrapper message)
+	protected void HandleWinningTeam(MessageWrapper message)
 	{
 		WinningTeamMessage winningTeamMessage = JsonUtility.FromJson<WinningTeamMessage>(message.message);
 		CurrentGame.Instance.TeamScores = winningTeamMessage.scoreList;
 	}
 
-	protected override void HandleTeamNotification(MessageWrapper message)
+	protected void HandleTeamNotification(MessageWrapper message)
 	{
-		bool treasuryTax = false,treasuryRob = false, bankUpdateDep = false,bankUpdateWith = false, districtUpdate = false, tradepostUpdate = false;
+		bool treasuryTax = false, treasuryRob = false, bankUpdateDep = false, bankUpdateWith = false, districtUpdate = false, tradepostUpdate = false;
 		TeamNotification tn = JsonUtility.FromJson<TeamNotification>(message.message);
 		ServerTeam st = CurrentGame.Instance.PlayerTeam;
 		st.TotalPlayerMoney = tn.totalPlayerMoney;
@@ -158,7 +541,7 @@ public class WebsocketImpl : WebsocketContainer
 		{
 			st.bankAccount = tn.bankAccount;
 			bankUpdateDep = true;
-		} else if(st.bankAccount > (tn.bankAccount + 0.0001))
+		} else if (st.bankAccount > (tn.bankAccount + 0.0001))
 		{
 			st.bankAccount = tn.bankAccount;
 			bankUpdateWith = true;
@@ -169,8 +552,7 @@ public class WebsocketImpl : WebsocketContainer
 		{
 			st.treasury = tn.treasury;
 			treasuryRob = true;
-		}
-		else if(st.treasury < (tn.treasury - 0.0001))
+		} else if (st.treasury < (tn.treasury - 0.0001))
 		{
 			st.treasury = tn.treasury;
 			treasuryTax = true;
@@ -186,7 +568,7 @@ public class WebsocketImpl : WebsocketContainer
 
 		//todo check for differences
 		st.tradePosts = tn.tradeposts;
-		
+
 
 		if (treasuryTax)
 		{
@@ -215,13 +597,13 @@ public class WebsocketImpl : WebsocketContainer
 		}
 	}
 
-	protected override void HandleTagPermitted(MessageWrapper message)
+	protected void HandleTagPermitted(MessageWrapper message)
 	{
 		CurrentGame.Instance.IsTaggingPermitted = true;
 		InGameUIManager.s_Singleton.LogUI.AddToLog("Tikken is nu toegestaan", new object[] { });
 	}
 
-	protected override void HandleBulkLocation(MessageWrapper message)
+	protected void HandleBulkLocation(MessageWrapper message)
 	{
 		BulkLocationMessage blm = JsonUtility.FromJson<BulkLocationMessage>(message.message);
 		CurrentGame.Instance.TagablePlayers = new List<string>();
@@ -270,7 +652,7 @@ public class WebsocketImpl : WebsocketContainer
 		}
 	}
 
-	protected override void HandleLobbyUpdate(MessageWrapper message)
+	protected void HandleLobbyUpdate(MessageWrapper message)
 	{
 		LobbyUpdate lu = JsonUtility.FromJson<LobbyUpdate>(message.message);
 		CurrentGame.Instance.gameDetail.teams = lu.teams;
@@ -278,7 +660,7 @@ public class WebsocketImpl : WebsocketContainer
 		NetworkManager.Singleton.RoomManager.OnLobbyLoad();
 	}
 
-	protected override void HandleConquerUpdate(MessageWrapper message)
+	protected void HandleConquerUpdate(MessageWrapper message)
 	{
 		ConqueringUpdate cu = JsonUtility.FromJson<ConqueringUpdate>(message.message);
 		CurrentGame.Instance.lastConqueringUpdate = cu;
@@ -288,7 +670,7 @@ public class WebsocketImpl : WebsocketContainer
 		}
 	}
 
-	protected override void HandlePlayerKicked()
+	protected void HandlePlayerKicked()
 	{
 		NetworkManager.Singleton.RoomManager.EnableDisableMenu(false);
 		NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
