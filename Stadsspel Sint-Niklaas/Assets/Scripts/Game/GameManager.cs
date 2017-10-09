@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// [PunRPC] Starts the game for the clients, including the master client.
+	///  Starts the game for the clients, including the master client.
 	/// </summary>
 	private void ClientsStart()
 	{
@@ -197,6 +197,12 @@ public class GameManager : MonoBehaviour
 		List<ServerTradePost> tradeposts = CurrentGame.Instance.gameDetail.tradePosts;
 		List<AreaLocation> districts = CurrentGame.Instance.gameDetail.districts;
 		List<AreaLocation> markets = CurrentGame.Instance.gameDetail.markets;
+
+
+		Debug.Log("BANKS: "+banks.Count);
+		Debug.Log("TPS: "+tradeposts.Count);
+
+
 
 		//todo load all into map
 		GameObject mapobj = GameObject.Find("Map");
@@ -276,9 +282,9 @@ public class GameManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// [PunRPC] Adds the passed Treasure to the global list.
+	///  Adds the passed Treasure to the global list.
 	/// </summary>
-	[PunRPC]
+	
 	public void AddTreasure(Treasure t)
 	{
 		Debug.Log("ADD TREASURE");

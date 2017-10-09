@@ -38,7 +38,7 @@ namespace Stadsspel.Networking
 		}
 
 		/// <summary>
-		/// [PunRPC] Updates the countdown popup with a given time in seconds.
+		///  Updates the countdown popup with a given time in seconds.
 		/// </summary>
 		private void UpdateCountDown(byte time)
 		{
@@ -46,7 +46,7 @@ namespace Stadsspel.Networking
 		}
 
 		/// <summary>
-		/// [PunRPC] Shows the countdown popup.
+		///  Shows the countdown popup.
 		/// </summary>
 		private void StartCountDown(bool state)
 		{
@@ -98,6 +98,7 @@ namespace Stadsspel.Networking
 			ht.Add(RoomPasswordProp, roomPassword);
 			ht.Add(RoomGameDurationProp, gameDuration);
 
+			/* todo kill all photon
 			RoomOptions roomOptions = new RoomOptions()
 			{
 				MaxPlayers = amountPlayers,
@@ -107,6 +108,7 @@ namespace Stadsspel.Networking
 			};
 
 			PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+			*/
 		}
 
 		/// <summary>

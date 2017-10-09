@@ -100,7 +100,6 @@ GameObject:
   - component: {fileID: 22283304}
   - component: {fileID: 11437878}
   - component: {fileID: 11417486}
-  - component: {fileID: 114794210552656432}
   - component: {fileID: 114445811767224968}
   m_Layer: 5
   m_Name: LobbyPlayer
@@ -237,6 +236,7 @@ MonoBehaviour:
   m_PreferredHeight: 100
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &11437878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1154,32 +1154,6 @@ MonoBehaviour:
   m_ReadyTxt: {fileID: 114181653252957634}
   m_KickPlayerBtn: {fileID: 11443358}
   m_IconTxt: {fileID: 114000012289303946}
---- !u!114 &114794210552656432
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!222 &222853915405738522
 CanvasRenderer:
   m_ObjectHideFlags: 1

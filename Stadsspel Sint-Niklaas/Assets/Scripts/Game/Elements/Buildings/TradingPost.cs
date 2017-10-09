@@ -69,7 +69,7 @@ namespace Stadsspel.Elements
 		/// <summary>
 		/// [PunRPC] Adds the passed TeamID to the list of teams that have visited this TradingPost.
 		/// </summary>
-		[PunRPC]
+		
 		public void AddTeamToList(int teamID)
 		{
 			m_visitedTeams.Add(teamID);
@@ -80,10 +80,10 @@ namespace Stadsspel.Elements
 		}
 
 		/// <summary>
-		/// [PunRPC] Removes the passed TeamID index from the list of teams that have visited this TradingPost.
+		///  Removes the passed TeamID index from the list of teams that have visited this TradingPost.
 		/// todo server
 		/// </summary>
-		[PunRPC]
+		
 		public void RemoveTeamFromList(int index)
 		{
 			/*
@@ -103,9 +103,9 @@ namespace Stadsspel.Elements
 		}
 
 		/// <summary>
-		/// [PunRPC] Updates the remaining time till the team can trade at this TradingPost again.
+		///  Updates the remaining time till the team can trade at this TradingPost again.
 		/// </summary>
-		[PunRPC]
+		
 		private void UpdateUI(int time)
 		{
 			if(time > 60) {

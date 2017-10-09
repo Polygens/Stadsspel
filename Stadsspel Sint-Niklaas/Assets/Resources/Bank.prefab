@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 23000012754473214}
   - component: {fileID: 58000010864086552}
   - component: {fileID: 114000012413515740}
-  - component: {fileID: 114480200917667564}
   m_Layer: 0
   m_Name: Bank
   m_TagString: Bank
@@ -193,31 +192,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e22f13536360074790d85e262d3f5f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Team: 0
+  m_Team:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
   m_GameName: Not set
---- !u!114 &114480200917667564
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012654343746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0

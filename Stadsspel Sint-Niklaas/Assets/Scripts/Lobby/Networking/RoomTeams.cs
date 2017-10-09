@@ -18,7 +18,7 @@ namespace Stadsspel.Networking
 	{
 		/// <summary>The main list of teams with their player-lists. Automatically kept up to date.</summary>
 		/// <remarks>Note that this is static. Can be accessed by PunTeam.PlayersPerTeam. You should not modify this.</remarks>
-		public static Dictionary<TeamID, List<PhotonPlayer>> PlayersPerTeam;
+		//public static Dictionary<TeamID, List<PhotonPlayer>> PlayersPerTeam;
 
 		/// <summary>Defines the player custom property name to use for team affinity of "this" player.</summary>
 		public const string TeamPlayerProp = "team";
@@ -26,7 +26,7 @@ namespace Stadsspel.Networking
 
 		#region Events by Unity and Photon
 
-
+		/*
 		/// <summary>Needed to update the team lists when joining a room.</summary>
 		/// <remarks>Called by PUN. See enum PhotonNetworkingMessage for an explanation.</remarks>
 		public void OnJoinedRoom()
@@ -58,11 +58,13 @@ namespace Stadsspel.Networking
 			this.UpdateTeams();
 		}
 
+		*/
 		#endregion
 
 
 		public void UpdateTeams()
 		{
+			/*
 			Array enumVals = Enum.GetValues(typeof(TeamID));
 
 			for(int i = 0; i < TeamData.GetMaxTeams(PhotonNetwork.room.MaxPlayers) + 1; i++) {
@@ -74,6 +76,7 @@ namespace Stadsspel.Networking
 				TeamID playerTeam = player.GetTeam();
 				PlayersPerTeam[playerTeam].Add(player);
 			}
+			*/
 		}
 	}
 }
@@ -83,6 +86,7 @@ namespace Stadsspel.Networking
 	/// <summary>Extension used for PunTeams and PhotonPlayer class. Wraps access to the player's custom property.</summary>
 	public static class TeamExtensions
 	{
+		/*
 		/// <summary>Extension for PhotonPlayer class to wrap up access to the player's custom property.</summary>
 		/// <returns>PunTeam.Team.none if no team was found (yet).</returns>
 		public static TeamID GetTeam(this PhotonPlayer player)
@@ -148,5 +152,6 @@ namespace Stadsspel.Networking
 				player.SetCustomProperties(new Hashtable() { { RoomTeams.TeamPlayerProp, (byte)newTeam } });
 			}
 		}
+		*/
 	}
 }

@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4000012804404186}
   - component: {fileID: 114000010318778590}
   - component: {fileID: 114000010458028942}
-  - component: {fileID: 114943730590126090}
   m_Layer: 0
   m_Name: Team
   m_TagString: Untagged
@@ -53,8 +52,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a69f02f7ad7e2f47809a5f87c8c7c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTeamID: 0
-  mTotalMoney: 0
+  m_TeamID:
+    teamName: 
+    players: []
+    treasury: 0
+    bankAccount: 0
+    customColor: 
+    districts: []
+    tradePosts: []
+  m_TotalMoney: 0
 --- !u!114 &114000010458028942
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,30 +72,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4d28fd9a38af14da533ce9f6936bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBalance: 0
---- !u!114 &114943730590126090
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011053925158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_Balance: 0
