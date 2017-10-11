@@ -91,8 +91,15 @@ public class Header : MonoBehaviour
 		long start = CurrentGame.Instance.gameDetail.startTime;
 		long current = (DateTime.UtcNow.Ticks - CurrentGame.timeOffset) / 10000;
 		long end = CurrentGame.Instance.gameDetail.endTime;
-		TimeSpan ts = TimeSpan.FromMilliseconds((double)(end - current));
 
+		if ((end-current) < -5000)
+		{
+			//todo force stop game
+			CurrentGame.Instance.StopGame();
+		}
+
+		TimeSpan ts = TimeSpan.FromMilliseconds((double)(end - current));
+		
 		//checks whether a notification should be shown
 		if (!CurrentGame.Instance.HalfwayPassed)
 		{
