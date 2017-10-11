@@ -472,7 +472,10 @@ public class WebsocketImpl : Singleton<WebsocketImpl>
 			case GameEventType.TRADEPOST_ALL_SALE:
 				break;
 			case GameEventType.TREASURY_ROBBERY:
-				text = "Je schatkist is bestolen door " + info.by;
+				ServerTeam st = CurrentGame.Instance.FindTeamByName(info.by);
+				string name = "team " + CurrentGame.Instance.ColorNames[st.customColor];
+				//text = "Je schatkist is bestolen door " + info.by;
+				text = "Je schatkist is bestolen door " + name;
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();

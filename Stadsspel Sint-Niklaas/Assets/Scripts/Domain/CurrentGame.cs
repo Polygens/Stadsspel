@@ -35,6 +35,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	public string HostedGameId { get; set; }
 	public bool isHost { get; set; }
 	public IDictionary<string, string> RegisteredGames { get; private set; }
+	public IDictionary<string, string> ColorNames { get; private set; }
 
 	public string ClientToken { get; set; }
 	public string GameId { get; set; }
@@ -174,9 +175,10 @@ public class CurrentGame : Singleton<CurrentGame>
 		dataPath = Application.persistentDataPath + Path.DirectorySeparatorChar + "stadspelapp";
 		previousGamePath = dataPath + Path.DirectorySeparatorChar + "previousGame";
 
-		Ws = (WebsocketImpl)WebsocketImpl.Instance;
+		Ws = WebsocketImpl.Instance;
 		LocalPlayer.name = "Speler" + DateTime.Now.Millisecond;
 
+		LoadColors();
 
 		if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
 		{
@@ -189,6 +191,20 @@ public class CurrentGame : Singleton<CurrentGame>
 
 		LoadPersistentData();
 		//CheckPersistentData(); too early, not all objects loaded?
+	}
+
+	private void LoadColors()
+	{
+		string response = Rest.GetColors();
+		List<CustomColor> customColors = JsonArrayHelper.getJsonList<CustomColor>(response);
+
+		if (ColorNames == null || ColorNames.Count > 0) ColorNames = new Dictionary<string, string>();
+
+		foreach (var customColor in customColors)
+		{
+			ColorNames.Add(customColor.color,customColor.name);
+		}
+		
 	}
 
 	public void Start()
