@@ -196,6 +196,7 @@ public class CurrentGame : Singleton<CurrentGame>
 	private void LoadColors()
 	{
 		string response = Rest.GetColors();
+		Debug.Log(response);
 		List<CustomColor> customColors = JsonArrayHelper.getJsonList<CustomColor>(response);
 
 		if (ColorNames == null || ColorNames.Count > 0) ColorNames = new Dictionary<string, string>();

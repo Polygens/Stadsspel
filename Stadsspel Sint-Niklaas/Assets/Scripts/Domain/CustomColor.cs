@@ -1,5 +1,8 @@
-﻿namespace Assets.Scripts.Domain
+﻿using System;
+
+namespace Assets.Scripts.Domain
 {
+	[Serializable]
 	public class CustomColor
 	{
 		public string id;
