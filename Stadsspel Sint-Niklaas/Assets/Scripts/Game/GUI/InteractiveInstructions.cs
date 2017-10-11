@@ -18,6 +18,7 @@ public class InteractiveInstructions : MonoBehaviour {
 	public GameObject chestInstruction;
 	public GameObject actionBar;
 	public GameObject blackArrowInstruction;
+	TouchCamera TCamera;
 
 	private void Awake()
 	{
@@ -26,7 +27,8 @@ public class InteractiveInstructions : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		TCamera = GameObject.Find("Main Camera").GetComponent<TouchCamera>();
+		TCamera.enabled = false;
 		if (LoadEncodedFile() == textToWrite)
 		{
 			StopInstructions();
@@ -36,6 +38,7 @@ public class InteractiveInstructions : MonoBehaviour {
 			Debug.Log("No File Founded");
 			instructionState = InstructionsState.confirmIfInstructionsNeeded;
 			InstructionExecution();
+
 		}
 	}
 
@@ -122,6 +125,7 @@ public class InteractiveInstructions : MonoBehaviour {
 
 	public void StopInstructions()
 	{
+		TCamera.enabled = true;
 		Destroy(gameObject);
 	}
 }

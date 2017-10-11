@@ -14,6 +14,8 @@ namespace Stadsspel.Networking
 		[SerializeField]
 		private InputField m_NameInp;
 		[SerializeField]
+		private RectTransform m_NameInpRect;
+		[SerializeField]
 		private Button m_ReadyBtn;
 		[SerializeField]
 		private Text m_ReadyTxt;
@@ -159,12 +161,12 @@ namespace Stadsspel.Networking
 				CurrentGame.Instance.Ws.SendPlayerNameUpdate(val);
 			});
 
-			m_ReadyBtn.interactable = true;
-			SetReadyButton(false);
-			m_ReadyTxt.gameObject.SetActive(true);
-			m_ReadyBtn.onClick.AddListener(() => {
+			//m_ReadyBtn.interactable = true;
+			//SetReadyButton(false);
+			//m_ReadyTxt.gameObject.SetActive(true);
+			//m_ReadyBtn.onClick.AddListener(() => {
 				//todo change ready state G: is this needed in server?
-			});
+			//});
 
 			m_KickPlayerBtn.interactable = true;
 			m_KickPlayerBtn.onClick.AddListener(() => {
@@ -187,6 +189,7 @@ namespace Stadsspel.Networking
 			
 			if (CurrentGame.Instance.isHost)
 			{
+				m_NameInpRect.offsetMax = new Vector2(-150, m_NameInpRect.offsetMax.y);
 				m_KickPlayerBtn.gameObject.SetActive(true);
 				m_KickPlayerBtn.onClick.AddListener(() =>
 				{
