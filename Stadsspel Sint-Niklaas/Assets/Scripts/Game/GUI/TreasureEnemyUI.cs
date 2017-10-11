@@ -45,8 +45,15 @@ public class TreasureEnemyUI : MonoBehaviour
 		//m_AmountOfChestMoney.text = m_CurrentTreasure.AmountOfMoney.ToString();
 		//m_Label.text = m_CurrentTreasure.GetRobAmount().ToString();
 		m_AmountOfOwnMoney.text = CurrentGame.Instance.LocalPlayer.money.ToString();
-		m_AmountOfChestMoney.text = "?";
-		m_Label.text = "?";
+		double money = -1;
+		money = CurrentGame.Instance.GetTreasuryByCurrentDistrict();
+		string text = "?";
+		if (money >= 0)
+		{
+			text = "" + (int) money;
+		}
+		m_AmountOfChestMoney.text = text;
+		m_Label.text = text;
 	}
 
 	/// <summary>

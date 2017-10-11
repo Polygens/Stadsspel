@@ -23,9 +23,9 @@ public class CurrentGame : Singleton<CurrentGame>
 	public static string previousGamePath;
 
 
-	//private const string URL = "ws://localhost:8090/user";							//LOCAL	server
+	private const string URL = "ws://localhost:8090/user";							//LOCAL	server
 	//private const string URL = "wss://stadsspelapp.herokuapp.com/user";				//LIVE	server
-	private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";      //DEV	server
+	//private const string URL = "wss://stadspelapp-sintniklaas.herokuapp.com/user";      //DEV	server
 
 
 	private static PersistentData persistentData = null;
@@ -596,5 +596,19 @@ public class CurrentGame : Singleton<CurrentGame>
 		}
 
 		return false;
+	}
+
+	public double GetTreasuryByCurrentDistrict()
+	{
+		try
+		{
+			string res = Rest.RequestTreasuryByDistrict(currentDistrictID);
+			return double.Parse(res);
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			return -1;
+		}
 	}
 }

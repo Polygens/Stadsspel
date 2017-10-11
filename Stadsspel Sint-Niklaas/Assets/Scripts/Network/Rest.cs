@@ -9,9 +9,9 @@ using System.Text;
 
 public class Rest
 {
-	//private const string BASE_URL = "http://localhost:8090/api/";									//LOCAL server
+	private const string BASE_URL = "http://localhost:8090/api/";									//LOCAL server
 	//private const string BASE_URL = "https://stadsspelapp.herokuapp.com/api/";					//LIVE	server
-	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";			//DEV	server
+	//private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";			//DEV	server
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
@@ -428,6 +428,14 @@ public class Rest
 		return response;
 	}
 
+	public static string RequestTreasuryByDistrict(string currentDistrictId)
+	{
+		string response;
+		string urlSuffix = GAME_SUFFIX+ "/" + CurrentGame.Instance.GameId + "/treasury/" + currentDistrictId + "/"+CurrentGame.Instance.ClientToken;
+		int code = Get(urlSuffix, out response);
+		HandleReturnCode(code);
+		return response;
+	}
 }
 
 internal class RestException : Exception
