@@ -185,8 +185,8 @@ public class CurrentGame : Singleton<CurrentGame>
 			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier;
 		} else
 		{
-			//LocalPlayer.clientID = "" + DateTime.Now.Ticks;
-			LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; //todo this is for rejoin debug, disable pls
+			LocalPlayer.clientID = "" + DateTime.Now.Ticks;
+			//LocalPlayer.clientID = SystemInfo.deviceUniqueIdentifier; //todo this is for rejoin debug, disable pls
 		}
 
 		LoadPersistentData();

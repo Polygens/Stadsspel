@@ -11,7 +11,7 @@ public class Rest
 {
 	//private const string BASE_URL = "http://localhost:8090/api/";									//LOCAL server
 	//private const string BASE_URL = "https://stadsspelapp.herokuapp.com/api/";					//LIVE	server
-	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";			//DEV	server
+	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";           //DEV	server
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
@@ -29,23 +29,30 @@ public class Rest
 		request.Method = "GET";
 		request.AutomaticDecompression = DecompressionMethods.None;//todo add decompression method for lzString
 
-		// Get the response.
-		WebResponse response = request.GetResponse();
-		// Get the stream containing content returned by the server.
-		Stream dataStream = response.GetResponseStream();
-		// Open the stream using a StreamReader for easy access.
-		StreamReader reader = new StreamReader(dataStream);
-		// Read the content.
-		string responseFromServer = reader.ReadToEnd();
-		// Display the content.
-		serverResponse = responseFromServer;
-		// Clean up the streams.
-		reader.Close();
-		dataStream.Close();
-		response.Close();
+		try
+		{
+			// Get the response.
+			WebResponse response = request.GetResponse();
+			// Get the stream containing content returned by the server.
+			Stream dataStream = response.GetResponseStream();
+			// Open the stream using a StreamReader for easy access.
+			StreamReader reader = new StreamReader(dataStream);
+			// Read the content.
+			string responseFromServer = reader.ReadToEnd();
+			// Display the content.
+			serverResponse = responseFromServer;
+			// Clean up the streams.
+			reader.Close();
+			dataStream.Close();
+			response.Close();
 
-		//return the http status
-		return (int)((HttpWebResponse)response).StatusCode;
+			//return the http status
+			return (int)((HttpWebResponse)response).StatusCode;
+		} catch (WebException e)
+		{
+			serverResponse = "";
+			return (int)((HttpWebResponse)e.Response).StatusCode;
+		}
 	}
 
 	private static int Put(string urlSuffix, string data, out string serverResponse)
@@ -70,27 +77,31 @@ public class Rest
 		dataStream.Write(byteArray, 0, byteArray.Length);
 		// Close the Stream object.  
 		dataStream.Close();
-		// Get the response.
-		Debug.Log("1");
-		WebResponse response = request.GetResponse();
-		Debug.Log("2");
-		// Get the stream containing content returned by the server.  
-		dataStream = response.GetResponseStream();
-		// Open the stream using a StreamReader for easy access.  
-		StreamReader reader = new StreamReader(dataStream);
-		Debug.Log("3");
-		// Read the content.  
-		string responseFromServer = reader.ReadToEnd();
-		// Display the content.
-		serverResponse = responseFromServer;
-		Debug.Log("4");
-		// Clean up the streams.  
-		reader.Close();
-		dataStream.Close();
-		response.Close();
 
-		//return the http status
-		return (int)((HttpWebResponse)response).StatusCode;
+		try
+		{
+			// Get the response.
+			WebResponse response = request.GetResponse();
+			// Get the stream containing content returned by the server.  
+			dataStream = response.GetResponseStream();
+			// Open the stream using a StreamReader for easy access.  
+			StreamReader reader = new StreamReader(dataStream);
+			// Read the content.  
+			string responseFromServer = reader.ReadToEnd();
+			// Display the content.
+			serverResponse = responseFromServer;
+			// Clean up the streams.  
+			reader.Close();
+			dataStream.Close();
+			response.Close();
+
+			//return the http status
+			return (int)((HttpWebResponse)response).StatusCode;
+		} catch (WebException e)
+		{
+			serverResponse = "";
+			return (int)((HttpWebResponse)e.Response).StatusCode;
+		}
 	}
 
 	private static int Post(string urlSuffix, string data, out string serverResponse)
@@ -134,8 +145,7 @@ public class Rest
 
 			//return the http status
 			return (int)((HttpWebResponse)response).StatusCode;
-		}
-		catch (WebException e)
+		} catch (WebException e)
 		{
 			serverResponse = "";
 			return (int)((HttpWebResponse)e.Response).StatusCode;
@@ -149,16 +159,13 @@ public class Rest
 		{
 			if (majorCode == 4)
 			{
-				GameObject.Find("MainMenuPanel").transform.Find("Popups").transform.Find("RoomAlreadyExistsPanel").gameObject.SetActive(true);
 				throw new RestException(code);
 				//error in request parameters or body
-			}
-			else if (majorCode == 5)
+			} else if (majorCode == 5)
 			{
 				throw new RestException(code);
 				//server error
-			}
-			else
+			} else
 			{
 				throw new RestException(code);
 				//unknown other return
@@ -209,6 +216,11 @@ public class Rest
 		string urlSuffix = GAME_SUFFIX;
 		string data = JsonUtility.ToJson(resource);
 		int code = Post(urlSuffix, data, out response);
+
+		if (code == 403)
+		{
+			GameObject.Find("MainMenuPanel").transform.Find("Popups").transform.Find("RoomAlreadyExistsPanel").gameObject.SetActive(true);
+		}
 		HandleReturnCode(code);
 		return response;
 	}
@@ -283,16 +295,16 @@ public class Rest
 		return response;
 	}
 
-	public static string ChangeDuration(string gameId, string token,int minutes)
+	public static string ChangeDuration(string gameId, string token, int minutes)
 	{
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/duration/" + token;
-		int code = Post(urlSuffix, minutes+"", out response);
+		int code = Post(urlSuffix, minutes + "", out response);
 		HandleReturnCode(code);
 		return response;
 	}
 
-	public static string KickPlayer(string gameId, string token,string playerId)
+	public static string KickPlayer(string gameId, string token, string playerId)
 	{
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/kick/" + token;
@@ -314,8 +326,7 @@ public class Rest
 	{
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/register";
-		RegisterUserResource rur = new RegisterUserResource
-		{
+		RegisterUserResource rur = new RegisterUserResource {
 			name = name,
 			clientID = clientId,
 			password = password
@@ -432,7 +443,7 @@ public class Rest
 	public static string RequestTreasuryByDistrict(string currentDistrictId)
 	{
 		string response;
-		string urlSuffix = GAME_SUFFIX+ "/" + CurrentGame.Instance.GameId + "/treasury/" + currentDistrictId + "/"+CurrentGame.Instance.ClientToken;
+		string urlSuffix = GAME_SUFFIX + "/" + CurrentGame.Instance.GameId + "/treasury/" + currentDistrictId + "/" + CurrentGame.Instance.ClientToken;
 		int code = Get(urlSuffix, out response);
 		HandleReturnCode(code);
 		return response;
