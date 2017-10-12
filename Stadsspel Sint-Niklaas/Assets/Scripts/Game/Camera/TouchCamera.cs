@@ -31,6 +31,7 @@ public class TouchCamera : MonoBehaviour
 	private Vector3 m_Min, m_Max;
 
 	private Button btnPos, btnRot;
+	private float lerpSpeed = 2.5f;
 
 	void Start()
 	{
@@ -118,8 +119,19 @@ public class TouchCamera : MonoBehaviour
 
 	public void ResetCameraPosition()
 	{
-		gameObject.transform.parent = m_PlayerTrans;
-		transform.localPosition = m_DefaultCameraPosition;
+		if(gameObject.transform.parent == null) gameObject.transform.parent = m_PlayerTrans;
+		//transform.localPosition = m_DefaultCameraPosition;
+		ChangeCameraPosition(gameObject.transform.parent.position);
+	}
+
+	public void ChangeCameraPosition(Transform destTransform)
+	{
+		gameObject.AddComponent<LerpCamera>().BeginLerp(transform.position, destTransform.position, lerpSpeed);
+	}
+
+	public void ChangeCameraPosition(Vector3 destTransform)
+	{
+		gameObject.AddComponent<LerpCamera>().BeginLerp(transform.position, destTransform, lerpSpeed);
 	}
 
 	public void ResetCameraRotation()

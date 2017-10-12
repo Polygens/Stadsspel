@@ -44,6 +44,9 @@ namespace Stadsspel.Elements
 					gameObject.AddComponent<Player>();
 					transform.GetComponentInChildren(typeof(MainSquareArrow), true).gameObject.SetActive(true);
 					m_Team = CurrentGame.Instance.PlayerTeam;
+
+					// START THE INSTRUCTIONS FOR THE PLAYER
+					GameObject.Find("InteractiveInstructions").GetComponent<InteractiveInstructions>().StartTutorial(transform.Find("Main Camera").GetComponent<TouchCamera>(),m_Team);
 				} else if (CurrentGame.Instance.PlayerTeam.ContainsPlayer(Player.clientID))
 				{
 					gameObject.AddComponent<Friend>();

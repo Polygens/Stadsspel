@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Stadsspel.Districts;
 
 public class InteractiveInstructions : MonoBehaviour {
 
@@ -18,33 +19,37 @@ public class InteractiveInstructions : MonoBehaviour {
 	public GameObject chestInstruction;
 	public GameObject actionBar;
 	public GameObject blackArrowInstruction;
+	public GameObject headDistrict;
 	TouchCamera TCamera;
+	ServerTeam m_team;
 
 	private void Awake()
 	{
 		path = Application.persistentDataPath;
 	}
 
-	// Use this for initialization
-	void Start () {
-		TCamera = GameObject.Find("Main Camera").GetComponent<TouchCamera>();
+	public void StartTutorial(TouchCamera tc, ServerTeam team)
+	{
+		TCamera = tc;
 		TCamera.enabled = false;
-		if (LoadEncodedFile() == textToWrite)
-		{
-			StopInstructions();
-		}
-		else
-		{
-			Debug.Log("No File Founded");
-			instructionState = InstructionsState.confirmIfInstructionsNeeded;
-			InstructionExecution();
+		m_team = team;
+		instructionState = InstructionsState.confirmIfInstructionsNeeded;
+		InstructionExecution();
+		//if (LoadEncodedFile() == textToWrite)
+		//{
+		//	StopInstructions();
+		//}
+		//else
+		//{
+		//	Debug.Log("No File Founded");
+		//	instructionState = InstructionsState.confirmIfInstructionsNeeded;
+		//	InstructionExecution();
 
-		}
+		//}
 	}
 
 	void WriteToFile()
 	{
-		Debug.Log("Writing");
 		File.WriteAllText(path + "/StadsspelInstructionState.txt", textToWrite);
 	}
 
@@ -101,9 +106,27 @@ public class InteractiveInstructions : MonoBehaviour {
 				chestInstruction.SetActive(false);
 				actionBar.SetActive(true);
 				break;
-			case InstructionsState.FollowBlackArrow:
+			case InstructionsState.HeadDistrict:
 				actionBar.SetActive(false);
+				headDistrict.SetActive(true);
+				TCamera.enabled = true;
+				GameObject tempObj = null;
+				foreach (GameObject go in GameObject.FindGameObjectsWithTag("Treasure"))
+				{
+					if (go.transform.parent.GetComponent<HeadDistrict>() != null)
+					{
+						if (go.transform.parent.GetComponent<HeadDistrict>().Team == m_team) tempObj = go;
+					}
+				}
+				TCamera.ChangeCameraPosition(tempObj.transform);
+				TCamera.enabled = false;
+				break;
+			case InstructionsState.FollowBlackArrow:
+				headDistrict.SetActive(false);
 				blackArrowInstruction.SetActive(true);
+				TCamera.enabled = true;
+				TCamera.ResetCameraPosition();
+				TCamera.enabled = false;
 				break;
 			case InstructionsState.end:
 				blackArrowInstruction.SetActive(false);
@@ -141,6 +164,7 @@ enum InstructionsState
 	Compas,
 	Chest,
 	ActionBar,
+	HeadDistrict,
 	FollowBlackArrow,
 	end
 }
