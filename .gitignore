@@ -103,3 +103,5 @@ Stadsspel Sint-Niklaas/Assets/Plugins/WebSocket/websocket-sharp.dll.meta
 
 
 
+
+*.keystore
