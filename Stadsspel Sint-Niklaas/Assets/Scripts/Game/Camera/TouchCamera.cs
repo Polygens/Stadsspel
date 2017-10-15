@@ -1,6 +1,8 @@
 // Just add this script to your camera. It doesn't need any configuration.
 
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class TouchCamera : MonoBehaviour
@@ -32,9 +34,17 @@ public class TouchCamera : MonoBehaviour
 
 	private Button btnPos, btnRot;
 	private float lerpSpeed = 2.5f;
+	private AdditiveInstructions AI;
+
+	Vector3 touchPosWorld;
+
+	//Change me to change the touch phase used.
+	TouchPhase touchPhase = TouchPhase.Ended;
 
 	void Start()
 	{
+		AI = gameObject.GetComponent<AdditiveInstructions>();
+
 		m_DefaultCameraPosition = transform.localPosition;
 		m_PlayerTrans = gameObject.transform.parent;
 		Input.location.Start();
@@ -58,7 +68,7 @@ public class TouchCamera : MonoBehaviour
 			m_OldTouchPositions[1] = null;
 		}
 		else if(Input.touchCount == 1) {
-			if(m_OldTouchPositions[0] == null || m_OldTouchPositions[1] != null) {
+			if (m_OldTouchPositions[0] == null || m_OldTouchPositions[1] != null) {
 				m_OldTouchPositions[0] = Input.GetTouch(0).position;
 				m_OldTouchPositions[1] = null;
 			}
