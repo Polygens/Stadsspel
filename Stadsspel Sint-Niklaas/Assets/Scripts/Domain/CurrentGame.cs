@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Assets.scripts.dom;
 using Assets.Scripts.Domain;
@@ -428,15 +429,26 @@ public class CurrentGame : Singleton<CurrentGame>
 
 	public void setNewDistrict(string newDistrictName)
 	{
+		Regex regex = new Regex("Square_(\\d[A-z])");
 		currentDistrict = newDistrictName;
+		string oldDistrictId = currentDistrictID;
+		string modName = newDistrictName;
+
+		if (regex.IsMatch(newDistrictName))
+		{
+			var match = regex.Match(newDistrictName);
+			modName = match.Groups[1].Value;
+		}
+
 		foreach (AreaLocation district in gameDetail.districts)
 		{
-			if (district.name.ToLower().Equals(newDistrictName.ToLower()))
+			if (district.name.ToLower().Equals(modName.ToLower()))
 			{
 				currentDistrictID = district.id;
 				return;
 			}
 		}
+		currentDistrictID = "";
 	}
 
 	public string DistrictNameFromId(string districtId)
