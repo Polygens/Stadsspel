@@ -218,7 +218,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Jarno/Desktop/Stadsspel build/Stadsspel.keystore
+  AndroidKeystoreName: C:/Users/temp/Desktop/Stadsspel.keystore
   AndroidKeyaliasName: stadsspel sint-niklaas
   AndroidTVCompatibility: 0
   AndroidIsGame: 1

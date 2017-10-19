@@ -12,10 +12,11 @@ public class AdditiveInstructions : MonoBehaviour {
 	static string grandMarketName = "Grote Markt";
 	static string treasureName = "Schatkist";
 	static string capturePointName = "Overneembaar Plein";
-	static string bankExpl = "Bij de bank kan je jouw geld veilig zetten. Tegenstanders zullen er niet meer aan kunnen.";
-	static string tradingPostExpl = "Dit is een handelspost waar je goederen kan kopen, zowel legaal als illegaal. Illegaal heeft meer risico's maar levert meer op.";
+	static string bankExpl = "Bij de bank kan je jouw geld veilig zetten. Tegenstanders zullen er niet meer aan kunnen. Huidig aantal geld op bank: {0}";
+	static string tradingPostExpl = "Deze handelspost verkoopt de goederen: {0}, legaal voor: {1} en illegaal voor: {2}.";
 	static string grandMarketExpl = "De grote markt is waar je al jouw goederen verkoopt die je op zak hebt.";
-	static string treasureExpl = "Uit een schatkist kan je belastingen innen, hoe meer pleinen een team bezit, hoe meer geld in hun schatkist komt.";
+	static string treasureExpl = "Dit is de schatkist van een ander team, je kan hun geld stelen, maar pas op dat je niet getikt wordt.";
+	static string ownTreasureExpl = "Dit is de schatkist van jouw team. Er zit momenteel {0} in. Zorg dat je dit verdedigt, anderen kunnen het bestelen.";
 	static string capturePointExpl = "Dit is een plein dat je kan overnemen, als jouw team in bezit is van dit plein, zal je team meer geld krijgen in de schatkist";
 	static string ownCapturePointExpl = "Dit plein is in het bezit van jouw team, verdedig het zodat je team meer geld blijft innen.";
 	private float rayDist = 100f;
@@ -50,7 +51,7 @@ public class AdditiveInstructions : MonoBehaviour {
 		spawnInfoObj.transform.eulerAngles = new Vector3(0, 0, transform.rotation.z);
 		if (go.GetComponent<Bank>() != null) {
 			tempInfoBox = Instantiate(spawnInfoObj, go.transform.position, spawnInfoObj.transform.rotation) as GameObject;
-			tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = bankExpl;
+			tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = string.Format(bankExpl, CurrentGame.Instance.PlayerTeam.bankAccount.ToString());
 			tempInfoBox.transform.Find("InfoBox").transform.Find("Title").GetComponent<Text>().text = bankName;
 			tempInfoBox.name = "BankInfoBox";
 			ResetListener(tempInfoBox);
@@ -58,7 +59,15 @@ public class AdditiveInstructions : MonoBehaviour {
 		else if (go.GetComponent<TradingPost>() != null)
 		{
 			tempInfoBox = Instantiate(spawnInfoObj, go.transform.position, spawnInfoObj.transform.rotation) as GameObject;
-			tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = tradingPostExpl;
+			ServerTradePost stp = CurrentGame.Instance.gameDetail.tradePosts.Find(tp => tp.id.Equals(go.GetComponent<TradingPost>().TPId));
+			Item legalItem = null;
+			Item illegalItem = null;
+			foreach (ServerTradePost.ServerItem serverItem in stp.items)
+			{
+				legalItem = new Item(serverItem.name, (int)serverItem.legalPurchase, (int)serverItem.legalSales, true);
+				illegalItem = new Item(serverItem.name, (int)serverItem.illegalPurchase, (int)serverItem.illegalSales, false);
+			}
+			tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = string.Format(tradingPostExpl, legalItem.ItemName,legalItem.BuyPrice,illegalItem.BuyPrice);
 			tempInfoBox.transform.Find("InfoBox").transform.Find("Title").GetComponent<Text>().text = tradingPostName;
 			tempInfoBox.name = "TradingPostInfoBox";
 			ResetListener(tempInfoBox);
@@ -74,7 +83,15 @@ public class AdditiveInstructions : MonoBehaviour {
 		else if (go.GetComponent<Treasure>() != null)
 		{
 			tempInfoBox = Instantiate(spawnInfoObj, go.transform.position, spawnInfoObj.transform.rotation) as GameObject;
-			tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = treasureExpl;
+			if (go.GetComponent<Treasure>().Team == CurrentGame.Instance.PlayerTeam)
+			{
+				tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = string.Format(ownTreasureExpl, CurrentGame.Instance.PlayerTeam.treasury.ToString());
+			}
+			else
+			{
+				tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = treasureExpl;
+			}
+
 			tempInfoBox.transform.Find("InfoBox").transform.Find("Title").GetComponent<Text>().text = treasureName;
 			tempInfoBox.name = "TreasureInfoBox";
 			ResetListener(tempInfoBox);
@@ -82,7 +99,14 @@ public class AdditiveInstructions : MonoBehaviour {
 		else if (go.GetComponent<CapturePoint>() != null)
 		{
 			tempInfoBox = Instantiate(spawnInfoObj, go.transform.position, spawnInfoObj.transform.rotation) as GameObject;
-			tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = capturePointExpl;
+			if (go.GetComponent<CapturePoint>().Team == CurrentGame.Instance.PlayerTeam)
+			{
+				tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = ownCapturePointExpl;
+			}
+			else
+			{
+				tempInfoBox.transform.Find("InfoBox").transform.Find("Uitleg").GetComponent<Text>().text = capturePointExpl;
+			}
 			tempInfoBox.transform.Find("InfoBox").transform.Find("Title").GetComponent<Text>().text = capturePointName;
 			tempInfoBox.name = "CapturePointInfoBox";
 			ResetListener(tempInfoBox);
