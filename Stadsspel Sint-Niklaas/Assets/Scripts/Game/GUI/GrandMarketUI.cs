@@ -58,11 +58,7 @@ public class GrandMarketUI : MonoBehaviour
 		m_Total = 0;
 
 		legalItems = CurrentGame.Instance.LocalPlayer.legalItems;
-		List<string> legalKeys = legalItems.Keys.ToList();
-
 		illegalItems = CurrentGame.Instance.LocalPlayer.illegalItems;
-		List<string> illegalKeys = illegalItems.Keys.ToList();
-
 
 		m_MarktPanel = (RectTransform)InGameUIManager.s_Singleton.GrandMarketUI.transform;
 		RectTransform Grid = (RectTransform)m_MarktPanel.transform.Find("MainPanel").transform.Find("Grid");

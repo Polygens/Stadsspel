@@ -63,7 +63,6 @@ public class InteractiveInstructions : MonoBehaviour {
 		catch (System.Exception)
 		{
 			return "";
-			throw;
 		}
 	}
 

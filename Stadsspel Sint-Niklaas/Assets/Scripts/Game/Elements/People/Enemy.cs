@@ -7,7 +7,7 @@ namespace Stadsspel.Elements
 		private const int m_DetectionRadius = 150;
 		private const float m_DetectionTime = .5f;
 		private float m_Timer;
-		private Person m_Person;
+		//private Person m_Person;
 
 		private MeshRenderer m_CircleMesh;
 		private MeshRenderer m_TextMesh;
@@ -17,7 +17,7 @@ namespace Stadsspel.Elements
 		/// </summary>
 		private void Start()
 		{
-			m_Person = GetComponent<Person>();
+			//m_Person = GetComponent<Person>();
 			tag = "Enemy";
 			Destroy(transform.GetChild(1).gameObject);
 			Destroy(transform.GetChild(2).gameObject);

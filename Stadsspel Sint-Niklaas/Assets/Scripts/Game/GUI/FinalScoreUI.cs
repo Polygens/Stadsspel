@@ -11,12 +11,6 @@ public class FinalScoreUI : MonoBehaviour
 
 	private List<WinningTeamMessage.TeamScore> m_TeamOrder;
 
-	/// <summary>
-	/// Does nothing anymore because it is not certain the data is already present
-	/// </summary>
-	private void OnEnable(){}
-
-
 	public void Update()
 	{
 		if (m_TeamOrder == null && CurrentGame.Instance.TeamScores != null)

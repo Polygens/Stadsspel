@@ -11,8 +11,6 @@ public class TradingPostUI : MonoBehaviour
 	private List<Text> m_TotalTextFields = new List<Text>();
 	private GameObject m_MessagePanel;
 
-	//private List<Item> items;
-	//SyncListInt visitedTeams = new SyncListInt();
 	private Item m_LegalShopItem;
 	private Item m_IllegalShopItem;
 
@@ -106,26 +104,6 @@ public class TradingPostUI : MonoBehaviour
 		RectTransform Grid = (RectTransform)transform.Find("MainPanel").transform.Find("Grid");
 		transform.Find("MainPanel").transform.Find("NaamItem").GetComponent<Text>().text = m_LegalShopItem.ItemName;
 		transform.Find("MainPanel").transform.Find("NaamTradingpost").GetComponent<Text>().text = stp.name;
-		int index = 0;
-
-		/*
-		if (index >= items.Count)
-		{
-			index = 0;
-		} else
-		{
-			Grid.GetChild(0).GetChild(j).transform.FindChild("ItemRow1").transform.FindChild("PrijsLabel").transform.FindChild("Prijs").GetComponent<Text>().text = m_IllegalShopItem.BuyPrice.ToString();
-		}
-
-		for (int j = 0; j < 2; j++)
-		{
-			//Grid.GetChild(0).GetChild(j).transform.Find("ItemRow1").Find("NaamItem").GetComponent<Text>().text = items[index].ItemName;
-			Grid.GetChild(0).GetChild(j).transform.Find("ItemRow1").transform.Find("PrijsLabel").transform.Find("Prijs").GetComponent<Text>().text = items[index].BuyPrice.ToString();
-			m_Inputfields.Add(Grid.GetChild(0).GetChild(j).transform.Find("InputField").GetComponent<InputField>());
-			m_TotalTextFields.Add(Grid.GetChild(0).GetChild(j).transform.Find("ItemRow2").transform.Find("Totaal").GetComponent<Text>());
-			index++;
-		}
-		*/
 
 		Grid.GetChild(0).GetChild(0).transform.Find("ItemRow1").transform.Find("PrijsLabel").transform.Find("Prijs").GetComponent<Text>().text = m_LegalShopItem.BuyPrice.ToString();
 		m_Inputfields.Add(Grid.GetChild(0).GetChild(0).transform.Find("InputField").GetComponent<InputField>());
@@ -149,7 +127,6 @@ public class TradingPostUI : MonoBehaviour
 		m_TotalPriceAmount = 0;
 		legalField.text = "";
 		illegalField.text = "";
-		GameObject tempTradePost = GameManager.s_Singleton.Player.GetComponent<Player>().GetGameObjectInRadius("TradingPost");
 		transform.Find("MainPanel").Find("NaamItem").GetComponent<Text>().text = "";
 		transform.Find("MainPanel").Find("NaamTradingpost").GetComponent<Text>().text = "";
 
@@ -312,9 +289,7 @@ public class TradingPostUI : MonoBehaviour
 	/// </summary>
 	public void UpdateNumberOfGoods(string number)
 	{
-		int focusedIndex = 0;
 		int result = 0;
-		int itemCount = 0;
 		if (number == "")
 		{
 			number = "0";
@@ -325,12 +300,8 @@ public class TradingPostUI : MonoBehaviour
 			{//todo clear memory drain at m_inputfields
 				if (int.TryParse(number, out result))
 				{
-					Debug.Log(i);
-					Debug.Log(i%m_NumberOfEachItem.Length);
 					m_NumberOfEachItem[i%m_NumberOfEachItem.Length] = result;
-					itemCount += m_NumberOfEachItem[i%m_NumberOfEachItem.Length];
 				}
-				focusedIndex = i;
 			}
 		}
 
@@ -349,13 +320,8 @@ public class TradingPostUI : MonoBehaviour
 			}
 		}
 
-
 		m_TotalPriceAmount = tempTotal;
 		m_TotalPriceText.text = tempTotal.ToString();
-		//transform.Find("MainPanel").transform.Find("InfoPanelTop").transform.Find("AmountOfGoods").GetComponent<Text>().text="";
-
-		//m_TotalTextFields[0].text = "Totaal: " + legalItemTotal.ToString();
-		//m_TotalTextFields[1].text = "Totaal: " + illegalItemTotal.ToString();
 	}
 
 }

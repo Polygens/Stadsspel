@@ -7,7 +7,6 @@ namespace Stadsspel.Districts
 	{
 		private byte[] m_PlayersOnPoint;
 		private float m_CapturingAmount = 0;
-		private ServerTeam m_CapturingTeam = null;
 		private bool IsPlayerOnPoint { get; set; }
 
 		private const float m_CaptureMultiplier = 10;
@@ -30,12 +29,6 @@ namespace Stadsspel.Districts
 		/// </summary>
 		private void Update()
 		{
-			int totalPlayers = 0;
-			int mostPlayers = 0;
-			ServerTeam mostPlayersTeam = null;
-
-			
-
 			// Update the capturing notification progress.
 			if (GameManager.s_Singleton.DistrictManager.CurrentCapturePoint == this)
 			{

@@ -13,7 +13,6 @@ namespace Stadsspel.Networking
 	{
 		[SerializeField] private RectTransform _mLobbyPlayerList;
 		[SerializeField] private Button _mStartGameBtn;
-		[SerializeField] private int _mCountdownDuration = 5;
 
 		public const string RoomPasswordProp = "password";
 		public const string RoomGameDurationProp = "gameDuration";
@@ -97,18 +96,6 @@ namespace Stadsspel.Networking
 			ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable();
 			ht.Add(RoomPasswordProp, roomPassword);
 			ht.Add(RoomGameDurationProp, gameDuration);
-
-			/* todo kill all photon
-			RoomOptions roomOptions = new RoomOptions()
-			{
-				MaxPlayers = amountPlayers,
-				IsVisible = true,
-				CustomRoomPropertiesForLobby = lobbyOptions,
-				CustomRoomProperties = ht
-			};
-
-			PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-			*/
 		}
 
 		/// <summary>
@@ -126,10 +113,6 @@ namespace Stadsspel.Networking
 					EnableDisableMenu(false);
 					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 				}));
-			}
-			else
-			{
-				//PhotonNetwork.LeaveRoom(); todo DELETE
 			}
 		}
 
@@ -176,21 +159,7 @@ namespace Stadsspel.Networking
 				_mStartGameBtn.gameObject.SetActive(true);
 			}
 
-
-			//PhotonNetwork.Instantiate(NetworkManager.Singleton.LobbyPlayerPrefabName, Vector3.zero, Quaternion.identity, 0); todo DELETE
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
-		}
-
-
-		/// <summary>
-		/// Iterates trough every player in the room and checks if every player has pressed check. If everyone is ready the start button gets shown.
-		/// </summary>
-		/// 
-		/// <remarks>
-		/// Editor and desktop debug builds are overridden and always show the start button for testing purposes.
-		/// </remarks>
-		public void CheckIfReadyToStart()
-		{
 		}
 
 		/// <summary>
