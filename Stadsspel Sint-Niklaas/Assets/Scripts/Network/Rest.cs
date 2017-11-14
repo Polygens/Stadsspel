@@ -23,7 +23,7 @@ public class Rest
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
 		// Create a request using a URL that can receive a Post.
-		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL + urlSuffix);
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
 
 		// Set the Method property of the request to POST.
 		request.Method = "GET";
@@ -59,7 +59,7 @@ public class Rest
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
 		// Create a request using a URL that can receive a Post.
-		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL + urlSuffix);
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
 		// Set the Method property of the request to POST.  
 		request.Method = "PUT";
 		request.AutomaticDecompression = DecompressionMethods.None;//todo add decompression method for lzString
@@ -94,7 +94,7 @@ public class Rest
 			reader.Close();
 			dataStream.Close();
 			response.Close();
-
+			
 			//return the http status
 			return (int)((HttpWebResponse)response).StatusCode;
 		} catch (WebException e)
@@ -108,7 +108,7 @@ public class Rest
 	{
 		ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
 		// Create a request using a URL that can receive a Post.
-		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL + urlSuffix);
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BASE_URL + urlSuffix);
 		// Set the Method property of the request to POST.  
 		request.Method = "POST";
 		request.AutomaticDecompression = DecompressionMethods.None;//todo add decompression method for lzString
