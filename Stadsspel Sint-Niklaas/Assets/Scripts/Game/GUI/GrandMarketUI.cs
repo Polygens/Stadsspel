@@ -78,7 +78,6 @@ public class GrandMarketUI : MonoBehaviour
 					if (legalItems.ContainsKey(rowItem))
 					{
 						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[rowItem]+"";
-						//Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[legalKeys[legalIndex]]+"";
 						subTotal = CalculateSubtotal(rowItem, true);
 					}
 				} else
@@ -86,11 +85,9 @@ public class GrandMarketUI : MonoBehaviour
 					if (illegalItems.ContainsKey(rowItem))
 					{
 						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[rowItem]+"";
-						//Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[illegalKeys[illegalIndex]]+"";
 						subTotal = CalculateSubtotal(rowItem, false);
 					}
 				}
-				//Grid.GetChild(i).GetChild(j).transform.Find("ItemRow2").transform.Find("Profit").GetComponent<Text>().text = "Winst: " + subTotal;
 				m_Total += subTotal;
 			}
 			m_TotalUI.text = "Totaal: " + m_Total;

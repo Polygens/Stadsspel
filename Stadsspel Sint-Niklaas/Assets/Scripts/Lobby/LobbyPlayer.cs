@@ -6,7 +6,6 @@ using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
-	//public class LobbyPlayer : PunBehaviour
 	public class LobbyPlayer : MonoBehaviour
 	{
 		[SerializeField]
@@ -64,20 +63,6 @@ namespace Stadsspel.Networking
 		{
 			m_IsReady = newReadyState;
 			SetReadyButton(m_IsReady);
-			/*
-			if (PhotonNetwork.player.IsMasterClient)
-			{
-				NetworkManager.Singleton.RoomManager.CheckIfReadyToStart();
-			}
-			*/
-		}
-
-		/// <summary>
-		/// Initialises the class.
-		/// </summary>
-		void Start()
-		{
-			//transform.SetParent(NetworkManager.Singleton.RoomManager.LobbyPlayerList,false);
 		}
 
 		/// <summary>
@@ -161,13 +146,6 @@ namespace Stadsspel.Networking
 				CurrentGame.Instance.Ws.SendPlayerNameUpdate(val);
 			});
 
-			//m_ReadyBtn.interactable = true;
-			//SetReadyButton(false);
-			//m_ReadyTxt.gameObject.SetActive(true);
-			//m_ReadyBtn.onClick.AddListener(() => {
-				//todo change ready state G: is this needed in server?
-			//});
-
 			m_KickPlayerBtn.interactable = true;
 			m_KickPlayerBtn.onClick.AddListener(() => {
 				//todo change ready state G: is this needed in server?
@@ -226,56 +204,5 @@ namespace Stadsspel.Networking
 			m_ReadyTxt.color = textColor;
 			textComponent.color = textColor;
 		}
-
-
-		/// <summary>
-		/// [PunBehaviour] Gets called when the masterclient has changed. If this lobby player is the new master. UI gets updated.
-		/// </summary>
-		private void OnMasterClientSwitched()
-		{
-			/*
-			if (photonView.owner.IsMasterClient)
-			{
-				m_IsMasterClient = true;
-				transform.SetAsFirstSibling();
-				m_IconTxt.text = m_HostIcon;
-				m_ReadyTxt.gameObject.SetActive(false);
-				photonView.RPC("ReadyChanged", PhotonTargets.AllBufferedViaServer, true);
-			}
-			*/
-		}
-
-		/*
-		/// <summary>
-		/// [PunBehaviour] Gets called when a player leaves the room. Disables the start button.
-		/// </summary>
-		public void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
-		{
-			base.OnPhotonPlayerDisconnected(otherPlayer);
-			if (PhotonNetwork.player.IsMasterClient)
-			{
-				NetworkManager.Singleton.RoomManager.DisableStartButton();
-			}
-		}
-
-		/// <summary>
-		/// [PunBehaviour] Gets called when player properties are modified. Updates the ui corresponding to the new properties.
-		/// </summary>
-		public void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
-		{
-			base.OnPhotonPlayerPropertiesChanged(playerAndUpdatedProps);
-			PhotonPlayer player = playerAndUpdatedProps[0] as PhotonPlayer;
-			if (player == photonView.owner)
-			{
-				Hashtable props = playerAndUpdatedProps[1] as Hashtable;
-				if (props[RoomTeams.TeamPlayerProp] != null)
-				{
-					m_TeamBtn.GetComponent<Image>().color = TeamData.GetColor((TeamID)props[RoomTeams.TeamPlayerProp]);
-				}
-
-			}
-		}
-
-		*/
 	}
 }

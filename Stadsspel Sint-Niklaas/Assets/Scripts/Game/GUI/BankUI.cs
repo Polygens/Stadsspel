@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class BankUI : MonoBehaviour
 {
-	//BankAccountManager manager = new BankAccountManager();
 	[SerializeField]
 	private InputField m_AmountField;
 	[SerializeField]
@@ -42,7 +41,6 @@ public class BankUI : MonoBehaviour
 	public void UpdateUI()
 	{
 		ServerTeam playerTeam = CurrentGame.Instance.PlayerTeam;
-		//ServerTeam playerTeam =CurrentGame.Instance.gameDetail.teams.Find(t => t.teamName.Equals(CurrentGame.Instance.PlayerTeam.teamName));
 		m_AmountOwnMoney.text = ""+CurrentGame.Instance.LocalPlayer.money;
 		m_AmountBankMoney.text = "" + playerTeam.bankAccount;
 	}
@@ -61,7 +59,6 @@ public class BankUI : MonoBehaviour
 	/// </summary>
 	public void SelectAllBankMoney()
 	{
-		//ServerTeam playerTeam = CurrentGame.Instance.gameDetail.teams.Find(t => t.teamName.Equals(CurrentGame.Instance.PlayerTeam.teamName));
 		ServerTeam playerTeam = CurrentGame.Instance.PlayerTeam;
 		m_AmountField.text = "" + playerTeam.bankAccount;
 		RetractMoney();
@@ -77,7 +74,6 @@ public class BankUI : MonoBehaviour
 		}
 
 		UpdateUI();
-		//GetComponent<PhotonView>().RPC("UpdateUI", PhotonTargets.All);
 	}
 
 	/// <summary>
@@ -91,6 +87,5 @@ public class BankUI : MonoBehaviour
 		}
 
 		UpdateUI();
-		//GetComponent<PhotonView>().RPC("UpdateUI", PhotonTargets.All);
 	}
 }

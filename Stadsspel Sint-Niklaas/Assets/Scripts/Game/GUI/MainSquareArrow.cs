@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class MainSquareArrow : MonoBehaviour
 {
-	//Vector3 m_HeadSquarePos;
 	GameObject m_headDistrictObject;
 
 	/// <summary>

@@ -9,7 +9,6 @@ public class UserPanelUI : MonoBehaviour
 	/// </summary>
 	public void LeaveGame()
 	{
-		//PhotonNetwork.Disconnect();
 		//todo leave game properly?
 		SceneManager.LoadScene("Lobby");
 	}
