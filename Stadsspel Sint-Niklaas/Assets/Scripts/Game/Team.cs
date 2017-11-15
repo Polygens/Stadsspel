@@ -85,13 +85,4 @@ public class Team : MonoBehaviour
 		m_BankAccount = GetComponent<BankAccount>();
 		m_BankAccount.Team = m_TeamID;
 	}
-
-	/// <summary>
-	/// Starts a money transaction over RPC.
-	/// </summary>
-	public void PlayerTransaction(int amount)
-	{
-		m_BankAccount.PlayerTransaction(amount);
-		//m_BankAccount.GetComponent<PhotonView>().RPC("Transaction", PhotonTargets.All, amount);
-	}
 }

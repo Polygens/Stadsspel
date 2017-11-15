@@ -55,7 +55,6 @@ namespace Stadsspel.Districts
 			for (int i = 0; i < transform.childCount; i++)
 			{
 				Transform child = transform.GetChild(i);
-				HeadDistrict hd = child.GetComponent<HeadDistrict>();
 				CapturableDistrict cd = child.GetComponent<CapturableDistrict>();
 				if (cd!=null){
 					int teamIndex = CurrentGame.Instance.GetTeamIndex(transform.GetChild(i).gameObject.name);

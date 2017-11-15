@@ -591,7 +591,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		{
 			if (gameDetail.teams[index].districts.Count >= 1)
 			{
-				string name = districts[gameDetail.teams[index].districts[0].id].name;
+				//string name = districts[gameDetail.teams[index].districts[0].id].name;
 				if (districts[gameDetail.teams[index].districts[0].id].name
 					.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
 				{

@@ -16,8 +16,8 @@ namespace Stadsspel.Elements
 		private int m_CountdownDuration = 300;
 		// 5 minuten * 60 = 300
 
-		private float m_UpdateTimer = 0;
-		private float m_UpdateTime = 1;
+		//private float m_UpdateTimer = 0;
+		//private float m_UpdateTime = 1;
 
 
 		public List<int> VisitedTeams {
@@ -37,34 +37,6 @@ namespace Stadsspel.Elements
 			base.Start();
 		}
 
-		/// <summary>
-		/// Gets called every frame.
-		/// todo fix
-		/// </summary>
-		private void Update()
-		{
-			/*
-			if(m_TeamTimers.Count > 0 && m_visitedTeams.Count > 0) {
-				for(int i = 0; i < m_TeamTimers.Count; i++) {
-					m_TeamTimers[i] -= Time.deltaTime;
-					if(m_TeamTimers[i] <= 0) {
-						photonView.RPC("RemoveTeamFromList", PhotonTargets.AllViaServer, i); //G: removes a team from the recent shoppers?
-						break;
-					}
-					else {
-						if(InGameUIManager.s_Singleton.TradingPostUI.gameObject.activeSelf) {
-							m_UpdateTimer += Time.deltaTime;
-							if(m_UpdateTimer > m_UpdateTime) {
-								m_UpdateTimer = 0;
-								if(m_visitedTeams[i] == (int)GameManager.s_Singleton.Player.Person.Team)
-									photonView.RPC("UpdateUI", PhotonTargets.AllViaServer, Mathf.RoundToInt(m_TeamTimers[i])); //G: dont know what this does
-							}
-						}
-					}
-				}
-			}
-			*/
-		}
 
 		/// <summary>
 		/// [PunRPC] Adds the passed TeamID to the list of teams that have visited this TradingPost.
@@ -77,29 +49,6 @@ namespace Stadsspel.Elements
 			Debug.Log("Team: " + teamID + " added to visited list");
 #endif
 			m_TeamTimers.Add(m_CountdownDuration);
-		}
-
-		/// <summary>
-		///  Removes the passed TeamID index from the list of teams that have visited this TradingPost.
-		/// todo server
-		/// </summary>
-		
-		public void RemoveTeamFromList(int index)
-		{
-			/*
-			if(m_visitedTeams.Count > 0) {
-				if(m_visitedTeams[index] == (int)GameManager.s_Singleton.Player.Person.Team) {
-					m_visitedTeams.RemoveAt(index);
-					m_TeamTimers.RemoveAt(index);
-				}
-
-			}
-
-			InGameUIManager.s_Singleton.TradingPostUI.MessagePanel.SetActive(false);
-#if(UNITY_EDITOR)
-			Debug.Log("Team: " + (int)GameManager.s_Singleton.Player.Person.Team + " removed from visited list");
-#endif
-			*/
 		}
 
 		/// <summary>

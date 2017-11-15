@@ -26,7 +26,6 @@ public class TouchCamera : MonoBehaviour
 
 	private Vector2 m_OldTouchVector;
 	private float m_OldTouchDistance;
-	private Vector3 m_DefaultCameraPosition;
 	private Transform m_PlayerTrans;
 	private OrientationStates m_OrientationState;
 	private Camera m_Camera;
@@ -34,18 +33,11 @@ public class TouchCamera : MonoBehaviour
 
 	private Button btnPos, btnRot;
 	private float lerpSpeed = 2.5f;
-	private AdditiveInstructions AI;
 
 	Vector3 touchPosWorld;
 
-	//Change me to change the touch phase used.
-	TouchPhase touchPhase = TouchPhase.Ended;
-
 	void Start()
 	{
-		AI = gameObject.GetComponent<AdditiveInstructions>();
-
-		m_DefaultCameraPosition = transform.localPosition;
 		m_PlayerTrans = gameObject.transform.parent;
 		Input.location.Start();
 		Input.compass.enabled = true;
