@@ -1790,6 +1790,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114247867848920244, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224000010571540820, guid: cc3c651953d2f034a917167c04489f68,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -2160,7 +2165,33 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114247867848920244, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114247867848920244, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleMainSquareArrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 114247867848920244, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114247867848920244, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114247867848920244, guid: cc3c651953d2f034a917167c04489f68,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114043075581334558, guid: cc3c651953d2f034a917167c04489f68, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: cc3c651953d2f034a917167c04489f68, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &2004146507

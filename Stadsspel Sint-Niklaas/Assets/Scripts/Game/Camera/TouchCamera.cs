@@ -1,5 +1,6 @@
 // Just add this script to your camera. It doesn't need any configuration.
 
+using Stadsspel.Districts;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,10 +32,12 @@ public class TouchCamera : MonoBehaviour
 	private Camera m_Camera;
 	private Vector3 m_Min, m_Max;
 
-	private Button btnPos, btnRot;
+	private Button btnPos, btnRot, hdPos;
 	private float lerpSpeed = 2.5f;
 
 	Vector3 touchPosWorld;
+	GameObject m_headDistrictObject;
+
 
 	void Start()
 	{
@@ -46,8 +49,16 @@ public class TouchCamera : MonoBehaviour
 		m_Min = m_CameraBounds.bounds.min;
 		m_Max = m_CameraBounds.bounds.max;
 
+		GameObject district = GameManager.s_Singleton.DistrictManager.GetDistrictByName(CurrentGame.Instance.GetMainSquare());
+		HeadDistrict hd = district.GetComponent<HeadDistrict>();
+		Treasure t = hd.transform.GetComponentInChildren<Treasure>();
+		m_headDistrictObject = t.gameObject;
+
 		btnPos = GameObject.Find("BtnPosition").GetComponent<Button>();
 		btnPos.onClick.AddListener(ResetCameraPosition);
+
+		hdPos = GameObject.Find("BtnMainSquare").GetComponent<Button>();
+		hdPos.onClick.AddListener(SetHdPosition);
 
 		btnRot = GameObject.Find("BtnRotation").GetComponent<Button>();
 		btnRot.onClick.AddListener(ResetCameraRotation);
@@ -124,6 +135,12 @@ public class TouchCamera : MonoBehaviour
 		if(gameObject.transform.parent == null) gameObject.transform.parent = m_PlayerTrans;
 		//transform.localPosition = m_DefaultCameraPosition;
 		ChangeCameraPosition(gameObject.transform.parent.position);
+	}
+
+	public void SetHdPosition()
+	{
+		gameObject.transform.parent = null;
+		ChangeCameraPosition(m_headDistrictObject.transform.position);
 	}
 
 	public void ChangeCameraPosition(Transform destTransform)

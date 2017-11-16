@@ -1,5 +1,6 @@
 using ExitGames.Client.Photon;
 using Photon;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using MonoBehaviour = UnityEngine.MonoBehaviour;
@@ -119,6 +120,20 @@ namespace Stadsspel.Networking
 			SetupStyling();
 		}
 
+		public string LoadEncodedName()
+		{
+			string path = Application.persistentDataPath;
+			try
+			{
+				return File.ReadAllText(path + "/" + "StadsspelSpelerNaam" + ".txt");
+			}
+			catch (System.Exception)
+			{
+				return "";
+				throw;
+			}
+		}
+
 		/// <summary>
 		/// Gets called when the player is the local player. Sets up the lobbyplayer behaviour.
 		/// </summary>
@@ -131,7 +146,9 @@ namespace Stadsspel.Networking
 
 			GetComponent<Image>().color = m_LocalPlayerColor;
 
-			m_NameInp.text = player.Name;
+			string namePlayer = LoadEncodedName();
+			m_NameInp.text = namePlayer;
+			player.name = namePlayer;
 
 			m_TeamBtn.interactable = true;
 			m_TeamBtn.onClick.AddListener(() =>

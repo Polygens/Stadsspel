@@ -5,6 +5,8 @@ namespace Stadsspel.Networking
 {
 	public class CreateJoinRoomManager : MonoBehaviour
 	{
+		static int MAX_NUMBER_PLAYERS = 16;
+
 		[SerializeField] private InputField _mRoomNameInp;
 		[SerializeField] private InputField _mRoomPasswordInp;
 		[SerializeField] private Dropdown _mRoomGameDurationDro;
@@ -44,7 +46,8 @@ namespace Stadsspel.Networking
 			Debug.Log("roomname: " + _mRoomNameInp.text);
 			Debug.Log("password: " + _mRoomPasswordInp.text);
 			Debug.Log("Players: " + (int)_mRoomAmountOfPlayersSli.value);
-			int players = (int) _mRoomAmountOfPlayersSli.value;
+			//int players = (int) _mRoomAmountOfPlayersSli.value;
+			int players = MAX_NUMBER_PLAYERS;
 			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));			
 			CurrentGame.Instance.HostedGameId = gameId;
 			int minutes = 0;

@@ -148,7 +148,6 @@ public class WebsocketImpl : Singleton<WebsocketImpl>
 				{
 					consecutiveErrors = 0;
 					MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
-					Debug.Log(mw.MessageType.ToString());
 					_inbox.Enqueue(mw);
 				}
 				if (ws.error != null)
