@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
 
 	private void FixMapObjectsZ()
 	{
-		Debug.Log("FIX Z");
 		foreach (GameObject mapObject in MapObjects)
 		{
 			CurrentGame.FixZ(mapObject);

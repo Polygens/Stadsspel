@@ -45,7 +45,6 @@ namespace Stadsspel.Districts
 		{
 			if (m_Team == null)
 			{
-				Debug.Log("Team Null");
 				return;
 			}
 			else if (m_Team.customColor == null)

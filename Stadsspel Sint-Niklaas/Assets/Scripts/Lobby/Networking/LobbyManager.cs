@@ -38,6 +38,24 @@ namespace Stadsspel.Networking
 			FixedUpdateRooms();
 		}
 
+		public void EnableDisableMenu(bool newState, string name)
+		{
+			gameObject.SetActive(newState);
+
+			if (!newState) return;
+
+			// adds back-button in the top-panel to leave lobby
+			NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, name, () =>
+			{
+				//Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
+				EnableDisableMenu(false, name);
+				NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true, name);
+			});
+
+			FixedUpdateRooms();
+		}
+
+
 
 		/// <summary>
 		/// Updates the rooms in the rooms list UI. Removes all rooms first and then adds all existing rooms again. If no rooms are found a message is shown.

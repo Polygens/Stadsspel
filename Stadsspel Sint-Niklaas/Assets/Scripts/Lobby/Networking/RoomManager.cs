@@ -32,7 +32,23 @@ namespace Stadsspel.Networking
 			_mStartGameBtn.onClick.AddListener(() =>
 			{
 				if (CurrentGame.Instance.HostingLoginToken != null || !CurrentGame.Instance.HostingLoginToken.Equals(""))
-					Rest.StartGame(CurrentGame.Instance.GameId, CurrentGame.Instance.HostingLoginToken);
+					//if (playerObjects.Count <= 4)
+					//{
+					//	CurrentGame.Instance.gameDetail.maxPlayersPerTeam = TeamData.GetMaxPlayersPerTeam(4);
+					//	CurrentGame.Instance.gameDetail.maxTeams = TeamData.GetMaxTeams(4);
+					//}
+					//else
+					//{
+					//	CurrentGame.Instance.gameDetail.maxTeams = TeamData.GetMaxTeams(playerObjects.Count);
+					//	CurrentGame.Instance.gameDetail.maxPlayersPerTeam = TeamData.GetMaxPlayersPerTeam(playerObjects.Count);
+					//}
+
+					//var game = JsonUtility.FromJson<CurrentGame.Game>(Rest.GetGameById(CurrentGame.Instance.GameId));
+				//	var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));
+				//CurrentGame.Instance.HostedGameId = gameId;
+				//Rest.SaveGameSettings(, CurrentGame.Instance.HostingLoginToken);
+
+				Rest.StartGame(CurrentGame.Instance.GameId, CurrentGame.Instance.HostingLoginToken);
 			});
 		}
 
@@ -112,6 +128,21 @@ namespace Stadsspel.Networking
 					CurrentGame.Instance.ClearPersistentData();
 					EnableDisableMenu(false);
 					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
+				}));
+			}
+		}
+
+		public void EnableDisableMenu(bool newState, string name)
+		{
+			gameObject.SetActive(newState);
+			if (newState)
+			{
+				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, name, new UnityAction(() =>
+				{
+					Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
+					CurrentGame.Instance.ClearPersistentData();
+					EnableDisableMenu(false, name);
+					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true, name);
 				}));
 			}
 		}
