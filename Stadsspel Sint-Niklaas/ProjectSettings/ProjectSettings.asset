@@ -140,7 +140,7 @@ PlayerSettings:
     Android: com.KdG.Stadsspel_SintNiklaas
     Standalone: unity.KdG.Stadsspel_SintNiklaas
     Tizen: com.KdG.Stadsspel_SintNiklaas
-    iOS: com.KdG.Stadsspel_SintNiklaas
+    iOS: com.KdG.Stadsspel-SintNiklaas
     tvOS: com.KdG.Stadsspel_SintNiklaas
   buildNumber:
     iOS: 0
@@ -218,8 +218,8 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/temp/Desktop/Stadsspel.keystore
-  AndroidKeyaliasName: stadsspel sint-niklaas
+  AndroidKeystoreName: C:/Users/Jarno/Documents/Stadsspel/key.keystore
+  AndroidKeyaliasName: keystadsspel
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
   androidEnableBanner: 1
