@@ -22,6 +22,16 @@ namespace Stadsspel.Networking
 			DontDestroyOnLoad(network);
 		}
 
+		public void EnableDisableMenu(bool newState, string name)
+		{
+			gameObject.SetActive(newState);
+
+			if (!newState) return;
+
+			NetworkManager.Singleton.TopPanelManager.EnableDisableButton(false, name);
+			NetworkManager.Singleton.TopPanelManager.SetName("");
+		}
+
 		public void EnableDisableMenu(bool newState)
 		{
 			gameObject.SetActive(newState);
@@ -48,7 +58,8 @@ namespace Stadsspel.Networking
 			Debug.Log("Players: " + (int)_mRoomAmountOfPlayersSli.value);
 			//int players = (int) _mRoomAmountOfPlayersSli.value;
 			int players = MAX_NUMBER_PLAYERS;
-			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));			
+			
+			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));
 			CurrentGame.Instance.HostedGameId = gameId;
 			int minutes = 0;
 
@@ -58,14 +69,15 @@ namespace Stadsspel.Networking
 
 			Debug.Log("gameid: " + gameId);
 			
-			EnableDisableMenu(false);
+			EnableDisableMenu(false, "room");
+			NetworkManager.Singleton.RoomManager.EnableDisableMenu(true, "room");
 			NetworkManager.Singleton.LobbyManager.RegisterToGame(gameId, _mRoomPasswordInp.text);
 		}
 
 		public void ShowLobby()
 		{
-			NetworkManager.Singleton.LobbyManager.EnableDisableMenu(true);
-			EnableDisableMenu(false);
+			NetworkManager.Singleton.LobbyManager.EnableDisableMenu(true, "lobby");
+			EnableDisableMenu(false, "lobby");
 		}
 	}
 }

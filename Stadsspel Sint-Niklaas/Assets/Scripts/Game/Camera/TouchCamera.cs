@@ -35,16 +35,23 @@ public class TouchCamera : MonoBehaviour
 	private Button btnPos, btnRot, hdPos;
 	private float lerpSpeed = 2.5f;
 
+	private float startOrthoGraphicSize;
+
 	Vector3 touchPosWorld;
 	GameObject m_headDistrictObject;
 
+	public float GetOrthographicStartSize() {
+		return startOrthoGraphicSize;
+	}
 
 	void Start()
 	{
+
 		m_PlayerTrans = gameObject.transform.parent;
 		Input.location.Start();
 		Input.compass.enabled = true;
 		m_Camera = GetComponent<Camera>();
+		startOrthoGraphicSize = m_Camera.orthographicSize;
 		m_CameraBounds = GameObject.Find("CameraBoundsGlobal").GetComponent<BoxCollider2D>();
 		m_Min = m_CameraBounds.bounds.min;
 		m_Max = m_CameraBounds.bounds.max;

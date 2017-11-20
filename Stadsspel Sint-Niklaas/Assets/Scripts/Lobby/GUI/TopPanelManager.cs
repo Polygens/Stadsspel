@@ -20,13 +20,34 @@ public class TopPanelManager : MonoBehaviour
 	/// <summary>
 	/// Generic function for handling switching between the different menus.
 	/// </summary>
-	public void EnableDisableButton(bool newState, UnityAction action = null)
+	public void EnableDisableButton(bool newState, string name, UnityAction action = null)
 	{
 		m_BackBtn.gameObject.SetActive(newState);
+		if (name == "lobby")
+		{
+			m_BackBtn.GetComponentInChildren<Text>().text = "Terug";
+		}
+		else if (name == "room")
+		{
+			m_BackBtn.GetComponentInChildren<Text>().text = "Verlaten";
+		}
 		if(newState) {
 			m_BackBtn.onClick.AddListener(action);
 		}
 		else {
+			m_BackBtn.onClick.RemoveAllListeners();
+		}
+	}
+
+	public void EnableDisableButton(bool newState, UnityAction action = null)
+	{
+		m_BackBtn.gameObject.SetActive(newState);
+		if (newState)
+		{
+			m_BackBtn.onClick.AddListener(action);
+		}
+		else
+		{
 			m_BackBtn.onClick.RemoveAllListeners();
 		}
 	}

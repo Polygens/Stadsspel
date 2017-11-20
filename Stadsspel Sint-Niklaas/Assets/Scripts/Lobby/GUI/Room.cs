@@ -58,7 +58,7 @@ namespace Stadsspel
 
 				NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(true);
 				NetworkManager.Singleton.LobbyManager.EnableDisableMenu(false);
-				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true);
+				NetworkManager.Singleton.RoomManager.EnableDisableMenu(true, "room");
 			}
 				
 		}
