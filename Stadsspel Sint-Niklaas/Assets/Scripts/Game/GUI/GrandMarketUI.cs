@@ -58,11 +58,7 @@ public class GrandMarketUI : MonoBehaviour
 		m_Total = 0;
 
 		legalItems = CurrentGame.Instance.LocalPlayer.legalItems;
-		List<string> legalKeys = legalItems.Keys.ToList();
-
 		illegalItems = CurrentGame.Instance.LocalPlayer.illegalItems;
-		List<string> illegalKeys = illegalItems.Keys.ToList();
-
 
 		m_MarktPanel = (RectTransform)InGameUIManager.s_Singleton.GrandMarketUI.transform;
 		RectTransform Grid = (RectTransform)m_MarktPanel.transform.Find("MainPanel").transform.Find("Grid");
@@ -82,7 +78,6 @@ public class GrandMarketUI : MonoBehaviour
 					if (legalItems.ContainsKey(rowItem))
 					{
 						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[rowItem]+"";
-						//Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = legalItems[legalKeys[legalIndex]]+"";
 						subTotal = CalculateSubtotal(rowItem, true);
 					}
 				} else
@@ -90,11 +85,9 @@ public class GrandMarketUI : MonoBehaviour
 					if (illegalItems.ContainsKey(rowItem))
 					{
 						Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[rowItem]+"";
-						//Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = illegalItems[illegalKeys[illegalIndex]]+"";
 						subTotal = CalculateSubtotal(rowItem, false);
 					}
 				}
-				//Grid.GetChild(i).GetChild(j).transform.Find("ItemRow2").transform.Find("Profit").GetComponent<Text>().text = "Winst: " + subTotal;
 				m_Total += subTotal;
 			}
 			m_TotalUI.text = "Totaal: " + m_Total;

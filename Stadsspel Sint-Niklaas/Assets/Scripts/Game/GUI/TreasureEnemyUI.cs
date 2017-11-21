@@ -12,7 +12,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	[SerializeField]
 	private InputField m_Label;
 
-	private Treasure m_CurrentTreasure;
+	//private Treasure m_CurrentTreasure = null;
 	private float m_Timer;
 
 	/// <summary>
@@ -62,7 +62,7 @@ public class TreasureEnemyUI : MonoBehaviour
 	private void FindCurrentTreasure()
 	{
 		Player p = GameManager.s_Singleton.Player;
-		m_CurrentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
+		//m_CurrentTreasure = GameManager.s_Singleton.Player.GetGameObjectInRadius("Treasure").GetComponent<Treasure>();
 	}
 
 	/// <summary>

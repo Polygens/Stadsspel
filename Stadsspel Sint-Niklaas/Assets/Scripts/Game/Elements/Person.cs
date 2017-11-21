@@ -15,7 +15,7 @@ namespace Stadsspel.Elements
 		[SerializeField]
 		private int m_AmountOfMoney = 0;
 
-		private Districts.DistrictManager districtManager;
+		//private Districts.DistrictManager districtManager;
 
 		public float colliderRadius = 23f;
 
@@ -57,7 +57,7 @@ namespace Stadsspel.Elements
 					m_Team = CurrentGame.Instance.gameDetail.findTeamByPlayer(Player.clientID);
 				}
 
-				districtManager = GameObject.FindWithTag("Districts").GetComponent<Districts.DistrictManager>();
+				//districtManager = GameObject.FindWithTag("Districts").GetComponent<Districts.DistrictManager>();
 			}
 			//END
 

@@ -14,7 +14,6 @@ public class LerpCamera : MonoBehaviour {
 
 	//Whether we are currently interpolating or not
 	private bool _isLerping;
-	private bool _alphaLerping = false;
 
 	//The start and finish positions for the interpolation
 	private Vector3 _startPosition;
@@ -41,7 +40,6 @@ public class LerpCamera : MonoBehaviour {
 		{
 			float timeSinceStarted = (Time.time - _timeStartedLerping) * m_speed;
 			float percentageComplete = timeSinceStarted / timeTakenDuringLerp;
-			float percentageCompleteS = timeSinceStarted / timeTakenDuringLerpScale;
 
 			//Perform the actual lerping.  Notice that the first two parameters will always be the same
 			//throughout a single lerp-processs (ie. they won't change until we hit the space-bar again

@@ -13,7 +13,6 @@ namespace Stadsspel.Networking
 	{
 		[SerializeField] private RectTransform _mLobbyPlayerList;
 		[SerializeField] private Button _mStartGameBtn;
-		[SerializeField] private int _mCountdownDuration = 5;
 
 		public const string RoomPasswordProp = "password";
 		public const string RoomGameDurationProp = "gameDuration";
@@ -33,7 +32,23 @@ namespace Stadsspel.Networking
 			_mStartGameBtn.onClick.AddListener(() =>
 			{
 				if (CurrentGame.Instance.HostingLoginToken != null || !CurrentGame.Instance.HostingLoginToken.Equals(""))
-					Rest.StartGame(CurrentGame.Instance.GameId, CurrentGame.Instance.HostingLoginToken);
+					//if (playerObjects.Count <= 4)
+					//{
+					//	CurrentGame.Instance.gameDetail.maxPlayersPerTeam = TeamData.GetMaxPlayersPerTeam(4);
+					//	CurrentGame.Instance.gameDetail.maxTeams = TeamData.GetMaxTeams(4);
+					//}
+					//else
+					//{
+					//	CurrentGame.Instance.gameDetail.maxTeams = TeamData.GetMaxTeams(playerObjects.Count);
+					//	CurrentGame.Instance.gameDetail.maxPlayersPerTeam = TeamData.GetMaxPlayersPerTeam(playerObjects.Count);
+					//}
+
+					//var game = JsonUtility.FromJson<CurrentGame.Game>(Rest.GetGameById(CurrentGame.Instance.GameId));
+				//	var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));
+				//CurrentGame.Instance.HostedGameId = gameId;
+				//Rest.SaveGameSettings(, CurrentGame.Instance.HostingLoginToken);
+
+				Rest.StartGame(CurrentGame.Instance.GameId, CurrentGame.Instance.HostingLoginToken);
 			});
 		}
 
@@ -97,18 +112,6 @@ namespace Stadsspel.Networking
 			ExitGames.Client.Photon.Hashtable ht = new ExitGames.Client.Photon.Hashtable();
 			ht.Add(RoomPasswordProp, roomPassword);
 			ht.Add(RoomGameDurationProp, gameDuration);
-
-			/* todo kill all photon
-			RoomOptions roomOptions = new RoomOptions()
-			{
-				MaxPlayers = amountPlayers,
-				IsVisible = true,
-				CustomRoomPropertiesForLobby = lobbyOptions,
-				CustomRoomProperties = ht
-			};
-
-			PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-			*/
 		}
 
 		/// <summary>
@@ -127,9 +130,20 @@ namespace Stadsspel.Networking
 					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true);
 				}));
 			}
-			else
+		}
+
+		public void EnableDisableMenu(bool newState, string name)
+		{
+			gameObject.SetActive(newState);
+			if (newState)
 			{
-				//PhotonNetwork.LeaveRoom(); todo DELETE
+				NetworkManager.Singleton.TopPanelManager.EnableDisableButton(true, name, new UnityAction(() =>
+				{
+					Rest.UnregisterPlayer(CurrentGame.Instance.LocalPlayer.clientID, CurrentGame.Instance.GameId);
+					CurrentGame.Instance.ClearPersistentData();
+					EnableDisableMenu(false, name);
+					NetworkManager.Singleton.CreateJoinRoomManager.EnableDisableMenu(true, name);
+				}));
 			}
 		}
 
@@ -176,21 +190,7 @@ namespace Stadsspel.Networking
 				_mStartGameBtn.gameObject.SetActive(true);
 			}
 
-
-			//PhotonNetwork.Instantiate(NetworkManager.Singleton.LobbyPlayerPrefabName, Vector3.zero, Quaternion.identity, 0); todo DELETE
 			NetworkManager.Singleton.ConnectingManager.EnableDisableMenu(false);
-		}
-
-
-		/// <summary>
-		/// Iterates trough every player in the room and checks if every player has pressed check. If everyone is ready the start button gets shown.
-		/// </summary>
-		/// 
-		/// <remarks>
-		/// Editor and desktop debug builds are overridden and always show the start button for testing purposes.
-		/// </remarks>
-		public void CheckIfReadyToStart()
-		{
 		}
 
 		/// <summary>

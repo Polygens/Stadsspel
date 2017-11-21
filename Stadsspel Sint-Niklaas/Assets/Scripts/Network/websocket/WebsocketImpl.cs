@@ -15,7 +15,8 @@ public class WebsocketImpl : Singleton<WebsocketImpl>
 	private Thread listeningThread;
 	private bool stopThread = true;
 	private readonly Queue<string> messageBuffer;
-	private string gameID, clientID, url;
+	private string gameID, clientID;
+	//private string url;
 	//private ConcurrentQueue<MessageWrapper> _inbox;
 	private Queue<MessageWrapper> _inbox;
 
@@ -69,7 +70,7 @@ public class WebsocketImpl : Singleton<WebsocketImpl>
 
 		this.clientID = clientID;
 		this.gameID = gameID;
-		this.url = url;
+		//this.url = url;
 		//_inbox = new ConcurrentQueue<MessageWrapper>(); todo concurrency
 		_inbox = new Queue<MessageWrapper>();
 		Debug.Log("CONNECT");
@@ -112,7 +113,7 @@ public class WebsocketImpl : Singleton<WebsocketImpl>
 		//_inbox = new ConcurrentQueue<MessageWrapper>(); todo concurrency
 		_inbox = new Queue<MessageWrapper>();
 		Debug.Log("RECONNECT");
-		bool connected = false;
+		//bool connected = false;
 		while (ws.IsConnected)
 		{
 			yield return StartCoroutine(ws.Connect());
@@ -122,7 +123,7 @@ public class WebsocketImpl : Singleton<WebsocketImpl>
 			} else
 			{
 				Debug.Log("CONNECTED");
-				connected = true;
+				//connected = true;
 			}
 		}
 
@@ -147,7 +148,6 @@ public class WebsocketImpl : Singleton<WebsocketImpl>
 				{
 					consecutiveErrors = 0;
 					MessageWrapper mw = JsonUtility.FromJson<MessageWrapper>(reply);
-					Debug.Log(mw.MessageType.ToString());
 					_inbox.Enqueue(mw);
 				}
 				if (ws.error != null)

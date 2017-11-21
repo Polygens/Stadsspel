@@ -171,13 +171,28 @@ public class CurrentGame : Singleton<CurrentGame>
 		LastMinuteMark = false;
 	}
 
+	public string LoadEncodedName()
+	{
+		string path = Application.persistentDataPath;
+		try
+		{
+			return File.ReadAllText(path + "/" + "StadsspelSpelerNaam" + ".txt");
+		}
+		catch (System.Exception)
+		{
+			return "";
+			throw;
+		}
+	}
+
 	public void Awake()
 	{
 		dataPath = Application.persistentDataPath + Path.DirectorySeparatorChar + "stadspelapp";
 		previousGamePath = dataPath + Path.DirectorySeparatorChar + "previousGame";
 
 		Ws = WebsocketImpl.Instance;
-		LocalPlayer.name = "Speler" + DateTime.Now.Millisecond;
+		//LocalPlayer.name = "Speler" + DateTime.Now.Millisecond;
+		LocalPlayer.name = LoadEncodedName();
 
 		LoadColors();
 
@@ -591,7 +606,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		{
 			if (gameDetail.teams[index].districts.Count >= 1)
 			{
-				string name = districts[gameDetail.teams[index].districts[0].id].name;
+				//string name = districts[gameDetail.teams[index].districts[0].id].name;
 				if (districts[gameDetail.teams[index].districts[0].id].name
 					.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
 				{

@@ -32,9 +32,6 @@ public class InGameUIManager : MonoBehaviour
 	private RectTransform m_Panels;
 
 	[SerializeField]
-	private InstructionsUI m_InstructionsUI;
-
-	[SerializeField]
 	private RectTransform m_LogNotifications;
 
 	[SerializeField]
@@ -106,12 +103,6 @@ public class InGameUIManager : MonoBehaviour
 	public LogUI LogUI {
 		get {
 			return m_LogUI;
-		}
-	}
-
-	public InstructionsUI InstructionsUI {
-		get {
-			return m_InstructionsUI;
 		}
 	}
 

@@ -5,6 +5,8 @@ namespace Stadsspel.Networking
 {
 	public class CreateJoinRoomManager : MonoBehaviour
 	{
+		static int MAX_NUMBER_PLAYERS = 16;
+
 		[SerializeField] private InputField _mRoomNameInp;
 		[SerializeField] private InputField _mRoomPasswordInp;
 		[SerializeField] private Dropdown _mRoomGameDurationDro;
@@ -18,6 +20,16 @@ namespace Stadsspel.Networking
 			network.AddComponent(typeof(WebsocketImpl));
 			network.AddComponent(typeof(CurrentGame));
 			DontDestroyOnLoad(network);
+		}
+
+		public void EnableDisableMenu(bool newState, string name)
+		{
+			gameObject.SetActive(newState);
+
+			if (!newState) return;
+
+			NetworkManager.Singleton.TopPanelManager.EnableDisableButton(false, name);
+			NetworkManager.Singleton.TopPanelManager.SetName("");
 		}
 
 		public void EnableDisableMenu(bool newState)
@@ -44,8 +56,10 @@ namespace Stadsspel.Networking
 			Debug.Log("roomname: " + _mRoomNameInp.text);
 			Debug.Log("password: " + _mRoomPasswordInp.text);
 			Debug.Log("Players: " + (int)_mRoomAmountOfPlayersSli.value);
-			int players = (int) _mRoomAmountOfPlayersSli.value;
-			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));			
+			//int players = (int) _mRoomAmountOfPlayersSli.value;
+			int players = MAX_NUMBER_PLAYERS;
+			
+			var gameId = Rest.NewGame(new GameResource(CurrentGame.Instance.HostingLoginToken, _mRoomNameInp.text, TeamData.GetMaxTeams(players), TeamData.GetMaxPlayersPerTeam(players), _mRoomPasswordInp.text));
 			CurrentGame.Instance.HostedGameId = gameId;
 			int minutes = 0;
 
@@ -55,14 +69,15 @@ namespace Stadsspel.Networking
 
 			Debug.Log("gameid: " + gameId);
 			
-			EnableDisableMenu(false);
+			EnableDisableMenu(false, "room");
+			NetworkManager.Singleton.RoomManager.EnableDisableMenu(true, "room");
 			NetworkManager.Singleton.LobbyManager.RegisterToGame(gameId, _mRoomPasswordInp.text);
 		}
 
 		public void ShowLobby()
 		{
-			NetworkManager.Singleton.LobbyManager.EnableDisableMenu(true);
-			EnableDisableMenu(false);
+			NetworkManager.Singleton.LobbyManager.EnableDisableMenu(true, "lobby");
+			EnableDisableMenu(false, "lobby");
 		}
 	}
 }

@@ -14,15 +14,9 @@ public class GoodsUI : MonoBehaviour
 	/// </summary>
 	private void OnEnable()
 	{
-		//ResetUI();
 		//copy from grand market ui
 		legalItems = CurrentGame.Instance.LocalPlayer.legalItems;
-		Debug.Log("LEGAL:" + legalItems.Count);
-		List<string> legalKeys = legalItems.Keys.ToList();
-
 		illegalItems = CurrentGame.Instance.LocalPlayer.illegalItems;
-		Debug.Log("ILLEGAL:" + illegalItems.Count);
-		List<string> illegalKeys = illegalItems.Keys.ToList();
 
 		RectTransform Grid = (RectTransform)transform.Find("MainPanel").transform.Find("Grid");
 
@@ -36,7 +30,6 @@ public class GoodsUI : MonoBehaviour
 				// J is for legal or illegal
 				Grid.GetChild(i).GetChild(j).gameObject.SetActive(true);
 
-				int subTotal = 0;
 				if (j == 0)
 				{
 					if (legalItems.ContainsKey(rowItem))
@@ -55,24 +48,6 @@ public class GoodsUI : MonoBehaviour
 				}
 			}
 		}
-
-
-
-
-
-		/*todo legacy
-		for(int i = 1; i < Grid.childCount; i++) {
-			for(int j = 0; j < 2; j++) {
-				if(j == 0) {
-					Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = m_LegalItems[i - 1].ToString();
-					Debug.Log("legal item: " + m_LegalItems[i - 1]);
-				}
-				else {
-					Grid.GetChild(i).GetChild(j).transform.Find("Aantal").GetComponent<Text>().text = m_IllegalItems[i - 1].ToString();
-				}
-			}
-		}
-		*/
 	}
 
 

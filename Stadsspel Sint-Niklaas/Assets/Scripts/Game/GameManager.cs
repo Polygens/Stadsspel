@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
 
 	private void FixMapObjectsZ()
 	{
-		Debug.Log("FIX Z");
 		foreach (GameObject mapObject in MapObjects)
 		{
 			CurrentGame.FixZ(mapObject);
@@ -195,14 +194,6 @@ public class GameManager : MonoBehaviour
 		MapObjects = new List<GameObject>();
 		List<PointLocation> banks = CurrentGame.Instance.gameDetail.banks;
 		List<ServerTradePost> tradeposts = CurrentGame.Instance.gameDetail.tradePosts;
-		List<AreaLocation> districts = CurrentGame.Instance.gameDetail.districts;
-		List<AreaLocation> markets = CurrentGame.Instance.gameDetail.markets;
-
-
-		Debug.Log("BANKS: "+banks.Count);
-		Debug.Log("TPS: "+tradeposts.Count);
-
-
 
 		//todo load all into map
 		GameObject mapobj = GameObject.Find("Map");
@@ -247,7 +238,6 @@ public class GameManager : MonoBehaviour
 						tpScript.TPId = tp.id;
 						//todo load flavorText?
 					}
-
 
 					GOObject obj = GOObject.AddComponentToObject(temp, map,
 						new Coordinates(tp.point.latitude, tp.point.longitude, 1.0));
