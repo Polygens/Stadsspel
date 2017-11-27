@@ -11,8 +11,7 @@ namespace Stadsspel.Networking
 	{
 		[SerializeField]
 		private Button m_TeamBtn;
-		[SerializeField]
-		private InputField m_NameInp;
+		public Text m_Name;
 		[SerializeField]
 		private RectTransform m_NameInpRect;
 		[SerializeField]
@@ -52,10 +51,10 @@ namespace Stadsspel.Networking
 		/// <summary>
 		///  Updates the lobbyplayer name text field.
 		/// </summary>
-		private void NameChanged(string name)
-		{
-			m_NameInp.text = name;
-		}
+		//private void NameChanged(string name)
+		//{
+		//	m_Name.text = name;
+		//}
 
 		/// <summary>
 		///  Updates the player's ready state, ready button and checks if the game can start.
@@ -147,7 +146,7 @@ namespace Stadsspel.Networking
 			GetComponent<Image>().color = m_LocalPlayerColor;
 
 			string namePlayer = LoadEncodedName();
-			m_NameInp.text = namePlayer;
+			m_Name.text = namePlayer;
 			player.name = namePlayer;
 
 			m_TeamBtn.interactable = true;
@@ -157,11 +156,11 @@ namespace Stadsspel.Networking
 				CurrentGame.Instance.Ws.SendPlayerTeamUpdate(nextTeam.teamName);
 			});
 
-			m_NameInp.interactable = true;
-			m_NameInp.onEndEdit.AddListener(val =>
-			{
-				CurrentGame.Instance.Ws.SendPlayerNameUpdate(val);
-			});
+			//m_Name.interactable = true;
+			//m_Name.onEndEdit.AddListener(val =>
+			//{
+			//	CurrentGame.Instance.Ws.SendPlayerNameUpdate(val);
+			//});
 
 			m_KickPlayerBtn.interactable = true;
 			m_KickPlayerBtn.onClick.AddListener(() => {
@@ -179,7 +178,7 @@ namespace Stadsspel.Networking
 			ColorUtility.TryParseHtmlString(team.customColor, out c);
 
 			m_TeamBtn.GetComponent<Image>().color = c;
-			m_NameInp.text = player.Name;
+			m_Name.text = player.Name;
 			SetReadyButton(m_IsReady);
 			
 			if (CurrentGame.Instance.isHost)

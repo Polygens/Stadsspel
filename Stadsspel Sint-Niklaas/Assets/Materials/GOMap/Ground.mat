@@ -12,7 +12,7 @@ Material:
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -20
+  m_CustomRenderQueue: -33
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
