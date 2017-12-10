@@ -12,8 +12,6 @@ namespace Stadsspel.Networking
 		[SerializeField]
 		private Button m_TeamBtn;
 		[SerializeField]
-		private InputField m_NameInp;
-		[SerializeField]
 		private RectTransform m_NameInpRect;
 		[SerializeField]
 		private Button m_ReadyBtn;
@@ -30,6 +28,8 @@ namespace Stadsspel.Networking
 
 		private Color m_ReadyColor = new Color(245.0f / 255.0f, 132.0f / 255.0f, 42.0f / 255.0f, 1.0f);
 		private Color m_NotReadyColor = new Color(255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f, 1.0f);
+
+		public Text m_playerNameText;
 
 		private const string m_HostIcon = "";
 		private const string m_LocalPlayerIcon = "";
@@ -52,10 +52,10 @@ namespace Stadsspel.Networking
 		/// <summary>
 		///  Updates the lobbyplayer name text field.
 		/// </summary>
-		private void NameChanged(string name)
-		{
-			m_NameInp.text = name;
-		}
+		//private void NameChanged(string name)
+		//{
+		//	m_Name.text = name;
+		//}
 
 		/// <summary>
 		///  Updates the player's ready state, ready button and checks if the game can start.
@@ -147,7 +147,7 @@ namespace Stadsspel.Networking
 			GetComponent<Image>().color = m_LocalPlayerColor;
 
 			string namePlayer = LoadEncodedName();
-			m_NameInp.text = namePlayer;
+			m_playerNameText.text = namePlayer;
 			player.name = namePlayer;
 
 			m_TeamBtn.interactable = true;
@@ -157,11 +157,11 @@ namespace Stadsspel.Networking
 				CurrentGame.Instance.Ws.SendPlayerTeamUpdate(nextTeam.teamName);
 			});
 
-			m_NameInp.interactable = true;
-			m_NameInp.onEndEdit.AddListener(val =>
-			{
-				CurrentGame.Instance.Ws.SendPlayerNameUpdate(val);
-			});
+			//m_Name.interactable = true;
+			//m_Name.onEndEdit.AddListener(val =>
+			//{
+			//	CurrentGame.Instance.Ws.SendPlayerNameUpdate(val);
+			//});
 
 			m_KickPlayerBtn.interactable = true;
 			m_KickPlayerBtn.onClick.AddListener(() => {
@@ -179,7 +179,7 @@ namespace Stadsspel.Networking
 			ColorUtility.TryParseHtmlString(team.customColor, out c);
 
 			m_TeamBtn.GetComponent<Image>().color = c;
-			m_NameInp.text = player.Name;
+			m_playerNameText.text = player.Name;
 			SetReadyButton(m_IsReady);
 			
 			if (CurrentGame.Instance.isHost)

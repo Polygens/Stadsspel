@@ -10,8 +10,8 @@ using System.Text;
 public class Rest
 {
 	//private const string BASE_URL = "http://localhost:8090/api/";									//LOCAL server
-	private const string BASE_URL = "https://stadsspelapp.herokuapp.com/api/";					//LIVE	server
-	//private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";           //DEV	server
+	//private const string BASE_URL = "https://stadsspelapp.herokuapp.com/api/";                  //LIVE	server
+	private const string BASE_URL = "https://stadspelapp-sintniklaas.herokuapp.com/api/";           //DEV	server
 
 	private const string GAME_SUFFIX = "games";
 	private const string COLOR_SUFFIX = "colors";
@@ -94,7 +94,7 @@ public class Rest
 			reader.Close();
 			dataStream.Close();
 			response.Close();
-			
+
 			//return the http status
 			return (int)((HttpWebResponse)response).StatusCode;
 		} catch (WebException e)
@@ -300,6 +300,24 @@ public class Rest
 		string response;
 		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/duration/" + token;
 		int code = Post(urlSuffix, minutes + "", out response);
+		HandleReturnCode(code);
+		return response;
+	}
+
+	/// <summary>
+	/// Changes amount of teams and max players per team.
+	/// </summary>
+	/// <param name="gameId"></param>
+	/// <param name="token"></param>
+	/// <param name="teams"></param>
+	/// <param name="maxPlayersPerTeam"></param>
+	/// <returns> the edited game as JSON string</returns>
+	public static string ChangeTeams(string gameId, string token, int teams, int maxPlayersPerTeam)
+	{
+		string response;
+		string urlSuffix = GAME_SUFFIX + "/" + gameId + "/teams/" + token;
+		urlSuffix = urlSuffix + "?t=" + teams + "&p=" + maxPlayersPerTeam;
+		int code = Post(urlSuffix, "", out response);
 		HandleReturnCode(code);
 		return response;
 	}
