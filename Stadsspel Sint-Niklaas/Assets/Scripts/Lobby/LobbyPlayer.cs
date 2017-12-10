@@ -11,7 +11,6 @@ namespace Stadsspel.Networking
 	{
 		[SerializeField]
 		private Button m_TeamBtn;
-		public Text m_Name;
 		[SerializeField]
 		private RectTransform m_NameInpRect;
 		[SerializeField]
@@ -29,6 +28,8 @@ namespace Stadsspel.Networking
 
 		private Color m_ReadyColor = new Color(245.0f / 255.0f, 132.0f / 255.0f, 42.0f / 255.0f, 1.0f);
 		private Color m_NotReadyColor = new Color(255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f, 1.0f);
+
+		public Text m_playerNameText;
 
 		private const string m_HostIcon = "";
 		private const string m_LocalPlayerIcon = "";
@@ -146,7 +147,7 @@ namespace Stadsspel.Networking
 			GetComponent<Image>().color = m_LocalPlayerColor;
 
 			string namePlayer = LoadEncodedName();
-			m_Name.text = namePlayer;
+			m_playerNameText.text = namePlayer;
 			player.name = namePlayer;
 
 			m_TeamBtn.interactable = true;
@@ -178,7 +179,7 @@ namespace Stadsspel.Networking
 			ColorUtility.TryParseHtmlString(team.customColor, out c);
 
 			m_TeamBtn.GetComponent<Image>().color = c;
-			m_Name.text = player.Name;
+			m_playerNameText.text = player.Name;
 			SetReadyButton(m_IsReady);
 			
 			if (CurrentGame.Instance.isHost)
