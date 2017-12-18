@@ -177,8 +177,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		try
 		{
 			return File.ReadAllText(path + "/" + "StadsspelSpelerNaam" + ".txt");
-		}
-		catch (System.Exception)
+		} catch (System.Exception)
 		{
 			return "";
 			throw;
@@ -219,9 +218,9 @@ public class CurrentGame : Singleton<CurrentGame>
 
 		foreach (var customColor in customColors)
 		{
-			ColorNames.Add(customColor.color,customColor.name);
+			ColorNames.Add(customColor.color, customColor.name);
 		}
-		
+
 	}
 
 	public void Start()
@@ -249,8 +248,7 @@ public class CurrentGame : Singleton<CurrentGame>
 			{
 				ReconnectPanel.SetActive(true);
 				reconnectCancelled = false;
-			}
-			else
+			} else
 			{
 				Debug.Log("NO RECONNECTING PANEL FOUND");
 				reconnectCancelled = true;//todo this shouldn't happen
@@ -272,8 +270,8 @@ public class CurrentGame : Singleton<CurrentGame>
 	private void SavePersistentData()
 	{
 		Debug.Log("SAVING PERSISTENT DATA");
-		Debug.Log(GameId);
-		Debug.Log(persistentData.GameId);
+		Debug.Log("ID: " + GameId);
+		Debug.Log("OLD ID: " + persistentData.GameId);
 		if (!Directory.Exists(dataPath))
 		{
 			Directory.CreateDirectory(dataPath);
@@ -615,9 +613,9 @@ public class CurrentGame : Singleton<CurrentGame>
 				}
 			}
 		}
-		if (teamIndex <0) return false;
+		if (teamIndex < 0) return false;
 		List<AreaLocation> teamDistricts = gameDetail.teams[teamIndex].districts;
-		if (teamDistricts[0].name.Equals(districtName,StringComparison.InvariantCultureIgnoreCase))
+		if (teamDistricts[0].name.Equals(districtName, StringComparison.InvariantCultureIgnoreCase))
 		{
 			return true;
 		}
@@ -631,8 +629,7 @@ public class CurrentGame : Singleton<CurrentGame>
 		{
 			string res = Rest.RequestTreasuryByDistrict(currentDistrictID);
 			return double.Parse(res);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			Console.WriteLine(e);
 			return -1;

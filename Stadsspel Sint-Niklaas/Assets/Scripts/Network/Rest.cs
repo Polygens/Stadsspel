@@ -152,7 +152,7 @@ public class Rest
 		}
 	}
 
-	private static void HandleReturnCode(int code)
+	public static void HandleReturnCode(int code)
 	{
 		int majorCode = (code / 100) % 10;
 		if (majorCode != 2)
@@ -370,7 +370,13 @@ public class Rest
 		string urlSuffix = GAME_SUFFIX + "/state/" + gameId;
 		int code = Get(urlSuffix, out response);
 		Debug.Log("request game state");
-		HandleReturnCode(code);
+		if (code == 404)
+		{
+			Debug.Log("Requested game not found");
+		} else
+		{
+			HandleReturnCode(code);
+		}
 		return response;
 	}
 
