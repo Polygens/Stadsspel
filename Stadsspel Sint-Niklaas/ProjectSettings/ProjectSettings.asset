@@ -218,8 +218,8 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Jarno/Documents/Stadsspel/key.keystore
-  AndroidKeyaliasName: keystadsspel
+  AndroidKeystoreName: C:/Users/temp/Documents/Unity Projects/Keys/Stadsspel/key.keystore
+  AndroidKeyaliasName: 
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
   androidEnableBanner: 1

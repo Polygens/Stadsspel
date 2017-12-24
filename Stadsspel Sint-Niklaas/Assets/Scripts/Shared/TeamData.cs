@@ -76,7 +76,7 @@ public class TeamData
 		6,
 		6
 	};
-	// IF 4 players dont work, delete first 2 indexes, same for maxTeams
+	// Max Players per team
 	private static int[] mMaxPlayers = {
 		2,
 		3,
@@ -177,7 +177,7 @@ public class TeamData
 	/// </summary>
 	public static int GetMaxPlayersPerTeam(int totalPlayers)
 	{
-		return mMaxPlayers[totalPlayers - 4]; //-6 if 4 players don't work
+		return mMaxPlayers[totalPlayers - 4]; 
 	}
 
 	/// <summary>
@@ -185,6 +185,6 @@ public class TeamData
 	/// </summary>
 	public static int GetMaxTeams(int totalPlayers)
 	{
-		return mMaxTeams[totalPlayers - 4]; //-6 if 4 players don't work
+		return mMaxTeams[totalPlayers - 4]; 
 	}
 }
