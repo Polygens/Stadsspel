@@ -152,6 +152,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         // iterate through all container childern and set their positions
         for (int i = 0; i < _pageCount; i++) {
             RectTransform child = _container.GetChild(i).GetComponent<RectTransform>();
+						child.sizeDelta = new Vector2(_scrollRectRect.rect.width, _scrollRectRect.rect.height);
             Vector2 childPosition;
             if (_horizontal) {
                 childPosition = new Vector2(i * width - containerWidth / 2 + offsetX, 0f);
