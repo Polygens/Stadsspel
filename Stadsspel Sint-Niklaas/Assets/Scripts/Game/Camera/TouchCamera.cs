@@ -31,6 +31,7 @@ public class TouchCamera : MonoBehaviour
 	private OrientationStates m_OrientationState;
 	private Camera m_Camera;
 	private Vector3 m_Min, m_Max;
+	private float m_cameraSpeed = 3f;
 
 	private Button btnPos, btnRot, hdPos;
 	private float lerpSpeed = 2.5f;
@@ -86,7 +87,7 @@ public class TouchCamera : MonoBehaviour
 				Vector2 newTouchPosition = Input.GetTouch(0).position;
 				Vector3 positionOfCamera = transform.position;
 
-				positionOfCamera += transform.TransformDirection((Vector3)((m_OldTouchPositions[0] - newTouchPosition) * m_Camera.orthographicSize / m_Camera.pixelHeight * 2f));
+				positionOfCamera += transform.TransformDirection((Vector3)((m_OldTouchPositions[0] - newTouchPosition) * (m_Camera.orthographicSize / m_Camera.pixelHeight) * m_cameraSpeed));
 
 				var x = positionOfCamera.x;
 				var y = positionOfCamera.y;
