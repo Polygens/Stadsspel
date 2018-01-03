@@ -14,11 +14,16 @@ namespace Stadsspel
 		private string ID;
 		private bool hasPassword;
 
+		private string _roomName;
+
+		public string RoomName { get { return _roomName; } }
+
 		/// <summary>
 		/// Initialises the room UI elements with the passed parameters.
 		/// </summary>
 		public void InitializeRoom(string roomName, string id, int amountPlayers, int maxPlayers, bool hasPassword)
 		{
+			_roomName = roomName;
 			_mRoomNameTxt.text = roomName;
 			_mRoomSlotsTxt.text = amountPlayers + "/" + maxPlayers;
 			this.ID = id;
@@ -33,6 +38,7 @@ namespace Stadsspel
 			this.ID = ID;
 			_mRoomNameTxt.text = roomName;
 			_mRoomSlotsTxt.text = "0/0";
+			_roomName = roomName;
 		}
 
 		/// <summary>
