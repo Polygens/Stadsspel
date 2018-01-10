@@ -5,7 +5,6 @@ using MonoBehaviour = UnityEngine.MonoBehaviour;
 
 namespace Stadsspel.Networking
 {
-	//todo allow manual refresh / auto refresh every 5 seconds
 	public class LobbyManager : MonoBehaviour
 	{
 		[SerializeField] private RectTransform _mRoomList;
@@ -63,13 +62,59 @@ namespace Stadsspel.Networking
 		public void UpdateRooms()
 		{
 			var rooms = Rest.GetStagedGames();
-			var children = _mRoomList.childCount;
-			for (var i = children - 1; i >= 0; i--)
-				Destroy(_mRoomList.GetChild(i).gameObject);
 
-			_mNoServerFound.gameObject.SetActive(rooms.Count == 0);
+			if (rooms.Count == 0)
+			{
+				Debug.Log("dsfpok");
+				_mNoServerFound.gameObject.SetActive(true);
+			}
+			else
+			{
+				_mNoServerFound.gameObject.SetActive(false);
+			}
 
-			foreach (var resource in rooms)
+			Room[] currentRooms = _mRoomList.GetComponentsInChildren<Room>();
+			List<Room> tempRooms = new List<Room>();
+
+			// Add all the matching rooms to a temporary List
+			if (currentRooms.Length > 0)
+			{
+				foreach (var room in rooms)
+				{
+					for (var i = currentRooms.Length -1; i >= 0; i--)
+					{
+						if (room.name == currentRooms[i].RoomName)
+						{
+							tempRooms.Add(currentRooms[i]);
+						}
+					}
+				}
+			}
+
+			//Delete all the rooms that did not match
+			for (var i = currentRooms.Length - 1; i >= 0; i--)
+			{
+				if (!tempRooms.Contains(currentRooms[i])){
+					Destroy(currentRooms[i].gameObject);
+					currentRooms[i] = null;
+				}
+			}
+
+			//Remove all rooms that allready exist from staged rooms list.
+			List<GameListResource> roomResources = rooms;
+			for (var i = roomResources.Count - 1; i >= 0; i--)
+			{
+				for (int j = 0; j < tempRooms.Count; j++)
+				{
+					if (roomResources[i].name == tempRooms[j].RoomName)
+					{
+						roomResources.RemoveAt(i);
+						break;
+					}
+				}
+			}
+
+			foreach (var resource in roomResources)
 			{
 				//todo filter full rooms
 
@@ -84,7 +129,7 @@ namespace Stadsspel.Networking
 		private void FixedUpdateRooms()
 		{
 			UpdateRooms();
-			Invoke("FixedUpdateRooms", 3f);
+			Invoke("FixedUpdateRooms", 5f);
 		}
 	}
 }
